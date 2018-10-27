@@ -13,10 +13,10 @@
 #include <GL/glew.h>
 #endif
 #include <GL/glfw.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <lib/glm/glm.hpp>
+#include <lib/glm/gtc/matrix_transform.hpp>
+#include <lib/glm/gtx/transform.hpp>
+#include <lib/glm/gtc/type_ptr.hpp>
 
 namespace wolf
 {
