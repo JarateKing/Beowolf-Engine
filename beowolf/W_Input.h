@@ -2,6 +2,14 @@
 
 namespace wolf
 {
+	struct MousePos
+	{
+		// size of screen
+		int width = 1, height = 1;
+		// position on screen, percent-wise
+		double x, y;
+	};
+
 	class Input
 	{
 	public:
