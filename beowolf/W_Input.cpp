@@ -6,6 +6,7 @@ namespace wolf
 {
 	void Input::update()
 	{
+		// update key list
 		for (int i = 0; i < TOTALKEYS; i++)
 		{
 			if (glfwGetKey(VALID_KEYS[i]) == GLFW_PRESS)
@@ -24,7 +25,8 @@ namespace wolf
 		}
 
 		// update current mpos
-		mpos_last = mpos_current;
+		mpos_last.x = mpos_current.x;
+		mpos_last.y = mpos_current.y;
 		glfwGetMousePos(&mpos_current.x, &mpos_current.y);
 
 	}

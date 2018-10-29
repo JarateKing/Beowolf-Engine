@@ -8,8 +8,10 @@ namespace wolf
 		// raw position
 		int x, y;
 
-		MousePos(int x, int y) : x(x), y(y) {}
+		// constructor
+		MousePos(int x = 0, int y = 0) : x(x), y(y) {}
 
+		// get percent relative to thing
 		glm::vec2 relative(glm::vec2 size)
 		{
 			return glm::vec2(size.x / x, size.y / y);
@@ -27,6 +29,7 @@ namespace wolf
 			return glm::vec2(width / x - horizontalOffset, height / y - verticalOffset);
 		}
 
+		// operators
 		bool operator==(MousePos input)
 		{
 			return (x == input.x) && (y == input.y);
