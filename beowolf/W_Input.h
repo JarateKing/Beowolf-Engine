@@ -10,15 +10,27 @@ namespace wolf
 
 		MousePos(int x, int y) : x(x), y(y) {}
 
+		glm::vec2 relative(glm::vec2 size)
+		{
+			return glm::vec2(size.x / x, size.y / y);
+		}
 		glm::vec2 relative(double width, double height)
 		{
 			return glm::vec2(width / x, height / y);
+		}
+		glm::vec2 relative(glm::vec2 size, glm::vec2 offset)
+		{
+			return glm::vec2(size.x / x - offset.x, size.y / y - offset.y);
 		}
 		glm::vec2 relative(double width, double height, double horizontalOffset, double verticalOffset)
 		{
 			return glm::vec2(width / x - horizontalOffset, height / y - verticalOffset);
 		}
 
+		bool operator==(MousePos input)
+		{
+			return (x == input.x) && (y == input.y);
+		}
 		MousePos operator+(MousePos input)
 		{
 			return MousePos(x + input.x, y + input.y);
@@ -26,6 +38,14 @@ namespace wolf
 		MousePos operator-(MousePos input)
 		{
 			return MousePos(x - input.x, y - input.y);
+		}
+		MousePos operator*(MousePos input)
+		{
+			return MousePos(x * input.x, y * input.y);
+		}
+		MousePos operator/(MousePos input)
+		{
+			return MousePos(x / input.x, y / input.y);
 		}
 	};
 
