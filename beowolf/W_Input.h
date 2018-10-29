@@ -1,4 +1,4 @@
-
+#include "W_Input_Keys.h"
 
 namespace wolf
 {
@@ -45,33 +45,5 @@ namespace wolf
 		// to compare with other keys and see which was pressed first
 		// unsigned long long will run out after a decade or so of being held down
 		unsigned long long keys[MAXKEY] = { 0 };
-
-#define INPUT_KB_A 65
-#define INPUT_KB_B 66
-#define INPUT_KB_C 67
-#define INPUT_KB_D 68
-#define INPUT_KB_E 69
-#define INPUT_KB_F 70
-#define INPUT_KB_G 71
-#define INPUT_KB_H 72
-#define INPUT_KB_I 73
-#define INPUT_KB_J 74
-#define INPUT_KB_K 75
-#define INPUT_KB_L 76
-#define INPUT_KB_M 77
-#define INPUT_KB_N 78
-#define INPUT_KB_O 79
-#define INPUT_KB_P 80
-#define INPUT_KB_Q 81
-#define INPUT_KB_R 82
-#define INPUT_KB_S 83
-#define INPUT_KB_T 84
-#define INPUT_KB_U 85
-#define INPUT_KB_V 86
-#define INPUT_KB_W 87
-#define INPUT_KB_X 88
-#define INPUT_KB_Y 89
-#define INPUT_KB_Z 90
-
 	};
 }
