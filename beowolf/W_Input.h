@@ -1,13 +1,32 @@
 #include "W_Input_Keys.h"
+#include "W_Common.h"
 
 namespace wolf
 {
 	struct MousePos
 	{
-		// size of screen
-		int width = 1, height = 1;
-		// position on screen, percent-wise
-		double x, y;
+		// raw position
+		int x, y;
+
+		MousePos(int x, int y) : x(x), y(y) {}
+
+		glm::vec2 relative(double width, double height)
+		{
+			return glm::vec2(width / x, height / y);
+		}
+		glm::vec2 relative(double width, double height, double horizontalOffset, double verticalOffset)
+		{
+			return glm::vec2(width / x - horizontalOffset, height / y - verticalOffset);
+		}
+
+		MousePos operator+(MousePos input)
+		{
+			return MousePos(x + input.x, y + input.y);
+		}
+		MousePos operator-(MousePos input)
+		{
+			return MousePos(x - input.x, y - input.y);
+		}
 	};
 
 	class Input
@@ -27,13 +46,20 @@ namespace wolf
 		void operator=(Input const&) = delete;
 
 		void update();
+
+		// keyboard input
 		int getKey(int key);
 		bool isKeyPressed(int key);
 		bool isKeyHeld(int key);
 		bool isKeyReleased(int key);
 		bool isKeyUnheld(int key);
-		int getNewer(int key1, int key2);
-		int getOlder(int key1, int key2);
+		int getNewerKey(int key1, int key2);
+		int getOlderKey(int key1, int key2);
+
+		//mouse input
+		MousePos getMousePos();
+		MousePos getMouseDelta();
+
 	private:
 		//-------------------------------------------------------------------------
 		// PRIVATE METHODS
@@ -53,5 +79,9 @@ namespace wolf
 		// to compare with other keys and see which was pressed first
 		// unsigned long long will run out after a decade or so of being held down
 		unsigned long long keys[MAXKEY] = { 0 };
+
+		// check for mouse position
+		MousePos mpos_current;
+		MousePos mpos_last;
 	};
 }

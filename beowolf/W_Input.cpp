@@ -22,6 +22,11 @@ namespace wolf
 					keys[VALID_KEYS[i]] = RELEASED;
 			}
 		}
+
+		// update current mpos
+		mpos_last = mpos_current;
+		glfwGetMousePos(&mpos_current.x, &mpos_current.y);
+
 	}
 
 	int Input::getKey(int key)
@@ -49,7 +54,7 @@ namespace wolf
 		return keys[key] == 0 || keys[key] == RELEASED;
 	}
 
-	int Input::getNewer(int key1, int key2)
+	int Input::getNewerKey(int key1, int key2)
 	{
 		bool key1unheld = isKeyUnheld(key1);
 		bool key2unheld = isKeyUnheld(key2);
@@ -66,7 +71,7 @@ namespace wolf
 			return key2;
 	}
 
-	int Input::getOlder(int key1, int key2)
+	int Input::getOlderKey(int key1, int key2)
 	{
 		bool key1unheld = isKeyUnheld(key1);
 		bool key2unheld = isKeyUnheld(key2);
@@ -81,5 +86,15 @@ namespace wolf
 			return key1;
 		else
 			return key2;
+	}
+
+	MousePos Input::getMousePos()
+	{
+		return mpos_current;
+	}
+
+	MousePos Input::getMouseDelta()
+	{
+		return mpos_current - mpos_last;
 	}
 }
