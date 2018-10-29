@@ -27,8 +27,12 @@ namespace wolf
 		// update current mpos
 		mpos_last.x = mpos_current.x;
 		mpos_last.y = mpos_current.y;
-		glfwGetMousePos(&mpos_current.x, &mpos_current.y);
 
+		int rawx, rawy;
+		glfwGetMousePos(&rawx, &rawy);
+
+		mpos_current.x = rawx + 1;
+		mpos_current.y = rawy + 1;
 	}
 
 	int Input::getKey(int key)
