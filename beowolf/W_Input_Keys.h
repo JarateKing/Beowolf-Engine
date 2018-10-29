@@ -25,3 +25,15 @@
 #define INPUT_KB_X 88
 #define INPUT_KB_Y 89
 #define INPUT_KB_Z 90
+
+// numeric keys
+#define INPUT_KB_0 48
+#define INPUT_KB_1 49
+#define INPUT_KB_2 50
+#define INPUT_KB_3 51
+#define INPUT_KB_4 52
+#define INPUT_KB_5 53
+#define INPUT_KB_6 54
+#define INPUT_KB_7 55
+#define INPUT_KB_8 56
+#define INPUT_KB_9 57
