@@ -11,6 +11,13 @@ namespace wolf
 		return glm::tan(DEG2RAD * fov.y / 2) * glm::tan(DEG2RAD * fov.x / 2);
 	}
 
+	glm::vec2 GetScreenSize()
+	{
+		int width, height;
+		glfwGetWindowSize(&width, &height);
+		return glm::vec2(width, height);
+	}
+
 	// get horizontal and vertical fov using an aspect ratio
 	glm::vec2 GetFovCombo(float verticalFov, float aspectRatio)
 	{
@@ -28,10 +35,7 @@ namespace wolf
 	// get horizontal and vertical fov using the window size
 	glm::vec2 GetFovCombo(float verticalFov)
 	{
-		int width, height;
-		glfwGetWindowSize(&width, &height);
-
-		return GetFovCombo(verticalFov, glm::vec2(width, height));
+		return GetFovCombo(verticalFov, GetScreenSize());
 	}
 
 	// get perspective matrix based off of fov

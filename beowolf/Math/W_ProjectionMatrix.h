@@ -3,6 +3,7 @@
 namespace wolf
 {
 	float GetAspectRatio(glm::vec2 fov);
+	glm::vec2 GetScreenSize();
 	glm::vec2 GetFovCombo(float verticalFov, float aspectRatio);
 	glm::vec2 GetFovCombo(float verticalFov, glm::vec2 screenSize);
 	glm::vec2 GetFovCombo(float verticalFov);
