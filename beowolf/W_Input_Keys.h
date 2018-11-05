@@ -37,3 +37,10 @@
 #define INPUT_KB_7 55
 #define INPUT_KB_8 56
 #define INPUT_KB_9 57
+
+// mouse buttons
+#define INPUT_LMB 0
+#define INPUT_RMB 1
+#define INPUT_MMB 2
+#define INPUT_MB4 4
+#define INPUT_MB5 5
