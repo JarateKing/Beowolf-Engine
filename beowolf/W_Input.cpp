@@ -1,6 +1,7 @@
 #include "W_Input.h"
 #include <GL/glfw.h>
 #include <cmath>
+#include <iostream>
 
 namespace wolf
 {
@@ -23,6 +24,26 @@ namespace wolf
 					keys[VALID_KEYS[i]] = RELEASED;
 			}
 		}
+
+		// update mbutton list
+		for (int i = 0; i < TOTALMBUTTONS; i++)
+		{
+			if (glfwGetMouseButton(i) == GLFW_PRESS)
+			{
+				if (mbuttons[i] == RELEASED)
+					mbuttons[i] = 0;
+				mbuttons[i]++;
+			}
+			else
+			{
+				if (mbuttons[i] == RELEASED)
+					mbuttons[i] = 0;
+				else if (mbuttons[i] > 0)
+					mbuttons[i] = RELEASED;
+			}
+		}
+
+		printf("%d\n", mbuttons[1]);
 
 		// update current mpos
 		mpos_last.x = mpos_current.x;
@@ -102,5 +123,25 @@ namespace wolf
 	MousePos Input::getMouseDelta()
 	{
 		return mpos_current - mpos_last;
+	}
+
+	bool Input::isMousePressed(int mbutton)
+	{
+		return mbuttons[mbutton] == 1;
+	}
+
+	bool Input::isMouseHeld(int mbutton)
+	{
+		return mbuttons[mbutton] > 0 && mbuttons[mbutton] != RELEASED;
+	}
+
+	bool Input::isMouseReleased(int mbutton)
+	{
+		return mbuttons[mbutton] == RELEASED;
+	}
+
+	bool Input::isMouseUnheld(int mbutton)
+	{
+		return mbuttons[mbutton] == 0 || mbuttons[mbutton] == RELEASED;
 	}
 }
