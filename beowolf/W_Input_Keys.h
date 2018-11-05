@@ -42,5 +42,7 @@
 #define INPUT_LMB 0
 #define INPUT_RMB 1
 #define INPUT_MMB 2
-#define INPUT_MB4 4
-#define INPUT_MB5 5
+#define INPUT_MB4 3
+#define INPUT_MB5 4
+#define INPUT_M_BACK INPUT_MB4
+#define INPUT_M_FORW INPUT_MB5
