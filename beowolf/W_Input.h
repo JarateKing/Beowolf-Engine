@@ -30,23 +30,23 @@ namespace wolf
 		}
 
 		// operators
-		bool operator==(MousePos input)
+		bool operator==(MousePos input) const
 		{
 			return (x == input.x) && (y == input.y);
 		}
-		MousePos operator+(MousePos input)
+		MousePos operator+(MousePos input) const
 		{
 			return MousePos(x + input.x, y + input.y);
 		}
-		MousePos operator-(MousePos input)
+		MousePos operator-(MousePos input) const
 		{
 			return MousePos(x - input.x, y - input.y);
 		}
-		MousePos operator*(MousePos input)
+		MousePos operator*(MousePos input) const
 		{
 			return MousePos(x * input.x, y * input.y);
 		}
-		MousePos operator/(MousePos input)
+		MousePos operator/(MousePos input) const
 		{
 			return MousePos(x / input.x, y / input.y);
 		}
@@ -71,22 +71,22 @@ namespace wolf
 		void update();
 
 		// keyboard input
-		int getKey(int key);
-		bool isKeyPressed(int key);
-		bool isKeyHeld(int key);
-		bool isKeyReleased(int key);
-		bool isKeyUnheld(int key);
-		int getNewerKey(int key1, int key2);
-		int getOlderKey(int key1, int key2);
+		int getKey(int key) const;
+		bool isKeyPressed(int key) const;
+		bool isKeyHeld(int key) const;
+		bool isKeyReleased(int key) const;
+		bool isKeyUnheld(int key) const;
+		int getNewerKey(int key1, int key2) const;
+		int getOlderKey(int key1, int key2) const;
 
 		//mouse input
-		MousePos getMousePos();
-		MousePos getMouseDelta();
+		MousePos getMousePos() const;
+		MousePos getMouseDelta() const;
 		
-		bool isMousePressed(int mbutton);
-		bool isMouseHeld(int mbutton);
-		bool isMouseReleased(int mbutton);
-		bool isMouseUnheld(int mbutton);
+		bool isMousePressed(int mbutton) const;
+		bool isMouseHeld(int mbutton) const;
+		bool isMouseReleased(int mbutton) const;
+		bool isMouseUnheld(int mbutton) const;
 
 	private:
 		//-------------------------------------------------------------------------

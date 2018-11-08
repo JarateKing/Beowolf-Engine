@@ -56,32 +56,32 @@ namespace wolf
 		mpos_current.y = rawy + 1;
 	}
 
-	int Input::getKey(int key)
+	int Input::getKey(int key) const
 	{
 		return keys[key];
 	}
 
-	bool Input::isKeyPressed(int key)
+	bool Input::isKeyPressed(int key) const
 	{
 		return keys[key] == 1;
 	}
 
-	bool Input::isKeyHeld(int key)
+	bool Input::isKeyHeld(int key) const
 	{
 		return keys[key] > 0 && keys[key] != RELEASED;
 	}
 
-	bool Input::isKeyReleased(int key)
+	bool Input::isKeyReleased(int key) const
 	{
 		return keys[key] == RELEASED;
 	}
 
-	bool Input::isKeyUnheld(int key)
+	bool Input::isKeyUnheld(int key) const
 	{
 		return keys[key] == 0 || keys[key] == RELEASED;
 	}
 
-	int Input::getNewerKey(int key1, int key2)
+	int Input::getNewerKey(int key1, int key2) const
 	{
 		bool key1unheld = isKeyUnheld(key1);
 		bool key2unheld = isKeyUnheld(key2);
@@ -98,7 +98,7 @@ namespace wolf
 			return key2;
 	}
 
-	int Input::getOlderKey(int key1, int key2)
+	int Input::getOlderKey(int key1, int key2) const
 	{
 		bool key1unheld = isKeyUnheld(key1);
 		bool key2unheld = isKeyUnheld(key2);
@@ -115,32 +115,32 @@ namespace wolf
 			return key2;
 	}
 
-	MousePos Input::getMousePos()
+	MousePos Input::getMousePos() const
 	{
 		return mpos_current;
 	}
 
-	MousePos Input::getMouseDelta()
+	MousePos Input::getMouseDelta() const
 	{
 		return mpos_current - mpos_last;
 	}
 
-	bool Input::isMousePressed(int mbutton)
+	bool Input::isMousePressed(int mbutton) const
 	{
 		return mbuttons[mbutton] == 1;
 	}
 
-	bool Input::isMouseHeld(int mbutton)
+	bool Input::isMouseHeld(int mbutton) const
 	{
 		return mbuttons[mbutton] > 0 && mbuttons[mbutton] != RELEASED;
 	}
 
-	bool Input::isMouseReleased(int mbutton)
+	bool Input::isMouseReleased(int mbutton) const
 	{
 		return mbuttons[mbutton] == RELEASED;
 	}
 
-	bool Input::isMouseUnheld(int mbutton)
+	bool Input::isMouseUnheld(int mbutton) const
 	{
 		return mbuttons[mbutton] == 0 || mbuttons[mbutton] == RELEASED;
 	}
