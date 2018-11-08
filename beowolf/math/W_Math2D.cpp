@@ -35,4 +35,24 @@ namespace wolf
 
 		return false;
 	}
+
+	bool isPointInPolygon(glm::vec2 point, Vertex* arr, int arrSize)
+	{
+		glm::vec2 line1start = point;
+		glm::vec2 line1end = point;
+		line1end.x += 1000;
+
+		int count = 0;
+		for (int i = 0; i < arrSize; i++)
+		{
+			glm::vec2 line2start = glm::vec2(arr[i].x, arr[i].z);
+			glm::vec2 line2end = glm::vec2(arr[(i + 1) % arrSize].x, arr[(i + 1) % arrSize].z);
+
+			if (wolf::isIntersection(line1start, line1end, line2start, line2end))
+			{
+				count++;
+			}
+		}
+		return count % 2 == 1;
+	}
 }
