@@ -30,6 +30,18 @@ struct TextureVertex
 	GLfloat u, v;
 };
 
+enum Pos
+{
+	North,
+	Northeast,
+	East,
+	Southeast,
+	South,
+	Southwest,
+	West,
+	Northwest
+};
+
 namespace wolf
 {
 // Loads in a whole file and returns the contents. User is responsible for then

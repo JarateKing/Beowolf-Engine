@@ -36,7 +36,7 @@ namespace wolf
 		return false;
 	}
 
-	bool isPointInPolygon(glm::vec2 point, Vertex* arr, int arrSize)
+	bool isPointInPolygon(glm::vec2 point, TextureVertex* arr, int arrSize)
 	{
 		glm::vec2 line1start = point;
 		glm::vec2 line1end = point;
