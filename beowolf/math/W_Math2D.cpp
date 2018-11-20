@@ -55,4 +55,40 @@ namespace wolf
 		}
 		return count % 2 == 1;
 	}
+
+	float getBound(Pos dir, TextureVertex* arr, int arrSize)
+	{
+		float xmax, xmin, zmax, zmin;
+		xmax = arr[0].x;
+		xmin = arr[0].x;
+		zmax = arr[0].z;
+		zmin = arr[0].z;
+
+		for (int i = 1; i < arrSize; i++)
+		{
+			if (arr[i].x > xmax)
+				xmax = arr[i].x;
+			else if (arr[i].x < xmin)
+				xmin = arr[i].x;
+
+			if (arr[i].z > zmax)
+				zmax = arr[i].z;
+			else if (arr[i].z < zmin)
+				zmin = arr[i].z;
+		}
+
+		switch (dir)
+		{
+		case North:
+			return zmin;
+		case East:
+			return xmax;
+		case South:
+			return zmax;
+		case West:
+			return xmin;
+		default:
+			return xmax;
+		}
+	}
 }
