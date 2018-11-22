@@ -36,7 +36,7 @@ namespace wolf
 		return false;
 	}
 
-	bool isPointInPolygon(glm::vec2 point, TextureVertex* arr, int arrSize)
+	bool isPointInPolygon(glm::vec2 point, Vertex* arr, int arrSize)
 	{
 		glm::vec2 line1start = point;
 		glm::vec2 line1end = point;
@@ -56,7 +56,7 @@ namespace wolf
 		return count % 2 == 1;
 	}
 
-	float getBound(Pos dir, TextureVertex* arr, int arrSize)
+	float getBound(Pos dir, Vertex* arr, int arrSize)
 	{
 		float xmax, xmin, zmax, zmin;
 		xmax = arr[0].x;

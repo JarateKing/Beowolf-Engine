@@ -21,12 +21,6 @@ struct Vertex
 {
 	GLfloat x, y, z;
 	GLubyte r, g, b, a;
-};
-
-typedef struct TextureVertex TextureVertex;
-struct TextureVertex
-{
-	GLfloat x, y, z;
 	GLfloat u, v;
 };
 
