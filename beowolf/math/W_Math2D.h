@@ -4,6 +4,6 @@ namespace wolf
 {
 	bool isOnLine(glm::vec2 point, glm::vec2 lineStart, glm::vec2 lineEnd);
 	bool isIntersection(glm::vec2 line1start, glm::vec2 line1end, glm::vec2 line2start, glm::vec2 line2end);
-	bool isPointInPolygon(glm::vec2 point, Vertex* arr, int arrSize);
-	float getBound(Pos dir, Vertex* arr, int arrSize);
+	bool isPointInPolygon(glm::vec2 point, glm::vec2* arr, int arrSize);
+	float getBound(Pos dir, glm::vec2* arr, int arrSize);
 }

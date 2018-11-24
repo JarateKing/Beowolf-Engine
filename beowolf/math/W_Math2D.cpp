@@ -36,7 +36,7 @@ namespace wolf
 		return false;
 	}
 
-	bool isPointInPolygon(glm::vec2 point, Vertex* arr, int arrSize)
+	bool isPointInPolygon(glm::vec2 point, glm::vec2* arr, int arrSize)
 	{
 		glm::vec2 line1start = point;
 		glm::vec2 line1end = point;
@@ -45,8 +45,8 @@ namespace wolf
 		int count = 0;
 		for (int i = 0; i < arrSize; i++)
 		{
-			glm::vec2 line2start = glm::vec2(arr[i].x, arr[i].z);
-			glm::vec2 line2end = glm::vec2(arr[(i + 1) % arrSize].x, arr[(i + 1) % arrSize].z);
+			glm::vec2 line2start = glm::vec2(arr[i].x, arr[i].y);
+			glm::vec2 line2end = glm::vec2(arr[(i + 1) % arrSize].x, arr[(i + 1) % arrSize].y);
 
 			if (wolf::isIntersection(line1start, line1end, line2start, line2end))
 			{
@@ -56,13 +56,13 @@ namespace wolf
 		return count % 2 == 1;
 	}
 
-	float getBound(Pos dir, Vertex* arr, int arrSize)
+	float getBound(Pos dir, glm::vec2* arr, int arrSize)
 	{
 		float xmax, xmin, zmax, zmin;
 		xmax = arr[0].x;
 		xmin = arr[0].x;
-		zmax = arr[0].z;
-		zmin = arr[0].z;
+		zmax = arr[0].y;
+		zmin = arr[0].y;
 
 		for (int i = 1; i < arrSize; i++)
 		{
@@ -71,10 +71,10 @@ namespace wolf
 			else if (arr[i].x < xmin)
 				xmin = arr[i].x;
 
-			if (arr[i].z > zmax)
-				zmax = arr[i].z;
-			else if (arr[i].z < zmin)
-				zmin = arr[i].z;
+			if (arr[i].y > zmax)
+				zmax = arr[i].y;
+			else if (arr[i].y < zmin)
+				zmin = arr[i].y;
 		}
 
 		switch (dir)
