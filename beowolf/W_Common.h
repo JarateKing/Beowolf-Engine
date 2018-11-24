@@ -22,6 +22,26 @@ struct Vertex
 	GLfloat x, y, z;
 	GLubyte r, g, b, a;
 	GLfloat u, v;
+
+	glm::vec3 xyz()
+	{
+		return glm::vec3(x, y, z);
+	}
+
+	glm::vec2 xy()
+	{
+		return glm::vec2(x, y);
+	}
+
+	glm::vec2 xz()
+	{
+		return glm::vec2(x, z);
+	}
+
+	glm::vec2 yz()
+	{
+		return glm::vec2(y, z);
+	}
 };
 
 enum Pos
