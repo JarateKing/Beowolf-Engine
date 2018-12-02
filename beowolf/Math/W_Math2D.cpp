@@ -91,4 +91,14 @@ namespace wolf
 			return xmax;
 		}
 	}
+
+	float getDistance(glm::vec2 start, glm::vec2 end)
+	{
+		return glm::sqrt(getDistanceSq(start, end));
+	}
+
+	float getDistanceSq(glm::vec2 start, glm::vec2 end)
+	{
+		return (start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y);
+	}
 }
