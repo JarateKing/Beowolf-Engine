@@ -10,7 +10,7 @@ namespace wolf
 		return -1;
 	}
 
-	bool isOnLine(glm::vec2 point, glm::vec2 lineStart, glm::vec2 lineEnd)
+	bool Math2D::isOnLine(glm::vec2 point, glm::vec2 lineStart, glm::vec2 lineEnd)
 	{
 		return (point.x <= std::fmax(lineStart.x, lineEnd.x) &&
 				point.x >= std::fmin(lineStart.x, lineEnd.x) &&
@@ -18,7 +18,7 @@ namespace wolf
 				point.y <= std::fmin(lineStart.y, lineEnd.y));
 	}
 
-	bool isIntersection(glm::vec2 line1start, glm::vec2 line1end, glm::vec2 line2start, glm::vec2 line2end)
+	bool Math2D::isIntersection(glm::vec2 line1start, glm::vec2 line1end, glm::vec2 line2start, glm::vec2 line2end)
 	{
 		int o1 = checkOrientation(line1start, line1end, line2start);
 		int o2 = checkOrientation(line1start, line1end, line2end);
@@ -36,7 +36,7 @@ namespace wolf
 		return false;
 	}
 
-	bool isPointInPolygon(glm::vec2 point, glm::vec2* arr, int arrSize)
+	bool Math2D::isPointInPolygon(glm::vec2 point, glm::vec2* arr, int arrSize)
 	{
 		glm::vec2 line1start = point;
 		glm::vec2 line1end = point;
@@ -48,7 +48,7 @@ namespace wolf
 			glm::vec2 line2start = glm::vec2(arr[i].x, arr[i].y);
 			glm::vec2 line2end = glm::vec2(arr[(i + 1) % arrSize].x, arr[(i + 1) % arrSize].y);
 
-			if (wolf::isIntersection(line1start, line1end, line2start, line2end))
+			if (isIntersection(line1start, line1end, line2start, line2end))
 			{
 				count++;
 			}
@@ -56,7 +56,7 @@ namespace wolf
 		return count % 2 == 1;
 	}
 
-	float getBound(Pos dir, glm::vec2* arr, int arrSize)
+	float Math2D::getBound(Pos dir, glm::vec2* arr, int arrSize)
 	{
 		float xmax, xmin, zmax, zmin;
 		xmax = arr[0].x;
@@ -92,12 +92,12 @@ namespace wolf
 		}
 	}
 
-	float getDistance(glm::vec2 start, glm::vec2 end)
+	float Math2D::getDistance(glm::vec2 start, glm::vec2 end)
 	{
 		return glm::sqrt(getDistanceSq(start, end));
 	}
 
-	float getDistanceSq(glm::vec2 start, glm::vec2 end)
+	float Math2D::getDistanceSq(glm::vec2 start, glm::vec2 end)
 	{
 		return (start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y);
 	}
