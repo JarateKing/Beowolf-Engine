@@ -56,7 +56,7 @@ namespace wolf
 		return count % 2 == 1;
 	}
 
-	float Math2D::getBound(Pos dir, glm::vec2* arr, int arrSize)
+	float Math2D::GetBound(Pos dir, glm::vec2* arr, int arrSize)
 	{
 		float xmax, xmin, zmax, zmin;
 		xmax = arr[0].x;
@@ -92,12 +92,12 @@ namespace wolf
 		}
 	}
 
-	float Math2D::getDistance(glm::vec2 start, glm::vec2 end)
+	float Math2D::GetDistance(glm::vec2 start, glm::vec2 end)
 	{
-		return glm::sqrt(getDistanceSq(start, end));
+		return glm::sqrt(GetDistanceSq(start, end));
 	}
 
-	float Math2D::getDistanceSq(glm::vec2 start, glm::vec2 end)
+	float Math2D::GetDistanceSq(glm::vec2 start, glm::vec2 end)
 	{
 		return (start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y);
 	}
