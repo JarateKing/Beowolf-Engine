@@ -2,13 +2,17 @@
 
 namespace wolf
 {
-	float GetAspectRatio(const glm::vec2& fov);
-	glm::vec2 GetScreenSize();
-	glm::vec2 GetFovCombo(float verticalFov, float aspectRatio);
-	glm::vec2 GetFovCombo(float verticalFov, const glm::vec2& screenSize);
-	glm::vec2 GetFovCombo(float verticalFov);
-	glm::mat4 GetProjectionMatrix(float verticalFov);
-	glm::mat4 GetProjectionMatrix(const glm::vec2& fov);
-	glm::mat4 GetProjectionMatrix(const glm::vec2& fov, bool isOrtho, float orthoDistance);
-	glm::mat4 GetProjectionMatrix(const glm::vec2& fov, float orthoPercent, float orthoDistance);
+	class ProjMatrix
+	{
+	public:
+		static float GetAspectRatio(const glm::vec2& fov);
+		static glm::vec2 GetScreenSize();
+		static glm::vec2 GetFovCombo(float verticalFov, float aspectRatio);
+		static glm::vec2 GetFovCombo(float verticalFov, const glm::vec2& screenSize);
+		static glm::vec2 GetFovCombo(float verticalFov);
+		static glm::mat4 GetProjectionMatrix(float verticalFov);
+		static glm::mat4 GetProjectionMatrix(const glm::vec2& fov);
+		static glm::mat4 GetProjectionMatrix(const glm::vec2& fov, bool isOrtho, float orthoDistance);
+		static glm::mat4 GetProjectionMatrix(const glm::vec2& fov, float orthoPercent, float orthoDistance);
+	};
 }
