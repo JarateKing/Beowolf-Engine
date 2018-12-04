@@ -43,8 +43,6 @@ namespace wolf
 			}
 		}
 
-		printf("%d\n", mbuttons[1]);
-
 		// update current mpos
 		mpos_last.x = mpos_current.x;
 		mpos_last.y = mpos_current.y;
