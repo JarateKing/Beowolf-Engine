@@ -38,6 +38,9 @@
 #define INPUT_KB_8 56
 #define INPUT_KB_9 57
 
+// extra keys
+#define INPUT_KB_SPACE 32
+
 // mouse buttons
 #define INPUT_LMB 0
 #define INPUT_RMB 1
