@@ -11,5 +11,6 @@ namespace wolf
 		static float GetBound(Pos dir, glm::vec2* arr, int arrSize);
 		static float GetDistance(glm::vec2 start, glm::vec2 end);
 		static float GetDistanceSq(glm::vec2 start, glm::vec2 end);
+		static glm::vec2 Rotate(glm::vec2 point, glm::vec2 pivot, float angle);
 	};
 }

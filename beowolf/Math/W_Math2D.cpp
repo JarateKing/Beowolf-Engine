@@ -101,4 +101,10 @@ namespace wolf
 	{
 		return (start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y);
 	}
+
+	glm::vec2 Math2D::Rotate(glm::vec2 point, glm::vec2 pivot, float angle)
+	{
+		glm::vec2 dist = point - pivot;
+		return glm::vec2(dist.x * glm::cos(angle) - dist.y * glm::sin(angle), dist.x * glm::sin(angle) + dist.y * glm::cos(angle));
+	}
 }
