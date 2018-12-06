@@ -4,6 +4,16 @@
 
 namespace wolf
 {
+	bool RNG::Bool()
+	{
+		return GetRandom(0, 1) == 1;
+	}
+
+	bool RNG::Bool(float trueChance)
+	{
+		return GetRandom(0.0f, 1.0f) < trueChance;
+	}
+
 	int RNG::GetRandom(int min, int max)
 	{
 		std::random_device randomDevice;
