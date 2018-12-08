@@ -22,6 +22,16 @@ struct Vertex
 	GLfloat x, y, z;
 	GLubyte r, g, b, a;
 	GLfloat u, v;
+	GLfloat normalDirX = 0.0f;
+	GLfloat normalDirY = 1.0f;
+	GLfloat normalDirZ = 0.0f;
+
+	void setNormalDir(glm::vec3 input)
+	{
+		normalDirX = input.x;
+		normalDirY = input.y;
+		normalDirZ = input.z;
+	}
 
 	glm::vec3 xyz()
 	{
