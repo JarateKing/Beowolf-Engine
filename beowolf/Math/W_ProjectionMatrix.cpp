@@ -94,4 +94,21 @@ namespace wolf
 
 		return toret;
 	}
+
+	Plane* ProjMatrix::GetFrustum(const glm::mat4& matrix)
+	{
+		// Hartman/Gribbs method
+		// right, left, top, bottom, far, near
+		Plane* toret = new Plane[6];
+
+		for (int i = 0; i < 6; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				toret[i][j] = matrix[j][3] + (i % 2 * 2 - 1) * matrix[j][i / 2];
+			}
+		}
+
+		return toret;
+	}
 }
