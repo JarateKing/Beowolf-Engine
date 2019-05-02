@@ -3,3 +3,18 @@
 
 # include the example project
 !project/example/
+
+# ignore all visual studio files
+*.obj
+*.suo
+*.sdf
+*.tlog
+*.opendb
+*.pdb
+*.idb
+*.db
+*.ipch
+**/Debug/
+.vs/
+*.xcodeproj/
+**/Documentation/
