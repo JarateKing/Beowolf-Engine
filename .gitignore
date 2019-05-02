@@ -1,2 +1,5 @@
-project/
-*/project/*
+# ignore all unincluded projects
+**/project/*
+
+# include the example project
+!project/example/
