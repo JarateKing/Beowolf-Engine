@@ -54,13 +54,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\tinyxml;$(SolutionDir)..\..\lib;$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glfw\include;$(SolutionDir)..\..\lib\glew\include;$(SolutionDir)..\..\beowolf;$(SolutionDir)..\..;$(SolutionDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\lib\glm;$(SolutionDir)..\..\lib\tinyxml;$(SolutionDir)..\..\lib;$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glfw\include;$(SolutionDir)..\..\lib\glew\include;$(SolutionDir)..\..\beowolf;$(SolutionDir)..\..\beowolf\graphics;$(SolutionDir)..\..\beowolf\math;$(SolutionDir)..\..;$(SolutionDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>GLFW.lib;glew32.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glew\lib;$(SolutionDir)..\..\lib\glfw\lib-msvc100;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\lib\glew\lib;$(SolutionDir)..\..\lib\glfw\lib-msvc100;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -99,6 +99,25 @@
     <ClCompile Include="..\..\beowolf\math\W_Time.cpp" />
     <ClCompile Include="..\..\beowolf\W_Common.cpp" />
     <ClCompile Include="..\..\beowolf\W_Input.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTBoneBatch.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTDecompress.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTError.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTFixedPoint.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTGeometry.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTMatrixF.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTMatrixX.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTMisc.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTModelPOD.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTPFXParser.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTQuaternionF.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTQuaternionX.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTResourceFile.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTString.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTTexture.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTTrans.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTTriStrip.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTVector.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTVertex.cpp" />
     <ClCompile Include="..\..\lib\tinyxml\tinystr.cpp" />
     <ClCompile Include="..\..\lib\tinyxml\tinyxml.cpp" />
     <ClCompile Include="..\..\lib\tinyxml\tinyxmlerror.cpp" />
@@ -127,6 +146,32 @@
     <ClInclude Include="..\..\beowolf\W_Input.h" />
     <ClInclude Include="..\..\beowolf\W_Input_Keys.h" />
     <ClInclude Include="..\..\beowolf\W_Types.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTArray.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTBackground.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTBoneBatch.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTDecompress.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTError.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTFixedPoint.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTGeometry.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTGlobal.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTHash.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTMathTable.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTMatrix.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTMemoryFileSystem.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTMisc.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTModelPOD.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTools.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTPFXParser.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTQuaternion.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTResourceFile.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTSingleton.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTSkipGraph.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTString.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTTexture.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTTrans.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTTriStrip.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTVector.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTVertex.h" />
     <ClInclude Include="..\..\lib\tinyxml\tinystr.h" />
     <ClInclude Include="..\..\lib\tinyxml\tinyxml.h" />
     <ClInclude Include="example\Scene.h" />

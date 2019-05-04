@@ -69,6 +69,63 @@
       <Filter>lib\tinyxml</Filter>
     </ClCompile>
     <ClCompile Include="example\BaseScene.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTModelPOD.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTPFXParser.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTQuaternionF.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTQuaternionX.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTResourceFile.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTString.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTTexture.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTTrans.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTTriStrip.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTVector.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTVertex.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTBoneBatch.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTDecompress.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTError.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTFixedPoint.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTGeometry.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTMatrixF.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTMatrixX.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\PowerVR\PVRTMisc.cpp">
+      <Filter>lib\PowerVR</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -138,6 +195,84 @@
       <Filter>lib\tinyxml</Filter>
     </ClInclude>
     <ClInclude Include="example\Scene.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTModelPOD.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTools.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTPFXParser.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTQuaternion.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTResourceFile.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTSingleton.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTSkipGraph.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTString.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTTexture.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTTrans.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTTriStrip.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTVector.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTVertex.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTArray.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTBackground.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTBoneBatch.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTDecompress.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTError.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTFixedPoint.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTGeometry.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTGlobal.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTHash.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTMathTable.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTMatrix.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTMemoryFileSystem.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\PowerVR\PVRTMisc.h">
+      <Filter>lib\PowerVR</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="beowolf">
@@ -154,6 +289,9 @@
     </Filter>
     <Filter Include="lib\tinyxml">
       <UniqueIdentifier>{9d5624da-98d9-4838-9453-19f5b737a052}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\PowerVR">
+      <UniqueIdentifier>{ab785dde-a088-4f58-982f-773a2fea1537}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
