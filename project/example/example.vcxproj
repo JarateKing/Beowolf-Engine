@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{85D2A377-99E1-4513-BBAD-362AB7A16A98}</ProjectGuid>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <Keyword>ManagedCProj</Keyword>
+    <RootNamespace>example</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CLRSupport>false</CLRSupport>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\tinyxml;$(SolutionDir)..\..\lib;$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glfw\include;$(SolutionDir)..\..\lib\glew\include;$(SolutionDir)..\..\beowolf;$(SolutionDir)..\..;$(SolutionDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>GLFW.lib;glew32.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glew\lib;$(SolutionDir)..\..\lib\glfw\lib-msvc100;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\beowolf\graphics\W_Buffer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\W_BufferManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\W_IndexBuffer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\W_Material.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\W_MaterialManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\W_Model.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\W_Program.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\W_ProgramManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\W_Texture.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\W_TextureManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\W_VertexBuffer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\W_VertexDeclaration.cpp" />
+    <ClCompile Include="..\..\beowolf\math\W_Math2D.cpp" />
+    <ClCompile Include="..\..\beowolf\math\W_ProjectionMatrix.cpp" />
+    <ClCompile Include="..\..\beowolf\math\W_RNG.cpp" />
+    <ClCompile Include="..\..\beowolf\math\W_Time.cpp" />
+    <ClCompile Include="..\..\beowolf\W_Common.cpp" />
+    <ClCompile Include="..\..\beowolf\W_Input.cpp" />
+    <ClCompile Include="..\..\lib\tinyxml\tinystr.cpp" />
+    <ClCompile Include="..\..\lib\tinyxml\tinyxml.cpp" />
+    <ClCompile Include="..\..\lib\tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\lib\tinyxml\tinyxmlparser.cpp" />
+    <ClCompile Include="example\BaseScene.cpp" />
+    <ClCompile Include="example\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\beowolf\graphics\W_Buffer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\W_BufferManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\W_IndexBuffer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\W_Material.h" />
+    <ClInclude Include="..\..\beowolf\graphics\W_MaterialManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\W_Model.h" />
+    <ClInclude Include="..\..\beowolf\graphics\W_Program.h" />
+    <ClInclude Include="..\..\beowolf\graphics\W_ProgramManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\W_Texture.h" />
+    <ClInclude Include="..\..\beowolf\graphics\W_TextureManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\W_VertexBuffer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\W_VertexDeclaration.h" />
+    <ClInclude Include="..\..\beowolf\math\W_Math2D.h" />
+    <ClInclude Include="..\..\beowolf\math\W_ProjectionMatrix.h" />
+    <ClInclude Include="..\..\beowolf\math\W_RNG.h" />
+    <ClInclude Include="..\..\beowolf\math\W_Time.h" />
+    <ClInclude Include="..\..\beowolf\W_Common.h" />
+    <ClInclude Include="..\..\beowolf\W_Input.h" />
+    <ClInclude Include="..\..\beowolf\W_Input_Keys.h" />
+    <ClInclude Include="..\..\beowolf\W_Types.h" />
+    <ClInclude Include="..\..\lib\tinyxml\tinystr.h" />
+    <ClInclude Include="..\..\lib\tinyxml\tinyxml.h" />
+    <ClInclude Include="example\Scene.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

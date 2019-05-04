@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="example\main.cpp" />
+    <ClCompile Include="..\..\beowolf\W_Common.cpp">
+      <Filter>beowolf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\W_Input.cpp">
+      <Filter>beowolf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\W_Buffer.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\W_BufferManager.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\W_IndexBuffer.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\W_Material.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\W_MaterialManager.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\W_Model.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\W_Program.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\W_ProgramManager.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\W_Texture.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\W_TextureManager.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\W_VertexBuffer.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\W_VertexDeclaration.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\math\W_Math2D.cpp">
+      <Filter>beowolf\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\math\W_ProjectionMatrix.cpp">
+      <Filter>beowolf\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\math\W_RNG.cpp">
+      <Filter>beowolf\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\math\W_Time.cpp">
+      <Filter>beowolf\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\tinyxml\tinyxmlparser.cpp">
+      <Filter>lib\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\tinyxml\tinystr.cpp">
+      <Filter>lib\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\tinyxml\tinyxml.cpp">
+      <Filter>lib\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\tinyxml\tinyxmlerror.cpp">
+      <Filter>lib\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="example\BaseScene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\beowolf\W_Common.h">
+      <Filter>beowolf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\W_Input.h">
+      <Filter>beowolf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\W_Input_Keys.h">
+      <Filter>beowolf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\W_Types.h">
+      <Filter>beowolf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\W_Buffer.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\W_BufferManager.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\W_IndexBuffer.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\W_Material.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\W_MaterialManager.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\W_Model.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\W_Program.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\W_ProgramManager.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\W_Texture.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\W_TextureManager.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\W_VertexBuffer.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\W_VertexDeclaration.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\math\W_Math2D.h">
+      <Filter>beowolf\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\math\W_ProjectionMatrix.h">
+      <Filter>beowolf\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\math\W_RNG.h">
+      <Filter>beowolf\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\math\W_Time.h">
+      <Filter>beowolf\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\tinyxml\tinystr.h">
+      <Filter>lib\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\tinyxml\tinyxml.h">
+      <Filter>lib\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="example\Scene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="beowolf">
+      <UniqueIdentifier>{1be1c3ef-e190-4944-9ee8-8c39907495b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="beowolf\graphics">
+      <UniqueIdentifier>{d0683b6c-b710-48ac-8526-0461ec531780}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="beowolf\math">
+      <UniqueIdentifier>{5d4ac216-7fb0-4e33-ac01-6353a91dbb8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{d44a61fd-b576-47e1-b555-7180c39c67d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\tinyxml">
+      <UniqueIdentifier>{9d5624da-98d9-4838-9453-19f5b737a052}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
