@@ -1,5 +1,0 @@
-base referer
-rect $structSPVRTPrint3DWIN.html 144,164 283,191
-rect $structSPVRTPrint3DAPIVertex.html 24,7 195,34
-rect $structPVRTMat4.html 307,164 395,191
-rect $classPVRTMATRIXf.html 297,7 404,34
