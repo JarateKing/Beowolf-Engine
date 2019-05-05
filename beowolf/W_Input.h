@@ -77,6 +77,7 @@ namespace wolf
 		double getKey(int key) const;
 		bool isKeyPressed(int key) const;
 		bool isKeyHeld(int key) const;
+		bool isKeyHeld(int key, double delay) const;
 		bool isKeyReleased(int key) const;
 		bool isKeyUnheld(int key) const;
 		int getNewerKey(int key1, int key2) const;

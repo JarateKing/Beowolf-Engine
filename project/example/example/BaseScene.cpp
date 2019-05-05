@@ -21,7 +21,7 @@ public:
 		{
 			std::cout << "pressed key" << std::endl;
 		}
-		if (wolf::Input::Instance().isKeyHeld(INPUT_KB_A))
+		if (wolf::Input::Instance().isKeyHeld(INPUT_KB_A, 0.5))
 		{
 			std::cout << "held key for " << wolf::Input::Instance().getKey(INPUT_KB_A) << " seconds" << std::endl;
 		}

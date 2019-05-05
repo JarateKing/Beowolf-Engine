@@ -71,6 +71,10 @@ namespace wolf
 	{
 		return keys[key] > 0 && keys[key] != RELEASED;
 	}
+	bool Input::isKeyHeld(int key, double delay) const
+	{
+		return keys[key] > delay;
+	}
 
 	bool Input::isKeyReleased(int key) const
 	{
