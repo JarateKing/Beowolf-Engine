@@ -92,6 +92,10 @@ namespace wolf
 		bool isMouseReleased(int mbutton) const;
 		bool isMouseUnheld(int mbutton) const;
 
+		// combined input
+		double getTimeAfk();
+		bool isAfk(double delay);
+
 	private:
 		//-------------------------------------------------------------------------
 		// PRIVATE METHODS
@@ -114,6 +118,9 @@ namespace wolf
 		double delta = 0;
 		double keys[MAXKEY] = { 0 };
 		double mbuttons[TOTALMBUTTONS] = { 0 };
+
+		// time afk
+		double timeAfk;
 
 		// check for mouse position
 		MousePos mpos_current;

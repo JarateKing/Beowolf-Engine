@@ -9,6 +9,7 @@ namespace wolf
 	void Input::update()
 	{
 		delta = Time::Instance().deltaTime();
+		bool isAfk = true;
 
 		// update key list
 		for (int i = 0; i < TOTALKEYS; i++)
@@ -18,6 +19,7 @@ namespace wolf
 				if (keys[VALID_KEYS[i]] == RELEASED)
 					keys[VALID_KEYS[i]] = 0;
 				keys[VALID_KEYS[i]] += delta;
+				isAfk = false;
 			}
 			else
 			{
@@ -36,6 +38,7 @@ namespace wolf
 				if (mbuttons[i] == RELEASED)
 					mbuttons[i] = 0;
 				mbuttons[i] += delta;
+				isAfk = false;
 			}
 			else
 			{
@@ -55,6 +58,11 @@ namespace wolf
 
 		mpos_current.x = rawx + 1;
 		mpos_current.y = rawy + 1;
+
+		if (isAfk)
+			timeAfk += delta;
+		else
+			timeAfk = 0;
 	}
 
 	double Input::getKey(int key) const
@@ -148,5 +156,15 @@ namespace wolf
 	bool Input::isMouseUnheld(int mbutton) const
 	{
 		return mbuttons[mbutton] == 0 || mbuttons[mbutton] == RELEASED;
+	}
+
+	double Input::getTimeAfk()
+	{
+		return timeAfk;
+	}
+
+	bool Input::isAfk(double delay)
+	{
+		return timeAfk > delay;
 	}
 }

@@ -25,6 +25,11 @@ public:
 		{
 			std::cout << "held key for " << wolf::Input::Instance().getKey(INPUT_KB_A) << " seconds" << std::endl;
 		}
+
+		if (wolf::Input::Instance().isAfk(0.5))
+		{
+			std::cout << "time afk: " << wolf::Input::Instance().getTimeAfk() << "s" << std::endl;
+		}
 	}
 
 	void Render()
