@@ -37,6 +37,10 @@ namespace wolf
 		{
 			return (x == input.x) && (y == input.y);
 		}
+		bool operator!=(const MousePos& input) const
+		{
+			return !(*this == input);
+		}
 		MousePos operator+(const MousePos& input) const
 		{
 			return MousePos(x + input.x, y + input.y);

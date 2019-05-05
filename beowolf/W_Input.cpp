@@ -59,6 +59,9 @@ namespace wolf
 		mpos_current.x = rawx + 1;
 		mpos_current.y = rawy + 1;
 
+		if (mpos_current != mpos_last)
+			isAfk = false;
+
 		if (isAfk)
 			timeAfk += delta;
 		else
