@@ -2,6 +2,7 @@
 #define GLFW_NO_GLU
 #include "Scene.h"
 #include <iostream>
+#include "W_Input.h"
 
 class BaseScene : public Scene
 {
@@ -12,17 +13,22 @@ public:
 
 	void Init()
 	{
-		std::cout << "example init" << std::endl;
 	}
 
 	void Update()
 	{
-		std::cout << "example update" << std::endl;
+		if (wolf::Input::Instance().isKeyPressed(INPUT_KB_A))
+		{
+			std::cout << "pressed key" << std::endl;
+		}
+		if (wolf::Input::Instance().isKeyHeld(INPUT_KB_A))
+		{
+			std::cout << "held key for " << wolf::Input::Instance().getKey(INPUT_KB_A) << " seconds" << std::endl;
+		}
 	}
 
 	void Render()
 	{
-		std::cout << "example render" << std::endl;
 	}
 };
 

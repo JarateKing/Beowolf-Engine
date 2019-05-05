@@ -2,11 +2,14 @@
 #include <GL/glfw.h>
 #include <cmath>
 #include <iostream>
+#include "W_Time.h"
 
 namespace wolf
 {
 	void Input::update()
 	{
+		delta = Time::Instance().deltaTime();
+
 		// update key list
 		for (int i = 0; i < TOTALKEYS; i++)
 		{
@@ -14,7 +17,7 @@ namespace wolf
 			{
 				if (keys[VALID_KEYS[i]] == RELEASED)
 					keys[VALID_KEYS[i]] = 0;
-				keys[VALID_KEYS[i]]++;
+				keys[VALID_KEYS[i]] += delta;
 			}
 			else
 			{
@@ -32,7 +35,7 @@ namespace wolf
 			{
 				if (mbuttons[i] == RELEASED)
 					mbuttons[i] = 0;
-				mbuttons[i]++;
+				mbuttons[i] += delta;
 			}
 			else
 			{
@@ -54,14 +57,14 @@ namespace wolf
 		mpos_current.y = rawy + 1;
 	}
 
-	int Input::getKey(int key) const
+	double Input::getKey(int key) const
 	{
 		return keys[key];
 	}
 
 	bool Input::isKeyPressed(int key) const
 	{
-		return keys[key] == 1;
+		return keys[key] == delta;
 	}
 
 	bool Input::isKeyHeld(int key) const
@@ -125,7 +128,7 @@ namespace wolf
 
 	bool Input::isMousePressed(int mbutton) const
 	{
-		return mbuttons[mbutton] == 1;
+		return mbuttons[mbutton] == delta;
 	}
 
 	bool Input::isMouseHeld(int mbutton) const
