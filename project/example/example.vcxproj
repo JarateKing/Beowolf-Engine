@@ -93,6 +93,7 @@
     <ClCompile Include="..\..\beowolf\graphics\W_TextureManager.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\W_VertexBuffer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\W_VertexDeclaration.cpp" />
+    <ClCompile Include="..\..\beowolf\math\W_Math.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_Math2D.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_ProjectionMatrix.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_RNG.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="..\..\beowolf\graphics\W_TextureManager.h" />
     <ClInclude Include="..\..\beowolf\graphics\W_VertexBuffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\W_VertexDeclaration.h" />
+    <ClInclude Include="..\..\beowolf\math\W_Math.h" />
     <ClInclude Include="..\..\beowolf\math\W_Math2D.h" />
     <ClInclude Include="..\..\beowolf\math\W_ProjectionMatrix.h" />
     <ClInclude Include="..\..\beowolf\math\W_RNG.h" />

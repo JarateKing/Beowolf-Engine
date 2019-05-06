@@ -486,6 +486,9 @@
     <ClCompile Include="..\..\lib\bullet\src\LinearMath\btVector3.cpp">
       <Filter>lib\bulletPhysics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\math\W_Math.cpp">
+      <Filter>beowolf\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1169,6 +1172,9 @@
     </ClInclude>
     <ClInclude Include="..\..\lib\bullet\src\LinearMath\btVector3.h">
       <Filter>lib\bulletPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\math\W_Math.h">
+      <Filter>beowolf\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
