@@ -29,4 +29,12 @@ namespace wolf
 		std::uniform_real_distribution<> distribution(min, max);
 		return distribution(gen);
 	}
+
+	double RNG::GetRandom(double min, double max)
+	{
+		std::random_device randomDevice;
+		std::mt19937 gen(randomDevice());
+		std::uniform_real_distribution<> distribution(min, max);
+		return distribution(gen);
+	}
 }
