@@ -1,7 +1,8 @@
 @echo off
 
 :: get project name
-set /p projname="Name of new project: "
+if not [%1]==[] set projname=%1
+if [%1]==[] set /p projname="Name of new project: "
 
 move example example-temporary-to-rename
 mkdir example
