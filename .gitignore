@@ -4,6 +4,9 @@
 # include the example project
 !project/example/
 
+# include project utilities
+!project/create-new-project.bat
+
 # ignore all visual studio files
 *.obj
 *.suo
