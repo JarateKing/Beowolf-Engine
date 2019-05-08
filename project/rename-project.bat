@@ -16,5 +16,3 @@ move %oldname%.vcxproj %newname%.vcxproj
 move %oldname%.vcxproj.filters %newname%.vcxproj.filters
 move %oldname%.vcxproj.user %newname%.vcxproj.user
 cd ..
-
-pause
