@@ -1,2 +1,3 @@
-example\Debug\
-example\.vs\
+example-temporary-to-rename\Debug\
+example-temporary-to-rename\.vs\
+example-temporary-to-rename\README.md

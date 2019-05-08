@@ -6,6 +6,7 @@
 
 # include project utilities
 !project/create-new-project.bat
+!project/rename-project.bat
 !project/ignored-files.txt
 
 # ignore all visual studio files
