@@ -4,4 +4,5 @@ Basic general game engine, based off the wolf engine, written in C++. Designed a
 
 <hr>
 
+[Features](docs/features.md)
 [References used](docs/references.md)
