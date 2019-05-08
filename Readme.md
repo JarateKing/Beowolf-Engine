@@ -6,3 +6,11 @@ Basic general game engine, based off the wolf engine, written in C++. Designed a
 
 * [Features](docs/features.md)
 * [References used](docs/references.md)
+
+<hr>
+
+To run the example project:
+1. Clone or download this repo
+2. Open `project\example\example.sln` in visual studio
+3. Set the solution configuration to "Debug"
+4. Run Local Windows Debugger
