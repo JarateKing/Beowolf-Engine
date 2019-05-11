@@ -8,6 +8,9 @@ if [%1]==[] set /p oldname="Name of original project: "
 if not [%2]==[] set newname=%2
 if [%2]==[] set /p newname="New name for project: "
 
+if not exist %oldname% GOTO ERROR
+if exist %newname% GOTO ERROR
+
 :: change folder and file names
 move %oldname% %newname%
 cd %newname%
@@ -24,5 +27,13 @@ call powershell -Command "(gc %newname%.vcxproj) -replace '<RootNamespace>%oldna
 call powershell -Command "(gc %newname%.vcxproj) -replace 'Include=\"%oldname%', 'Include=\"%newname%' | Out-File %newname%.vcxproj"
 call powershell -Command "(gc %newname%.vcxproj.filters) -replace 'Include=\"%oldname%', 'Include=\"%newname%' | Out-File %newname%.vcxproj.filters"
 
-:: return to original directory
+:: we have successfully done what we need to
+GOTO DONE
+
+:ERROR
+echo ERROR
+pause
+GOTO DONE
+
+:DONE
 cd ..
