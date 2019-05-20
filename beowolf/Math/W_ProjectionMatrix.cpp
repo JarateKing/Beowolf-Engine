@@ -1,4 +1,5 @@
 #include "W_ProjectionMatrix.h"
+#include "W_Math.h"
 
 namespace wolf
 {
@@ -88,7 +89,7 @@ namespace wolf
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				toret[i][j] = perspective[i][j] * (1 - percent) + orthographic[i][j] * (percent);
+				toret[i][j] = Math::lerp(perspective[i][j], orthographic[i][j], percent);
 			}
 		}
 
