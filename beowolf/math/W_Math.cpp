@@ -51,4 +51,10 @@ namespace wolf
 		}
 		return true;
 	}
+
+
+	float Math::lerp(float start, float end, float percent)
+	{
+		return start * (1 - percent) + end * (percent);
+	}
 }

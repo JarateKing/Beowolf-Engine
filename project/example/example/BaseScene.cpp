@@ -13,7 +13,7 @@ public:
 
 	void Init()
 	{
-		std::cout << "is 4999 prime? " << wolf::Math::isPrime(4999) << std::endl;
+		std::cout << "lerp: " << wolf::Math::lerp(5.0f, 7.0f, 0.5f);
 	}
 
 	void Update()
