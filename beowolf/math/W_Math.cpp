@@ -7,7 +7,7 @@ namespace wolf
 		unsigned long long x = 0;
 		unsigned long long y = a % m;
 		while (b > 0) {
-			if (b % 2 == 1) {
+			if (b & 1 == 1) {
 				x = (x + y) % m;
 			}
 			y = (y * 2) % m;
@@ -19,7 +19,7 @@ namespace wolf
 		unsigned long long x = 1;
 		unsigned long long y = base;
 		while (e > 0) {
-			if (e % 2 == 1)
+			if (e & 1 == 1)
 				x = (x * y) % m;
 			y = (y * y) % m;
 			e = e / 2;
@@ -32,7 +32,7 @@ namespace wolf
 	{
 		if (num < 2) return false;
 		if (num == 2) return true;
-		if (num % 2 == 0) return false;
+		if (num & 1 == 0) return false;
 
 		unsigned long long s = num - 1;
 		while (s % 2 == 0) s /= 2;
@@ -45,7 +45,7 @@ namespace wolf
 				mod = mulmodulo(mod, mod, num);
 				temp *= 2;
 			}
-			if (mod != num - 1 && temp % 2 == 0) {
+			if (mod != num - 1 && temp & 1 == 0) {
 				return false;
 			}
 		}
