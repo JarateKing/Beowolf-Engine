@@ -57,4 +57,9 @@ namespace wolf
 	{
 		return start * (1 - percent) + end * (percent);
 	}
+
+	double Math::lerp(double start, double end, float percent)
+	{
+		return start * (1 - percent) + end * (percent);
+	}
 }
