@@ -4,5 +4,4 @@
 *.bat text eol=crlf
 
 # Linguist language detection overrides
-*.c linguist-language=C++
-*.h linguist-language=C++
+lib/* linguist-vendored
