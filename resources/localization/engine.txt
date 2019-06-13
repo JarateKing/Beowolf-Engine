@@ -1,0 +1,3 @@
+STRING	ENGLISH	FRENCH
+engine_lang	English	French
+engine_name	Beowolf Engine	Moteur de Jeu Beowolf

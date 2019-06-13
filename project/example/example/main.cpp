@@ -8,7 +8,7 @@
 #include <GL/glfw.h>
 #include "W_Common.h"
 #include "Scene.h"
-#include "BaseScene.cpp"
+#include "BaseScene.h"
 #include <glm/glm.hpp>
 #include "math/W_Time.h"
 #include "W_Input.h"

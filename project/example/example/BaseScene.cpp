@@ -1,28 +1,27 @@
 #define GLFW_INCLUDE_GL3
 #define GLFW_NO_GLU
-#include "Scene.h"
+#include "BaseScene.h"
 #include <iostream>
-#include "W_Math.h"
+#include "W_TextTable.h"
 
-class BaseScene : public Scene
+BaseScene::BaseScene()
 {
-public:
-	BaseScene()
-	{
-	}
+}
 
-	void Init()
-	{
-		std::cout << "lerp: " << wolf::Math::lerp(5.0f, 7.0f, 0.5f);
-	}
+void BaseScene::Init()
+{
+	wolf::TextTable* localization = new wolf::TextTable();
+	localization->Load("../resources/localization/engine.txt");
+	localization->SetLanguage("ENGLISH");
+	std::cout << localization->GetString("engine_name");
+}
 
-	void Update()
-	{
-	}
+void BaseScene::Update()
+{
+}
 
-	void Render()
-	{
-	}
-};
+void BaseScene::Render()
+{
+}
 
 
