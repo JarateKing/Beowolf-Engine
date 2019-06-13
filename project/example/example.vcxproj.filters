@@ -489,6 +489,9 @@
     <ClCompile Include="..\..\beowolf\math\W_Math.cpp">
       <Filter>beowolf\math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\text\W_TextTable.cpp">
+      <Filter>beowolf\text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1176,6 +1179,10 @@
     <ClInclude Include="..\..\beowolf\math\W_Math.h">
       <Filter>beowolf\math</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\beowolf\text\W_TextTable.h">
+      <Filter>beowolf\text</Filter>
+    </ClInclude>
+    <ClInclude Include="example\BaseScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="beowolf">
@@ -1198,6 +1205,9 @@
     </Filter>
     <Filter Include="lib\powerVR">
       <UniqueIdentifier>{ab785dde-a088-4f58-982f-773a2fea1537}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="beowolf\text">
+      <UniqueIdentifier>{62bcc884-7ca3-40db-93fc-32f98ae59207}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
