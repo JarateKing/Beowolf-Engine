@@ -2,7 +2,7 @@
 #define GLFW_NO_GLU
 #include "BaseScene.h"
 #include <iostream>
-#include "W_Math.h"
+#include "W_TextTable.h"
 
 BaseScene::BaseScene()
 {
@@ -10,7 +10,10 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
-	std::cout << "lerp: " << wolf::Math::lerp(5.0f, 7.0f, 0.5f);
+	wolf::TextTable* localization = new wolf::TextTable();
+	localization->Load("../resources/localization/engine.txt");
+	localization->SetLanguage("ENGLISH");
+	std::cout << localization->GetString("engine_name");
 }
 
 void BaseScene::Update()
