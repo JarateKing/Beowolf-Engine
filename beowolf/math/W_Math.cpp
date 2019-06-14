@@ -3,9 +3,9 @@
 
 namespace wolf
 {
-	unsigned long long mulmodulo(unsigned long long a, unsigned long long b, unsigned long long m) {
-		unsigned long long x = 0;
-		unsigned long long y = a % m;
+	ull mulmodulo(ull a, ull b, ull m) {
+		ull x = 0;
+		ull y = a % m;
 		while (b > 0) {
 			if (b & 1 == 1) {
 				x = (x + y) % m;
@@ -15,9 +15,9 @@ namespace wolf
 		}
 		return x % m;
 	}
-	unsigned long long modulo(unsigned long long base, unsigned long long e, unsigned long long m) {
-		unsigned long long x = 1;
-		unsigned long long y = base;
+	ull modulo(ull base, ull e, ull m) {
+		ull x = 1;
+		ull y = base;
 		while (e > 0) {
 			if (e & 1 == 1)
 				x = (x * y) % m;
@@ -28,19 +28,19 @@ namespace wolf
 	}
 
 	// Miller-Rabin Primality Test
-	bool Math::isPrime(unsigned long long num)
+	bool Math::isPrime(ull num)
 	{
 		if (num < 2) return false;
 		if (num == 2) return true;
 		if (num & 1 == 0) return false;
 
-		unsigned long long s = num - 1;
+		ull s = num - 1;
 		while (s % 2 == 0) s /= 2;
 
 		for (int i = 0; i < 10; i++) {
-			unsigned long long temp = s;
-			unsigned long long a = RNG::GetRandom(1, num);
-			unsigned long long mod = modulo(a, temp, num);
+			ull temp = s;
+			ull a = RNG::GetRandom(1, num);
+			ull mod = modulo(a, temp, num);
 			while (temp != num - 1 && mod != 1 && mod != num - 1) {
 				mod = mulmodulo(mod, mod, num);
 				temp *= 2;
