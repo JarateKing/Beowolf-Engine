@@ -30,6 +30,11 @@ namespace wolf
 	// Miller-Rabin Primality Test
 	bool Math::isPrime(ull num)
 	{
+		return isPrime(num, 10);
+	}
+
+	bool Math::isPrime(ull num, int iterations)
+	{
 		if (num < 2) return false;
 		if (num == 2) return true;
 		if (num & 1 == 0) return false;
@@ -37,7 +42,7 @@ namespace wolf
 		ull s = num - 1;
 		while (s % 2 == 0) s /= 2;
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < iterations; i++) {
 			ull temp = s;
 			ull a = RNG::GetRandom(1, num);
 			ull mod = modulo(a, temp, num);
