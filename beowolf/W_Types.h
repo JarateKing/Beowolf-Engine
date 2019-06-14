@@ -132,7 +132,9 @@ struct Plane
 #define DEG_TO_RAD(d)  (((d)/180.0f)*PI)
 #define DEG2RAD (PI / 180.0f)
 #define RAD2DEG (180.0f / PI)
-    
+
+#define ull unsigned long long
+
 }
 
 #endif

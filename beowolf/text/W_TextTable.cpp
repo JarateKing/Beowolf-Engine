@@ -12,6 +12,7 @@ namespace wolf
 
 	TextTable::~TextTable()
 	{
+		// @TODO: implement destructor
 	}
 
 	bool TextTable::Load(const std::string& file)
