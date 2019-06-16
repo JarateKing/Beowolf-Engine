@@ -81,18 +81,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\beowolf\graphics\W_Buffer.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\W_BufferManager.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\W_IndexBuffer.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\W_Material.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\W_MaterialManager.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\W_Model.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\W_Program.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\W_ProgramManager.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\W_Texture.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\W_TextureManager.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\W_VertexBuffer.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\W_VertexDeclaration.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Buffer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_BufferManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_IndexBuffer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Material.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_MaterialManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Model.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Program.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_ProgramManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Texture.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_TextureManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_VertexBuffer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_VertexDeclaration.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_Math.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_Math2D.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_ProjectionMatrix.cpp" />
@@ -248,18 +248,18 @@
     <ClCompile Include="example\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\beowolf\graphics\W_Buffer.h" />
-    <ClInclude Include="..\..\beowolf\graphics\W_BufferManager.h" />
-    <ClInclude Include="..\..\beowolf\graphics\W_IndexBuffer.h" />
-    <ClInclude Include="..\..\beowolf\graphics\W_Material.h" />
-    <ClInclude Include="..\..\beowolf\graphics\W_MaterialManager.h" />
-    <ClInclude Include="..\..\beowolf\graphics\W_Model.h" />
-    <ClInclude Include="..\..\beowolf\graphics\W_Program.h" />
-    <ClInclude Include="..\..\beowolf\graphics\W_ProgramManager.h" />
-    <ClInclude Include="..\..\beowolf\graphics\W_Texture.h" />
-    <ClInclude Include="..\..\beowolf\graphics\W_TextureManager.h" />
-    <ClInclude Include="..\..\beowolf\graphics\W_VertexBuffer.h" />
-    <ClInclude Include="..\..\beowolf\graphics\W_VertexDeclaration.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Buffer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_BufferManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_IndexBuffer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Material.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_MaterialManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Model.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Program.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_ProgramManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Texture.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_TextureManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_VertexBuffer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_VertexDeclaration.h" />
     <ClInclude Include="..\..\beowolf\math\W_Math.h" />
     <ClInclude Include="..\..\beowolf\math\W_Math2D.h" />
     <ClInclude Include="..\..\beowolf\math\W_ProjectionMatrix.h" />
