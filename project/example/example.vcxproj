@@ -54,7 +54,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\lib\bullet\src;$(SolutionDir)..\..\lib\glm;$(SolutionDir)..\..\lib\tinyxml;$(SolutionDir)..\..\lib;$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glfw\include;$(SolutionDir)..\..\lib\glew\include;$(SolutionDir)..\..\beowolf;$(SolutionDir)..\..\beowolf\graphics;$(SolutionDir)..\..\beowolf\math;$(SolutionDir)..\..\beowolf\text;$(SolutionDir)..\..;$(SolutionDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\lib\bullet\src;$(SolutionDir)..\..\lib\glm;$(SolutionDir)..\..\lib\tinyxml;$(SolutionDir)..\..\lib;$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glfw\include;$(SolutionDir)..\..\lib\glew\include;$(SolutionDir)..\..\beowolf;$(SolutionDir)..\..\beowolf\graphics;$(SolutionDir)..\..\beowolf\graphics\core;$(SolutionDir)..\..\beowolf\math;$(SolutionDir)..\..\beowolf\text;$(SolutionDir)..\..;$(SolutionDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
