@@ -1,3 +1,6 @@
+#ifndef W_MATH_H
+#define W_MATH_H
+
 #include "W_Common.h"
 
 namespace wolf
@@ -11,3 +14,5 @@ namespace wolf
 		static double lerp(double start, double end, float percent);
 	};
 }
+
+#endif

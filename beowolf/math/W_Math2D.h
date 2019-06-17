@@ -1,3 +1,6 @@
+#ifndef W_MATH2D_H
+#define W_MATH2D_H
+
 #include "W_Common.h"
 
 namespace wolf
@@ -14,3 +17,5 @@ namespace wolf
 		static glm::vec2 Rotate(glm::vec2 point, glm::vec2 pivot, float angle);
 	};
 }
+
+#endif

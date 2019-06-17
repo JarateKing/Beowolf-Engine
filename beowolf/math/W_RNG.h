@@ -1,3 +1,6 @@
+#ifndef W_RNG_H
+#define W_RNG_H
+
 namespace wolf
 {
 	class RNG
@@ -10,3 +13,5 @@ namespace wolf
 		static double GetRandom(double min, double max);
 	};
 }
+
+#endif

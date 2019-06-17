@@ -1,3 +1,6 @@
+#ifndef W_TIME_H
+#define W_TIME_H
+
 namespace wolf
 {
 	class Time
@@ -32,3 +35,5 @@ namespace wolf
 		double currentTime = 1.0;
 	};
 }
+
+#endif

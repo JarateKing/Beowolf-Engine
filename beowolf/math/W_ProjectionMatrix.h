@@ -1,3 +1,6 @@
+#ifndef W_PROJECTIONMATRIX_H
+#define W_PROJECTIONMATRIX_H
+
 #include "W_Common.h"
 
 namespace wolf
@@ -17,3 +20,5 @@ namespace wolf
 		static Plane* GetFrustum(const glm::mat4& matrix);
 	};
 }
+
+#endif
