@@ -5,6 +5,17 @@
 
 namespace wolf
 {
+	// optimized for Hartman/Gribbs
+	enum FrustumPlanes
+	{
+		PLANE_RIGHT,
+		PLANE_LEFT,
+		PLANE_TOP,
+		PLANE_BOTTOM,
+		PLANE_FAR,
+		PLANE_NEAR
+	};
+
 	class ProjMatrix
 	{
 	public:
