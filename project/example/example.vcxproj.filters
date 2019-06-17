@@ -492,6 +492,9 @@
     <ClCompile Include="..\..\beowolf\graphics\core\W_Material.cpp">
       <Filter>beowolf\graphics\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\math\W_Math3D.cpp">
+      <Filter>beowolf\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1182,6 +1185,9 @@
     </ClInclude>
     <ClInclude Include="..\..\beowolf\graphics\core\W_Material.h">
       <Filter>beowolf\graphics\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\math\W_Math3D.h">
+      <Filter>beowolf\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
