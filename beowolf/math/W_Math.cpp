@@ -77,4 +77,14 @@ namespace wolf
 	{
 		return start * (1 - percent) + end * (percent);
 	}
+
+	glm::vec2 Math::nlerp(glm::vec2 start, glm::vec2 end, float percent)
+	{
+		return glm::normalize(lerp(start, end, percent));
+	}
+
+	glm::vec3 Math::nlerp(glm::vec3 start, glm::vec3 end, float percent)
+	{
+		return glm::normalize(lerp(start, end, percent));
+	}
 }
