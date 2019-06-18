@@ -5,3 +5,4 @@
 
 # Linguist language detection overrides
 lib/* linguist-vendored
+*.h linguist-language=C++
