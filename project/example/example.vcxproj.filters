@@ -1189,6 +1189,9 @@
     <ClInclude Include="..\..\beowolf\math\W_Math3D.h">
       <Filter>beowolf\math</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\beowolf\math\W_Math_Types.h">
+      <Filter>beowolf\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="beowolf">

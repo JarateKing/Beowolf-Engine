@@ -264,6 +264,7 @@
     <ClInclude Include="..\..\beowolf\math\W_Math.h" />
     <ClInclude Include="..\..\beowolf\math\W_Math2D.h" />
     <ClInclude Include="..\..\beowolf\math\W_Math3D.h" />
+    <ClInclude Include="..\..\beowolf\math\W_Math_Types.h" />
     <ClInclude Include="..\..\beowolf\math\W_ProjectionMatrix.h" />
     <ClInclude Include="..\..\beowolf\math\W_RNG.h" />
     <ClInclude Include="..\..\beowolf\math\W_Time.h" />
