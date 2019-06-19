@@ -1,0 +1,6 @@
+Black		rgba	0 0 0 255
+White		rgba	255 255 255 255
+Grey		rgba	128	128	128	255
+Red			rgba	255 0 0 255
+Green		rgba	0 255 0 255
+Blue		rgba	0 0 255 255

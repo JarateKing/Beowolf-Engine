@@ -1,0 +1,2 @@
+Beowolf_Red		hex		BE000000
+Beowolf_Black	hex		0B0E00
