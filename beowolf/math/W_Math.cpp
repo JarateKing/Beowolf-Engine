@@ -1,5 +1,6 @@
 #include "W_Math.h"
 #include "W_RNG.h"
+#include <math.h> 
 
 namespace wolf
 {
@@ -60,12 +61,12 @@ namespace wolf
 
 	float Math::lerp(float start, float end, float percent)
 	{
-		return start * (1 - percent) + end * (percent);
+		return fmaf(percent, end, fmaf(-percent, start, start));
 	}
 
 	double Math::lerp(double start, double end, float percent)
 	{
-		return start * (1 - percent) + end * (percent);
+		return fma(percent, end, fma(-percent, start, start));
 	}
 
 	glm::vec2 Math::lerp(glm::vec2 start, glm::vec2 end, float percent)
