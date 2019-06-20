@@ -16,6 +16,7 @@ namespace wolf
 		static glm::vec3 lerp(glm::vec3 start, glm::vec3 end, float percent);
 		static glm::vec2 nlerp(glm::vec2 start, glm::vec2 end, float percent);
 		static glm::vec3 nlerp(glm::vec3 start, glm::vec3 end, float percent);
+		static glm::quat slerp(glm::quat start, glm::quat end, float percent);
 	};
 }
 

@@ -88,4 +88,9 @@ namespace wolf
 	{
 		return glm::normalize(lerp(start, end, percent));
 	}
+
+	glm::quat Math::slerp(glm::quat start, glm::quat end, float percent)
+	{
+		return glm::mix(start, end, percent);
+	}
 }
