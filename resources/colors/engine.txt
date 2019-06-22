@@ -1,2 +1,4 @@
 Beowolf_Red		hex		BE000000
 Beowolf_Black	hex		0B0E00
+Missing_Color	hex		00FF00
+Missing_Shader	hex		FF00FF
