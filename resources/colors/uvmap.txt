@@ -1,0 +1,9 @@
+UV_neutral		rgb		128 128 255
+UV_northeast	rgb		255 255 128
+UV_north		rgb		128	255	128
+UV_northwest	rgb		0 255 128
+UV_west			rgb		0 128 128
+UV_southwest	rgb		0 0 128
+UV_south		rgb		128 0 128
+UV_southeast	rgb		255 0 128
+UV_east			rgb		255 128 128
