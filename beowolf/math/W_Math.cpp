@@ -103,4 +103,16 @@ namespace wolf
 	{
 		return glm::mix(start, end, percent);
 	}
+
+	int Math::wrap(int val, int min, int max)
+	{
+		int range = max - min + 1;
+
+		// wrap it in terms of min
+		if (val < min)
+			val += range * ((min - val) / range + 1);
+
+		// wrap it in terms of max
+		return min + (val - min) % range;
+	}
 }
