@@ -96,25 +96,13 @@ namespace wolf
 		return toret;
 	}
 
-	// get projection matrix from an arbitrary view frustum
-	glm::mat4 ProjMatrix::GetProjectionMatrix(Plane* planes)
+	// get projection matrix from frustum values
+	glm::mat4 ProjMatrix::GetProjectionMatrix(float l, float r, float b, float t, float n, float f)
 	{
 		// references
 		// https://github.com/godotengine/godot/blob/2c6daf73f3a1077dfae0ca88117a3f4b583eb7e6/core/math/camera_matrix.cpp#L184-L211
-		// https://www.gamedev.net/forums/topic/512563-projection-matrix-from-6-arbitrary-frustum-planes/
-
-		// @TODO:
-		// - support near and far planes from projection matrix
-		// - support orthographic and partially-orthographic matrices
-
+		
 		glm::mat4 projection = glm::mat4();
-
-		float n = NEAR;
-		float f = FAR;
-		float r = (planes[0].c * n) / planes[0].a;
-		float l = (planes[1].c * n) / planes[1].a;
-		float t = (planes[2].c * n) / planes[2].b;
-		float b = (planes[3].c * n) / planes[3].b;
 
 		projection[0][0] = 2 * n / (r - l);
 		projection[1][1] = 2 * n / (t - b);
@@ -126,6 +114,26 @@ namespace wolf
 		projection[3][3] = 0;
 
 		return projection;
+	}
+
+	// get projection matrix from an arbitrary view frustum
+	glm::mat4 ProjMatrix::GetProjectionMatrix(Plane* planes)
+	{
+		// references
+		// https://www.gamedev.net/forums/topic/512563-projection-matrix-from-6-arbitrary-frustum-planes/
+
+		// @TODO:
+		// - support near and far values from planes
+		// - support orthographic and partially-orthographic frustums
+
+		float n = NEAR;
+		float f = FAR;
+		float r = (planes[0].c * n) / planes[0].a;
+		float l = (planes[1].c * n) / planes[1].a;
+		float t = (planes[2].c * n) / planes[2].b;
+		float b = (planes[3].c * n) / planes[3].b;
+
+		return GetProjectionMatrix(l, r, b, t, n, f);
 	}
 
 	// get the view frustum from an arbitrary matrix

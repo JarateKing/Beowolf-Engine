@@ -28,6 +28,7 @@ namespace wolf
 		static glm::mat4 GetProjectionMatrix(const glm::vec2& fov);
 		static glm::mat4 GetProjectionMatrix(const glm::vec2& fov, bool isOrtho, float orthoDistance);
 		static glm::mat4 GetProjectionMatrix(const glm::vec2& fov, float orthoPercent, float orthoDistance);
+		static glm::mat4 GetProjectionMatrix(float l, float r, float b, float t, float n, float f);
 		static glm::mat4 GetProjectionMatrix(Plane* planes);
 		static Plane* GetFrustum(const glm::mat4& matrix);
 	};
