@@ -123,4 +123,10 @@ namespace wolf
 		// wrap it in terms of max
 		return min + (val - min) % range;
 	}
+
+	int Math::getSign(int val)
+	{
+		if (val == 0) return 0;
+		return (val > 0) * 2 - 1;
+	}
 }

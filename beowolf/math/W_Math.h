@@ -27,6 +27,7 @@ namespace wolf
 		static glm::quat toQuaternion(glm::vec3 angles);
 
 		static int wrap(int val, int min, int max);
+		static int getSign(int val);
 	};
 }
 
