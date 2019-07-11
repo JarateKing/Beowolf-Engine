@@ -93,6 +93,7 @@ namespace wolf
 	{
 		return glm::vec2();
 		//return glm::vec2(slerp(glm::quat(glm::vec3(start)), glm::quat(glm::vec3(end)), percent));
+		return glm::vec2(slerp(glm::vec3(start.x, start.y, 0), glm::vec3(end.x, end.y, 0), percent));
 	}
 
 	glm::vec3 Math::slerp(glm::vec3 start, glm::vec3 end, float percent)
