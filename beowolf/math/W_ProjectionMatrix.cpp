@@ -97,7 +97,7 @@ namespace wolf
 	}
 
 	// get projection matrix from frustum values
-	glm::mat4 ProjMatrix::GetProjectionMatrix(float l, float r, float b, float t, float n, float f)
+	glm::mat4 ProjMatrix::GetProjectionMatrix(float r, float l, float t, float b, float f, float n)
 	{
 		// references
 		// https://github.com/godotengine/godot/blob/2c6daf73f3a1077dfae0ca88117a3f4b583eb7e6/core/math/camera_matrix.cpp#L184-L211
@@ -133,7 +133,7 @@ namespace wolf
 		float t = (planes[2].c * n) / planes[2].b;
 		float b = (planes[3].c * n) / planes[3].b;
 
-		return GetProjectionMatrix(l, r, b, t, n, f);
+		return GetProjectionMatrix(r, l, t, b, f, n);
 	}
 
 	// get the view frustum from an arbitrary matrix
