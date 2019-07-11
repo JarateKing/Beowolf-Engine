@@ -97,8 +97,7 @@ namespace wolf
 
 	glm::vec3 Math::slerp(glm::vec3 start, glm::vec3 end, float percent)
 	{
-		return glm::vec3();
-		// return glm::vec3(slerp(glm::quat(start), glm::quat(end), percent));
+		return glm::eulerAngles(slerp(toQuaternion(start), toQuaternion(end), percent));
 	}
 
 	glm::quat Math::slerp(glm::quat start, glm::quat end, float percent)
