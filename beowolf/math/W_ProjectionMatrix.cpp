@@ -1,6 +1,5 @@
 #include "W_ProjectionMatrix.h"
 #include "W_Math.h"
-#include <iostream>
 
 namespace wolf
 {
@@ -103,6 +102,10 @@ namespace wolf
 		// references
 		// https://github.com/godotengine/godot/blob/2c6daf73f3a1077dfae0ca88117a3f4b583eb7e6/core/math/camera_matrix.cpp#L184-L211
 		// https://www.gamedev.net/forums/topic/512563-projection-matrix-from-6-arbitrary-frustum-planes/
+
+		// @TODO:
+		// - support near and far planes from projection matrix
+		// - support orthographic and partially-orthographic matrices
 
 		glm::mat4 projection = glm::mat4();
 
