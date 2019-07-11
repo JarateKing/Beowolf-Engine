@@ -1,5 +1,6 @@
 #include "W_ProjectionMatrix.h"
 #include "W_Math.h"
+#include <iostream>
 
 namespace wolf
 {
@@ -105,8 +106,8 @@ namespace wolf
 
 		glm::mat4 projection = glm::mat4();
 
-		float n = planes[5].d;
-		float f = -planes[6].d;
+		float n = NEAR;
+		float f = FAR;
 		float r = (planes[0].c * n) / planes[0].a;
 		float l = (planes[1].c * n) / planes[1].a;
 		float t = (planes[2].c * n) / planes[2].b;
@@ -116,7 +117,7 @@ namespace wolf
 		projection[1][1] = 2 * n / (t - b);
 		projection[2][0] = (r + l) / (r - l);
 		projection[2][1] = (t + b) / (t - b);
-		projection[2][2] = (f + n) / (f - n);
+		projection[2][2] = -(f + n) / (f - n);
 		projection[2][3] = -1;
 		projection[3][2] = -2 * f * n / (f - n);
 		projection[3][3] = 0;
