@@ -12,23 +12,11 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
-	glm::mat4 proj = wolf::ProjMatrix::GetProjectionMatrix(90.0f);
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			std::cout << proj[i][j] << " ";
-		}
-		std::cout << std::endl;
-	}
+	glm::vec3 test = glm::normalize(glm::vec3(1.0f, 0.5f, 0.00f));
+	std::cout << test.x << ", " << test.y << ", " << test.z << "\n";
 
-	std::cout << std::endl << std::endl;
-
-	glm::mat4 proj2 = wolf::ProjMatrix::GetProjectionMatrix(wolf::ProjMatrix::GetFrustum(proj));
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			std::cout << proj2[i][j] << " ";
-		}
-		std::cout << std::endl;
-	}
+	test = glm::eulerAngles(wolf::Math::toQuaternion(test));
+	std::cout << test.x << ", " << test.y << ", " << test.z << "\n";
 }
 
 void BaseScene::Update()
