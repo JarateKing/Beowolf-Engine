@@ -3,6 +3,7 @@
 #include "BaseScene.h"
 #include <iostream>
 #include "W_Math.h"
+#include "W_ProjectionMatrix.h"
 #include <iomanip>
 
 BaseScene::BaseScene()
@@ -11,8 +12,23 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
-	std::cout << std::setprecision(20) << wolf::Math::lerp(10.0f, 30.0f, 0.5f) << std::endl;
-	std::cout << std::setprecision(20) << wolf::Math::lerp(0.0, 0.0, 0.5f);
+	glm::mat4 proj = wolf::ProjMatrix::GetProjectionMatrix(90.0f);
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			std::cout << proj[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	std::cout << std::endl << std::endl;
+
+	glm::mat4 proj2 = wolf::ProjMatrix::GetProjectionMatrix(wolf::ProjMatrix::GetFrustum(proj));
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			std::cout << proj2[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
 }
 
 void BaseScene::Update()
