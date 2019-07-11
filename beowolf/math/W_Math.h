@@ -2,6 +2,7 @@
 #define W_MATH_H
 
 #include "W_Common.h"
+#include "glm/gtx/quaternion.hpp"
 
 namespace wolf
 {
@@ -22,6 +23,8 @@ namespace wolf
 		static glm::vec2 slerp(glm::vec2 start, glm::vec2 end, float percent);
 		static glm::vec3 slerp(glm::vec3 start, glm::vec3 end, float percent);
 		static glm::quat slerp(glm::quat start, glm::quat end, float percent);
+
+		static glm::quat toQuaternion(glm::vec3 angles);
 
 		static int wrap(int val, int min, int max);
 	};

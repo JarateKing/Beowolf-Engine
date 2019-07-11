@@ -106,6 +106,14 @@ namespace wolf
 		return glm::mix(start, end, percent);
 	}
 
+	glm::quat Math::toQuaternion(glm::vec3 angles)
+	{
+		glm::quat pitch = glm::angleAxis(angles.x, glm::vec3(1, 0, 0));
+		glm::quat roll = glm::angleAxis(angles.y, glm::vec3(0, 1, 0));
+		glm::quat yaw = glm::angleAxis(angles.z, glm::vec3(0, 0, 1));
+		return pitch * roll * yaw;
+	}
+
 	int Math::wrap(int val, int min, int max)
 	{
 		int range = max - min + 1;
