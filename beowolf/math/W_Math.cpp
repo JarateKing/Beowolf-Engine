@@ -124,6 +124,21 @@ namespace wolf
 		return min + (val - min) % range;
 	}
 
+	float Math::wrap(float val, float min, float max)
+	{
+		float range = max - min + 1;
+
+		// wrap it in terms of min
+		while (val < min)
+			val += min;
+
+		// wrap it in terms of max
+		while (val > max)
+			val -= max;
+
+		return val;
+	}
+
 	int Math::getSign(int val)
 	{
 		if (val == 0) return 0;
