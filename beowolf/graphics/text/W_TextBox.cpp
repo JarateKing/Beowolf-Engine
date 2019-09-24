@@ -218,9 +218,10 @@ namespace wolf
 	
 			// Bind Uniforms
 			g_pProgram[i]->SetUniform("projection", proj);
+			g_pProgram[i]->SetUniform("view", glm::mat4());
 			g_pProgram[i]->SetUniform("world", m_world);
 			g_pProgram[i]->SetUniform("color", m_textcolor);
-			g_pProgram[i]->SetUniform("texture", 0);
+			g_pProgram[i]->SetUniform("tex", 0);
 	
 			// Set up source data
 			g_pDecl[i]->Bind();
