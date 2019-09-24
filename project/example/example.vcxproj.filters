@@ -495,6 +495,12 @@
     <ClCompile Include="..\..\beowolf\math\W_Math3D.cpp">
       <Filter>beowolf\math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\text\W_Font.cpp">
+      <Filter>beowolf\graphics\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\text\W_TextBox.cpp">
+      <Filter>beowolf\graphics\text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1192,6 +1198,12 @@
     <ClInclude Include="..\..\beowolf\math\W_Math_Types.h">
       <Filter>beowolf\math</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\text\W_Font.h">
+      <Filter>beowolf\graphics\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\text\W_TextBox.h">
+      <Filter>beowolf\graphics\text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="beowolf">
@@ -1220,6 +1232,9 @@
     </Filter>
     <Filter Include="beowolf\graphics\core">
       <UniqueIdentifier>{a0f1ec61-19f4-42b5-9b5a-348a8e216acc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="beowolf\graphics\text">
+      <UniqueIdentifier>{be5450f1-fa87-4bde-873c-a14c599d0630}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
