@@ -26,7 +26,7 @@ void BaseScene::Init()
 	monoton_large = new wolf::Font("../resources/fonts/", "monoton_large.fnt");
 
 	localization = new wolf::TextTable();
-	localization->Load("../resources/engine.txt");
+	localization->Load("../resources/localization/engine.txt");
 	localization->SetLanguage("ENGLISH");
 
 	textfield1 = new wolf::TextBox(opensans, localization);
