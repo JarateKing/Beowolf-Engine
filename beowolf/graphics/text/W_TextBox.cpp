@@ -34,7 +34,7 @@ namespace wolf
 	
 		for (int i = 0; i < m_font->GetTotalTextures(); i++)
 		{
-			g_pProgram.push_back(wolf::ProgramManager::CreateProgram("data/font.vsh", "data/font.fsh"));
+			g_pProgram.push_back(wolf::ProgramManager::CreateProgram("../resources/shaders/font.vsh", "../resources/shaders/font.fsh"));
 			g_pVB.push_back(wolf::BufferManager::CreateVertexBuffer(squareVertices, sizeof(Vertex) * 6));
 	
 			g_pDecl.push_back(new wolf::VertexDeclaration());
