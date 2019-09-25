@@ -93,6 +93,8 @@
     <ClCompile Include="..\..\beowolf\graphics\core\W_TextureManager.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_VertexBuffer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_VertexDeclaration.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\DebugCube.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\Node.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\text\W_Font.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\text\W_TextBox.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_Math.cpp" />
@@ -263,6 +265,8 @@
     <ClInclude Include="..\..\beowolf\graphics\core\W_TextureManager.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexBuffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexDeclaration.h" />
+    <ClInclude Include="..\..\beowolf\graphics\DebugCube.h" />
+    <ClInclude Include="..\..\beowolf\graphics\Node.h" />
     <ClInclude Include="..\..\beowolf\graphics\text\W_Font.h" />
     <ClInclude Include="..\..\beowolf\graphics\text\W_TextBox.h" />
     <ClInclude Include="..\..\beowolf\math\W_Math.h" />
