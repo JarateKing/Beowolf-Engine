@@ -37,17 +37,17 @@ namespace wolf
 
 		void setColor(glm::vec3 color)
 		{
-			r = color.r;
-			g = color.g;
-			b = color.b;
+			r = color.r * 255;
+			g = color.g * 255;
+			b = color.b * 255;
 		}
 
 		void setColor(glm::vec4 color)
 		{
-			r = color.r;
-			g = color.g;
-			b = color.b;
-			a = color.a;
+			r = color.r * 255;
+			g = color.g * 255;
+			b = color.b * 255;
+			a = color.a * 255;
 		}
 
 		glm::vec3 xyz()
