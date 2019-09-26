@@ -23,11 +23,11 @@ Emitter::Emitter(int max, float duration, float rate, std::string texture)
 		m_particles[i] = NULL;
 		for (int j = 0; j < 6; j++)
 		{
-			m_quads[i*6+j] = wolf::Vertex({ 0, 0, 0, 0, 0 });
+			m_quads[i*6+j] = wolf::Vertex({ 0, 0, 0, 0, 0, 0, 0, 0, 0 });
 		}
 	}
 
-	g_pProgram = wolf::ProgramManager::CreateProgram("data/hud_texture.vsh", "data/hud_texture.fsh");
+	g_pProgram = wolf::ProgramManager::CreateProgram("../resources/shaders/particle.vsh", "../resources/shaders/particle.fsh");
 	g_pVB = wolf::BufferManager::CreateVertexBuffer(m_quads, sizeof(wolf::Vertex) * m_max * 6);
 	g_pTexture = wolf::CreateTextureFromDDS(texture);
 

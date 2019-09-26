@@ -4,13 +4,13 @@
 
 static const wolf::Vertex cubeVertices[] = {
 	// Front
-		{ -0.5f, -0.5f, 0.0f,		0.0f, 1.0f},
-		{ -0.5f,  0.5f, 0.0f,		0.0f, 0.0f},
-		{  0.5f,  0.5f, 0.0f,		1.0f, 0.0f},
+		{ -0.5f, -0.5f, 0.0f, 1, 1, 1, 1, 0.0f, 1.0f},
+		{ -0.5f,  0.5f, 0.0f, 1, 1, 1, 1, 0.0f, 0.0f},
+		{  0.5f,  0.5f, 0.0f, 1, 1, 1, 1, 1.0f, 0.0f},
 
-		{  0.5f,  0.5f, 0.0f,		1.0f, 0.0f},
-		{  0.5f, -0.5f, 0.0f,		1.0f, 1.0f},
-		{ -0.5f, -0.5f, 0.0f,		0.0f, 1.0f},
+		{  0.5f,  0.5f, 0.0f, 1, 1, 1, 1, 1.0f, 0.0f},
+		{  0.5f, -0.5f, 0.0f, 1, 1, 1, 1, 1.0f, 1.0f},
+		{ -0.5f, -0.5f, 0.0f, 1, 1, 1, 1, 0.0f, 1.0f},
 };
 
 Particle::Particle(int arrPos, wolf::Vertex* quad, Emitter* owner, float lifetime)
@@ -32,7 +32,7 @@ Particle::~Particle()
 	// make vertex disappear
 	for (int i = 0; i < 6; i++)
 	{
-		m_quad[i] = wolf::Vertex({0,0,0,0,0});
+		m_quad[i] = wolf::Vertex({0,0,0,0,0,0,0,0,0});
 	}
 
 	// add it back into the queue

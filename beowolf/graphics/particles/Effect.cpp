@@ -10,7 +10,7 @@
 
 Effect::Effect()
 {
-	Emitter* emitter = new Emitter(1, -1, 0.1f, "data/particle.dds");
+	Emitter* emitter = new Emitter(1, -1, 0.1f, "../resources/textures/particles/particle.dds");
 
 	m_emitters.push_back(emitter);
 }
@@ -40,7 +40,7 @@ Effect::Effect(std::string xmlPath)
 		glm::vec3 pos;
 		int duration = -1;
 		float rate = 0.1;
-		std::string texture = "data/particle.dds";
+		std::string texture = "../resources/textures/particles/particle.dds";
 		bool additive = false;
 		float lifespanMin = 1.0f;
 		float lifespanMax = 1.0f;
