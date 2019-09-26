@@ -1,11 +1,11 @@
 <effect>
-	<emitter max_particles="20" pX="0" pY="0.05" pZ="0" duration="-1" rate="0.4" texture="data/smoke.dds" additive="false" lifespanMin="6" lifespanMax="8">
+	<emitter max_particles="20" pX="0" pY="0.05" pZ="0" duration="-1" rate="0.4" texture="../resources/textures/particles/smoke.dds" additive="false" lifespanMin="6" lifespanMax="8">
 		<scale start="0.3" end="2" />
 		<recolor sR="0.05" sG="0.05" sB="0.05" eR="0.075" eG="0.075" eB="0.1" />
 		<fade start="0.75" end="0.0" />
 		<velocity sX="0.0" sY="0.2" sZ="0.0" eX="0.0" eY="0.4" eZ="0.0" />
 	</emitter>
-	<emitter max_particles="30" pX="0" pY="0" pZ="0" duration="-1" rate="0.125" texture="data/fire.dds" additive="true" lifespanMin="2" lifespanMax="3">
+	<emitter max_particles="30" pX="0" pY="0" pZ="0" duration="-1" rate="0.125" texture="../resources/textures/particles/fire.dds" additive="true" lifespanMin="2" lifespanMax="3">
 		<randomPos radius="0.08" />
 		
 		<scale start="0.01" end="1.0" />
