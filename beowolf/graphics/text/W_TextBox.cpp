@@ -14,12 +14,12 @@ namespace wolf
 	constexpr float FONTSIZE = 0.125f;
 	
 	static const Vertex squareVertices[] = {
-			{ 0.0f, 0.0f, 1.0f,		0.0f, 0.0f },
-			{ 0.0f, 1.0f, 1.0f,		0.0f, 1.0f },
-			{ 1.0f, 1.0f, 1.0f,		1.0f, 1.0f },
-			{ 1.0f, 1.0f, 1.0f,		1.0f, 1.0f },
-			{ 1.0f, 0.0f, 1.0f,		1.0f, 0.0f },
-			{ 0.0f, 0.0f, 1.0f,		0.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f,		1, 1, 1, 1, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 1.0f,		1, 1, 1, 1, 0.0f, 1.0f },
+			{ 1.0f, 1.0f, 1.0f,		1, 1, 1, 1, 1.0f, 1.0f },
+			{ 1.0f, 1.0f, 1.0f,		1, 1, 1, 1, 1.0f, 1.0f },
+			{ 1.0f, 0.0f, 1.0f,		1, 1, 1, 1, 1.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f,		1, 1, 1, 1, 0.0f, 0.0f },
 	};
 	
 	TextBox::TextBox(Font* pFont, TextTable* localization)
@@ -39,8 +39,10 @@ namespace wolf
 	
 			g_pDecl.push_back(new wolf::VertexDeclaration());
 			g_pDecl[i]->Begin();
-			g_pDecl[i]->AppendAttribute(wolf::AT_Position, 3, wolf::CT_Float);
-			g_pDecl[i]->AppendAttribute(wolf::AT_TexCoord1, 2, wolf::CT_Float);
+			g_pDecl[i]->AppendAttribute(AT_Position, 3, CT_Float);
+			g_pDecl[i]->AppendAttribute(AT_Color, 4, CT_UByte);
+			g_pDecl[i]->AppendAttribute(AT_TexCoord1, 2, CT_Float);
+			g_pDecl[i]->AppendAttribute(AT_Normal, 3, CT_Float);
 			g_pDecl[i]->SetVertexBuffer(g_pVB[i]);
 			g_pDecl[i]->End();
 	
@@ -130,12 +132,12 @@ namespace wolf
 			float v1 = m_font->GetCharY1(cur);
 			float v2 = m_font->GetCharY2(cur);
 	
-			currentLine[tex].push_back(Vertex({ x1, y1,	1.0f, u1, v1}));
-			currentLine[tex].push_back(Vertex({ x1, y2,	1.0f, u1, v2}));
-			currentLine[tex].push_back(Vertex({ x2, y2,	1.0f, u2, v2}));
-			currentLine[tex].push_back(Vertex({ x2, y2,	1.0f, u2, v2}));
-			currentLine[tex].push_back(Vertex({ x2, y1,	1.0f, u2, v1}));
-			currentLine[tex].push_back(Vertex({ x1, y1,	1.0f, u1, v1}));
+			currentLine[tex].push_back(Vertex({ x1, y1,	1.0f, 1, 1, 1, 1, u1, v1}));
+			currentLine[tex].push_back(Vertex({ x1, y2,	1.0f, 1, 1, 1, 1, u1, v2}));
+			currentLine[tex].push_back(Vertex({ x2, y2,	1.0f, 1, 1, 1, 1, u2, v2}));
+			currentLine[tex].push_back(Vertex({ x2, y2,	1.0f, 1, 1, 1, 1, u2, v2}));
+			currentLine[tex].push_back(Vertex({ x2, y1,	1.0f, 1, 1, 1, 1, u2, v1}));
+			currentLine[tex].push_back(Vertex({ x1, y1,	1.0f, 1, 1, 1, 1, u1, v1}));
 	
 			offsetHead += m_font->GetCharXAdvance(cur) * FONTSIZE * widthFactor;
 			if (offsetHead >= 1 - m_font->GetCharXAdvance('W') * FONTSIZE * widthFactor)
@@ -187,8 +189,10 @@ namespace wolf
 				g_pVB[i] = wolf::BufferManager::CreateVertexBuffer(&(m_glyphs[i][0]), sizeof(Vertex) * m_glyphs[i].size());
 				g_pDecl[i] = new wolf::VertexDeclaration();
 				g_pDecl[i]->Begin();
-				g_pDecl[i]->AppendAttribute(wolf::AT_Position, 3, wolf::CT_Float);
-				g_pDecl[i]->AppendAttribute(wolf::AT_TexCoord1, 2, wolf::CT_Float);
+				g_pDecl[i]->AppendAttribute(AT_Position, 3, CT_Float);
+				g_pDecl[i]->AppendAttribute(AT_Color, 4, CT_UByte);
+				g_pDecl[i]->AppendAttribute(AT_TexCoord1, 2, CT_Float);
+				g_pDecl[i]->AppendAttribute(AT_Normal, 3, CT_Float);
 				g_pDecl[i]->SetVertexBuffer(g_pVB[i]);
 				g_pDecl[i]->End();
 			}

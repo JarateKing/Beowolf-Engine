@@ -12,17 +12,6 @@
 
 namespace wolf
 {
-	struct Vertex
-	{
-		GLfloat x, y, z;
-		GLfloat u, v;
-	
-		Vertex operator + (const Vertex &other) const
-		{
-			return Vertex({ x + other.x, y + other.y, z + other.z, u + other.u, v + other.v });
-		}
-	};
-
 	constexpr float AL_Left = 0.0f;
 	constexpr float AL_Center = 0.5f;
 	constexpr float AL_Right = 1.0f;
