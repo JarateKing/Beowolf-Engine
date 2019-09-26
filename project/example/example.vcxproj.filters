@@ -510,6 +510,9 @@
     <ClCompile Include="..\..\beowolf\graphics\QuadTree.cpp">
       <Filter>beowolf\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\SceneRenderer.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1220,6 +1223,9 @@
       <Filter>beowolf\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\beowolf\graphics\QuadTree.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\SceneRenderer.h">
       <Filter>beowolf\graphics</Filter>
     </ClInclude>
   </ItemGroup>

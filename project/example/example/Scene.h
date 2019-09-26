@@ -1,9 +1,3 @@
-//-----------------------------------------------------------------------------
-// File:			examples.h
-// Original Author:	Gordon Wood
-//
-// Prototypes for all the example functions
-//-----------------------------------------------------------------------------
 #ifndef SCENE_H
 #define SCENE_H
 
