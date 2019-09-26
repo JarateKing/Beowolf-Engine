@@ -6,9 +6,13 @@
 #include "DebugCube.h"
 #include "W_Time.h"
 #include "W_Input.h"
+#include "Effect.h"
 
 static wolf::DebugCamera* cam;
 static glm::mat4 cull;
+
+static Effect* effect;
+static bool isFire;
 
 BaseScene::BaseScene()
 {
@@ -16,19 +20,13 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
-	glEnable(GL_DEPTH_TEST);
-
 	// view stuff
 	cam = new wolf::DebugCamera(0, 0, glm::vec3(0, 0, -12));
 	cull = cam->GetViewMatrix();
 
 	// setup cubes
-	for (int i = 0; i < 10; i++)
-	{
-		wolf::SceneRenderer::getInstance().AddNode((wolf::Node*)new wolf::DebugCube());
-	}
-
-	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10, -10, 20, 20);
+	effect = new Effect("../resources/particles/fire.xml");
+	isFire = true;
 }
 
 void BaseScene::Update()
@@ -37,17 +35,29 @@ void BaseScene::Update()
 
 	// update camera stuff
 	cam->Update(delta);
-	if (wolf::Input::Instance().isKeyUnheld(INPUT_KB_C))
-		cull = cam->GetViewMatrix();
+	
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_C))
+	{
+		if (isFire)
+		{
+			isFire = false;
+			delete effect;
+			effect = new Effect("../resources/particles/glow.xml");
+		}
+		else
+		{
+			isFire = true;
+			delete effect;
+			effect = new Effect("../resources/particles/fire.xml");
+		}
+	}
 
-	// update all objects and apply culling
-	wolf::SceneRenderer::getInstance().Update(delta, cull);
+	effect->Update(delta, glm::mat3(cam->GetViewMatrix()));
 }
 
 void BaseScene::Render()
 {
-	wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
-	wolf::SceneRenderer::getInstance().GetQuadtree()->DebugRender(cam->GetViewMatrix());
+	effect->Render(cam->GetViewMatrix());
 }
 
 
