@@ -93,6 +93,7 @@
     <ClCompile Include="..\..\beowolf\graphics\core\W_TextureManager.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_VertexBuffer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_VertexDeclaration.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\DebugCamera.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\DebugCube.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\Node.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\QuadTree.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="..\..\beowolf\graphics\core\W_TextureManager.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexBuffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexDeclaration.h" />
+    <ClInclude Include="..\..\beowolf\graphics\DebugCamera.h" />
     <ClInclude Include="..\..\beowolf\graphics\DebugCube.h" />
     <ClInclude Include="..\..\beowolf\graphics\Node.h" />
     <ClInclude Include="..\..\beowolf\graphics\QuadTree.h" />
