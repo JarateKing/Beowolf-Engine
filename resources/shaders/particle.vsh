@@ -1,6 +1,6 @@
 #version 150
 uniform mat4 projection;
-in vec3 a_position;
+in vec4 a_position;
 in vec4 a_color;
 in vec2 a_uv1;
 out vec4 v_color;
