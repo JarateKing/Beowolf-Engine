@@ -516,6 +516,30 @@
     <ClCompile Include="..\..\beowolf\graphics\DebugCamera.cpp">
       <Filter>beowolf\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\particles\Effect.cpp">
+      <Filter>beowolf\graphics\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\particles\Emitter.cpp">
+      <Filter>beowolf\graphics\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\particles\Particle.cpp">
+      <Filter>beowolf\graphics\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorRecolor.cpp">
+      <Filter>beowolf\graphics\particles\affectors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorScale.cpp">
+      <Filter>beowolf\graphics\particles\affectors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorVelocity.cpp">
+      <Filter>beowolf\graphics\particles\affectors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.cpp">
+      <Filter>beowolf\graphics\particles\affectors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorRandomPos.cpp">
+      <Filter>beowolf\graphics\particles\affectors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1234,6 +1258,33 @@
     <ClInclude Include="..\..\beowolf\graphics\DebugCamera.h">
       <Filter>beowolf\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\particles\Effect.h">
+      <Filter>beowolf\graphics\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\particles\Emitter.h">
+      <Filter>beowolf\graphics\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\particles\Particle.h">
+      <Filter>beowolf\graphics\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorRandomPos.h">
+      <Filter>beowolf\graphics\particles\affectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorRecolor.h">
+      <Filter>beowolf\graphics\particles\affectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorScale.h">
+      <Filter>beowolf\graphics\particles\affectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorVelocity.h">
+      <Filter>beowolf\graphics\particles\affectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\Affector.h">
+      <Filter>beowolf\graphics\particles\affectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.h">
+      <Filter>beowolf\graphics\particles\affectors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="beowolf">
@@ -1265,6 +1316,12 @@
     </Filter>
     <Filter Include="beowolf\graphics\text">
       <UniqueIdentifier>{be5450f1-fa87-4bde-873c-a14c599d0630}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="beowolf\graphics\particles">
+      <UniqueIdentifier>{e8eea8fc-3459-472e-8eda-6d9d445d7776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="beowolf\graphics\particles\affectors">
+      <UniqueIdentifier>{15ca38c0-b92d-48e3-a7fb-424ab02ba031}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
