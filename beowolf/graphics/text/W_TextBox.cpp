@@ -4,7 +4,6 @@
 #include <GL/glfw.h>
 #include "W_Common.h"
 #include "W_VertexBuffer.h"
-
 #include "W_TextBox.h"
 
 namespace wolf
@@ -14,12 +13,12 @@ namespace wolf
 	constexpr float FONTSIZE = 0.125f;
 	
 	static const Vertex squareVertices[] = {
-			{ 0.0f, 0.0f, 1.0f,		1, 1, 1, 1, 0.0f, 0.0f },
-			{ 0.0f, 1.0f, 1.0f,		1, 1, 1, 1, 0.0f, 1.0f },
-			{ 1.0f, 1.0f, 1.0f,		1, 1, 1, 1, 1.0f, 1.0f },
-			{ 1.0f, 1.0f, 1.0f,		1, 1, 1, 1, 1.0f, 1.0f },
-			{ 1.0f, 0.0f, 1.0f,		1, 1, 1, 1, 1.0f, 0.0f },
-			{ 0.0f, 0.0f, 1.0f,		1, 1, 1, 1, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f,	1, 1, 1, 1, 0.0f, 0.0f },
+			{ 0.0f, 1.0f, 1.0f,	1, 1, 1, 1, 0.0f, 1.0f },
+			{ 1.0f, 1.0f, 1.0f,	1, 1, 1, 1, 1.0f, 1.0f },
+			{ 1.0f, 1.0f, 1.0f,	1, 1, 1, 1, 1.0f, 1.0f },
+			{ 1.0f, 0.0f, 1.0f,	1, 1, 1, 1, 1.0f, 0.0f },
+			{ 0.0f, 0.0f, 1.0f,	1, 1, 1, 1, 0.0f, 0.0f },
 	};
 	
 	TextBox::TextBox(Font* pFont, TextTable* localization)
@@ -171,7 +170,7 @@ namespace wolf
 			{
 				for (int k = 0; k < lines[i][j].size(); k++)
 				{
-					m_glyphs[i].push_back(lines[i][j][k] + Vertex({ lineSpaceRemaining[j] * m_alignmentFactor, 0, 0, 0, 0 }));
+					m_glyphs[i].push_back(lines[i][j][k] + Vertex({ lineSpaceRemaining[j] * m_alignmentFactor, 0, 0, 0, 0, 0, 0, 0, 0 }));
 				}
 			}
 		}
