@@ -65,7 +65,7 @@ namespace wolf
 		setScale(glm::vec3(RNG::GetRandom(0.75f, 1.5f), RNG::GetRandom(0.75f, 1.5f), RNG::GetRandom(0.75f, 1.5f)));
 
 		// set up rendering
-		g_pProgram = ProgramManager::CreateProgram("data/cube.vsh", "data/cube.fsh");
+		g_pProgram = ProgramManager::CreateProgram("../resources/shaders/cube.vsh", "../resources/shaders/cube.fsh");
 		g_pVB = BufferManager::CreateVertexBuffer(cubeVertices, sizeof(Vertex) * 6 * 6);
 
 		g_pDecl = new VertexDeclaration();
