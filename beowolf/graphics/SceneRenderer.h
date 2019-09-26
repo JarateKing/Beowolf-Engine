@@ -20,7 +20,7 @@ namespace wolf
 		void AddNode(Node* node);
 		void Update(float delta, glm::mat4 cull);
 		void Render(glm::mat4 projview);
-		void GenerateQuadtree();
+		void GenerateQuadtree(float xpos, float zpos, float width, float depth);
 		QuadTree* GetQuadtree();
 
 	private:

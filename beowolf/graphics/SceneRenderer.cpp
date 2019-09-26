@@ -40,9 +40,9 @@ namespace wolf
 		}
 	}
 
-	void SceneRenderer::GenerateQuadtree()
+	void SceneRenderer::GenerateQuadtree(float xpos, float zpos, float width, float depth)
 	{
-		m_quadtree = new QuadTree(-10.0f, -10.0f, 20.0f, 20.0f);
+		m_quadtree = new QuadTree(xpos, zpos, width, depth);
 		for (int i = 0; i < m_nodes.size(); i++)
 		{
 			m_quadtree->AddNode(new QuadTreeNode(m_nodes[i]));

@@ -28,7 +28,7 @@ void BaseScene::Init()
 		wolf::SceneRenderer::getInstance().AddNode((wolf::Node*)new wolf::DebugCube());
 	}
 
-	wolf::SceneRenderer::getInstance().GenerateQuadtree();
+	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10, -10, 20, 20);
 }
 
 void BaseScene::Update()
