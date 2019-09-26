@@ -31,7 +31,7 @@ namespace wolf
 
 	}
 
-	bool Node::IsVisible(wolf::Plane* cull)
+	bool Node::IsVisible(Plane* cull)
 	{
 		for (int i = 0; i < 6; i++)
 		{

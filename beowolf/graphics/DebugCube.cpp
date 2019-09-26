@@ -61,17 +61,17 @@ namespace wolf
 
 	DebugCube::DebugCube()
 	{
-		setPos(glm::vec3(wolf::RNG::GetRandom(-10.0f, 10.0f), wolf::RNG::GetRandom(-0.5f, 0.5f), wolf::RNG::GetRandom(-10.0f, 10.0f)));
-		setScale(glm::vec3(wolf::RNG::GetRandom(0.75f, 1.5f), wolf::RNG::GetRandom(0.75f, 1.5f), wolf::RNG::GetRandom(0.75f, 1.5f)));
+		setPos(glm::vec3(RNG::GetRandom(-10.0f, 10.0f), RNG::GetRandom(-0.5f, 0.5f), RNG::GetRandom(-10.0f, 10.0f)));
+		setScale(glm::vec3(RNG::GetRandom(0.75f, 1.5f), RNG::GetRandom(0.75f, 1.5f), RNG::GetRandom(0.75f, 1.5f)));
 
 		// set up rendering
-		g_pProgram = wolf::ProgramManager::CreateProgram("data/cube.vsh", "data/cube.fsh");
-		g_pVB = wolf::BufferManager::CreateVertexBuffer(cubeVertices, sizeof(Vertex) * 6 * 6);
+		g_pProgram = ProgramManager::CreateProgram("data/cube.vsh", "data/cube.fsh");
+		g_pVB = BufferManager::CreateVertexBuffer(cubeVertices, sizeof(Vertex) * 6 * 6);
 
-		g_pDecl = new wolf::VertexDeclaration();
+		g_pDecl = new VertexDeclaration();
 		g_pDecl->Begin();
-		g_pDecl->AppendAttribute(wolf::AT_Position, 3, wolf::CT_Float);
-		g_pDecl->AppendAttribute(wolf::AT_Color, 4, wolf::CT_UByte);
+		g_pDecl->AppendAttribute(AT_Position, 3, CT_Float);
+		g_pDecl->AppendAttribute(AT_Color, 4, CT_UByte);
 		g_pDecl->SetVertexBuffer(g_pVB);
 		g_pDecl->End();
 	}

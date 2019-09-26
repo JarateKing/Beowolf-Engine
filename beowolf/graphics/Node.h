@@ -13,7 +13,7 @@ namespace wolf
 		~Node();
 		virtual void Update(float delta);
 		virtual void Render(glm::mat4 projview);
-		virtual bool IsVisible(wolf::Plane* cull);
+		virtual bool IsVisible(Plane* cull);
 		void AddChild(Node* child);
 
 		void setPos(glm::vec3 pos);

@@ -17,9 +17,9 @@ namespace wolf
 		void Render(glm::mat4 projview);
 
 	private:
-		wolf::VertexBuffer* g_pVB;
-		wolf::VertexDeclaration* g_pDecl;
-		wolf::Program* g_pProgram;
+		VertexBuffer* g_pVB;
+		VertexDeclaration* g_pDecl;
+		Program* g_pProgram;
 	};
 }
 
