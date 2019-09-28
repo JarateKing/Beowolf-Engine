@@ -540,6 +540,69 @@
     <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorRandomPos.cpp">
       <Filter>beowolf\graphics\particles\affectors</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\GameObject.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\GameObjectManager.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCharacterController.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentFollow.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentLookat.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentMovingPointlight.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderableMesh.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderablePlane.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRigidBody.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentAnimController.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCameraPos.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\physics\BulletPhysicsDebugDrawer.cpp">
+      <Filter>beowolf\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\physics\BulletPhysicsManager.cpp">
+      <Filter>beowolf\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\physics\BulletPhysicsMaterialManager.cpp">
+      <Filter>beowolf\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\LuaScriptManager.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\SceneCamera.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\SceneManager.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\StateMachine.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\Transform.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Sprite.cpp">
+      <Filter>beowolf\graphics\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\core\W_LineDrawer.cpp">
+      <Filter>beowolf\graphics\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1285,6 +1348,78 @@
     <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.h">
       <Filter>beowolf\graphics\particles\affectors</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\GameObject.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\GameObjectManager.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCharacterController.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentFollow.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentLookat.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentMovingPointlight.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderable.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderableMesh.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderablePlane.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRigidBody.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentAnimController.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentBase.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCameraPos.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\physics\BulletPhysicsDebugDrawer.h">
+      <Filter>beowolf\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\physics\BulletPhysicsManager.h">
+      <Filter>beowolf\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\physics\BulletPhysicsMaterialManager.h">
+      <Filter>beowolf\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\LuaScriptManager.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\SceneCamera.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\SceneManager.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\StateBase.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\StateMachine.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\Transform.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Sprite.h">
+      <Filter>beowolf\graphics\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\core\W_LineDrawer.h">
+      <Filter>beowolf\graphics\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="beowolf">
@@ -1322,6 +1457,15 @@
     </Filter>
     <Filter Include="beowolf\graphics\particles\affectors">
       <UniqueIdentifier>{15ca38c0-b92d-48e3-a7fb-424ab02ba031}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="beowolf\game_objects">
+      <UniqueIdentifier>{7f1cb445-8431-4771-b675-b2c5d62f5132}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="beowolf\game_objects\components">
+      <UniqueIdentifier>{5baecc81-6512-4f3c-9af1-22ff4bc51b41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="beowolf\physics">
+      <UniqueIdentifier>{b29c9799-9e9c-42da-b5a7-7cc51924dd71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

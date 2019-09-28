@@ -31,6 +31,9 @@ class Material
 		void SetUniform(const std::string& p_strName, const glm::vec3& p_m);
 		void SetUniform(const std::string& p_strName, const wolf::Color4& p_c);
 		void SetUniform(const std::string& p_strName, float p_f);
+		void SetUniform(const std::string& p_strName, int p_i);
+		void SetUniform(const std::string& p_strName, const glm::mat4* p_aMatrices, int p_uiNumMatrices);
+		void SetUniform(const std::string& p_strName, const glm::mat3* p_aMatrices, int p_uiNumMatrices);
 
 		void SetTexture(const std::string& p_strName, const Texture* p_pTex);
 
@@ -58,7 +61,10 @@ class Material
 			UT_Vector4,
 			UT_Color4,
 			UT_Float,
-			UT_Texture
+			UT_Int,
+			UT_Texture,
+			UT_Matrix4Array,
+			UT_Matrix3Array
 		};
 
 		struct Uniform
@@ -105,11 +111,31 @@ class Material
 			void UploadValue(Program* p_pProgram) { p_pProgram->SetUniform(m_strName.c_str(), m_value); }
 			float		m_value;
 		};
+		struct IntUniform : public Uniform
+		{
+			IntUniform(const std::string& p_strName, int p_i) : Uniform(p_strName,UT_Int), m_value(p_i) {}
+			void UploadValue(Program* p_pProgram) { p_pProgram->SetUniform(m_strName.c_str(), m_value); }
+			int		m_value;
+		};
 		struct TextureUniform : public Uniform
 		{
 			TextureUniform(const std::string& p_strName, const Texture* p_pTex) : Uniform(p_strName,UT_Texture), m_pValue(p_pTex) {}
 			void UploadValue(Program* p_pProgram) { /* This is dealt with differently. See "Apply" */}
 			const Texture*		m_pValue;
+		};
+		struct Matrix4ArrayUniform : public Uniform
+		{
+			Matrix4ArrayUniform(const std::string& p_strName, const glm::mat4* p_am, unsigned int p_uiNumMatrices) : Uniform(p_strName,UT_Matrix4Array), m_value(p_am), m_uiCount(p_uiNumMatrices) {}
+			void UploadValue(Program* p_pProgram) { p_pProgram->SetUniform(m_strName.c_str(), m_value, m_uiCount); }
+			const glm::mat4*		m_value;
+			unsigned int 			m_uiCount;
+		};
+		struct Matrix3ArrayUniform : public Uniform
+		{
+			Matrix3ArrayUniform(const std::string& p_strName, const glm::mat3* p_am, unsigned int p_uiNumMatrices) : Uniform(p_strName,UT_Matrix3Array), m_value(p_am), m_uiCount(p_uiNumMatrices) {}
+			void UploadValue(Program* p_pProgram) { p_pProgram->SetUniform(m_strName.c_str(), m_value, m_uiCount); }
+			const glm::mat3*		m_value;
+			unsigned int 			m_uiCount;
 		};
 		//-------------------------------------------------------------------------
 

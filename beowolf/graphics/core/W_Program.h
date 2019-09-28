@@ -27,8 +27,10 @@ class Program
         void SetUniform(const char* p_strName, const glm::vec3& p_v);
         void SetUniform(const char* p_strName, const glm::vec4& p_v);
 		void SetUniform(const char* p_strName, const wolf::Color4& p_c);
-		void SetUniform(const char* p_strName, int p_i);
 		void SetUniform(const char* p_strName, float p_f);
+		void SetUniform(const char* p_strName, int p_i);
+		void SetUniform(const char* p_strName, const glm::mat4* p_m, int p_uiNumMatrices);
+		void SetUniform(const char* p_strName, const glm::mat3* p_m, int p_uiNumMatrices);
 		//-------------------------------------------------------------------------
 
 	private:
