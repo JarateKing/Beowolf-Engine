@@ -2502,7 +2502,9 @@ void CPVRTModelPOD::GetTransformationMatrix(PVRTMATRIX &mOut, const SPODNode &no
 	{
 		if(node.nAnimFlags & ePODHasMatrixAni)
 		{
-			if(node.pnAnimMatrixIdx)
+			if (!m_pImpl || m_pImpl->nFrame < 0)
+				mOut = *((PVRTMATRIX*) &node.pfAnimMatrix[0]);
+			else if (node.pnAnimMatrixIdx)
 				mOut = *((PVRTMATRIX*) &node.pfAnimMatrix[node.pnAnimMatrixIdx[m_pImpl->nFrame]]);
 			else
 				mOut = *((PVRTMATRIX*) &node.pfAnimMatrix[16*m_pImpl->nFrame]);
