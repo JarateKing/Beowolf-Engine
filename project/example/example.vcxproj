@@ -54,7 +54,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\lib\bullet\src;$(SolutionDir)..\..\lib\glm;$(SolutionDir)..\..\lib\tinyxml;$(SolutionDir)..\..\lib;$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glfw\include;$(SolutionDir)..\..\lib\glew\include;$(SolutionDir)..\..\beowolf;$(SolutionDir)..\..\beowolf\graphics;$(SolutionDir)..\..\beowolf\graphics\core;$(SolutionDir)..\..\beowolf\math;$(SolutionDir)..\..\beowolf\text;$(SolutionDir)..\..;$(SolutionDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\lib\bullet\src;$(SolutionDir)..\..\lib\glm;$(SolutionDir)..\..\lib\tinyxml;$(SolutionDir)..\..\lib;$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glfw\include;$(SolutionDir)..\..\lib\glew\include;$(SolutionDir)..\..\beowolf;$(SolutionDir)..\..\beowolf\graphics;$(SolutionDir)..\..\beowolf\graphics\core;$(SolutionDir)..\..\beowolf\graphics\text;$(SolutionDir)..\..\beowolf\graphics\particles;$(SolutionDir)..\..\beowolf\graphics\particles\affectors;$(SolutionDir)..\..\beowolf\math;$(SolutionDir)..\..\beowolf\text;$(SolutionDir)..\..;$(SolutionDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -93,6 +93,21 @@
     <ClCompile Include="..\..\beowolf\graphics\core\W_TextureManager.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_VertexBuffer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_VertexDeclaration.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\DebugCamera.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\DebugCube.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\Node.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorRandomPos.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorRecolor.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorScale.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorVelocity.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\Effect.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\Emitter.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\Particle.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\QuadTree.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\SceneRenderer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\text\W_Font.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\text\W_TextBox.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_Math.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_Math2D.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_Math3D.cpp" />
@@ -261,6 +276,22 @@
     <ClInclude Include="..\..\beowolf\graphics\core\W_TextureManager.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexBuffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexDeclaration.h" />
+    <ClInclude Include="..\..\beowolf\graphics\DebugCamera.h" />
+    <ClInclude Include="..\..\beowolf\graphics\DebugCube.h" />
+    <ClInclude Include="..\..\beowolf\graphics\Node.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\Affector.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorRandomPos.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorRecolor.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorScale.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorVelocity.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\Effect.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\Emitter.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\Particle.h" />
+    <ClInclude Include="..\..\beowolf\graphics\QuadTree.h" />
+    <ClInclude Include="..\..\beowolf\graphics\SceneRenderer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\text\W_Font.h" />
+    <ClInclude Include="..\..\beowolf\graphics\text\W_TextBox.h" />
     <ClInclude Include="..\..\beowolf\math\W_Math.h" />
     <ClInclude Include="..\..\beowolf\math\W_Math2D.h" />
     <ClInclude Include="..\..\beowolf\math\W_Math3D.h" />
