@@ -13,6 +13,7 @@ in vec4 a_boneWeights;
 
 out vec2 v_uv1;
 out vec3 v_normal;
+out vec4 v_pos;
 
 void main()
 {
@@ -33,4 +34,5 @@ void main()
     gl_Position = projection * view * world * blendedPos;
 	v_uv1 = a_uv1;
     v_normal = blendedNormal;
+	v_pos = world * a_position;
 }
