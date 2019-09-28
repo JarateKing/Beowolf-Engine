@@ -1,0 +1,28 @@
+<GameObject>	
+	<GOC_RenderableMesh>
+		<Model path="assignmentResources/assignment2/props/coin.pod" />
+		<Textures path="assignmentResources/assignment2/props/" />
+		<VertexProgram path="assignmentResources/assignment2/shaders/textured.vsh" />
+		<FragmentProgram path="assignmentResources/assignment2/shaders/textured.fsh" />
+	</GOC_RenderableMesh>
+	
+	<GOC_Bobbing>
+		<Rate value="1.0f" />
+		<Scale value="1.0f" />
+	</GOC_Bobbing>
+	
+	<GOC_Rotating>
+		<Rate value="70.0f" />
+	</GOC_Rotating>
+	
+	<GOC_Lifespan>
+		<Timer value="20.0f" />
+	</GOC_Lifespan>
+
+	<GOC_SphereCollider>
+		<Radius value="3.0f" />
+	</GOC_SphereCollider>
+	
+	<GOC_DestroyOnCollision>
+	</GOC_DestroyOnCollision>
+</GameObject>

@@ -1,0 +1,8 @@
+<GameObject>	
+	<GOC_RenderableMesh>
+		<Model path="assignmentResources/assignment1/props/lamp.pod" />
+		<Textures path="assignmentResources/assignment1/props/" />
+		<VertexProgram path="assignmentResources/assignment1/shaders/textured.vsh" />
+		<FragmentProgram path="assignmentResources/assignment1/shaders/textured.fsh" />
+	</GOC_RenderableMesh>
+</GameObject>
