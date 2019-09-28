@@ -1,8 +1,8 @@
 <GameObject>	
 	<GOC_RenderableMesh>
-		<Model path="assignmentResources/assignment1/ground/plane.pod" />
-		<Textures path="assignmentResources/assignment1/ground/" />
-		<VertexProgram path="assignmentResources/assignment1/shaders/textured.vsh" />
-		<FragmentProgram path="assignmentResources/assignment1/shaders/textured.fsh" />
+		<Model path="../resources/models/plane.pod" />
+		<Textures path="../resources/models/" />
+		<VertexProgram path="../resources/shaders/textured.vsh" />
+		<FragmentProgram path="../resources/shaders/textured.fsh" />
 	</GOC_RenderableMesh>
 </GameObject>

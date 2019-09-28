@@ -1,16 +1,16 @@
 <GameObject>
 	<GOC_AnimController>
-		<Anim name="idle" file="data/characters/swat/anim/idle.pod" start="0" end="31" loop="true" />
-		<Anim name="standard_run" file="data/characters/swat/anim/standard_run.pod" start="0" end="22" loop="true" />
-		<Anim name="walking" file="data/characters/swat/anim/walking.pod" start="0" end="31" loop="true" />
+		<Anim name="idle" file="../resources/models/swat/anim/idle.pod" start="0" end="31" loop="true" />
+		<Anim name="standard_run" file="../resources/models/swat/anim/standard_run.pod" start="0" end="22" loop="true" />
+		<Anim name="walking" file="../resources/models/swat/anim/walking.pod" start="0" end="31" loop="true" />
 		<Default name="idle" />
 	</GOC_AnimController>
 	
 	<GOC_RenderableMesh>
-		<Model path="data/characters/swat/Swat.pod" />
-		<Textures path="data/characters/swat/" />
-		<VertexProgram path="assignmentResources/assignment2/shaders/skinned.vsh" />
-		<FragmentProgram path="assignmentResources/assignment2/shaders/skinned.fsh" />
+		<Model path="../resources/models/swat/Swat.pod" />
+		<Textures path="../resources/models/swat/" />
+		<VertexProgram path="../resources/shaders/skinned.vsh" />
+		<FragmentProgram path="../resources/shaders/skinned.fsh" />
 	</GOC_RenderableMesh>
 	
 	<GOC_SphereCollider>
