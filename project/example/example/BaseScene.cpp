@@ -100,7 +100,6 @@ void BaseScene::Update()
 {
 	double delta = wolf::Time::Instance().deltaTime();
 	m_pGameObjectManager->Update(delta);
-	EventManager::getInstance().Update(delta);
 }
 
 void BaseScene::Render()

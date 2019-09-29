@@ -12,6 +12,7 @@
 #include <glm/glm.hpp>
 #include "math/W_Time.h"
 #include "W_Input.h"
+#include "EventManager.h"
 
 //========================================================================
 // This is needed for newer versions of Visual Studio
@@ -80,6 +81,7 @@ void updateGameLogic(Scene* scene)
 	wolf::Time::Instance().update();
 	wolf::Input::Instance().update();
 	scene->Update();
+	EventManager::getInstance().Update(wolf::Time::Instance().deltaTime());
 	scene->Render();
 }
 
