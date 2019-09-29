@@ -18,6 +18,7 @@
 #include "SceneManager.h"
 #include "W_Time.h"
 #include "W_Model.h"
+#include "EventManager.h"
 
 Common::SceneCamera* m_pSceneCamera;
 Common::GameObjectManager* m_pGameObjectManager;
@@ -97,7 +98,9 @@ void BaseScene::Init()
 
 void BaseScene::Update()
 {
-	m_pGameObjectManager->Update(wolf::Time::Instance().deltaTime());
+	double delta = wolf::Time::Instance().deltaTime();
+	m_pGameObjectManager->Update(delta);
+	EventManager::getInstance().Update(delta);
 }
 
 void BaseScene::Render()
