@@ -1,0 +1,19 @@
+<GameObject>	
+	<GOC_RenderableMesh>
+		<Model path="assignmentResources/assignment3/props/ball.pod" />
+		<Textures path="assignmentResources/assignment3/props/" />
+		<VertexProgram path="assignmentResources/assignment3/shaders/textured.vsh" />
+		<FragmentProgram path="assignmentResources/assignment3/shaders/textured.fsh" />
+	</GOC_RenderableMesh>
+	
+	<GOC_Lifespan>
+		<Timer value="3.0f" />
+	</GOC_Lifespan>
+	
+	<GOC_RigidBody>
+		<Shape value="Sphere 1" />
+		<Material value="Normal" />
+		<Mass value="1" />
+		<FlagType value="8" />
+	</GOC_RigidBody>
+</GameObject>

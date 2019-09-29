@@ -1,0 +1,19 @@
+<GameObject>
+	<GOC_AnimController>
+		<Anim name="run" file="assignmentResources/assignment4/zombie/anim/zombie_anims.pod" start="12" end="36" loop="true" />
+		<Anim name="walk" file="assignmentResources/assignment4/zombie/anim/zombie_anims.pod" start="108" end="229" loop="true" />
+		<Anim name="idle" file="assignmentResources/assignment4/zombie/anim/zombie_anims.pod" start="350" end="470" loop="true" />
+		<Anim name="walk_injured" file="assignmentResources/assignment4/zombie/anim/zombie_anims.pod" start="547" end="582" loop="true" />
+		<Default name="idle" />
+	</GOC_AnimController>
+	
+	<GOC_RenderableMesh>
+		<Model path="assignmentResources/assignment4/zombie/Zombie.pod" />
+		<Textures path="assignmentResources/assignment4/zombie/" />
+		<VertexProgram path="assignmentResources/assignment2/shaders/skinned.vsh" />
+		<FragmentProgram path="assignmentResources/assignment2/shaders/skinned.fsh" />
+	</GOC_RenderableMesh>
+	
+	<GOC_StunOnCollision>
+	</GOC_StunOnCollision>
+</GameObject>
