@@ -8,15 +8,16 @@
 // movement instructions to the relevant sibling components.
 //------------------------------------------------------------------------
 
-#ifndef COMPNENTCHARACTERCONTROLLER_H
-#define COMPNENTCHARACTERCONTROLLER_H
+#ifndef COMPONENTCOINTIMER_H
+#define COMPONENTCOINTIMER_H
 
 #include "ComponentBase.h"
+#include "GameObject.h"
 #include "tinyxml.h"
 
 namespace week2
 {
-	class ComponentCharacterController : public Common::ComponentBase
+	class ComponentCoinTimer : public Common::ComponentBase
 	{
 	public:
 		//------------------------------------------------------------------------------
@@ -27,25 +28,29 @@ namespace week2
 		//------------------------------------------------------------------------------
 		// Public methods.
 		//------------------------------------------------------------------------------
-		ComponentCharacterController();
-		virtual ~ComponentCharacterController();
+		ComponentCoinTimer(float spawnrate, int maxcount);
+		virtual ~ComponentCoinTimer();
 
-		virtual const std::string FamilyID() { return std::string("GOC_CharacterController"); }
-		virtual const std::string ComponentID(){ return std::string("GOC_CharacterController"); }
+		virtual const std::string FamilyID() { return std::string("GOC_CoinTimer"); }
+		virtual const std::string ComponentID(){ return std::string("GOC_CoinTimer"); }
 		virtual void Update(float p_fDelta);
 
-		static ComponentBase* ComponentCharacterController::CreateComponent(TiXmlNode* p_node);
+		static ComponentBase* ComponentCoinTimer::CreateComponent(TiXmlNode* p_node);
+
+		void HandleEvent(void* details);
 
 	private:
 		//------------------------------------------------------------------------------
 		// Private members.
 		//------------------------------------------------------------------------------
+		Common::GameObject* spawnCoin();
 
-		// Keys buffer
-		bool m_bKeysDown[256];
-		bool m_bKeysDownLast[256];
+		float m_spawnrate;
+		int m_maxcount;
+		double m_time;
+		int m_count;
 	};
 }
 
-#endif // COMPNENTCHARACTERCONTROLLER_H
+#endif // COMPONENTLOOKAT_H
 

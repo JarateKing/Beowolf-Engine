@@ -37,6 +37,8 @@ namespace Common
 
 		GameObject* GetGameObject() { return m_pGameObject; }
 
+		virtual void HandleEvent(void* details) {}
+
 		// Lua bindings
 #if defined(_WIN32)
 		static void ExportToLua()

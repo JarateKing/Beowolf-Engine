@@ -603,6 +603,33 @@
     <ClCompile Include="..\..\beowolf\graphics\core\W_LineDrawer.cpp">
       <Filter>beowolf\graphics\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentBobbing.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentDestroyOnCollision.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentLifespan.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRotating.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentScore.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentSphereCollider.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCoinTimer.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\EventManager.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\EventDetails.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1419,6 +1446,33 @@
     </ClInclude>
     <ClInclude Include="..\..\beowolf\graphics\core\W_LineDrawer.h">
       <Filter>beowolf\graphics\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentBobbing.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentDestroyOnCollision.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentLifespan.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRotating.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentScore.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentSphereCollider.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCoinTimer.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\EventManager.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\EventDetails.h">
+      <Filter>beowolf\game_objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

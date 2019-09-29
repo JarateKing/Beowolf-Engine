@@ -8,15 +8,15 @@
 // movement instructions to the relevant sibling components.
 //------------------------------------------------------------------------
 
-#ifndef COMPNENTCHARACTERCONTROLLER_H
-#define COMPNENTCHARACTERCONTROLLER_H
+#ifndef COMPONENTSCORE_H
+#define COMPONENTSCORE_H
 
 #include "ComponentBase.h"
 #include "tinyxml.h"
 
 namespace week2
 {
-	class ComponentCharacterController : public Common::ComponentBase
+	class ComponentScore : public Common::ComponentBase
 	{
 	public:
 		//------------------------------------------------------------------------------
@@ -27,25 +27,26 @@ namespace week2
 		//------------------------------------------------------------------------------
 		// Public methods.
 		//------------------------------------------------------------------------------
-		ComponentCharacterController();
-		virtual ~ComponentCharacterController();
+		ComponentScore(int value);
+		virtual ~ComponentScore();
 
-		virtual const std::string FamilyID() { return std::string("GOC_CharacterController"); }
-		virtual const std::string ComponentID(){ return std::string("GOC_CharacterController"); }
+		virtual const std::string FamilyID() { return std::string("GOC_Score"); }
+		virtual const std::string ComponentID(){ return std::string("GOC_Score"); }
 		virtual void Update(float p_fDelta);
 
-		static ComponentBase* ComponentCharacterController::CreateComponent(TiXmlNode* p_node);
+		static ComponentBase* ComponentScore::CreateComponent(TiXmlNode* p_node);
+
+		void HandleEvent(void* details);
+
+		int GetScore();
 
 	private:
 		//------------------------------------------------------------------------------
 		// Private members.
 		//------------------------------------------------------------------------------
-
-		// Keys buffer
-		bool m_bKeysDown[256];
-		bool m_bKeysDownLast[256];
+		int m_score;
 	};
 }
 
-#endif // COMPNENTCHARACTERCONTROLLER_H
+#endif // COMPONENTLOOKAT_H
 

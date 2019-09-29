@@ -12,6 +12,7 @@
 
 #include "W_Model.h"
 #include "ComponentRenderable.h"
+#include "tinyxml.h"
 
 namespace week2
 {
@@ -33,6 +34,7 @@ namespace week2
 		virtual void Init(const std::string& p_strPath, const std::string &p_strTexturePath, const std::string &p_strVertexProgramPath, const std::string &p_strFragmentProgramPath);
 		virtual void SyncTransform();
 		wolf::Model* GetModel() { return m_pModel; }
+		static ComponentBase* ComponentRenderableMesh::CreateComponent(TiXmlNode* p_node);
 
 	private:
 		//------------------------------------------------------------------------------

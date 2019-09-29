@@ -145,3 +145,30 @@ void ComponentAnimController::SetAnim(const std::string &p_strAnimName)
 		}
 	}
 }
+
+// FACTORY
+Common::ComponentBase* ComponentAnimController::CreateComponent(TiXmlNode* p_node)
+{
+	ComponentAnimController* component = new ComponentAnimController();
+
+	for (TiXmlElement* i = p_node->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
+	{
+		std::string name = i->Value();
+
+		if (name == "Anim")
+		{
+			std::string anim = i->Attribute("name");
+			std::string file = i->Attribute("file");
+			int start = std::stoi(i->Attribute("start"));
+			int end = std::stoi(i->Attribute("end"));
+			bool loop = std::string(i->Attribute("loop")) == "true";
+			component->AddAnim(anim, file, start, end, loop);
+		}
+		else if (name == "Default")
+		{
+			component->SetAnim(i->Attribute("name"));
+		}
+	}
+
+	return component;
+}

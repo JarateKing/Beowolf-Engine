@@ -8,15 +8,15 @@
 // movement instructions to the relevant sibling components.
 //------------------------------------------------------------------------
 
-#ifndef COMPNENTCHARACTERCONTROLLER_H
-#define COMPNENTCHARACTERCONTROLLER_H
+#ifndef COMPONENTROTATING_H
+#define COMPONENTROTATING_H
 
 #include "ComponentBase.h"
 #include "tinyxml.h"
 
 namespace week2
 {
-	class ComponentCharacterController : public Common::ComponentBase
+	class ComponentRotating : public Common::ComponentBase
 	{
 	public:
 		//------------------------------------------------------------------------------
@@ -27,25 +27,22 @@ namespace week2
 		//------------------------------------------------------------------------------
 		// Public methods.
 		//------------------------------------------------------------------------------
-		ComponentCharacterController();
-		virtual ~ComponentCharacterController();
+		ComponentRotating(double rate);
+		virtual ~ComponentRotating();
 
-		virtual const std::string FamilyID() { return std::string("GOC_CharacterController"); }
-		virtual const std::string ComponentID(){ return std::string("GOC_CharacterController"); }
+		virtual const std::string FamilyID() { return std::string("GOC_Rotating"); }
+		virtual const std::string ComponentID(){ return std::string("GOC_Rotating"); }
 		virtual void Update(float p_fDelta);
 
-		static ComponentBase* ComponentCharacterController::CreateComponent(TiXmlNode* p_node);
+		static ComponentBase* ComponentRotating::CreateComponent(TiXmlNode* p_node);
 
 	private:
 		//------------------------------------------------------------------------------
 		// Private members.
 		//------------------------------------------------------------------------------
-
-		// Keys buffer
-		bool m_bKeysDown[256];
-		bool m_bKeysDownLast[256];
+		double m_rate;
 	};
 }
 
-#endif // COMPNENTCHARACTERCONTROLLER_H
+#endif // COMPONENTLOOKAT_H
 

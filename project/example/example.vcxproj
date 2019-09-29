@@ -82,14 +82,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentAnimController.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentBobbing.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCameraPos.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCharacterController.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCoinTimer.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentDestroyOnCollision.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentFollow.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentLifespan.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentLookat.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentMovingPointlight.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderableMesh.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderablePlane.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRigidBody.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRotating.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentScore.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentSphereCollider.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\EventDetails.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\EventManager.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\GameObject.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\GameObjectManager.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\LuaScriptManager.cpp" />
@@ -287,15 +296,24 @@
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentAnimController.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentBase.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentBobbing.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCameraPos.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCharacterController.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCoinTimer.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentDestroyOnCollision.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentFollow.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentLifespan.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentLookat.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentMovingPointlight.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderable.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderableMesh.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderablePlane.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRigidBody.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRotating.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentScore.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentSphereCollider.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\EventDetails.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\EventManager.h" />
     <ClInclude Include="..\..\beowolf\game_objects\GameObject.h" />
     <ClInclude Include="..\..\beowolf\game_objects\GameObjectManager.h" />
     <ClInclude Include="..\..\beowolf\game_objects\LuaScriptManager.h" />

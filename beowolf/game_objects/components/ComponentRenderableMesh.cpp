@@ -71,3 +71,44 @@ void ComponentRenderableMesh::SyncTransform()
 {
 	m_pModel->SetTransform(this->GetGameObject()->GetTransform().GetTransformation());
 }
+
+// FACTORY
+Common::ComponentBase* ComponentRenderableMesh::CreateComponent(TiXmlNode* p_node)
+{
+	std::string model;
+	std::string textures;
+	std::string vertexprogram;
+	std::string fragmentprogram;
+
+	for (TiXmlElement* i = p_node->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
+	{
+		std::string name = i->Value();
+
+		if (name == "Model")
+		{
+			model = i->Attribute("path");
+		}
+		else if (name == "Textures")
+		{
+			textures = i->Attribute("path");
+		}
+		else if (name == "VertexProgram")
+		{
+			vertexprogram = i->Attribute("path");
+		}
+		else if (name == "FragmentProgram")
+		{
+			fragmentprogram = i->Attribute("path");
+		}
+	}
+
+	if (model.length() == 0 || textures.length() == 0 || vertexprogram.length() == 0 || fragmentprogram.length() == 0)
+	{
+		return NULL;
+	}
+
+	ComponentRenderableMesh* component = new ComponentRenderableMesh();
+	component->Init(model, textures, vertexprogram, fragmentprogram);
+
+	return component;
+}

@@ -36,6 +36,8 @@ GameObject::GameObject(GameObjectManager* p_pGameObjectManager)
 	std::ostringstream ss;
 	ss << "GameObject_" << s_uiGameObjectCount;
 	m_strGUID = ss.str();
+
+	m_shouldDelete = false;
 }
 
 //------------------------------------------------------------------------------
@@ -127,6 +129,16 @@ void GameObject::DeleteAllComponents()
 		delete pComponent;
 	}
 	m_mComponentMap.clear();
+}
+
+void GameObject::ScheduleDelete()
+{
+	m_shouldDelete = true;
+}
+
+bool GameObject::isScheduledForDelete()
+{
+	return m_shouldDelete;
 }
 
 //------------------------------------------------------------------------------

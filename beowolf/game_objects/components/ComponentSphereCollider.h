@@ -8,15 +8,15 @@
 // movement instructions to the relevant sibling components.
 //------------------------------------------------------------------------
 
-#ifndef COMPNENTCHARACTERCONTROLLER_H
-#define COMPNENTCHARACTERCONTROLLER_H
+#ifndef COMPONENTSPHERECOLLIDER_H
+#define COMPONENTSPHERECOLLIDER_H
 
 #include "ComponentBase.h"
 #include "tinyxml.h"
 
 namespace week2
 {
-	class ComponentCharacterController : public Common::ComponentBase
+	class ComponentSphereCollider : public Common::ComponentBase
 	{
 	public:
 		//------------------------------------------------------------------------------
@@ -27,25 +27,24 @@ namespace week2
 		//------------------------------------------------------------------------------
 		// Public methods.
 		//------------------------------------------------------------------------------
-		ComponentCharacterController();
-		virtual ~ComponentCharacterController();
+		ComponentSphereCollider(float radius);
+		virtual ~ComponentSphereCollider();
 
-		virtual const std::string FamilyID() { return std::string("GOC_CharacterController"); }
-		virtual const std::string ComponentID(){ return std::string("GOC_CharacterController"); }
+		virtual const std::string FamilyID() { return std::string("GOC_SphereCollider"); }
+		virtual const std::string ComponentID(){ return std::string("GOC_SphereCollider"); }
 		virtual void Update(float p_fDelta);
 
-		static ComponentBase* ComponentCharacterController::CreateComponent(TiXmlNode* p_node);
+		static ComponentBase* CreateComponent(TiXmlNode* p_node);
+
+		float GetRadius();
 
 	private:
 		//------------------------------------------------------------------------------
 		// Private members.
 		//------------------------------------------------------------------------------
-
-		// Keys buffer
-		bool m_bKeysDown[256];
-		bool m_bKeysDownLast[256];
+		float m_radius;
 	};
 }
 
-#endif // COMPNENTCHARACTERCONTROLLER_H
+#endif // COMPONENTLOOKAT_H
 

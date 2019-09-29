@@ -47,6 +47,8 @@ namespace Common
 		ComponentBase* GetComponent(const std::string &p_strFamilyId);
 		ComponentBase* RemoveComponent(const std::string &p_strFamilyId);
 		void DeleteAllComponents();
+		void ScheduleDelete();
+		bool isScheduledForDelete();
 
 		virtual void Update(float p_fDelta);
 
@@ -88,6 +90,9 @@ namespace Common
 
 		// List of components
 		ComponentMap m_mComponentMap;
+
+		// schedule delete
+		bool m_shouldDelete;
 	};
 }
 

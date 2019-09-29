@@ -135,3 +135,9 @@ void ComponentCharacterController::Update(float p_fDelta)
 		prevAnim = currentAnim;
 	}
 }
+
+// FACTORY
+Common::ComponentBase* ComponentCharacterController::CreateComponent(TiXmlNode* p_node)
+{
+	return new ComponentCharacterController();
+}

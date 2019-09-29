@@ -217,10 +217,21 @@ void GameObjectManager::Update(float p_fDelta)
 {
 	GameObject* pGO = NULL;
 	GameObjectMap::iterator it = m_mGOMap.begin(), end = m_mGOMap.end();
+	std::vector<GameObject*> toDelete;
 	for (; it != end; ++it)
 	{
 		pGO = (GameObject*)it->second;
 		pGO->Update(p_fDelta);
+
+		if (pGO->isScheduledForDelete())
+		{
+			toDelete.push_back(pGO);
+		}
+	}
+
+	for (int i = 0; i < toDelete.size(); i++)
+	{
+		DestroyGameObject(toDelete[i]);
 	}
 }
 

@@ -8,15 +8,15 @@
 // movement instructions to the relevant sibling components.
 //------------------------------------------------------------------------
 
-#ifndef COMPNENTCHARACTERCONTROLLER_H
-#define COMPNENTCHARACTERCONTROLLER_H
+#ifndef COMPONENTLIFESPAN_H
+#define COMPONENTLIFESPAN_H
 
 #include "ComponentBase.h"
 #include "tinyxml.h"
 
 namespace week2
 {
-	class ComponentCharacterController : public Common::ComponentBase
+	class ComponentLifespan : public Common::ComponentBase
 	{
 	public:
 		//------------------------------------------------------------------------------
@@ -27,25 +27,22 @@ namespace week2
 		//------------------------------------------------------------------------------
 		// Public methods.
 		//------------------------------------------------------------------------------
-		ComponentCharacterController();
-		virtual ~ComponentCharacterController();
+		ComponentLifespan(double duration);
+		virtual ~ComponentLifespan();
 
-		virtual const std::string FamilyID() { return std::string("GOC_CharacterController"); }
-		virtual const std::string ComponentID(){ return std::string("GOC_CharacterController"); }
+		virtual const std::string FamilyID() { return std::string("GOC_Lifespan"); }
+		virtual const std::string ComponentID(){ return std::string("GOC_Lifespan"); }
 		virtual void Update(float p_fDelta);
 
-		static ComponentBase* ComponentCharacterController::CreateComponent(TiXmlNode* p_node);
+		static ComponentBase* ComponentLifespan::CreateComponent(TiXmlNode* p_node);
 
 	private:
 		//------------------------------------------------------------------------------
 		// Private members.
 		//------------------------------------------------------------------------------
-
-		// Keys buffer
-		bool m_bKeysDown[256];
-		bool m_bKeysDownLast[256];
+		double m_time;
 	};
 }
 
-#endif // COMPNENTCHARACTERCONTROLLER_H
+#endif // COMPONENTLOOKAT_H
 
