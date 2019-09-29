@@ -495,6 +495,11 @@
     <ClCompile Include="..\..\beowolf\math\W_Math3D.cpp">
       <Filter>beowolf\math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\lib\fmod\core\examples\common.cpp">
+      <Filter>lib\fmod</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\fmod\core\examples\common_platform.cpp">
+      <Filter>lib\fmod</Filter>
     <ClCompile Include="..\..\beowolf\graphics\text\W_Font.cpp">
       <Filter>beowolf\graphics\text</Filter>
     </ClCompile>
@@ -1237,6 +1242,35 @@
     <ClInclude Include="..\..\beowolf\math\W_Math_Types.h">
       <Filter>beowolf\math</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod.h">
+      <Filter>lib\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod.hpp">
+      <Filter>lib\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_codec.h">
+      <Filter>lib\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_common.h">
+      <Filter>lib\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_dsp.h">
+      <Filter>lib\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_dsp_effects.h">
+      <Filter>lib\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_errors.h">
+      <Filter>lib\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_output.h">
+      <Filter>lib\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\fmod\core\examples\common.h">
+      <Filter>lib\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\fmod\core\examples\common_platform.h">
+      <Filter>lib\fmod</Filter>
     <ClInclude Include="..\..\beowolf\graphics\text\W_Font.h">
       <Filter>beowolf\graphics\text</Filter>
     </ClInclude>
@@ -1314,6 +1348,8 @@
     <Filter Include="beowolf\graphics\core">
       <UniqueIdentifier>{a0f1ec61-19f4-42b5-9b5a-348a8e216acc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lib\fmod">
+      <UniqueIdentifier>{a51fe2ff-8487-462a-81fd-9ccc3c52b417}</UniqueIdentifier>
     <Filter Include="beowolf\graphics\text">
       <UniqueIdentifier>{be5450f1-fa87-4bde-873c-a14c599d0630}</UniqueIdentifier>
     </Filter>

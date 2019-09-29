@@ -54,13 +54,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\lib\bullet\src;$(SolutionDir)..\..\lib\glm;$(SolutionDir)..\..\lib\tinyxml;$(SolutionDir)..\..\lib;$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glfw\include;$(SolutionDir)..\..\lib\glew\include;$(SolutionDir)..\..\beowolf;$(SolutionDir)..\..\beowolf\graphics;$(SolutionDir)..\..\beowolf\graphics\core;$(SolutionDir)..\..\beowolf\graphics\text;$(SolutionDir)..\..\beowolf\graphics\particles;$(SolutionDir)..\..\beowolf\graphics\particles\affectors;$(SolutionDir)..\..\beowolf\math;$(SolutionDir)..\..\beowolf\text;$(SolutionDir)..\..;$(SolutionDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\lib\fmod\core\inc;$(SolutionDir)..\..\lib\fmod\core\examples;$(SolutionDir)..\..\lib\bullet\src;$(SolutionDir)..\..\lib\glm;$(SolutionDir)..\..\lib\tinyxml;$(SolutionDir)..\..\lib;$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glfw\include;$(SolutionDir)..\..\lib\glew\include;$(SolutionDir)..\..\beowolf;$(SolutionDir)..\..\beowolf\graphics;$(SolutionDir)..\..\beowolf\graphics\core;$(SolutionDir)..\..\beowolf\graphics\text;$(SolutionDir)..\..\beowolf\graphics\particles;$(SolutionDir)..\..\beowolf\graphics\particles\affectors;$(SolutionDir)..\..\beowolf\math;$(SolutionDir)..\..\beowolf\text;$(SolutionDir)..\..;$(SolutionDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>GLFW.lib;glew32.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\lib\glew\lib;$(SolutionDir)..\..\lib\glfw\lib-msvc100;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GLFW.lib;glew32.lib;opengl32.lib;glu32.lib;fmodL_vc.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\lib\glew\lib;$(SolutionDir)..\..\lib\glfw\lib-msvc100;$(SolutionDir)..\..\lib\fmod\core\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -237,6 +237,8 @@
     <ClCompile Include="..\..\lib\bullet\src\LinearMath\btQuickprof.cpp" />
     <ClCompile Include="..\..\lib\bullet\src\LinearMath\btSerializer.cpp" />
     <ClCompile Include="..\..\lib\bullet\src\LinearMath\btVector3.cpp" />
+    <ClCompile Include="..\..\lib\fmod\core\examples\common.cpp" />
+    <ClCompile Include="..\..\lib\fmod\core\examples\common_platform.cpp" />
     <ClCompile Include="..\..\lib\PowerVR\PVRTBoneBatch.cpp" />
     <ClCompile Include="..\..\lib\PowerVR\PVRTDecompress.cpp" />
     <ClCompile Include="..\..\lib\PowerVR\PVRTError.cpp" />
@@ -483,6 +485,16 @@
     <ClInclude Include="..\..\lib\bullet\src\LinearMath\btTransform.h" />
     <ClInclude Include="..\..\lib\bullet\src\LinearMath\btTransformUtil.h" />
     <ClInclude Include="..\..\lib\bullet\src\LinearMath\btVector3.h" />
+    <ClInclude Include="..\..\lib\fmod\core\examples\common.h" />
+    <ClInclude Include="..\..\lib\fmod\core\examples\common_platform.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod.hpp" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_codec.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_common.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_dsp.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_errors.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_output.h" />
     <ClInclude Include="..\..\lib\PowerVR\PVRTArray.h" />
     <ClInclude Include="..\..\lib\PowerVR\PVRTBackground.h" />
     <ClInclude Include="..\..\lib\PowerVR\PVRTBoneBatch.h" />
