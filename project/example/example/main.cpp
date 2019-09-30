@@ -13,6 +13,8 @@
 #include "math/W_Time.h"
 #include "W_Input.h"
 #include "EventManager.h"
+#include "fmod/core/inc/fmod.hpp"
+#include "fmod/core/examples/common.h"
 
 //========================================================================
 // This is needed for newer versions of Visual Studio
