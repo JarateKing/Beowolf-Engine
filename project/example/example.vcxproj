@@ -114,6 +114,7 @@
     <ClCompile Include="..\..\beowolf\math\W_ProjectionMatrix.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_RNG.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_Time.cpp" />
+    <ClCompile Include="..\..\beowolf\sound\W_SoundEngine.cpp" />
     <ClCompile Include="..\..\beowolf\text\W_TextTable.cpp" />
     <ClCompile Include="..\..\beowolf\W_Common.cpp" />
     <ClCompile Include="..\..\beowolf\W_Input.cpp" />
@@ -301,6 +302,7 @@
     <ClInclude Include="..\..\beowolf\math\W_ProjectionMatrix.h" />
     <ClInclude Include="..\..\beowolf\math\W_RNG.h" />
     <ClInclude Include="..\..\beowolf\math\W_Time.h" />
+    <ClInclude Include="..\..\beowolf\sound\W_SoundEngine.h" />
     <ClInclude Include="..\..\beowolf\text\W_TextTable.h" />
     <ClInclude Include="..\..\beowolf\W_Common.h" />
     <ClInclude Include="..\..\beowolf\W_Input.h" />

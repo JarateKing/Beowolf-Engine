@@ -545,6 +545,9 @@
     <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorRandomPos.cpp">
       <Filter>beowolf\graphics\particles\affectors</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\sound\W_SoundEngine.cpp">
+      <Filter>beowolf\sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1319,6 +1322,9 @@
     <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.h">
       <Filter>beowolf\graphics\particles\affectors</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\beowolf\sound\W_SoundEngine.h">
+      <Filter>beowolf\sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="beowolf">
@@ -1358,6 +1364,9 @@
     </Filter>
     <Filter Include="beowolf\graphics\particles\affectors">
       <UniqueIdentifier>{15ca38c0-b92d-48e3-a7fb-424ab02ba031}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="beowolf\sound">
+      <UniqueIdentifier>{53aa8f1a-f029-478d-a57e-21cb4f6239e7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
