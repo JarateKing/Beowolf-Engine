@@ -13,15 +13,24 @@
 		<FragmentProgram path="../resources/shaders/skinned.fsh" />
 	</GOC_RenderableMesh>
 	
-	<GOC_SphereCollider>
-		<Radius value="3.0f" />
-	</GOC_SphereCollider>
-	
 	<GOC_CharacterController>
 	</GOC_CharacterController>
 	
 	<GOC_Score>
 		<Score value="0" />
 	</GOC_Score>
+	
+	<GOC_Gun>
+		<Firerate value="0.5f" />
+	</GOC_Gun>
+	
+	<GOC_RigidBody>
+		<Shape value="Capsule 2 6" />
+		<Material value="Player" />
+		<Mass value="20" />
+		<Offset value="0 -3 0" />
+		<FlagType value="1" />
+		<FlagCollider value="2" />
+	</GOC_RigidBody>
 	
 </GameObject>

@@ -18,10 +18,15 @@
 	<GOC_Lifespan>
 		<Timer value="20.0f" />
 	</GOC_Lifespan>
-
-	<GOC_SphereCollider>
-		<Radius value="3.0f" />
-	</GOC_SphereCollider>
+	
+	<GOC_RigidBody>
+		<Shape value="Box 1.25 1.25 0.1" />
+		<Material value="Normal" />
+		<Mass value="0" />
+		<Kinematic value="true" />
+		<FlagType value="2" />
+		<FlagCollider value="5" />
+	</GOC_RigidBody>
 	
 	<GOC_DestroyOnCollision>
 	</GOC_DestroyOnCollision>
