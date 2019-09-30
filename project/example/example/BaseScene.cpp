@@ -46,7 +46,6 @@ void BaseScene::Init()
 	//Use this example for standard base sound
 	//SE.AddSound("media/drumloop.wav", "drumloop", true);
 	//SE.PlayBasicSound("drumloop");
-	
 }
 
 void BaseScene::Update()

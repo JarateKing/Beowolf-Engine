@@ -1,0 +1,31 @@
+<effect>
+	<emitter max_particles="1" pX="1.5" pY="2.5" pZ="0" duration="-1" rate="0.0" texture="../resources/textures/particles/wizard.dds" additive="false" lifespanMin="-1" lifespanMax="-1">
+		<scale start="8.0" end="8.0" />
+	</emitter>
+	<emitter max_particles="20" pX="1.5" pY="2.5" pZ="0" duration="-1" rate="0.3" texture="../resources/textures/particles/glow.dds" additive="true" lifespanMin="4" lifespanMax="6">
+		<randomPos radius="0.1" />
+		
+		<scale start="1.0" end="0.1" />
+		<recolor sR="0.1" sG="0.8" sB="0.1" eR="1.0" eG="0.1" eB="0.1" />
+		<fade start="0.0" end="1.0" />
+	</emitter>
+	<emitter max_particles="20" pX="1.5" pY="2.5" pZ="0" duration="-1" rate="0.5" texture="../resources/textures/particles/glow.dds" additive="true" lifespanMin="4" lifespanMax="6">
+		<randomPos radius="0.3" />
+		
+		<scale start="2.0" end="0.4" />
+		<recolor sR="0.0" sG="0.2" sB="0.3" eR="0.0" eG="0.0" eB="0.0" />
+		<fade start="0.0" end="1.0" />
+	</emitter>
+	<emitter max_particles="3" pX="1.5" pY="2.5" pZ="0" duration="-1" rate="2.0" texture="../resources/textures/particles/ring.dds" additive="true" lifespanMin="5" lifespanMax="6">
+		<scale start="3.0" end="1.0" />
+		<recolor sR="0.0" sG="0.0" sB="0.3" eR="0.0" eG="0.0" eB="0.0" />
+		<fade start="0.0" end="1.0" />
+	</emitter>
+	<emitter max_particles="30" pX="1.5" pY="2.5" pZ="0" duration="-1" rate="0.2" texture="../resources/textures/particles/blur.dds" additive="true" lifespanMin="3" lifespanMax="3.25">
+		<randomPos radius="0.2" />
+		<scale start="0.1" end="0.005" />
+		<recolor sR="0.5" sG="1.0" sB="0.65" eR="0.0" eG="0.0" eB="0.0" />
+		<fade start="0.0" end="1.0" />
+		<velocity sX="0.0" sY="-0.1" sZ="0.0" eX="0.0" eY="-0.8" eZ="0.0" />
+	</emitter>
+</effect>
