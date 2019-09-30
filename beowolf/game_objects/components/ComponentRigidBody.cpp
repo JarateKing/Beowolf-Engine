@@ -10,6 +10,7 @@
 #include "BulletPhysicsManager.h"
 #include "ComponentRigidBody.h"
 #include "GameObject.h"
+#include <sstream>
 
 using namespace Common;
 
@@ -35,6 +36,7 @@ ComponentRigidBody::ComponentRigidBody()
 //------------------------------------------------------------------------------
 ComponentRigidBody::~ComponentRigidBody()
 {
+	BulletPhysicsManager::Instance()->GetWorld()->removeRigidBody(m_pBody);
 }
 
 //------------------------------------------------------------------------------
@@ -132,4 +134,163 @@ void ComponentRigidBody::Update(float p_fDelta)
 		transform.SetTranslation(vPos + vOffset);
 		transform.SetRotation(qRot);
 	}
+}
+
+Common::ComponentBase* ComponentRigidBody::CreateComponent(TiXmlNode* p_node, GameObject* owner)
+{
+	Common::ComponentRigidBody* rigidBody = new Common::ComponentRigidBody();
+
+	btCollisionShape* shape;
+	std::string material;
+	float mass = 0;
+	glm::vec3 offset = glm::vec3(0,0,0);
+	bool isKinematic = false;
+	long flagType = 0;
+	long flagColliders = 0;
+
+	for (TiXmlElement* i = p_node->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
+	{
+		std::string name = i->Value();
+
+		if (name == "Shape")
+		{
+			std::stringstream values(i->Attribute("value"));
+			std::string type;
+			values >> type;
+
+			if (type == "Sphere")
+			{
+				float radius;
+				values >> radius;
+				shape = new btSphereShape(radius);
+			}
+			else if (type == "Capsule")
+			{
+				float radius, height;
+				values >> radius;
+				values >> height;
+				shape = new btCapsuleShape(radius, height);
+			}
+			else if (type == "Cylinder")
+			{
+				float x, y, z;
+				values >> x;
+				values >> y;
+				values >> z;
+				shape = new btCylinderShape(btVector3(x, y, z));
+			}
+			else if (type == "Plane")
+			{
+				float a, b, c, d;
+				values >> a;
+				values >> b;
+				values >> c;
+				values >> d;
+				shape = new btStaticPlaneShape(btVector3(a, b, c), d);
+			}
+			else if (type == "Box")
+			{
+				float x, y, z;
+				values >> x;
+				values >> y;
+				values >> z;
+				shape = new btBoxShape(btVector3(x, y, z));
+			}
+		}
+		else if (name == "Material")
+		{
+			material = i->Attribute("value");
+		}
+		else if (name == "Mass")
+		{
+			mass = std::atof(i->Attribute("value"));
+		}
+		else if (name == "Offset")
+		{
+			std::stringstream values(i->Attribute("value"));
+			float x, y, z;
+			values >> x;
+			values >> y;
+			values >> z;
+			offset = glm::vec3(x, y, z);
+		}
+		else if (name == "Kinematic")
+		{
+			isKinematic = std::strcmp(i->Attribute("value"), "true") == 0;
+		}
+		else if (name == "FlagType")
+		{
+			flagType = std::atol(i->Attribute("value"));
+		}
+		else if (name == "FlagCollider")
+		{
+			flagColliders = std::atol(i->Attribute("value"));
+		}
+	}
+
+	rigidBody->SetGameObject(owner);
+	rigidBody->Init(shape, material, mass, offset, isKinematic);
+	rigidBody->SetFlags(flagType, flagColliders);
+	return rigidBody;
+}
+
+void ComponentRigidBody::SetPos(glm::vec3 pos)
+{
+	btTransform transform = m_pBody->getWorldTransform();
+	transform.setOrigin(btVector3(pos.x, pos.y, pos.z));
+	m_pBody->setWorldTransform(transform);
+}
+
+void ComponentRigidBody::ApplyForce(btVector3 direction, float max)
+{
+	m_pBody->activate(true);
+	if (m_pBody->getLinearVelocity() == btVector3(0,0,0) || max < 0.0f)
+	{
+		m_pBody->applyCentralForce(direction);
+	}
+	else
+	{
+		btVector3 newvec = direction + m_pBody->getLinearVelocity();
+		float newlength = newvec.length();
+		if (newlength > max)
+		{
+			m_pBody->setLinearVelocity(newvec.normalized() * max);
+		}
+		else
+		{
+			m_pBody->setLinearVelocity(newvec);
+		}
+	}
+}
+
+void ComponentRigidBody::NullifyForce()
+{
+	m_pBody->activate(true);
+	m_pBody->setLinearVelocity(btVector3(0, 0, 0));
+}
+
+void ComponentRigidBody::SetAngle(btQuaternion angle)
+{
+	m_pBody->activate(true);
+	m_pBody->setAngularVelocity(btVector3(0,0,0));
+
+	btTransform transform = m_pBody->getWorldTransform();
+	transform.setRotation(angle);
+	m_pBody->setWorldTransform(transform);
+}
+
+void ComponentRigidBody::SetFlags(long type, long collides)
+{
+	m_eventflagsType = type;
+	m_eventflagsCollides = collides;
+}
+
+long ComponentRigidBody::GetTypeFlag()
+{
+	return m_eventflagsType;
+}
+
+long ComponentRigidBody::GetCollidesFlag()
+{
+	return m_eventflagsCollides;
 }

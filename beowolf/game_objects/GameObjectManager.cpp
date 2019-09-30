@@ -9,6 +9,7 @@
 
 #include "GameObjectManager.h"
 #include "ComponentRenderable.h"
+#include "ComponentRigidBody.h"
 
 using namespace Common;
 
@@ -104,6 +105,21 @@ GameObject* GameObjectManager::GetGameObject(const std::string &p_strGOGUID)
 	return pGO;
 }
 
+std::vector<GameObject*> GameObjectManager::GetAIGameObjects()
+{
+	std::vector<GameObject*> toret;
+
+	GameObjectMap::iterator it = m_mGOMap.begin();
+	while (it != m_mGOMap.end())
+	{
+		if (it->second->GetComponent("GOC_AIController") != NULL)
+			toret.push_back(it->second);
+		it++;
+	}
+
+	return toret;
+}
+
 //------------------------------------------------------------------------------
 // Method:    SetGameObjectGUID
 // Parameter: GameObject * p_pGameObject
@@ -173,7 +189,18 @@ GameObject* GameObjectManager::CreateGameObject(const std::string& p_strGameObje
 		if (it != m_mComponentFactoryMap.end())
 		{
 			ComponentFactoryMethod factory = it->second;
-			ComponentBase* pComponent = factory(pComponentNode);
+			ComponentBase* pComponent;
+
+			if (std::strcmp(szComponentName, "GOC_RigidBody") == 0)
+			{
+				pComponent = Common::ComponentRigidBody::CreateComponent(pComponentNode, pGO);
+			}
+			else
+			{
+				pComponent = factory(pComponentNode);
+			}
+
+
 			if (pComponent != NULL)
 			{
 				pGO->AddComponent(pComponent);

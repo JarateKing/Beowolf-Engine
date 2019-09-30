@@ -11,6 +11,7 @@
 #define GAMEOBJECTMANAGER_H
 
 #include "GameObject.h"
+#include <vector>
 
 #if defined(_WIN32)
 #include "LuaScriptManager.h"
@@ -61,6 +62,9 @@ namespace Common
 		LuaPlus::LuaObject LuaCreateGameObject();
 		LuaPlus::LuaObject LuaCreateGameObjectXML(const char* p_strPath);
 #endif
+
+		// todo redo this, it was a holdout from a failed attempt that was workarounded until it worked
+		std::vector<GameObject*> GetAIGameObjects();
 
 	private:
 		//---------------------------------------------------------------------

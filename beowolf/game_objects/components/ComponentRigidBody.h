@@ -12,6 +12,8 @@
 
 #include "btBulletDynamicsCommon.h"
 #include "ComponentBase.h"
+#include "W_Common.h"
+#include "tinyxml.h"
 
 namespace Common
 {
@@ -28,10 +30,22 @@ namespace Common
 		virtual const std::string FamilyID(){ return std::string("GOC_RigidBody"); }
 		virtual void Update(float p_fDelta);
 
+		static ComponentBase* CreateComponent(TiXmlNode* p_node) { return NULL; };
+		static ComponentBase* CreateComponent(TiXmlNode* p_node, GameObject* owner);
+
 		//------------------------------------------------------------------------------
 		// Public methods for "GOC_RigidBody" family of components
 		//------------------------------------------------------------------------------
 		virtual void Init(btCollisionShape* p_pCollisionShape, const std::string& p_strMaterial, float p_fMass, const glm::vec3& p_vOffset, bool p_bIsKinematic = false);
+
+		virtual void SetPos(glm::vec3 pos);
+		virtual void ApplyForce(btVector3 direction, float max = -1.0f);
+		virtual void NullifyForce();
+		virtual void SetAngle(btQuaternion angle);
+
+		virtual void SetFlags(long type, long collides);
+		virtual long GetTypeFlag();
+		virtual long GetCollidesFlag();
 
 	private:
 		//------------------------------------------------------------------------------
@@ -49,6 +63,10 @@ namespace Common
 
 		// Is Physics controlled or manually controlled
 		bool m_bKinematic;
+
+		// bitflags
+		long m_eventflagsType;
+		long m_eventflagsCollides;
 	};
 }
 

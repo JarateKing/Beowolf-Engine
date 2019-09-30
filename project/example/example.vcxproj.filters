@@ -630,6 +630,48 @@
     <ClCompile Include="..\..\beowolf\game_objects\EventDetails.cpp">
       <Filter>beowolf\game_objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\AIActionNode.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\AIDecisionNode.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\AIDecisionTree.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\AIPathfinder.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateChasing.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateChasingFast.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateGrabbingCoin1.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateGrabbingCoin2.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateIdle.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateWander.cpp">
+      <Filter>beowolf\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentAIController.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentGun.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderableSprite.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentStunOnCollision.cpp">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1473,6 +1515,51 @@
     </ClInclude>
     <ClInclude Include="..\..\beowolf\game_objects\EventDetails.h">
       <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\AIActionNode.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\AIDecisionNode.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\AIDecisionTree.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\AINode.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\AIPathfinder.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateChasing.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateChasingFast.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateGrabbingCoin1.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateGrabbingCoin2.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateIdle.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateWander.h">
+      <Filter>beowolf\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentAIController.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentGun.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderableSprite.h">
+      <Filter>beowolf\game_objects\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentStunOnCollision.h">
+      <Filter>beowolf\game_objects\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
