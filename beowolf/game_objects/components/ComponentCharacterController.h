@@ -13,6 +13,7 @@
 
 #include "ComponentBase.h"
 #include "tinyxml.h"
+#include "ComponentRigidBody.h"
 
 namespace week2
 {
@@ -44,6 +45,9 @@ namespace week2
 		// Keys buffer
 		bool m_bKeysDown[256];
 		bool m_bKeysDownLast[256];
+
+		glm::quat m_rot;
+		Common::ComponentRigidBody* m_rigidbody = NULL;
 	};
 }
 

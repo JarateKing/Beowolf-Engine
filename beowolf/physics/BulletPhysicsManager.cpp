@@ -10,6 +10,8 @@
 #include "BulletPhysicsManager.h"
 #include "GameObject.h"
 #include <cassert>
+#include "..\week2\ExampleGame\src\EventManager.h"
+#include "ComponentRigidBody.h"
 
 using namespace Common;
 
@@ -221,8 +223,26 @@ void BulletPhysicsManager::TickCallback(btDynamicsWorld *p_pWorld, btScalar p_fT
 		btPersistentManifold* contactManifold = p_pWorld->getDispatcher()->getManifoldByIndexInternal(i);
 		const btRigidBody* obA = static_cast<const btRigidBody*>(contactManifold->getBody0());
 		const btRigidBody* obB = static_cast<const btRigidBody*>(contactManifold->getBody1());
-		const GameObject* pGameObjectA = static_cast<const GameObject*>(obA->getUserPointer());
-		const GameObject* pGameObjectB = static_cast<const GameObject*>(obB->getUserPointer());
+		GameObject* pGameObjectA = static_cast<GameObject*>(obA->getUserPointer());
+		GameObject* pGameObjectB = static_cast<GameObject*>(obB->getUserPointer());
+		ComponentRigidBody* first = (ComponentRigidBody*)pGameObjectA->GetComponent("GOC_RigidBody");
+		ComponentRigidBody* second = (ComponentRigidBody*)pGameObjectB->GetComponent("GOC_RigidBody");
+
+		if (second->GetTypeFlag() & first->GetCollidesFlag())
+		{
+			EventDetails* details = new EventDetails("Collision");
+			details->AddObj("first", pGameObjectA);
+			details->AddObj("second", pGameObjectB);
+			EventManager::getInstance().QueueEvent(details);
+		}
+
+		if (first->GetTypeFlag() & second->GetCollidesFlag())
+		{
+			EventDetails* details = new EventDetails("Collision");
+			details->AddObj("first", pGameObjectB);
+			details->AddObj("second", pGameObjectA);
+			EventManager::getInstance().QueueEvent(details);
+		}
 
 		int numContacts = contactManifold->getNumContacts();
 		for (int j = 0; j < numContacts; ++j)
