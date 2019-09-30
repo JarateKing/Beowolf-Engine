@@ -501,6 +501,9 @@
     <ClCompile Include="..\..\lib\fmod\core\examples\common_platform.cpp">
       <Filter>lib\fmod</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\sound\W_SoundEngine.cpp">
+      <Filter>beowolf\sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1228,6 +1231,9 @@
     <ClInclude Include="..\..\lib\fmod\core\examples\common_platform.h">
       <Filter>lib\fmod</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\beowolf\sound\W_SoundEngine.h">
+      <Filter>beowolf\sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="beowolf">
@@ -1259,6 +1265,9 @@
     </Filter>
     <Filter Include="lib\fmod">
       <UniqueIdentifier>{a51fe2ff-8487-462a-81fd-9ccc3c52b417}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="beowolf\sound">
+      <UniqueIdentifier>{53aa8f1a-f029-478d-a57e-21cb4f6239e7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
