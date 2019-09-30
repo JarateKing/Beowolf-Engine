@@ -54,13 +54,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\lib\fmod\core\inc;$(SolutionDir)..\..\lib\fmod\core\examples;$(SolutionDir)..\..\lib\bullet\src;$(SolutionDir)..\..\lib\glm;$(SolutionDir)..\..\lib\tinyxml;$(SolutionDir)..\..\lib;$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glfw\include;$(SolutionDir)..\..\lib\glew\include;$(SolutionDir)..\..\beowolf;$(SolutionDir)..\..\beowolf\graphics;$(SolutionDir)..\..\beowolf\graphics\core;$(SolutionDir)..\..\beowolf\graphics\text;$(SolutionDir)..\..\beowolf\graphics\particles;$(SolutionDir)..\..\beowolf\graphics\particles\affectors;$(SolutionDir)..\..\beowolf\math;$(SolutionDir)..\..\beowolf\text;$(SolutionDir)..\..;$(SolutionDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\lib\fmod\core\inc;$(SolutionDir)..\..\lib\fmod\core\examples;$(SolutionDir)..\..\lib\luaPlus\include;$(SolutionDir)..\..\lib\bullet\src;$(SolutionDir)..\..\lib\glm;$(SolutionDir)..\..\lib\tinyxml;$(SolutionDir)..\..\lib;$(SolutionDir)..\..\lib\PowerVR;$(SolutionDir)..\..\lib\glfw\include;$(SolutionDir)..\..\lib\glew\include;$(SolutionDir)..\..\beowolf;$(SolutionDir)..\..\beowolf\game_objects;$(SolutionDir)..\..\beowolf\game_objects\components;$(SolutionDir)..\..\beowolf\physics;$(SolutionDir)..\..\beowolf\graphics;$(SolutionDir)..\..\beowolf\graphics\core;$(SolutionDir)..\..\beowolf\graphics\text;$(SolutionDir)..\..\beowolf\graphics\particles;$(SolutionDir)..\..\beowolf\graphics\particles\affectors;$(SolutionDir)..\..\beowolf\math;$(SolutionDir)..\..\beowolf\text;$(SolutionDir)..\..;$(SolutionDir)..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>GLFW.lib;glew32.lib;opengl32.lib;glu32.lib;fmodL_vc.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\lib\glew\lib;$(SolutionDir)..\..\lib\glfw\lib-msvc100;$(SolutionDir)..\..\lib\fmod\core\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GLFW.lib;glew32.lib;opengl32.lib;glu32.lib;luaplus51-1201.lib;fmodL_vc.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\lib\glew\lib;$(SolutionDir)..\..\lib\glfw\lib-msvc100;$(ProjectDir)..\..\lib\luaPlus\lib;$(SolutionDir)..\..\lib\fmod\core\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -81,14 +81,55 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\beowolf\game_objects\AIActionNode.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIDecisionNode.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIDecisionTree.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIPathfinder.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateChasing.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateChasingFast.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateGrabbingCoin1.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateGrabbingCoin2.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateIdle.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateWander.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentAIController.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentAnimController.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentBobbing.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCameraPos.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCharacterController.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCoinTimer.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentDestroyOnCollision.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentFollow.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentGun.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentLifespan.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentLookat.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentMovingPointlight.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderableMesh.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderablePlane.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderableSprite.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRigidBody.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRotating.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentScore.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentSphereCollider.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentStunOnCollision.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\EventDetails.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\EventManager.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\GameObject.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\GameObjectManager.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\LuaScriptManager.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\SceneCamera.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\SceneManager.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\StateMachine.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\Transform.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Buffer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_BufferManager.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_IndexBuffer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_LineDrawer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Material.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_MaterialManager.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Model.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Program.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_ProgramManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Sprite.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Texture.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_TextureManager.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_VertexBuffer.cpp" />
@@ -114,6 +155,9 @@
     <ClCompile Include="..\..\beowolf\math\W_ProjectionMatrix.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_RNG.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_Time.cpp" />
+    <ClCompile Include="..\..\beowolf\physics\BulletPhysicsDebugDrawer.cpp" />
+    <ClCompile Include="..\..\beowolf\physics\BulletPhysicsManager.cpp" />
+    <ClCompile Include="..\..\beowolf\physics\BulletPhysicsMaterialManager.cpp" />
     <ClCompile Include="..\..\beowolf\sound\W_SoundEngine.cpp" />
     <ClCompile Include="..\..\beowolf\text\W_TextTable.cpp" />
     <ClCompile Include="..\..\beowolf\W_Common.cpp" />
@@ -267,14 +311,59 @@
     <ClCompile Include="example\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\beowolf\game_objects\AIActionNode.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIDecisionNode.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIDecisionTree.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AINode.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIPathfinder.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateChasing.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateChasingFast.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateGrabbingCoin1.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateGrabbingCoin2.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateIdle.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateWander.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentAIController.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentAnimController.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentBase.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentBobbing.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCameraPos.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCharacterController.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCoinTimer.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentDestroyOnCollision.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentFollow.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentGun.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentLifespan.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentLookat.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentMovingPointlight.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderable.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderableMesh.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderablePlane.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderableSprite.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRigidBody.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRotating.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentScore.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentSphereCollider.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentStunOnCollision.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\EventDetails.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\EventManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\GameObject.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\GameObjectManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\LuaScriptManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\SceneCamera.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\SceneManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\StateBase.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\StateMachine.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\Transform.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Buffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_BufferManager.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_IndexBuffer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_LineDrawer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Material.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_MaterialManager.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Model.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Program.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_ProgramManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Sprite.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Texture.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_TextureManager.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexBuffer.h" />
@@ -302,6 +391,9 @@
     <ClInclude Include="..\..\beowolf\math\W_ProjectionMatrix.h" />
     <ClInclude Include="..\..\beowolf\math\W_RNG.h" />
     <ClInclude Include="..\..\beowolf\math\W_Time.h" />
+    <ClInclude Include="..\..\beowolf\physics\BulletPhysicsDebugDrawer.h" />
+    <ClInclude Include="..\..\beowolf\physics\BulletPhysicsManager.h" />
+    <ClInclude Include="..\..\beowolf\physics\BulletPhysicsMaterialManager.h" />
     <ClInclude Include="..\..\beowolf\sound\W_SoundEngine.h" />
     <ClInclude Include="..\..\beowolf\text\W_TextTable.h" />
     <ClInclude Include="..\..\beowolf\W_Common.h" />

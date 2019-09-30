@@ -36,6 +36,8 @@ enum Attribute
 	AT_TexCoord8,
 	AT_Normal,
 	AT_Tangent,
+	AT_BoneIndices,
+	AT_BoneWeight,
 	AT_NUM_ATTRIBS
 };
 

@@ -1,0 +1,6 @@
+<GameObject>	
+	<GOC_CoinTimer>
+		<Spawnrate value="2.0f" />
+		<MaxCount value="5" />
+	</GOC_CoinTimer>
+</GameObject>

@@ -1,0 +1,36 @@
+<GameObject>
+	<GOC_AnimController>
+		<Anim name="idle" file="../resources/models/swat/anim/idle.pod" start="0" end="31" loop="true" />
+		<Anim name="standard_run" file="../resources/models/swat/anim/standard_run.pod" start="0" end="22" loop="true" />
+		<Anim name="walking" file="../resources/models/swat/anim/walking.pod" start="0" end="31" loop="true" />
+		<Default name="idle" />
+	</GOC_AnimController>
+	
+	<GOC_RenderableMesh>
+		<Model path="../resources/models/swat/Swat.pod" />
+		<Textures path="../resources/models/swat/" />
+		<VertexProgram path="../resources/shaders/skinned.vsh" />
+		<FragmentProgram path="../resources/shaders/skinned.fsh" />
+	</GOC_RenderableMesh>
+	
+	<GOC_CharacterController>
+	</GOC_CharacterController>
+	
+	<GOC_Score>
+		<Score value="0" />
+	</GOC_Score>
+	
+	<GOC_Gun>
+		<Firerate value="0.5f" />
+	</GOC_Gun>
+	
+	<GOC_RigidBody>
+		<Shape value="Capsule 2 6" />
+		<Material value="Player" />
+		<Mass value="20" />
+		<Offset value="0 -3 0" />
+		<FlagType value="1" />
+		<FlagCollider value="2" />
+	</GOC_RigidBody>
+	
+</GameObject>

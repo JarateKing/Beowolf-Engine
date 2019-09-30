@@ -1,0 +1,7 @@
+<physics_materials>
+	<Player friction="1.0" restitution="0.10" />
+	<PlayDough friction="0.9" restitution="0.05" />
+	<Normal friction="0.5" restitution="0.25" />
+	<Bouncy friction="0.5" restitution="0.95" />
+	<Slippery friction="0.0" restitution="0.25" />
+</physics_materials>

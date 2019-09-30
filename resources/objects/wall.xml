@@ -1,0 +1,15 @@
+<GameObject>	
+	<GOC_RenderableMesh>
+		<Model path="../resources/models/plane.pod" />
+		<Textures path="../resources/models/" />
+		<VertexProgram path="../resources/shaders/textured.vsh" />
+		<FragmentProgram path="../resources/shaders/textured.fsh" />
+	</GOC_RenderableMesh>
+	
+	<GOC_RigidBody>
+		<Shape value="Box 50 0.001 50" />
+		<Material value="Normal" />
+		<Mass value="0" />
+		<Kinematic value="true" />
+	</GOC_RigidBody>
+</GameObject>

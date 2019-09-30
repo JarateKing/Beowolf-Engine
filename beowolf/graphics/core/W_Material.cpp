@@ -280,6 +280,62 @@ void Material::SetUniform(const std::string& p_strName, float p_f)
 }
 
 //----------------------------------------------------------
+// Set uniform version for int uniforms
+//----------------------------------------------------------
+void Material::SetUniform(const std::string& p_strName, int p_i)
+{
+	std::map<std::string, Uniform*>::iterator iter = m_uniforms.find(p_strName);
+
+	if( iter == m_uniforms.end() )
+	{
+		m_uniforms.insert( std::pair<std::string, Uniform*>(p_strName, new IntUniform(p_strName,p_i)));
+		return;
+	}
+
+	assert(iter->second->m_eType == UT_Int);
+	IntUniform* pUniform = static_cast<IntUniform*>(iter->second);
+	pUniform->m_value = p_i;
+}
+
+//----------------------------------------------------------
+// Set uniform version for mat4* uniforms
+//----------------------------------------------------------
+void Material::SetUniform(const std::string& p_strName, const glm::mat4* p_aMatrices, int p_uiNumMatrices)
+{
+	std::map<std::string, Uniform*>::iterator iter = m_uniforms.find(p_strName);
+
+	if( iter == m_uniforms.end() )
+	{
+		m_uniforms.insert( std::pair<std::string, Uniform*>(p_strName, new Matrix4ArrayUniform(p_strName,p_aMatrices,p_uiNumMatrices)));
+		return;
+	}
+
+	assert(iter->second->m_eType == UT_Matrix4Array);
+	Matrix4ArrayUniform* pUniform = static_cast<Matrix4ArrayUniform*>(iter->second);
+	pUniform->m_value = p_aMatrices;
+	pUniform->m_uiCount = p_uiNumMatrices;
+}
+
+//----------------------------------------------------------
+// Set uniform version for mat3* uniforms
+//----------------------------------------------------------
+void Material::SetUniform(const std::string& p_strName, const glm::mat3* p_aMatrices, int p_uiNumMatrices)
+{
+	std::map<std::string, Uniform*>::iterator iter = m_uniforms.find(p_strName);
+
+	if( iter == m_uniforms.end() )
+	{
+		m_uniforms.insert( std::pair<std::string, Uniform*>(p_strName, new Matrix3ArrayUniform(p_strName,p_aMatrices,p_uiNumMatrices)));
+		return;
+	}
+
+	assert(iter->second->m_eType == UT_Matrix3Array);
+	Matrix3ArrayUniform* pUniform = static_cast<Matrix3ArrayUniform*>(iter->second);
+	pUniform->m_value = p_aMatrices;
+	pUniform->m_uiCount = p_uiNumMatrices;
+}
+
+//----------------------------------------------------------
 // Used to set textures on the material, and associate them
 // with names in the shader
 //----------------------------------------------------------

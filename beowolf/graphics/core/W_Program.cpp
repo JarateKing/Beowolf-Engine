@@ -24,6 +24,8 @@ static const char* gs_aAttributeMap[wolf::AT_NUM_ATTRIBS] =
 	"a_uv8",		//AT_TexCoord8	
 	"a_normal",		//AT_Normal
 	"a_tangent",	//AT_Tangent
+	"a_boneIndices",//AT_BoneIndices
+	"a_boneWeights"	//AT_BoneWeight
 };
 
 //----------------------------------------------------------
@@ -177,7 +179,21 @@ void Program::SetUniform(const char* p_strName, const wolf::Color4& p_c)
 }
 
 //----------------------------------------------------------
-// Sets an integer uniform of the given name
+// Sets a floating point uniform of the given name
+//----------------------------------------------------------
+void Program::SetUniform(const char* p_strName, float p_f)
+{
+	int iLoc = glGetUniformLocation(m_uiProgram,p_strName);
+	if( iLoc == -1 )
+	{
+		//printf("WARNING: Unknown uniform %s\n", p_strName);
+		return;
+	}
+	glUniform1f(iLoc, p_f);
+}
+
+//----------------------------------------------------------
+// Sets an int uniform of the given name
 //----------------------------------------------------------
 void Program::SetUniform(const char* p_strName, int p_i)
 {
@@ -190,18 +206,33 @@ void Program::SetUniform(const char* p_strName, int p_i)
 	glUniform1i(iLoc, p_i);
 }
 
+
 //----------------------------------------------------------
-// Sets a floating point uniform of the given name
+// Sets a mat4* uniform of the given name
 //----------------------------------------------------------
-void Program::SetUniform(const char* p_strName, float p_f)
+void Program::SetUniform(const char* p_strName, const glm::mat4* p_m, int p_uiNumMatrices)
 {
 	int iLoc = glGetUniformLocation(m_uiProgram,p_strName);
 	if( iLoc == -1 )
 	{
-		//printf("WARNING: Unknown uniform %s\n", p_strName);
+		printf("WARNING: Unknown uniform %s\n", p_strName);
 		return;
 	}
-	glUniform1f(iLoc, p_f);
+	glUniformMatrix4fv(iLoc, p_uiNumMatrices, GL_FALSE, glm::value_ptr(*p_m));
+}
+
+//----------------------------------------------------------
+// Sets a mat3* uniform of the given name
+//----------------------------------------------------------
+void Program::SetUniform(const char* p_strName, const glm::mat3* p_m, int p_uiNumMatrices)
+{
+	int iLoc = glGetUniformLocation(m_uiProgram,p_strName);
+	if( iLoc == -1 )
+	{
+		printf("WARNING: Unknown uniform %s\n", p_strName);
+		return;
+	}
+	glUniformMatrix3fv(iLoc, p_uiNumMatrices, GL_FALSE, glm::value_ptr(*p_m));
 }
 
 //----------------------------------------------------------
