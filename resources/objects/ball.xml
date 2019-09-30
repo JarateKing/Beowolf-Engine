@@ -1,9 +1,9 @@
 <GameObject>	
 	<GOC_RenderableMesh>
-		<Model path="assignmentResources/assignment3/props/ball.pod" />
-		<Textures path="assignmentResources/assignment3/props/" />
-		<VertexProgram path="assignmentResources/assignment3/shaders/textured.vsh" />
-		<FragmentProgram path="assignmentResources/assignment3/shaders/textured.fsh" />
+		<Model path="../resources/models/ball.pod" />
+		<Textures path="../resources/models/" />
+		<VertexProgram path="../resources/shaders/textured.vsh" />
+		<FragmentProgram path="../resources/shaders/textured.fsh" />
 	</GOC_RenderableMesh>
 	
 	<GOC_Lifespan>
