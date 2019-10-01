@@ -9,6 +9,9 @@
 !project/rename-project.bat
 !project/ignored-files.txt
 
+# re-include globally ignored files
+!*.lib
+
 # ignore all visual studio files
 *.obj
 *.suo
