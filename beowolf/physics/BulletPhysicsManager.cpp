@@ -10,7 +10,7 @@
 #include "BulletPhysicsManager.h"
 #include "GameObject.h"
 #include <cassert>
-#include "..\week2\ExampleGame\src\EventManager.h"
+#include "EventManager.h"
 #include "ComponentRigidBody.h"
 
 using namespace Common;
