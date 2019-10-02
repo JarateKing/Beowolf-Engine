@@ -16,12 +16,6 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
-	glm::vec3 test = glm::normalize(glm::vec3(1.0f, 0.5f, 0.00f));
-	std::cout << test.x << ", " << test.y << ", " << test.z << "\n";
-
-	test = glm::eulerAngles(wolf::Math::toQuaternion(test));
-	std::cout << test.x << ", " << test.y << ", " << test.z << "\n";
-
 	/////////////////////////
 	//Demo for Audio System//
 	/////////////////////////
