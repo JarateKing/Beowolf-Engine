@@ -3,7 +3,7 @@
 The Beo-Model-Wolf File Format is a format for models.
 
 ## Format
-The format stores values as binary.
+The format stores values as binary. Values being loaded in are the size of their c++ equivalent (ie. an `int` is 32-bit and takes up 4 ASCII characters worth). All strings are null terminated arrays of characters (c-style strings).
 
 ### Header 
 All files begin with the Beo-Model-Wolf Header:
@@ -63,5 +63,5 @@ for each mesh:
 unsigned int - number of children
 
 for each child:
-	node - child node (this structure again)
+	node - child node (this structure nested)
 ```
