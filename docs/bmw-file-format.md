@@ -37,13 +37,13 @@ for each mesh:
 		float y
 		float z
 		// color
-		int r
-		int g
-		int b
-		int a
+		int r (default 255)
+		int g (default 255)
+		int b (default 255)
+		int a (default 255)
 		// texture uv
-		float u
-		float v
+		float u (default 0.0)
+		float v (default 0.0)
 		// normal mapping
 		float nx
 		float ny
