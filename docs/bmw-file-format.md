@@ -50,3 +50,18 @@ for each mesh:
 		float nz
 ```
 
+### Nodes
+The third block of data contains a nested tree structure of nodes. The format begins at the root node, and is as follows:
+```
+float 4*4 - transformation matrix
+
+unsigned int - number of meshes
+
+for each mesh:
+	unsigned int - mesh id
+	
+unsigned int - number of children
+
+for each child:
+	node - child node (this structure again)
+```
