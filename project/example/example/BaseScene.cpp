@@ -41,8 +41,15 @@ BaseScene::BaseScene()
 void BaseScene::Init()
 {
 	std::ifstream in("resources/models/teapot.bmw", std::ifstream::binary);
-	std::cout << readString(&in);
-	std::cout << readInt(&in);
+
+	readString(&in);
+	unsigned int materials = readInt(&in);
+	for (int i = 0; i < materials; i++) {
+		unsigned int textures = readInt(&in);
+		for (int j = 0; j < textures; j++) {
+			std::cout << readString(&in);
+		}
+	}
 }
 
 void BaseScene::Update()
