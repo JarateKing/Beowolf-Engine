@@ -10,10 +10,13 @@ std::string readString(std::ifstream* in) {
 	std::string toret = "";
 	char next;
 
-	do {
+	while (true) {
 		(*in).read(&next, sizeof(char));
-		toret += next;
-	} while (next != 0);
+		if (next != 0)
+			toret += next;
+		else
+			break;
+	}
 
 	return toret;
 }
