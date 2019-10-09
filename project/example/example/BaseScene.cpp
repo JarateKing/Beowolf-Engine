@@ -19,11 +19,15 @@ std::string readString(std::ifstream* in) {
 }
 
 unsigned int readInt(std::ifstream* in) {
-	return 0;
+	unsigned int toret;
+	(*in).read((char*)&toret, sizeof(unsigned int));
+	return toret;
 }
 
 float readFloat(std::ifstream* in) {
-	return 0.0;
+	float toret;
+	(*in).read((char*)&toret, sizeof(float));
+	return toret;
 }
 
 
@@ -35,6 +39,7 @@ void BaseScene::Init()
 {
 	std::ifstream in("resources/models/teapot.bmw", std::ifstream::binary);
 	std::cout << readString(&in);
+	std::cout << readInt(&in);
 }
 
 void BaseScene::Update()
