@@ -47,7 +47,18 @@ void BaseScene::Init()
 	for (int i = 0; i < materials; i++) {
 		unsigned int textures = readInt(&in);
 		for (int j = 0; j < textures; j++) {
-			std::cout << readString(&in);
+			std::cout << readString(&in) << "\n";
+		}
+	}
+
+	unsigned int meshes = readInt(&in);
+	for (int i = 0; i < meshes; i++) {
+		unsigned int vertices = readInt(&in);
+		for (int j = 0; j < vertices; j++) {
+			std::cout << readFloat(&in) << " " << readFloat(&in) << " " << readFloat(&in) << " ";
+			std::cout << readInt(&in) << " " << readInt(&in) << " " << readInt(&in) << " " << readInt(&in) << " ";
+			std::cout << readFloat(&in) << " " << readFloat(&in) << " ";
+			std::cout << readFloat(&in) << " " << readFloat(&in) << " " << readFloat(&in) << "\n";
 		}
 	}
 }
