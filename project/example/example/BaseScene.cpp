@@ -5,6 +5,15 @@
 
 #include <fstream>
 #include <string>
+#include <W_Common.h>
+#include <vector>
+
+struct Node {
+	glm::mat4 transform;
+	unsigned int meshNum;
+	unsigned int* meshIDs;
+	std::vector<Node> children;
+};
 
 std::string readString(std::ifstream* in) {
 	std::string toret = "";
