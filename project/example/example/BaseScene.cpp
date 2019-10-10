@@ -42,6 +42,33 @@ float readFloat(std::ifstream* in) {
 	return toret;
 }
 
+Node readNode(std::ifstream* in) {
+	glm::mat4 transform;
+
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			transform[i][j] = readFloat(in);
+
+	unsigned int meshNum = readInt(in);
+	unsigned int* meshes = new unsigned int[meshNum];
+	for (int i = 0; i < meshNum; i++)
+		meshes[i] = readInt(in);
+
+	unsigned int childNum = readInt(in);
+	std::vector<Node> children;
+
+	for (int i = 0; i < childNum; i++) {
+		children.push_back(readNode(in));
+	}
+
+	Node toret;
+	toret.transform = transform;
+	toret.meshNum = meshNum;
+	toret.meshIDs = meshes;
+	toret.children = children;
+	return toret;
+}
+
 
 BaseScene::BaseScene()
 {
@@ -70,6 +97,8 @@ void BaseScene::Init()
 			std::cout << readFloat(&in) << " " << readFloat(&in) << " " << readFloat(&in) << "\n";
 		}
 	}
+
+	Node root = readNode(&in);
 }
 
 void BaseScene::Update()
