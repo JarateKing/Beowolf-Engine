@@ -737,6 +737,9 @@
     <ClCompile Include="..\..\lib\PowerVR\PVRTVertex.cpp">
       <Filter>lib\powervr</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\BMWLoader.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1664,6 +1667,9 @@
     </ClInclude>
     <ClInclude Include="..\..\lib\PowerVR\PVRTVertex.h">
       <Filter>lib\powervr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\BMWLoader.h">
+      <Filter>beowolf\graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
