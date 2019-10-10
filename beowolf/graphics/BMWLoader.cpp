@@ -1,7 +1,34 @@
 #include "BMWLoader.h"
+#include <iostream>
 
 namespace wolf
 {
+	void BMWLoader::loadFile(std::string file) {
+		std::ifstream in(file, std::ifstream::binary);
+
+		readString(&in);
+		unsigned int materials = readInt(&in);
+		for (int i = 0; i < materials; i++) {
+			unsigned int textures = readInt(&in);
+			for (int j = 0; j < textures; j++) {
+				std::cout << readString(&in) << "\n";
+			}
+		}
+
+		unsigned int meshes = readInt(&in);
+		for (int i = 0; i < meshes; i++) {
+			unsigned int vertices = readInt(&in);
+			for (int j = 0; j < vertices; j++) {
+				std::cout << readFloat(&in) << " " << readFloat(&in) << " " << readFloat(&in) << " ";
+				std::cout << readInt(&in) << " " << readInt(&in) << " " << readInt(&in) << " " << readInt(&in) << " ";
+				std::cout << readFloat(&in) << " " << readFloat(&in) << " ";
+				std::cout << readFloat(&in) << " " << readFloat(&in) << " " << readFloat(&in) << "\n";
+			}
+		}
+
+		BMWNode root = readNode(&in);
+	}
+
 	std::string BMWLoader::readString(std::ifstream* in) {
 		std::string toret = "";
 		char next;

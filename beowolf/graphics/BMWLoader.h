@@ -21,7 +21,7 @@ namespace wolf
 			return instance;
 		}
 
-
+		void BMWLoader::loadFile(std::string file);
 
 	private:
 		BMWLoader() {}
