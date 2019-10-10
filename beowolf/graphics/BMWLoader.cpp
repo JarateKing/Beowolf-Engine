@@ -5,24 +5,28 @@ namespace wolf
 {
 	void BMWLoader::loadFile(std::string file) {
 		std::ifstream in(file, std::ifstream::binary);
+		std::vector<std::string> texlist;
+		std::vector<std::vector<Vertex>> meshlist;
 
 		readString(&in);
 		unsigned int materials = readInt(&in);
 		for (int i = 0; i < materials; i++) {
 			unsigned int textures = readInt(&in);
 			for (int j = 0; j < textures; j++) {
-				std::cout << readString(&in) << "\n";
+				texlist.push_back(readString(&in));
 			}
 		}
 
 		unsigned int meshes = readInt(&in);
 		for (int i = 0; i < meshes; i++) {
 			unsigned int vertices = readInt(&in);
+			meshlist.push_back(std::vector<Vertex>(vertices));
 			for (int j = 0; j < vertices; j++) {
-				std::cout << readFloat(&in) << " " << readFloat(&in) << " " << readFloat(&in) << " ";
-				std::cout << readInt(&in) << " " << readInt(&in) << " " << readInt(&in) << " " << readInt(&in) << " ";
-				std::cout << readFloat(&in) << " " << readFloat(&in) << " ";
-				std::cout << readFloat(&in) << " " << readFloat(&in) << " " << readFloat(&in) << "\n";
+				Vertex cur = { readFloat(&in), readFloat(&in), readFloat(&in), readInt(&in), readInt(&in), readInt(&in), readInt(&in), readFloat(&in), readFloat(&in) };
+				cur.normalDirX = readFloat(&in);
+				cur.normalDirY = readFloat(&in);
+				cur.normalDirZ = readFloat(&in);
+				meshlist[i].push_back(cur);
 			}
 		}
 
