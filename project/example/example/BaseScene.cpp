@@ -3,7 +3,7 @@
 #include "BaseScene.h"
 #include <iostream>
 
-#include <BMWLoader.h>
+#include <BMWModel.h>
 
 
 BaseScene::BaseScene()
@@ -12,7 +12,7 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
-	wolf::BMWLoader::getInstance().loadFile("resources/models/hand.bmw");
+	wolf::BMWModel* test = new wolf::BMWModel("resources/models/hand.bmw", "", "");
 }
 
 void BaseScene::Update()
