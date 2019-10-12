@@ -4,7 +4,9 @@
 #include <iostream>
 
 #include <BMWModel.h>
+#include <W_Time.h>
 
+wolf::BMWModel* test;
 
 BaseScene::BaseScene()
 {
@@ -12,15 +14,17 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
-	wolf::BMWModel* test = new wolf::BMWModel("resources/models/hand.bmw", "", "");
+	test = new wolf::BMWModel("resources/models/hand.bmw", "", "");
 }
 
 void BaseScene::Update()
 {
+	test->update(wolf::Time::Instance().deltaTime());
 }
 
 void BaseScene::Render()
 {
+	test->render(glm::mat4(), glm::mat4());
 }
 
 

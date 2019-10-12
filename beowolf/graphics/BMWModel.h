@@ -9,6 +9,8 @@ namespace wolf
 	{
 	public:
 		BMWModel(std::string file, std::string vertexShader, std::string pixelShader);
+		void update(float delta);
+		void render(glm::mat4 view, glm::mat4 proj);
 
 	private:
 		std::vector<std::string> m_textures;
