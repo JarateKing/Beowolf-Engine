@@ -20,6 +20,7 @@ namespace wolf
 	private:
 		struct Mesh
 		{
+			unsigned int size;
 			wolf::VertexBuffer* m_pVB;
 			wolf::IndexBuffer* m_pIB;
 			wolf::VertexDeclaration* m_pDecl;

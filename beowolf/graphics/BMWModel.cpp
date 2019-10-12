@@ -12,6 +12,7 @@ namespace wolf
 		// set up m_meshes
 		for (int i = 0; i < m_vertices.size(); i++) {
 			Mesh current;
+			current.size = m_vertices[i].size();
 			current.m_pVB = wolf::BufferManager::CreateVertexBuffer(&(m_vertices[i][0]), sizeof(Vertex) * m_vertices[i].size());
 			current.m_pProg = wolf::ProgramManager::CreateProgram(vertexShader, pixelShader);
 
@@ -61,7 +62,7 @@ namespace wolf
 			m_meshes[m_toRender[i].meshID].m_pDecl->Bind();
 			
 			// Draw!
-			glDrawArrays(GL_TRIANGLES, 0, 9999);
+			glDrawArrays(GL_TRIANGLES, 0, m_meshes[m_toRender[i].meshID].size * sizeof(Vertex));
 		}
 	}
 }
