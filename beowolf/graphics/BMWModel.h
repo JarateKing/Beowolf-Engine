@@ -6,6 +6,7 @@
 #include <W_VertexBuffer.h>
 #include <W_VertexDeclaration.h>
 #include <W_IndexBuffer.h>
+#include <W_Program.h>
 
 namespace wolf
 {
@@ -22,6 +23,7 @@ namespace wolf
 			wolf::VertexBuffer* m_pVB;
 			wolf::IndexBuffer* m_pIB;
 			wolf::VertexDeclaration* m_pDecl;
+			wolf::Program* m_pProg;
 		};
 
 		struct NodeMesh

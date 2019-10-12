@@ -13,6 +13,7 @@ namespace wolf
 		for (int i = 0; i < m_vertices.size(); i++) {
 			Mesh current;
 			current.m_pVB = wolf::BufferManager::CreateVertexBuffer(&(m_vertices[i][0]), sizeof(Vertex) * m_vertices[i].size());
+			current.m_pProg = wolf::ProgramManager::CreateProgram(vertexShader, pixelShader);
 
 			current.m_pDecl = new wolf::VertexDeclaration();
 			current.m_pDecl->Begin();
