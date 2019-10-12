@@ -740,6 +740,9 @@
     <ClCompile Include="..\..\beowolf\graphics\BMWLoader.cpp">
       <Filter>beowolf\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\BMWModel.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1669,6 +1672,9 @@
       <Filter>lib\powervr</Filter>
     </ClInclude>
     <ClInclude Include="..\..\beowolf\graphics\BMWLoader.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\BMWModel.h">
       <Filter>beowolf\graphics</Filter>
     </ClInclude>
   </ItemGroup>
