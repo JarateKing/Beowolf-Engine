@@ -2,6 +2,10 @@
 #include <BMWLoader.h>
 #include <vector>
 #include <string>
+#include <W_Material.h>
+#include <W_VertexBuffer.h>
+#include <W_VertexDeclaration.h>
+#include <W_IndexBuffer.h>
 
 namespace wolf
 {
@@ -13,8 +17,25 @@ namespace wolf
 		void render(glm::mat4 view, glm::mat4 proj);
 
 	private:
+		struct Mesh
+		{
+			wolf::VertexBuffer* m_pVB;
+			wolf::IndexBuffer* m_pIB;
+			wolf::VertexDeclaration* m_pDecl;
+		};
+
+		struct NodeMesh
+		{
+			glm::mat4 transform;
+			int meshID;
+		};
+
 		std::vector<std::string> m_textures;
-		std::vector<std::vector<Vertex>> m_meshes;
+		std::vector<std::vector<Vertex>> m_vertices;
+		std::vector<Mesh> m_meshes;
+		std::vector<Material*> m_materials;
+		glm::mat4 transform;
 		BMWNode m_rootNode;
+		std::vector<NodeMesh> m_toRender;
 	};
 }
