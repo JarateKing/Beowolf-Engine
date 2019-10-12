@@ -55,7 +55,6 @@ namespace wolf
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("projection", proj);
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("view", view);
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("world", transform);
-			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("color", glm::vec4(1, 0, 0, 1));
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("tex", 0);
 			
 			// Set up source data
