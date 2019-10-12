@@ -23,6 +23,8 @@ namespace wolf
 			current.m_pDecl->AppendAttribute(AT_Normal, 3, CT_Float);
 			current.m_pDecl->SetVertexBuffer(current.m_pVB);
 			current.m_pDecl->End();
+
+			m_meshes.push_back(current);
 		}
 
 		std::stack<BMWNode> nodes;
@@ -48,6 +50,19 @@ namespace wolf
 
 	void BMWModel::render(glm::mat4 view, glm::mat4 proj)
 	{
-
+		for (int i = 0; i < m_toRender.size(); i++) {
+			m_meshes[m_toRender[i].meshID].m_pProg->Bind();
+			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("projection", proj);
+			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("view", view);
+			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("world", transform);
+			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("color", glm::vec4(1, 0, 0, 1));
+			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("tex", 0);
+			
+			// Set up source data
+			m_meshes[m_toRender[i].meshID].m_pDecl->Bind();
+			
+			// Draw!
+			glDrawArrays(GL_TRIANGLES, 0, 9999);
+		}
 	}
 }
