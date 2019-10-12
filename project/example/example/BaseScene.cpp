@@ -14,7 +14,7 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
-	test = new wolf::BMWModel("resources/models/hand.bmw", "", "");
+	test = new wolf::BMWModel("resources/models/hand.bmw", "resources/shaders/cube.vsh", "resources/shaders/cube.fsh");
 }
 
 void BaseScene::Update()
