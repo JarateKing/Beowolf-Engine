@@ -32,7 +32,7 @@ void BaseScene::Update()
 
 void BaseScene::Render()
 {
-	test->render(cam->GetViewMatrix(), wolf::ProjMatrix::GetProjectionMatrix(90.0f));
+	test->render(cam->GetViewMatrix(), glm::mat4());
 }
 
 
