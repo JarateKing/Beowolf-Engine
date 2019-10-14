@@ -1,0 +1,10 @@
+{
+	"physics_materials" :
+	{
+		"Player" : {"friction" : "1.0", "restitution" : "0.10"},
+		"Playdough" : {"friction" : "1.0", "restitution" : "0.10"}, 
+		"Normal" : {"friction" : "1.0", "restitution" : "0.10"},
+		"Bouncy" : {"friction" : "1.0", "restitution" : "0.10"},
+		"Slippery" : {"friction" : "1.0", "restitution" : "0.10"}
+	}
+}

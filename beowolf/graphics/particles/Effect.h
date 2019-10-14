@@ -9,7 +9,7 @@ class Effect
 {
 public:
 	Effect();
-	Effect(std::string xmlPath);
+	Effect(std::string jsonPath);
 	~Effect();
 	void Update(float delta, glm::mat3 view);
 	void Render(glm::mat4 projview);

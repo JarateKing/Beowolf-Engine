@@ -147,13 +147,44 @@ void ComponentAnimController::SetAnim(const std::string &p_strAnimName)
 }
 
 // FACTORY
-Common::ComponentBase* ComponentAnimController::CreateComponent(TiXmlNode* p_node)
+Common::ComponentBase* ComponentAnimController::CreateComponent(json p_pNode)
 {
 	ComponentAnimController* component = new ComponentAnimController();
+	size_t it_h = 0;
+	auto& gameObjects = p_pNode["GameObject"];
 
-	for (TiXmlElement* i = p_node->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
+	for (auto& gameObject : gameObjects)
+	{
+		if (gameObject[it_h]["Component Name"] == "GOC_AnimController")
+		{
+			auto& anims = gameObject[it_h]["Animations"];
+			for (auto& anim : anims)
+			{
+				std::string name = anim["name"];
+				std::string file = anim["file"];
+				std::string start = anim["start"];
+				std::string end = anim["end"];
+				int starti = std::stoi(start);
+				int endi = std::stoi(end);
+				std::string loop = anim["loop"];
+				bool loopi = false;
+				if (loop == "true")
+				{
+					loopi = true;
+				}
+				component->AddAnim(anim, file, starti, endi, loopi);
+			}
+		
+			std::string defaultAnim = gameObject[it_h]["Default name"];
+			component->SetAnim(defaultAnim);
+		}
+	}
+
+
+	/*for (TiXmlElement* i = p_node->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
 	{
 		std::string name = i->Value();
+		
 
 		if (name == "Anim")
 		{
@@ -168,7 +199,7 @@ Common::ComponentBase* ComponentAnimController::CreateComponent(TiXmlNode* p_nod
 		{
 			component->SetAnim(i->Attribute("name"));
 		}
-	}
+	}*/
 
 	return component;
 }
