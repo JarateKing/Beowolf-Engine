@@ -14,6 +14,9 @@
 #include "ComponentBase.h"
 #include "tinyxml.h"
 #include "ComponentRigidBody.h"
+#include "JSON/json.hpp"
+
+using json = nlohmann::json;
 
 namespace week2
 {
@@ -35,7 +38,7 @@ namespace week2
 		virtual const std::string ComponentID(){ return std::string("GOC_CharacterController"); }
 		virtual void Update(float p_fDelta);
 
-		static ComponentBase* ComponentCharacterController::CreateComponent(TiXmlNode* p_node);
+		static ComponentBase* ComponentCharacterController::CreateComponent(json p_pNode);
 
 	private:
 		//------------------------------------------------------------------------------

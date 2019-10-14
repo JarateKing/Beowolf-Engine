@@ -49,11 +49,23 @@ void ComponentRotating::Update(float p_fDelta)
 }
 
 // FACTORY
-Common::ComponentBase* ComponentRotating::CreateComponent(TiXmlNode* p_node)
+Common::ComponentBase* ComponentRotating::CreateComponent(json p_node)
 {
 	float rate = 0.0f;
 
-	for (TiXmlElement* i = p_node->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
+	size_t it_h = 0;
+	auto& gameObjects = p_node["GameObject"];
+
+	for (auto& gameObject : gameObjects)
+	{
+		if (gameObject[it_h]["Component Name"] == "GOC_Rotating")
+		{
+			std::string rates = gameObject[it_h]["Rate value"];
+			rate = std::stof(rates);
+		}
+	}
+
+	/*for (TiXmlElement* i = p_node->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
 	{
 		std::string name = i->Value();
 
@@ -61,7 +73,7 @@ Common::ComponentBase* ComponentRotating::CreateComponent(TiXmlNode* p_node)
 		{
 			rate = std::atof(i->Attribute("value"));
 		}
-	}
+	}*/
 
 	return new ComponentRotating(rate);
 }

@@ -1,0 +1,36 @@
+{
+	"GameObject" :
+	{
+		"GOC_Score" : [{
+			"Component Name" : "GOC_Score",
+			"Score value" : "0"
+		}],
+		"GOC_Rotating" : [{
+			"Component Name" : "GOC_Rotating",
+			"Rate value" : "70.0f"
+		}],
+		"GOC_AnimController" :[{
+			"Component Name" : "GOC_AnimController",
+			"Animations" : [
+				{"name" : "idle", "file" : "../resources/models/swat/anim/idle.pod", "start" : "0", "end" : "31" , "loop" : "true"},
+				{"name" : "standard_run", "file" : "../resources/models/swat/anim/standard_run.pod", "start" : "0", "end" : "22" , "loop" : "true"},
+				{"name" : "walking", "file" : "../resources/models/swat/anim/walking.pod", "start" : "0", "end" : "31" , "loop" : "true"}
+				],
+			"Default name" : "idle"
+		}],
+		"GOC_RenderableMesh" :[{
+			"Component Name" : "GOC_RenderableMesh",
+			"Model path" : "../resources/models/plane.pod",
+			"Textures path" : "../resources/models/",
+			"VertexProgram path" : "../resources/shaders/textured.vsh",
+			"FragmentProgram path" : "../resources/shaders/textured.fsh"
+		}],
+		"GOC_RigidBody" :[{
+			"Component Name" : "GOC_RigidBody",
+			"Shape value" : "Box 50 0.001 50",
+			"Material value" : "Normal",
+			"Mass value" : "0",
+			"Kinematic value" : "true"
+		}]
+	}
+}

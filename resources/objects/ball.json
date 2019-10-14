@@ -1,0 +1,23 @@
+{
+	"GameObject" :
+	{
+		"GOC_RenderableMesh" :
+		{
+			"Model path" : "../resources/models/ball.pod",
+			"Textures path" : "../resources/models/",
+			"VertexProgram path" : "../resources/shaders/textured.vsh",
+			"FragmentProgram path" : "../resources/shaders/textured.fsh"
+		},
+		"GOC_Lifespan" :
+		{
+			"Timer value" : "3.0f"
+		}
+		"GOC_RigidBody" :
+		{
+			"Shape value" : "Sphere 1",
+			"Material value" : "Normal",
+			"Mass value" : "1",
+			"FlagType value" : "8"
+		}
+	}
+}

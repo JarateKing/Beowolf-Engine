@@ -73,14 +73,33 @@ void ComponentRenderableMesh::SyncTransform()
 }
 
 // FACTORY
-Common::ComponentBase* ComponentRenderableMesh::CreateComponent(TiXmlNode* p_node)
+Common::ComponentBase* ComponentRenderableMesh::CreateComponent(json p_node)
 {
-	std::string model;
-	std::string textures;
-	std::string vertexprogram;
-	std::string fragmentprogram;
+	ComponentRenderableMesh* component = new ComponentRenderableMesh();
+	size_t it_h = 0;
+	auto& gameObjects = p_node["GameObject"];
 
-	for (TiXmlElement* i = p_node->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
+	for (auto& gameObject : gameObjects)
+	{
+		if (gameObject[it_h]["Component Name"] == "GOC_RenderableMesh")
+		{
+			std::string model = gameObject[it_h]["Model path"];
+			std::string textures = gameObject[it_h]["Textures path"];
+			std::string vertexprogram = gameObject[it_h]["VertexProgram path"];
+			std::string fragmentprogram = gameObject[it_h]["FragmentProgram path"];
+
+			if (model.length() == 0 || textures.length() == 0 || vertexprogram.length() == 0 || fragmentprogram.length() == 0)
+			{
+				return NULL;
+			}
+
+			component->Init(model, textures, vertexprogram, fragmentprogram);
+		}
+	}
+
+	return component;
+
+	/*for (TiXmlElement* i = p_node->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
 	{
 		std::string name = i->Value();
 
@@ -110,5 +129,5 @@ Common::ComponentBase* ComponentRenderableMesh::CreateComponent(TiXmlNode* p_nod
 	ComponentRenderableMesh* component = new ComponentRenderableMesh();
 	component->Init(model, textures, vertexprogram, fragmentprogram);
 
-	return component;
+	return component;*/
 }

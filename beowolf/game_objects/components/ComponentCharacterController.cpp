@@ -156,7 +156,7 @@ void ComponentCharacterController::Update(float p_fDelta)
 }
 
 // FACTORY
-Common::ComponentBase* ComponentCharacterController::CreateComponent(TiXmlNode* p_node)
+Common::ComponentBase* ComponentCharacterController::CreateComponent(json p_pNode)
 {
 	return new ComponentCharacterController();
 }
