@@ -310,6 +310,7 @@
     <ClCompile Include="..\..\lib\tinyxml\tinyxmlparser.cpp" />
     <ClCompile Include="example\BaseScene.cpp" />
     <ClCompile Include="example\main.cpp" />
+    <ClCompile Include="HexGrid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\game_objects\AIActionNode.h" />
@@ -622,6 +623,7 @@
     <ClInclude Include="..\..\lib\tinyxml\tinyxml.h" />
     <ClInclude Include="example\BaseScene.h" />
     <ClInclude Include="example\Scene.h" />
+    <ClInclude Include="HexGrid.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
