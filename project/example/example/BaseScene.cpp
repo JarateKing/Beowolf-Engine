@@ -6,7 +6,9 @@
 #include <BMWModel.h>
 #include <W_Time.h>
 #include <W_ProjectionMatrix.h>
+#include <DebugCamera.h>
 
+wolf::DebugCamera* cam;
 wolf::BMWModel* test;
 
 BaseScene::BaseScene()
@@ -15,17 +17,22 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
+	cam = new wolf::DebugCamera(0, 0, glm::vec3(0, 0, -12));
 	test = new wolf::BMWModel("resources/models/cube.bmw", "resources/shaders/cube.vsh", "resources/shaders/cube.fsh");
 }
 
 void BaseScene::Update()
 {
-	test->update(wolf::Time::Instance().deltaTime());
+	double delta = wolf::Time::Instance().deltaTime();
+	cam->Update(delta);
+	test->update(delta);
+
+	std::cout << (cam->GetViewMatrix()[3][1]);
 }
 
 void BaseScene::Render()
 {
-	test->render(glm::mat4(), wolf::ProjMatrix::GetProjectionMatrix(90.0f));
+	test->render(cam->GetViewMatrix(), wolf::ProjMatrix::GetProjectionMatrix(90.0f));
 }
 
 

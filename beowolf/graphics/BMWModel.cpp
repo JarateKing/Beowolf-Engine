@@ -38,6 +38,7 @@ namespace wolf
 
 			for (int i = 0; i < current.meshNum; i++) {
 				NodeMesh renderable;
+				renderable.transform = current.transform;
 				renderable.meshID = current.meshIDs[i];
 				m_toRender.push_back(renderable);
 			}
@@ -55,8 +56,7 @@ namespace wolf
 			m_meshes[m_toRender[i].meshID].m_pProg->Bind();
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("projection", proj);
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("view", view);
-			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("world", transform);
-			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("tex", 0);
+			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("world", m_toRender[i].transform);
 			
 			// Set up source data
 			m_meshes[m_toRender[i].meshID].m_pDecl->Bind();
