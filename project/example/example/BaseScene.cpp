@@ -26,8 +26,6 @@ void BaseScene::Update()
 	double delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
 	test->update(delta);
-
-	std::cout << (cam->GetViewMatrix()[3][1]);
 }
 
 void BaseScene::Render()

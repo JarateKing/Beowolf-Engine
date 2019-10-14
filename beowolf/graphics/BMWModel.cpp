@@ -53,13 +53,12 @@ namespace wolf
 	void BMWModel::render(glm::mat4 view, glm::mat4 proj)
 	{
 		for (int i = 0; i < m_toRender.size(); i++) {
+			m_meshes[m_toRender[i].meshID].m_pDecl->Bind();
+
 			m_meshes[m_toRender[i].meshID].m_pProg->Bind();
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("projection", proj);
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("view", view);
-			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("world", m_toRender[i].transform);
-			
-			// Set up source data
-			m_meshes[m_toRender[i].meshID].m_pDecl->Bind();
+			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("world", glm::mat4());
 			
 			// Draw!
 			glDrawArrays(GL_TRIANGLES, 0, m_meshes[m_toRender[i].meshID].size * sizeof(Vertex));
