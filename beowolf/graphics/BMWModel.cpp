@@ -12,12 +12,14 @@ namespace wolf
 		// set up m_meshes
 		for (int i = 0; i < m_vertices.size(); i++) {
 			Mesh current;
+
 			current.size = m_vertices[i].size();
 			current.m_pVB = wolf::BufferManager::CreateVertexBuffer(&(m_vertices[i][0]), sizeof(Vertex) * m_vertices[i].size());
-			current.m_pProg = wolf::ProgramManager::CreateProgram(vertexShader, pixelShader);
 
-			current.m_pIB = wolf::BufferManager::CreateIndexBuffer(m_indices[i].size() * 3);
-			current.m_pIB->Write(&m_indices[i], m_indices[i].size());
+			current.m_pIB = wolf::BufferManager::CreateIndexBuffer(m_indices[i].size());
+			current.m_pIB->Write(&(m_indices[i][0]), m_indices[i].size() * sizeof(unsigned int));
+
+			current.m_pProg = wolf::ProgramManager::CreateProgram(vertexShader, pixelShader);
 
 			current.m_pDecl = new wolf::VertexDeclaration();
 			current.m_pDecl->Begin();
@@ -64,7 +66,7 @@ namespace wolf
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("view", view);
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("world", glm::mat4());
 			
-			glDrawElements(GL_TRIANGLES, m_meshes[m_toRender[i].meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_SHORT, 0);
+			glDrawElements(GL_TRIANGLES, m_meshes[m_toRender[i].meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
 		}
 	}
 }
