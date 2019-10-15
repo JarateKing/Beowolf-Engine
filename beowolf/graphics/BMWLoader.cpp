@@ -1,4 +1,5 @@
 #include "BMWLoader.h"
+#include <iostream>
 
 namespace wolf
 {
@@ -17,7 +18,7 @@ namespace wolf
 		unsigned int meshes = readInt(&in);
 		for (int i = 0; i < meshes; i++) {
 			unsigned int vertices = readInt(&in);
-			(*meshlist).push_back(std::vector<Vertex>(vertices));
+			(*meshlist).push_back(std::vector<Vertex>());
 			for (int j = 0; j < vertices; j++) {
 				Vertex cur = { readFloat(&in), readFloat(&in), readFloat(&in), readInt(&in), readInt(&in), readInt(&in), readInt(&in), readFloat(&in), readFloat(&in) };
 				cur.normalDirX = readFloat(&in);
@@ -26,7 +27,7 @@ namespace wolf
 				(*meshlist)[i].push_back(cur);
 			}
 			unsigned int indices = readInt(&in);
-			(*indexlist).push_back(std::vector<unsigned int>(indices * 3));
+			(*indexlist).push_back(std::vector<unsigned int>());
 			for (int j = 0; j < indices; j++) {
 				for (int k = 0; k < 3; k++) {
 					(*indexlist)[i].push_back(readInt(&in));
