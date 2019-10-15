@@ -17,6 +17,10 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
+	glEnable(GL_DEPTH_TEST);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+
 	cam = new wolf::DebugCamera(0, 0, glm::vec3(0, 0, -4));
 	test = new wolf::BMWModel("resources/models/tree.bmw", "resources/shaders/unlit_texture.vsh", "resources/shaders/unlit_texture.fsh");
 }
