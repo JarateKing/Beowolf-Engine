@@ -17,7 +17,7 @@ namespace wolf
 			current.m_pProg = wolf::ProgramManager::CreateProgram(vertexShader, pixelShader);
 
 			current.m_pIB = wolf::BufferManager::CreateIndexBuffer(m_indices[i].size() * 3);
-			current.m_pIB->Write(&m_indices[i], m_indices[i].size() * 3);
+			current.m_pIB->Write(&m_indices[i], m_indices[i].size());
 
 			current.m_pDecl = new wolf::VertexDeclaration();
 			current.m_pDecl->Begin();
@@ -64,7 +64,6 @@ namespace wolf
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("view", view);
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("world", glm::mat4());
 			
-			// Draw!
 			glDrawElements(GL_TRIANGLES, m_meshes[m_toRender[i].meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_SHORT, 0);
 		}
 	}

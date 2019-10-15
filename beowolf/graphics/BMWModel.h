@@ -2,6 +2,7 @@
 #include <BMWLoader.h>
 #include <vector>
 #include <string>
+#include <utility>
 #include <W_Material.h>
 #include <W_VertexBuffer.h>
 #include <W_VertexDeclaration.h>
@@ -35,7 +36,7 @@ namespace wolf
 
 		std::vector<std::string> m_textures;
 		std::vector<std::vector<Vertex>> m_vertices;
-		std::vector<std::vector<unsigned int*>> m_indices;
+		std::vector<std::vector<unsigned int>> m_indices;
 		std::vector<Mesh> m_meshes;
 		std::vector<Material*> m_materials;
 		glm::mat4 transform;

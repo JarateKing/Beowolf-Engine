@@ -2,7 +2,7 @@
 
 namespace wolf
 {
-	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector< std::vector<unsigned int*>>* indexlist, BMWNode* root) {
+	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root) {
 		std::ifstream in(file, std::ifstream::binary);
 
 		readString(&in);
@@ -26,12 +26,11 @@ namespace wolf
 				(*meshlist)[i].push_back(cur);
 			}
 			unsigned int indices = readInt(&in);
-			(*indexlist).push_back(std::vector<unsigned int*>(indices));
+			(*indexlist).push_back(std::vector<unsigned int>(indices * 3));
 			for (int j = 0; j < indices; j++) {
-				unsigned int* cur = new unsigned int[3];
-				for (int k = 0; k < 3; k++)
-					cur[k] = readInt(&in);
-				(*indexlist)[i].push_back(cur);
+				for (int k = 0; k < 3; k++) {
+					(*indexlist)[i].push_back(readInt(&in));
+				}
 			}
 		}
 
