@@ -1,11 +1,11 @@
 #version 150
 
-uniform sampler2D texture1;
+uniform sampler2D tex;
 
 in vec2 v_uv1;
 out vec4 PixelColor;
 
 void main()
 {	
-    PixelColor = texture(texture1, v_uv1);
+    PixelColor = vec4(v_uv1[0], v_uv1[1], 1, 1); //texture(tex, v_uv1);
 }
