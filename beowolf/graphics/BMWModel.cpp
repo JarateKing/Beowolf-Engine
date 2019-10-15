@@ -7,7 +7,7 @@ namespace wolf
 {
 	BMWModel::BMWModel(std::string file, std::string vertexShader, std::string pixelShader)
 	{
-		BMWLoader::getInstance().loadFile(file, &m_textures, &m_vertices, &m_rootNode);
+		BMWLoader::getInstance().loadFile(file, &m_textures, &m_vertices, &m_indices, &m_rootNode);
 
 		// set up m_meshes
 		for (int i = 0; i < m_vertices.size(); i++) {
@@ -16,6 +16,9 @@ namespace wolf
 			current.m_pVB = wolf::BufferManager::CreateVertexBuffer(&(m_vertices[i][0]), sizeof(Vertex) * m_vertices[i].size());
 			current.m_pProg = wolf::ProgramManager::CreateProgram(vertexShader, pixelShader);
 
+			current.m_pIB = wolf::BufferManager::CreateIndexBuffer(m_indices[i].size() * 3);
+			current.m_pIB->Write(&m_indices[i], m_indices[i].size() * 3);
+
 			current.m_pDecl = new wolf::VertexDeclaration();
 			current.m_pDecl->Begin();
 			current.m_pDecl->AppendAttribute(AT_Position, 3, CT_Float);
@@ -23,6 +26,7 @@ namespace wolf
 			current.m_pDecl->AppendAttribute(AT_TexCoord1, 2, CT_Float);
 			current.m_pDecl->AppendAttribute(AT_Normal, 3, CT_Float);
 			current.m_pDecl->SetVertexBuffer(current.m_pVB);
+			current.m_pDecl->SetIndexBuffer(current.m_pIB);
 			current.m_pDecl->End();
 
 			m_meshes.push_back(current);
@@ -61,7 +65,7 @@ namespace wolf
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("world", glm::mat4());
 			
 			// Draw!
-			glDrawArrays(GL_TRIANGLES, 0, m_meshes[m_toRender[i].meshID].size * sizeof(Vertex));
+			glDrawElements(GL_TRIANGLES, m_meshes[m_toRender[i].meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_SHORT, 0);
 		}
 	}
 }
