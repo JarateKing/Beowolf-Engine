@@ -22,6 +22,8 @@ namespace wolf
 			current.m_pProg = wolf::ProgramManager::CreateProgram(vertexShader, pixelShader);
 
 			current.m_pTex = NULL;
+			if (m_textures.size() < i)
+				current.m_pTex = wolf::TextureManager::CreateTexture(m_textures[i]);
 
 			current.m_pDecl = new wolf::VertexDeclaration();
 			current.m_pDecl->Begin();
@@ -70,6 +72,7 @@ namespace wolf
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("projection", proj);
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("view", view);
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("world", glm::mat4());
+			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("tex", 0);
 			
 			glDrawElements(GL_TRIANGLES, m_meshes[m_toRender[i].meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
 		}
