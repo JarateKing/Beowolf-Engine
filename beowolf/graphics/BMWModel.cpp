@@ -21,6 +21,8 @@ namespace wolf
 
 			current.m_pProg = wolf::ProgramManager::CreateProgram(vertexShader, pixelShader);
 
+			current.m_pTex = NULL;
+
 			current.m_pDecl = new wolf::VertexDeclaration();
 			current.m_pDecl->Begin();
 			current.m_pDecl->AppendAttribute(AT_Position, 3, CT_Float);
@@ -60,6 +62,9 @@ namespace wolf
 	{
 		for (int i = 0; i < m_toRender.size(); i++) {
 			m_meshes[m_toRender[i].meshID].m_pDecl->Bind();
+
+			if (m_meshes[m_toRender[i].meshID].m_pTex != NULL)
+				m_meshes[m_toRender[i].meshID].m_pTex->Bind();
 
 			m_meshes[m_toRender[i].meshID].m_pProg->Bind();
 			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("projection", proj);

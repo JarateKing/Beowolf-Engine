@@ -26,6 +26,7 @@ namespace wolf
 			wolf::IndexBuffer* m_pIB;
 			wolf::VertexDeclaration* m_pDecl;
 			wolf::Program* m_pProg;
+			wolf::Texture* m_pTex;
 		};
 
 		struct NodeMesh
