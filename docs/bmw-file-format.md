@@ -48,6 +48,13 @@ for each mesh:
 		float nx
 		float ny
 		float nz
+		
+	unsigned int - number of faces
+	
+	for each face:
+		unsigned int v0
+		unsigned int v1
+		unsigned int v2
 ```
 
 ### Nodes
