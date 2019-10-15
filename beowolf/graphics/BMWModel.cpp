@@ -22,8 +22,14 @@ namespace wolf
 			current.m_pProg = wolf::ProgramManager::CreateProgram(vertexShader, pixelShader);
 
 			current.m_pTex = NULL;
-			if (m_textures.size() < i)
+			if (m_textures.size() > i) {
+				if (m_textures[i].find(".jpg") != std::string::npos)
+					m_textures[i] = m_textures[i].substr(0, m_textures[i].find(".jpg")) + std::string(".tga");
+				else if (m_textures[i].find(".png") != std::string::npos)
+					m_textures[i] = m_textures[i].substr(0, m_textures[i].find(".png")) + std::string(".tga");
+
 				current.m_pTex = wolf::TextureManager::CreateTexture(m_textures[i]);
+			}
 
 			current.m_pDecl = new wolf::VertexDeclaration();
 			current.m_pDecl->Begin();
