@@ -18,7 +18,7 @@ BaseScene::BaseScene()
 void BaseScene::Init()
 {
 	cam = new wolf::DebugCamera(0, 0, glm::vec3(0, 0, -4));
-	test = new wolf::BMWModel("resources/models/tree.bmw", "resources/shaders/cube.vsh", "resources/shaders/cube.fsh");
+	test = new wolf::BMWModel("resources/models/tree.bmw", "resources/shaders/unlit_texture.vsh", "resources/shaders/unlit_texture.fsh");
 }
 
 void BaseScene::Update()
