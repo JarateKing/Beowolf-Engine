@@ -22,6 +22,7 @@ namespace wolf
 		struct Mesh
 		{
 			unsigned int size;
+			bool isTransparent = false;
 			wolf::VertexBuffer* m_pVB;
 			wolf::IndexBuffer* m_pIB;
 			wolf::VertexDeclaration* m_pDecl;

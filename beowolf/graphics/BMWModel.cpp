@@ -23,14 +23,18 @@ namespace wolf
 
 			current.m_pTex = NULL;
 			if (m_textures.size() > i) {
+				bool transparency = false; // TODO: improve, naive assumption that jpg's always mean opaque and png's always mean transparent
 				if (m_textures[i].find(".jpg") != std::string::npos)
 					m_textures[i] = m_textures[i].substr(0, m_textures[i].find(".jpg")) + std::string(".dds");
-				else if (m_textures[i].find(".png") != std::string::npos)
+				else if (m_textures[i].find(".png") != std::string::npos) {
 					m_textures[i] = m_textures[i].substr(0, m_textures[i].find(".png")) + std::string(".dds");
+					transparency = true;
+				}
 				m_textures[i] = "resources/models/" + m_textures[i];
 
 				current.m_pTex = wolf::TextureManager::CreateTexture(m_textures[i]);
 				current.m_pTex->SetWrapMode(wolf::Texture::WM_Repeat);
+				current.isTransparent = transparency;
 			}
 
 			current.m_pDecl = new wolf::VertexDeclaration();
