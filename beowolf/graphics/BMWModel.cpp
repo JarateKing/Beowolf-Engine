@@ -75,25 +75,35 @@ namespace wolf
 	void BMWModel::render(glm::mat4 view, glm::mat4 proj)
 	{
 		for (int i = 0; i < m_toRender.size(); i++) {
-
-			if (m_meshes[m_toRender[i].meshID].isTransparent)
-				glDepthMask(false);
-			else
-				glDepthMask(true);
-
-			m_meshes[m_toRender[i].meshID].m_pDecl->Bind();
-
-			if (m_meshes[m_toRender[i].meshID].m_pTex != NULL)
-				m_meshes[m_toRender[i].meshID].m_pTex->Bind();
-
-			m_meshes[m_toRender[i].meshID].m_pProg->Bind();
-			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("projection", proj);
-			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("view", view);
-			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("world", glm::mat4());
-			m_meshes[m_toRender[i].meshID].m_pProg->SetUniform("tex", 0);
-			
-			glDrawElements(GL_TRIANGLES, m_meshes[m_toRender[i].meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
+			if (!m_meshes[m_toRender[i].meshID].isTransparent) {
+				renderMesh(view, proj, i);
+			}
 		}
 		glDepthMask(true);
+	}
+
+	void BMWModel::renderAlpha(glm::mat4 view, glm::mat4 proj)
+	{
+		for (int i = 0; i < m_toRender.size(); i++) {
+			if (m_meshes[m_toRender[i].meshID].isTransparent) {
+				renderMesh(view, proj, i);
+			}
+		}
+		glDepthMask(true);
+	}
+
+	void BMWModel::renderMesh(glm::mat4 view, glm::mat4 proj, unsigned int meshID) {
+		m_meshes[meshID].m_pDecl->Bind();
+
+		if (m_meshes[meshID].m_pTex != NULL)
+			m_meshes[meshID].m_pTex->Bind();
+
+		m_meshes[meshID].m_pProg->Bind();
+		m_meshes[meshID].m_pProg->SetUniform("projection", proj);
+		m_meshes[meshID].m_pProg->SetUniform("view", view);
+		m_meshes[meshID].m_pProg->SetUniform("world", glm::mat4());
+		m_meshes[meshID].m_pProg->SetUniform("tex", 0);
+
+		glDrawElements(GL_TRIANGLES, m_meshes[meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
 	}
 }

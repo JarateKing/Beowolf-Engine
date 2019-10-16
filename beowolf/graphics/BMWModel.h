@@ -17,6 +17,7 @@ namespace wolf
 		BMWModel(std::string file, std::string vertexShader, std::string pixelShader);
 		void update(float delta);
 		void render(glm::mat4 view, glm::mat4 proj);
+		void renderAlpha(glm::mat4 view, glm::mat4 proj);
 
 	private:
 		struct Mesh
@@ -35,6 +36,8 @@ namespace wolf
 			glm::mat4 transform;
 			int meshID;
 		};
+
+		void renderMesh(glm::mat4 view, glm::mat4 proj, unsigned int meshID);
 
 		std::vector<std::string> m_textures;
 		std::vector<std::vector<Vertex>> m_vertices;

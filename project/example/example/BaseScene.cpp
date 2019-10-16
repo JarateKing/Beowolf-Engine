@@ -10,6 +10,7 @@
 
 wolf::DebugCamera* cam;
 wolf::BMWModel* test;
+wolf::BMWModel* teapot;
 
 BaseScene::BaseScene()
 {
@@ -23,6 +24,7 @@ void BaseScene::Init()
 
 	cam = new wolf::DebugCamera(0, 0, glm::vec3(0, 0, -4));
 	test = new wolf::BMWModel("resources/models/tree.bmw", "resources/shaders/unlit_texture.vsh", "resources/shaders/unlit_texture.fsh");
+	teapot = new wolf::BMWModel("resources/models/teapot.bmw", "resources/shaders/cube.vsh", "resources/shaders/cube.fsh");
 }
 
 void BaseScene::Update()
@@ -30,11 +32,20 @@ void BaseScene::Update()
 	double delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
 	test->update(delta);
+	teapot->update(delta);
 }
 
 void BaseScene::Render()
 {
+	glDepthMask(true);
+
 	test->render(cam->GetViewMatrix(), glm::mat4());
+	teapot->render(cam->GetViewMatrix(), glm::mat4());
+
+	glDepthMask(false);
+
+	test->renderAlpha(cam->GetViewMatrix(), glm::mat4());
+	teapot->renderAlpha(cam->GetViewMatrix(), glm::mat4());
 }
 
 
