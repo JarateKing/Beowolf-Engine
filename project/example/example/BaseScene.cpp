@@ -20,7 +20,6 @@ void BaseScene::Init()
 {
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
 
 	cam = new wolf::DebugCamera(0, 0, glm::vec3(0, 0, -4));
 	test = new wolf::BMWModel("resources/models/tree.bmw", "resources/shaders/unlit_texture.vsh", "resources/shaders/unlit_texture.fsh");
@@ -38,11 +37,13 @@ void BaseScene::Update()
 void BaseScene::Render()
 {
 	glDepthMask(true);
+	glDisable(GL_BLEND);
 
 	test->render(cam->GetViewMatrix(), glm::mat4());
-	teapot->render(cam->GetViewMatrix(), glm::mat4());
+	// teapot->render(cam->GetViewMatrix(), glm::mat4());
 
 	glDepthMask(false);
+	glEnable(GL_BLEND);
 
 	test->renderAlpha(cam->GetViewMatrix(), glm::mat4());
 	teapot->renderAlpha(cam->GetViewMatrix(), glm::mat4());
