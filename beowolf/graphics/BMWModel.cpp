@@ -76,7 +76,7 @@ namespace wolf
 	{
 		for (int i = 0; i < m_toRender.size(); i++) {
 			if (renderAlphas == m_meshes[m_toRender[i].meshID].isTransparent) {
-				renderMesh(m_toRender[i].transform, view, proj, i);
+				renderMesh(transform * m_toRender[i].transform, view, proj, i);
 			}
 		}
 		glDepthMask(true);
@@ -95,5 +95,9 @@ namespace wolf
 		m_meshes[meshID].m_pProg->SetUniform("tex", 0);
 
 		glDrawElements(GL_TRIANGLES, m_meshes[meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
+	}
+
+	void BMWModel::setTransform(glm::mat4 transform) {
+		this->transform = transform;
 	}
 }

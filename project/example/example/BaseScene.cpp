@@ -24,6 +24,7 @@ void BaseScene::Init()
 	cam = new wolf::DebugCamera(0, 0, glm::vec3(0, 0, -4));
 	test = new wolf::BMWModel("resources/models/tree.bmw", "resources/shaders/unlit_texture.vsh", "resources/shaders/unlit_texture.fsh");
 	teapot = new wolf::BMWModel("resources/models/teapot.bmw", "resources/shaders/cube.vsh", "resources/shaders/cube.fsh");
+	teapot->setTransform(glm::translate(glm::mat4(), glm::vec3(1.25, 0, 0)) * glm::scale(glm::vec3(0.15, 0.15, 0.15)));
 }
 
 void BaseScene::Update()
