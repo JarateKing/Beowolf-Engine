@@ -17,6 +17,8 @@ namespace wolf
 		BMWModel(std::string file, std::string vertexShader, std::string pixelShader);
 		void update(float delta);
 		void render(glm::mat4 view, glm::mat4 proj, bool renderAlphas);
+
+		glm::mat4 getTransform();
 		void setTransform(glm::mat4 transform);
 
 	private:

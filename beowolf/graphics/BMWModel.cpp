@@ -97,6 +97,10 @@ namespace wolf
 		glDrawElements(GL_TRIANGLES, m_meshes[meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
 	}
 
+	glm::mat4 BMWModel::getTransform() {
+		return transform;
+	}
+
 	void BMWModel::setTransform(glm::mat4 transform) {
 		this->transform = transform;
 	}
