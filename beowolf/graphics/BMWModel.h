@@ -16,8 +16,7 @@ namespace wolf
 	public:
 		BMWModel(std::string file, std::string vertexShader, std::string pixelShader);
 		void update(float delta);
-		void render(glm::mat4 view, glm::mat4 proj);
-		void renderAlpha(glm::mat4 view, glm::mat4 proj);
+		void render(glm::mat4 view, glm::mat4 proj, bool renderAlphas);
 
 	private:
 		struct Mesh

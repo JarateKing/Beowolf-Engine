@@ -72,20 +72,10 @@ namespace wolf
 
 	}
 
-	void BMWModel::render(glm::mat4 view, glm::mat4 proj)
+	void BMWModel::render(glm::mat4 view, glm::mat4 proj, bool renderAlphas)
 	{
 		for (int i = 0; i < m_toRender.size(); i++) {
-			if (!m_meshes[m_toRender[i].meshID].isTransparent) {
-				renderMesh(view, proj, i);
-			}
-		}
-		glDepthMask(true);
-	}
-
-	void BMWModel::renderAlpha(glm::mat4 view, glm::mat4 proj)
-	{
-		for (int i = 0; i < m_toRender.size(); i++) {
-			if (m_meshes[m_toRender[i].meshID].isTransparent) {
+			if (renderAlphas == m_meshes[m_toRender[i].meshID].isTransparent) {
 				renderMesh(view, proj, i);
 			}
 		}

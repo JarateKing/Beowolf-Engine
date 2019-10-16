@@ -39,14 +39,14 @@ void BaseScene::Render()
 	glDepthMask(true);
 	glDisable(GL_BLEND);
 
-	test->render(cam->GetViewMatrix(), glm::mat4());
-	// teapot->render(cam->GetViewMatrix(), glm::mat4());
+	test->render(cam->GetViewMatrix(), glm::mat4(), false);
+	teapot->render(cam->GetViewMatrix(), glm::mat4(), false);
 
 	glDepthMask(false);
 	glEnable(GL_BLEND);
 
-	test->renderAlpha(cam->GetViewMatrix(), glm::mat4());
-	teapot->renderAlpha(cam->GetViewMatrix(), glm::mat4());
+	test->render(cam->GetViewMatrix(), glm::mat4(), true);
+	teapot->render(cam->GetViewMatrix(), glm::mat4(), true);
 }
 
 
