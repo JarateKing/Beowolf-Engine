@@ -30,6 +30,7 @@ namespace wolf
 				m_textures[i] = "resources/models/" + m_textures[i];
 
 				current.m_pTex = wolf::TextureManager::CreateTexture(m_textures[i]);
+				current.m_pTex->SetWrapMode(wolf::Texture::WM_Repeat);
 			}
 
 			current.m_pDecl = new wolf::VertexDeclaration();
