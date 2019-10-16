@@ -75,6 +75,12 @@ namespace wolf
 	void BMWModel::render(glm::mat4 view, glm::mat4 proj)
 	{
 		for (int i = 0; i < m_toRender.size(); i++) {
+
+			if (m_meshes[m_toRender[i].meshID].isTransparent)
+				glDepthMask(false);
+			else
+				glDepthMask(true);
+
 			m_meshes[m_toRender[i].meshID].m_pDecl->Bind();
 
 			if (m_meshes[m_toRender[i].meshID].m_pTex != NULL)
@@ -88,5 +94,6 @@ namespace wolf
 			
 			glDrawElements(GL_TRIANGLES, m_meshes[m_toRender[i].meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
 		}
+		glDepthMask(true);
 	}
 }
