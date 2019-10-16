@@ -27,6 +27,7 @@ namespace wolf
 					m_textures[i] = m_textures[i].substr(0, m_textures[i].find(".jpg")) + std::string(".tga");
 				else if (m_textures[i].find(".png") != std::string::npos)
 					m_textures[i] = m_textures[i].substr(0, m_textures[i].find(".png")) + std::string(".tga");
+				m_textures[i] = "resources/models/" + m_textures[i];
 
 				current.m_pTex = wolf::TextureManager::CreateTexture(m_textures[i]);
 			}
