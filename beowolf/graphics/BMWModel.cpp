@@ -76,13 +76,13 @@ namespace wolf
 	{
 		for (int i = 0; i < m_toRender.size(); i++) {
 			if (renderAlphas == m_meshes[m_toRender[i].meshID].isTransparent) {
-				renderMesh(view, proj, i);
+				renderMesh(m_toRender[i].transform, view, proj, i);
 			}
 		}
 		glDepthMask(true);
 	}
 
-	void BMWModel::renderMesh(glm::mat4 view, glm::mat4 proj, unsigned int meshID) {
+	void BMWModel::renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, unsigned int meshID) {
 		m_meshes[meshID].m_pDecl->Bind();
 
 		if (m_meshes[meshID].m_pTex != NULL)
@@ -91,7 +91,7 @@ namespace wolf
 		m_meshes[meshID].m_pProg->Bind();
 		m_meshes[meshID].m_pProg->SetUniform("projection", proj);
 		m_meshes[meshID].m_pProg->SetUniform("view", view);
-		m_meshes[meshID].m_pProg->SetUniform("world", glm::mat4());
+		m_meshes[meshID].m_pProg->SetUniform("world", world);
 		m_meshes[meshID].m_pProg->SetUniform("tex", 0);
 
 		glDrawElements(GL_TRIANGLES, m_meshes[meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);

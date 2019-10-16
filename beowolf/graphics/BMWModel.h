@@ -36,7 +36,7 @@ namespace wolf
 			int meshID;
 		};
 
-		void renderMesh(glm::mat4 view, glm::mat4 proj, unsigned int meshID);
+		void renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, unsigned int meshID);
 
 		std::vector<std::string> m_textures;
 		std::vector<std::vector<Vertex>> m_vertices;
