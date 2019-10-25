@@ -7,9 +7,16 @@
 #include <iomanip>
 #include "sound/W_SoundEngine.h"
 #include "beowolf/hexGrid/HexGrid.h"
+#include "DebugCamera.h"
+#include "DebugCube.h"
+#include "SceneRenderer.h"
+#include "W_Time.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
+static wolf::DebugCamera* cam;
+static glm::mat4 cull;
+static HexGrid* grid;
 
 BaseScene::BaseScene()
 {
@@ -42,22 +49,40 @@ void BaseScene::Init()
 	//SE.AddSound("media/drumloop.wav", "drumloop", true);
 	//SE.PlayBasicSound("drumloop");
 
-	HexGrid grid(5, 5, 10.0f);
+	//HexGrid grid(5, 5, 10.0f);
 	//grid.PrintOutLoc();
+
+	glEnable(GL_DEPTH_TEST);
+	cam = new wolf::DebugCamera(0, 0, glm::vec3(0, 0, -12));
+	cull = cam->GetViewMatrix();
+
+	for (int i = 0; i < 30; i++)
+	{
+		wolf::SceneRenderer::getInstance().AddNode((wolf::Node*)new wolf::DebugCube());
+	}
+	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
+	grid = new HexGrid(100, 100, 5.0f);
 }
 
 void BaseScene::Update()
 {
 	//Updates the Position of listener of 3D sound, useless for stereo sound
-	FMOD_VECTOR pos = SE.GetListenerPos();
-	glm::vec3 listPos{ pos.x, pos.y, pos.z };
-	listPos.x = listPos.x + 0.1f;
-	SE.SetListenerAttr(listPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	SE.UpdateSystem();
+	//FMOD_VECTOR pos = SE.GetListenerPos();
+	//glm::vec3 listPos{ pos.x, pos.y, pos.z };
+	//listPos.x = listPos.x + 0.1f;
+	//SE.SetListenerAttr(listPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//SE.UpdateSystem();
+	float delta = wolf::Time::Instance().deltaTime();
+	cam->Update(delta);
+	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
 }
 
 void BaseScene::Render()
 {
+	wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
+	grid->Render(cam->GetViewMatrix());
+
+
 }
 
 

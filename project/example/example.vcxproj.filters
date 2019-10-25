@@ -52,10 +52,7 @@
     <Filter Include="lib\powervr">
       <UniqueIdentifier>{fee00efd-2598-4d5b-bc74-0a7e68cf82c9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="beowolf\graphics\hexGrid">
-      <UniqueIdentifier>{b6bc4945-5da9-46c7-926c-03bdcfbaf6cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\hexgrid">
+    <Filter Include="beowolf\graphics\hexgrid">
       <UniqueIdentifier>{8fa4012f-3ea0-4a30-8f7c-1d68d8867c39}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -743,8 +740,8 @@
     <ClCompile Include="..\..\lib\PowerVR\PVRTVertex.cpp">
       <Filter>lib\powervr</Filter>
     </ClCompile>
-    <ClCompile Include="HexGrid.cpp">
-      <Filter>beowolf\hexgrid</Filter>
+    <ClCompile Include="..\..\beowolf\hexGrid\HexGrid.cpp">
+      <Filter>beowolf\graphics\hexgrid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1674,8 +1671,8 @@
     <ClInclude Include="..\..\lib\PowerVR\PVRTVertex.h">
       <Filter>lib\powervr</Filter>
     </ClInclude>
-    <ClInclude Include="HexGrid.h">
-      <Filter>beowolf\hexgrid</Filter>
+    <ClInclude Include="..\..\beowolf\hexGrid\HexGrid.h">
+      <Filter>beowolf\graphics\hexgrid</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

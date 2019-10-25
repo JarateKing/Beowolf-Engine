@@ -41,7 +41,7 @@ Program::Program(const std::string& p_strVS, const std::string& p_strPS) : m_uiP
         printf("Failed to compile vertex shader\n");
         return;
     }
-    
+
     // 2. Create and compile fragment shader.
     if( !CompileShader(&uiPS, GL_FRAGMENT_SHADER, p_strPS))
 	{

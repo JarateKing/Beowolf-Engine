@@ -150,6 +150,7 @@
     <ClCompile Include="..\..\beowolf\graphics\SceneRenderer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\text\W_Font.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\text\W_TextBox.cpp" />
+    <ClCompile Include="..\..\beowolf\hexGrid\HexGrid.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_Math.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_Math2D.cpp" />
     <ClCompile Include="..\..\beowolf\math\W_Math3D.cpp" />
@@ -310,7 +311,6 @@
     <ClCompile Include="..\..\lib\tinyxml\tinyxmlparser.cpp" />
     <ClCompile Include="example\BaseScene.cpp" />
     <ClCompile Include="example\main.cpp" />
-    <ClCompile Include="HexGrid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\game_objects\AIActionNode.h" />
@@ -388,6 +388,7 @@
     <ClInclude Include="..\..\beowolf\graphics\SceneRenderer.h" />
     <ClInclude Include="..\..\beowolf\graphics\text\W_Font.h" />
     <ClInclude Include="..\..\beowolf\graphics\text\W_TextBox.h" />
+    <ClInclude Include="..\..\beowolf\hexGrid\HexGrid.h" />
     <ClInclude Include="..\..\beowolf\math\W_Math.h" />
     <ClInclude Include="..\..\beowolf\math\W_Math2D.h" />
     <ClInclude Include="..\..\beowolf\math\W_Math3D.h" />
@@ -623,7 +624,6 @@
     <ClInclude Include="..\..\lib\tinyxml\tinyxml.h" />
     <ClInclude Include="example\BaseScene.h" />
     <ClInclude Include="example\Scene.h" />
-    <ClInclude Include="HexGrid.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
