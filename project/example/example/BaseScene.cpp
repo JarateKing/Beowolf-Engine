@@ -82,8 +82,6 @@ void BaseScene::Render()
 {
 	wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
 	grid->Render(cam->GetViewMatrix());
-
-
 }
 
 

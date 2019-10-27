@@ -1,0 +1,43 @@
+{
+	"Effect" :
+	{
+		"Emitters" : [
+		{
+			"max_particles" : "20",
+			"pX" : "0.0",
+			"pY" : "0.05",
+			"pZ" : "0.0",
+			"duration" : "-1",
+			"rate" : "0.4",
+			"texture" : "../resources/textures/particles/smoke.dds",
+			"additive" : "false",
+			"lifespanMin" : "6",
+			"lifespanMax" : "8",
+			"effectors" : [
+			{"type" : "scale", "start" : "0.3", "end" : "2"},
+			{"type" : "recolor", "sR" : "0.05", "sG" : "0.05", "sB" : "0.05", "eR" : "0.075", "eG" : "0.075", "eB" : "0.1"},
+			{"type" : "fade", "start" : "0.75", "end" : "0"},
+			{"type" : "velocity", "sX" : "0.0", "sY" : "0.2", "sZ" : "0.0", "eX" : "0.0", "eY" : "0.4", "eZ" : "0.0"}
+			]
+		},
+		{
+			"max_particles" : "30",
+			"pX" : "0.0",
+			"pY" : "0.0",
+			"pZ" : "0.0",
+			"duration" : "-1",
+			"rate" : "0.125",
+			"texture" : "../resources/textures/particles/fire.dds",
+			"additive" : "true",
+			"lifespanMin" : "2",
+			"lifespanMax" : "3",
+			"effectors" : [
+			{"type" : "randomPos", "radius" : "0.08"},
+			{"type" : "scale", "start" : "0.01", "end" : "1.0"},
+			{"type" : "recolor", "sR" : "0.06", "sG" : "0.08", "sB" : "0.0", "eR" : "1.0", "eG" : "0.0", "eB" : "0.2"},
+			{"type" : "fade", "start" : "1.0", "end" : "0"},
+			{"type" : "velocity", "sX" : "0.0", "sY" : "0.0", "sZ" : "0.0", "eX" : "0.0", "eY" : "0.4", "eZ" : "0.0"}
+			]
+		}]
+	}
+}

@@ -1,0 +1,36 @@
+{
+	"GameObject" :
+	{
+		"GOC_RenderableMesh" :
+		{
+			"Model path" : "../resources/models/coin.pod",
+			"Textures path" : "../resources/models/",
+			"VertexProgram path" : "../resources/shaders/textured.vsh",
+			"FragmentProgram path" : "../resources/shaders/textured.fsh"
+		},
+		"GOC_Bobbing" :
+		{
+			"Rate value" : "1.0f",
+			"Scale value" : "1.0f"
+		},
+		"GOC_Rotating" :
+		{
+			"Rate value" : "70.0f"
+		},
+		"GOC_Lifespan" :
+		{
+			"Timer value" : "20.0f"
+		},
+		"GOC_RigidBody" :
+		{
+			"Shape value" : "Box 1.25 1.25 0.1",
+			"Material value" : "Normal",
+			"Mass value" : "0",
+			"Kinematic value" : "true",
+			"FlagType value" : "2",
+			"FlagCollider value" : "5"
+		},
+		"GOC_DestroyOnCollision" : 
+		{}
+	}
+}

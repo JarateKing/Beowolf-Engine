@@ -13,6 +13,9 @@
 
 #include "ComponentBase.h"
 #include "tinyxml.h"
+#include "JSON/json.hpp"
+
+using json = nlohmann::json;
 
 namespace week2
 {
@@ -34,7 +37,7 @@ namespace week2
 		virtual const std::string ComponentID(){ return std::string("GOC_Score"); }
 		virtual void Update(float p_fDelta);
 
-		static ComponentBase* ComponentScore::CreateComponent(TiXmlNode* p_node);
+		static ComponentBase* ComponentScore::CreateComponent(json p_node);
 
 		void HandleEvent(void* details);
 

@@ -19,7 +19,8 @@
 
 #include <map>
 
-#include "tinyxml.h"	// For parsing GameObject XML
+#include "JSON/json.hpp"
+using json = nlohmann::json;
 
 namespace Common
 {
@@ -29,7 +30,7 @@ namespace Common
 		// Typedef for convenience
 		typedef std::map<std::string, GameObject*> GameObjectMap;
 
-		typedef ComponentBase*(*ComponentFactoryMethod)(TiXmlNode* p_pNode);
+		typedef ComponentBase*(*ComponentFactoryMethod)(json p_pNode);
 		typedef std::map<std::string, ComponentFactoryMethod> ComponentFactoryMap;
 
 		//---------------------------------------------------------------------

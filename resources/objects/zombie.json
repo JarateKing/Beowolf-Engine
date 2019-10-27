@@ -1,0 +1,22 @@
+{
+	"GameObject" :
+	{
+		"GOC_AnimController" :
+		{
+			"Anim" : {"name" : "run", "file" : "../resources/models/zombie/anim/zombie_anims.pod", "start" : "12", "end" : "36" , "loop" : "true"},
+			"Anim" : {"name" : "walk", "file" : "../resources/models/zombie/anim/zombie_anims.pod", "start" : "108", "end" : "229" , "loop" : "true"},
+			"Anim" : {"name" : "idle", "file" : "../resources/models/zombie/anim/zombie_anims.pod", "start" : "350", "end" : "470" , "loop" : "true"},
+			"Anim" : {"name" : "walk_injured", "file" : "../resources/models/zombie/anim/zombie_anims.pod", "start" : "547", "end" : "582" , "loop" : "true"},
+			"Default name" : "idle"
+		},
+		"GOC_RenderableMesh" :
+		{
+			"Model path" : "../resources/models/zombie/Zombie.pod",
+			"Textures path" : "../resources/models/zombie/",
+			"VertexProgram path" : "../resources/shaders/skinned.vsh",
+			"FragmentProgram path" : "../resources/shaders/skinned.fsh"
+		},
+		"GOC_StunOnCollision" : 
+		{}
+	}
+}
