@@ -7,14 +7,15 @@
 #include <iomanip>
 #include "sound/W_SoundEngine.h"
 #include "beowolf/hexGrid/HexGrid.h"
-#include "DebugCamera.h"
+#include "camera/Camera.h"
+//#include "DebugCamera.h"
 #include "DebugCube.h"
 #include "SceneRenderer.h"
 #include "W_Time.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
-static wolf::DebugCamera* cam;
+static Camera* cam;
 static glm::mat4 cull;
 static HexGrid* grid;
 
@@ -53,7 +54,7 @@ void BaseScene::Init()
 	//grid.PrintOutLoc();
 
 	glEnable(GL_DEPTH_TEST);
-	cam = new wolf::DebugCamera(0, 0, glm::vec3(0, 0, -12));
+	cam = new Camera(0, 5.5, glm::vec3(0, 20.0f, 0));
 	cull = cam->GetViewMatrix();
 
 	for (int i = 0; i < 30; i++)
