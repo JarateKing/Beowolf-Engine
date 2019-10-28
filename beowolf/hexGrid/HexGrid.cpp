@@ -1,5 +1,7 @@
 #include "HexGrid.h"
 #include "W_RNG.h"
+#include "W_Texture.h"
+#include "W_TextureManager.h"
 
 HexGrid::HexGrid(int width, int length, float tileWidth)
 {
@@ -7,7 +9,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth)
 	GenerateLoc(width, length, tileWidth);
 
 	// set up rendering
-	g_dProgram = wolf::ProgramManager::CreateProgram("resources/shaders/cube.vsh", "resources/shaders/cube.fsh");
+	g_dProgram = wolf::ProgramManager::CreateProgram("resources/shaders/hex.vsh", "resources/shaders/hex.fsh");
 	g_pVB = wolf::BufferManager::CreateVertexBuffer(p_verts, sizeof(wolf::Vertex) * vertices.size());
 
 	g_pDecl = new wolf::VertexDeclaration();
@@ -18,6 +20,11 @@ HexGrid::HexGrid(int width, int length, float tileWidth)
 	g_pDecl->AppendAttribute(wolf::AT_Normal, 3, wolf::CT_Float);
 	g_pDecl->SetVertexBuffer(g_pVB);
 	g_pDecl->End();
+
+	wolf::Texture* pTex = wolf::TextureManager::CreateTexture("resources/textures/tiles/Tile_Texs_1.tga");
+	pTex->SetFilterMode(wolf::Texture::FM_LinearMipmap, wolf::Texture::FM_Linear);
+	pTex->SetWrapMode(wolf::Texture::WM_Repeat);
+	pTex->Bind();
 }
 
 HexGrid::~HexGrid()
@@ -45,7 +52,7 @@ void HexGrid::GenerateHeights(int width, int length)
 
 	for (int i = 0; i < numPos; i++)
 	{
-		heights.push_back(wolf::RNG::GetRandom(0.0f, 1.0f));
+		heights.push_back(wolf::RNG::GetRandom(0.0f, 5.0f));
 	}
 }
 
@@ -77,10 +84,7 @@ void HexGrid::GenerateLoc(int width, int length, float tileWidth)
 		{
 			positions.push_back(glm::vec2((startX + (diffX * j)), (startY + (3 * (tileWidth/2)) * i)));
 		}
-	}
 
-	for (int i = 0; i < numShort; i++)
-	{
 		for (int j = 0; j < (width - 1); j++)
 		{
 			positions.push_back(glm::vec2(((startX + toEdge) + (diffX * j)), ((startY + diffY) + (3 * (tileWidth / 2)) * i)));
@@ -103,20 +107,20 @@ void HexGrid::GenerateVerts(float tileWidth, float toEdge)
 	for (int i = 0; i < positions.size(); i++)
 	{
 		//Top Verts
-		verts[0] = { positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 255, 0, 0, 255, 0.0f, 0.0f };
-		verts[1] = { (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 255, 0, 255, 0.0f, 0.0f };
-		verts[2] = { (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 255, 255, 0.0f, 0.0f };
-		verts[3] = { positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 255, 0, 0, 255, 0.0f, 0.0f };
-		verts[4] = { (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 255, 0, 255, 0.0f, 0.0f };
-		verts[5] = { (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 255, 255, 0.0f, 0.0f };
+		verts[0] = { positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 255, 255, 255, 255, 0.25f, 0.0f };
+		verts[1] = { (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 255, 255, 255, 255, 0.0f, 0.125f };
+		verts[2] = { (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 255, 255, 255, 255, 0.0f, 0.375f };
+		verts[3] = { positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 255, 255, 255, 255, 0.25f, 0.5f };
+		verts[4] = { (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 255, 255, 255, 255, 0.5f, 0.375f };
+		verts[5] = { (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 255, 255, 255, 255, 0.5f, 0.125f };
 
 		//Bottom Verts
-		verts[6] = { positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 255, 0, 0, 255, 0.0f, 0.0f };
-		verts[7] = { (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 255, 0, 255, 0.0f, 0.0f };
-		verts[8] = { (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 255, 255, 0.0f, 0.0f };
-		verts[9] = { positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 255, 0, 0, 255, 0.0f, 0.0f };
-		verts[10] = { (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 255, 0, 255, 0.0f, 0.0f };
-		verts[11] = { (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 255, 255, 0.0f, 0.0f };
+		verts[6] = { positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f };
+		verts[7] = { (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f };
+		verts[8] = { (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f };
+		verts[9] = { positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f };
+		verts[10] = { (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f };
+		verts[11] = { (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f };
 
 		//Top Vertices
 		vertices.push_back(verts[3]);
@@ -197,6 +201,7 @@ void HexGrid::Render(glm::mat4 projview)
 	g_dProgram->SetUniform("projection", projview);
 	g_dProgram->SetUniform("world", glm::mat4());
 	g_dProgram->SetUniform("view", glm::mat4());
+	g_dProgram->SetUniform("tex", 0);
 
 	// Set up source data
 	g_pDecl->Bind();

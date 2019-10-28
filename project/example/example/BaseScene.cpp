@@ -57,12 +57,12 @@ void BaseScene::Init()
 	cam = new Camera(0, 5.5, glm::vec3(0, 20.0f, 0));
 	cull = cam->GetViewMatrix();
 
-	for (int i = 0; i < 30; i++)
+	/*for (int i = 0; i < 30; i++)
 	{
 		wolf::SceneRenderer::getInstance().AddNode((wolf::Node*)new wolf::DebugCube());
-	}
+	}*/
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
-	grid = new HexGrid(100, 100, 5.0f);
+	grid = new HexGrid(10, 10, 5.0f);
 }
 
 void BaseScene::Update()
