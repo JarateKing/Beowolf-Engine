@@ -45,6 +45,21 @@ namespace wolf
 		}
 
 		*root = readNode(&in, nodeIDs);
+
+		unsigned int anims = readInt(&in);
+		for (int i = 0; i < anims; i++) {
+			int duration = readInt(&in);
+			int speed = readInt(&in);
+			int bones = readInt(&in);
+
+			for (int j = 0; j < bones; j++) {
+				int boneAffected = readInt(&in);
+				std::vector<glm::mat4> transforms;
+				for (int k = 0; k < duration; k++) {
+					transforms.push_back(readTransform(&in));
+				}
+			}
+		}
 	}
 
 	std::string BMWLoader::readString(std::ifstream* in) {
