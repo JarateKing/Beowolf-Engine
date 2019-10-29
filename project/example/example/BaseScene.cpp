@@ -22,7 +22,7 @@ void BaseScene::Init()
 
 	cam = new wolf::DebugCamera(0, 0, glm::vec3(0, 0, -4));
 	test = new wolf::BMWModel("resources/models/myskeleton.bmw", "resources/shaders/cube.vsh", "resources/shaders/cube.fsh");
-	test->setTransform(glm::scale(glm::vec3(0.01, 0.01, 0.01)));
+	test->setTransform(glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.01, 0.01, 0.01)));
 }
 
 void BaseScene::Update()
