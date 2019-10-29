@@ -49,6 +49,7 @@ namespace wolf
 		std::vector<Material*> m_materials;
 		std::map<int, BMWNode*> m_nodeIDs;
 		std::map<int, std::vector<std::pair<int, float>>> m_boneWeights;
+		std::vector<BMWAnim*> m_anims;
 		glm::mat4 transform;
 		BMWNode m_rootNode;
 		std::vector<NodeMesh> m_toRender;

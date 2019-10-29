@@ -3,7 +3,7 @@
 
 namespace wolf
 {
-	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights) {
+	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights, std::vector<BMWAnim*>* animlist) {
 		std::ifstream in(file, std::ifstream::binary);
 
 		readString(&in);
@@ -52,13 +52,21 @@ namespace wolf
 			int speed = readInt(&in);
 			int bones = readInt(&in);
 
+			std::map<int, std::vector<glm::mat4>> trans;
 			for (int j = 0; j < bones; j++) {
 				int boneAffected = readInt(&in);
 				std::vector<glm::mat4> transforms;
 				for (int k = 0; k < duration; k++) {
 					transforms.push_back(readTransform(&in));
 				}
+				trans[boneAffected] = transforms;
 			}
+
+			BMWAnim current;
+			current.duration = duration;
+			current.rate = speed;
+			current.transforms = trans;
+			animlist->push_back(&current);
 		}
 	}
 
