@@ -3,7 +3,7 @@
 
 namespace wolf
 {
-	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs) {
+	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights) {
 		std::ifstream in(file, std::ifstream::binary);
 
 		readString(&in);
@@ -17,6 +17,15 @@ namespace wolf
 
 		unsigned int meshes = readInt(&in);
 		for (int i = 0; i < meshes; i++) {
+			unsigned int bonedVertices = readInt(&in);
+			for (int j = 0; j < bonedVertices; j++) {
+				int boneVertexID = readInt(&in);
+				int boneWeightNum = readInt(&in);
+				for (int k = 0; k < boneWeightNum; k++) {
+					(*boneWeights)[boneVertexID].push_back({readInt(&in), readFloat(&in)});
+				}
+			}
+
 			unsigned int vertices = readInt(&in);
 			(*meshlist).push_back(std::vector<Vertex>());
 			for (int j = 0; j < vertices; j++) {
