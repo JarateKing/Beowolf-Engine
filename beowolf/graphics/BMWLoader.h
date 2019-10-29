@@ -28,6 +28,7 @@ namespace wolf
 		std::string readString(std::ifstream* in);
 		unsigned int readInt(std::ifstream* in);
 		float readFloat(std::ifstream* in);
+		glm::mat4 readTransform(std::ifstream* in);
 		BMWNode readNode(std::ifstream* in);
 
 	public:

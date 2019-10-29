@@ -65,12 +65,18 @@ namespace wolf
 		return toret;
 	}
 
-	BMWNode BMWLoader::readNode(std::ifstream* in) {
+	glm::mat4 BMWLoader::readTransform(std::ifstream* in) {
 		glm::mat4 transform;
 
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
 				transform[i][j] = readFloat(in);
+
+		return transform;
+	}
+
+	BMWNode BMWLoader::readNode(std::ifstream* in) {
+		glm::mat4 transform = readTransform(in);
 
 		unsigned int meshNum = readInt(in);
 		unsigned int* meshes = new unsigned int[meshNum];
