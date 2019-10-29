@@ -29,6 +29,16 @@ The second block of data is the list of meshes. The format is as follows:
 unsigned int - number of meshes
 
 for each mesh:
+	unsigned int - number of bone-weighted vertex ids
+	
+	for each bone-weighted vertex id:
+		unsigned int - vertex id
+		unsigned int - number of bone weights
+		
+		for each bone weight:
+			unsigned int - node id
+			float - bone weight
+	
 	unsigned int - number of vertices
 	
 	for each vertex:
