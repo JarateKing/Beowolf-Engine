@@ -70,6 +70,8 @@ for each mesh:
 ### Nodes
 The third block of data contains a nested tree structure of nodes. The format begins at the root node, and is as follows:
 ```
+unsigned int - node id
+
 float 4*4 - transformation matrix
 
 unsigned int - number of meshes
@@ -81,4 +83,21 @@ unsigned int - number of children
 
 for each child:
 	node - child node (this structure nested)
+```
+
+### Animations
+The fourth block of data contains the bone transforms for animations. It consists of:
+```
+unsigned int - number of animations
+
+for each animation:
+	unsigned int - duration (tick count)
+	unsigned int - speed (ticks per second)
+	unsigned int - bones affected
+	
+	for each bone affected:
+		unsigned int - node id
+		
+		for duration:
+			float 4*4 - transformation matrix
 ```
