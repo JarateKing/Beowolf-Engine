@@ -3,7 +3,7 @@
 
 namespace wolf
 {
-	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root) {
+	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs) {
 		std::ifstream in(file, std::ifstream::binary);
 
 		readString(&in);
@@ -35,7 +35,7 @@ namespace wolf
 			}
 		}
 
-		*root = readNode(&in);
+		*root = readNode(&in, nodeIDs);
 	}
 
 	std::string BMWLoader::readString(std::ifstream* in) {
@@ -75,7 +75,9 @@ namespace wolf
 		return transform;
 	}
 
-	BMWNode BMWLoader::readNode(std::ifstream* in) {
+	BMWNode BMWLoader::readNode(std::ifstream* in, std::map<int, BMWNode*>* nodeIDs) {
+		unsigned int nodeId = readInt(in);
+		
 		glm::mat4 transform = readTransform(in);
 
 		unsigned int meshNum = readInt(in);
@@ -87,7 +89,7 @@ namespace wolf
 		std::vector<BMWNode> children;
 
 		for (int i = 0; i < childNum; i++) {
-			children.push_back(readNode(in));
+			children.push_back(readNode(in, nodeIDs));
 		}
 
 		BMWNode toret;
@@ -95,6 +97,8 @@ namespace wolf
 		toret.meshNum = meshNum;
 		toret.meshIDs = meshes;
 		toret.children = children;
+
+		(*nodeIDs)[nodeId] = &toret;
 		return toret;
 	}
 }

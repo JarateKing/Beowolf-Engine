@@ -1,6 +1,7 @@
 #include <W_Common.h>
 #include <BMWLoader.h>
 #include <vector>
+#include <map>
 #include <string>
 #include <utility>
 #include <W_Material.h>
@@ -46,6 +47,7 @@ namespace wolf
 		std::vector<std::vector<unsigned int>> m_indices;
 		std::vector<Mesh> m_meshes;
 		std::vector<Material*> m_materials;
+		std::map<int, BMWNode*> m_nodeIDs;
 		glm::mat4 transform;
 		BMWNode m_rootNode;
 		std::vector<NodeMesh> m_toRender;
