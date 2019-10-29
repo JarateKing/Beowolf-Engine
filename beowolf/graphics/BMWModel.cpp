@@ -43,6 +43,8 @@ namespace wolf
 			current.m_pDecl->AppendAttribute(AT_Color, 4, CT_UByte);
 			current.m_pDecl->AppendAttribute(AT_TexCoord1, 2, CT_Float);
 			current.m_pDecl->AppendAttribute(AT_Normal, 3, CT_Float);
+			current.m_pDecl->AppendAttribute(AT_BoneIndices, 4, CT_UInt);
+			current.m_pDecl->AppendAttribute(AT_BoneWeight, 4, CT_Float);
 			current.m_pDecl->SetVertexBuffer(current.m_pVB);
 			current.m_pDecl->SetIndexBuffer(current.m_pIB);
 			current.m_pDecl->End();
@@ -88,11 +90,19 @@ namespace wolf
 		if (m_meshes[meshID].m_pTex != NULL)
 			m_meshes[meshID].m_pTex->Bind();
 
+		glm::mat4 boneMatrix[64];
+		if (m_anims.size() > 0) {
+			for (auto it : m_anims[0]->transforms) {
+				boneMatrix[it.first] = it.second[100];
+			}
+		}
+
 		m_meshes[meshID].m_pProg->Bind();
 		m_meshes[meshID].m_pProg->SetUniform("projection", proj);
 		m_meshes[meshID].m_pProg->SetUniform("view", view);
 		m_meshes[meshID].m_pProg->SetUniform("world", world);
 		m_meshes[meshID].m_pProg->SetUniform("tex", 0);
+		m_meshes[meshID].m_pProg->SetUniform("BoneMatrixArray", boneMatrix, 64);
 
 		glDrawElements(GL_TRIANGLES, m_meshes[meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
 	}
