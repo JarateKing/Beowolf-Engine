@@ -21,7 +21,7 @@ void BaseScene::Init()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	cam = new wolf::DebugCamera(0, 0, glm::vec3(0, 0, -4));
-	test = new wolf::BMWModel("resources/models/myskeleton.bmw", "resources/shaders/cube.vsh", "resources/shaders/cube.fsh");
+	test = new wolf::BMWModel("resources/models/myskeleton.bmw", "resources/shaders/animatable.vsh", "resources/shaders/animatable.fsh");
 	test->setTransform(glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.01, 0.01, 0.01)));
 }
 
