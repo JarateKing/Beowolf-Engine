@@ -85,6 +85,8 @@ namespace wolf
 	}
 
 	void BMWModel::renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, unsigned int meshID) {
+		static int frame = 0;
+
 		m_meshes[meshID].m_pDecl->Bind();
 
 		if (m_meshes[meshID].m_pTex != NULL)
@@ -92,7 +94,8 @@ namespace wolf
 
 		glm::mat4 boneMatrix[64];
 		if (m_anims.size() > 0) {
-			std::cout << m_anims[0]->duration << "\n";
+			frame = (frame + 1) % m_anims[0]->duration;
+			std::cout << frame << "\n";
 		}
 
 		m_meshes[meshID].m_pProg->Bind();
