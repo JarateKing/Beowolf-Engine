@@ -157,6 +157,6 @@ namespace wolf
 
 	float Math::ease(float percent)
 	{
-		return lerp(easeIn(percent), easeOut(percent), percent);
+		return (1 - cos(PI * percent)) * 0.5;
 	}
 }
