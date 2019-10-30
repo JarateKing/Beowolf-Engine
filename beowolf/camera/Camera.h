@@ -19,6 +19,8 @@ private:
 
 	float m_horiz;
 	float m_verti;
+	float fov = 90.0f;
+	float startY;
 	glm::vec3 m_aim;
 	glm::vec3 m_right;
 	glm::vec3 m_up;

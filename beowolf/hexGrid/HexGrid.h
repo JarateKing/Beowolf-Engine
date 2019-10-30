@@ -7,19 +7,30 @@
 #include "W_BufferManager.h"
 #include "W_VertexDeclaration.h"
 #include "W_ProgramManager.h"
+#include "W_Texture.h"
+#include "W_TextureManager.h"
 
 class HexGrid
 {
 public:
-	HexGrid(int width, int length, float tileWidth);
+	HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile);
 	~HexGrid();
 	void PrintOutLoc();
 	void Render(glm::mat4 projView);
 
 private:
 	void GenerateLoc(int width, int length, float tileWidth);
-	void GenerateHeights(int width, int length);
+	void GenerateHeights(int width, int length, float minHeight, float maxHeight);
 	void GenerateVerts(float tileWidth, float toEdge);
+	void SmoothFullHeights(int width, int numTimes);
+	void GroupTextures(int width);
+
+	wolf::Texture* pTex;
+
+	std::vector<int> roads;
+	std::vector<int> mountains;
+	std::vector<int> desert;
+
 	std::vector<glm::vec2> positions;
 	std::vector<float> heights;
 

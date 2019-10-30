@@ -54,7 +54,7 @@ void BaseScene::Init()
 	//grid.PrintOutLoc();
 
 	glEnable(GL_DEPTH_TEST);
-	cam = new Camera(0, 5.5, glm::vec3(0, 20.0f, 0));
+	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
 
 	/*for (int i = 0; i < 30; i++)
@@ -62,7 +62,7 @@ void BaseScene::Init()
 		wolf::SceneRenderer::getInstance().AddNode((wolf::Node*)new wolf::DebugCube());
 	}*/
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
-	grid = new HexGrid(10, 10, 5.0f);
+	grid = new HexGrid(10, 10, 5.0f, 1.0f, 20.0f, "resources/textures/tiles/Tile_Texs_1.tga");
 }
 
 void BaseScene::Update()
