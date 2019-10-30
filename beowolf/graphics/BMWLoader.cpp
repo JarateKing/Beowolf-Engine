@@ -54,9 +54,9 @@ namespace wolf
 
 			std::map<int, std::vector<glm::mat4>> trans;
 			for (int j = 0; j < bones; j++) {
-				int boneAffected = readInt(&in);
+				unsigned int boneAffected = readInt(&in);
 				std::vector<glm::mat4> transforms;
-				for (int k = 0; k < duration; k++) {
+				for (int k = 0; k <= duration; k++) {
 					transforms.push_back(readTransform(&in));
 				}
 				trans[boneAffected] = transforms;
