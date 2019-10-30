@@ -13,9 +13,9 @@ void BaseScene::Init()
 {
 	for (float i = 0.0f; i <= 1.000001f; i += 0.1f) {
 		std::cout << std::fixed << std::setprecision(1) << i;
-		std::cout << " = in: " << std::fixed << std::setprecision(6) << i;
-		std::cout << " - out: " << std::fixed << std::setprecision(6) << i;
-		std::cout << " - both: " << std::fixed << std::setprecision(6) << i << "\n";
+		std::cout << " = in: " << std::fixed << std::setprecision(6) << wolf::Math::easeIn(i);
+		std::cout << " - out: " << std::fixed << std::setprecision(6) << wolf::Math::easeOut(i);
+		std::cout << " - both: " << std::fixed << std::setprecision(6) << wolf::Math::ease(i) << "\n";
 	}
 }
 
