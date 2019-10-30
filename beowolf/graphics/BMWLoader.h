@@ -17,6 +17,7 @@ namespace wolf
 		unsigned int duration;
 		unsigned int rate;
 		std::map<int, std::vector<glm::mat4>> transforms;
+		BMWAnim() {};
 	};
 
 	class BMWLoader
