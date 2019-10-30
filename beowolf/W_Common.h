@@ -27,7 +27,7 @@ namespace wolf
 		GLfloat normalDirX = 0.0f;
 		GLfloat normalDirY = 1.0f;
 		GLfloat normalDirZ = 0.0f;
-		glm::ivec4 boneIndices;
+		glm::vec4 boneIndices;
 		glm::vec4 boneWeights;
 
 		void setNormalDir(glm::vec3 input)

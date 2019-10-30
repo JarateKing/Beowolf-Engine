@@ -15,6 +15,29 @@ namespace wolf
 			}
 		}
 
+		unsigned int anims = readInt(&in);
+		for (int i = 0; i < anims; i++) {
+			unsigned int duration = readInt(&in);
+			unsigned int speed = readInt(&in);
+			unsigned int bones = readInt(&in);
+
+			std::map<int, std::vector<glm::mat4>> trans;
+			for (int j = 0; j < bones; j++) {
+				unsigned int boneAffected = readInt(&in);
+				std::vector<glm::mat4> transforms;
+				for (int k = 0; k <= duration; k++) {
+					transforms.push_back(readTransform(&in));
+				}
+				trans[boneAffected] = transforms;
+			}
+
+			BMWAnim* current = new BMWAnim();
+			current->duration = duration;
+			current->rate = speed;
+			current->transforms = trans;
+			animlist->push_back(current);
+		}
+
 		unsigned int meshes = readInt(&in);
 		for (int i = 0; i < meshes; i++) {
 			unsigned int bonedVertices = readInt(&in);
@@ -45,29 +68,6 @@ namespace wolf
 		}
 
 		*root = readNode(&in, nodeIDs);
-
-		unsigned int anims = readInt(&in);
-		for (int i = 0; i < anims; i++) {
-			unsigned int duration = readInt(&in);
-			unsigned int speed = readInt(&in);
-			unsigned int bones = readInt(&in);
-
-			std::map<int, std::vector<glm::mat4>> trans;
-			for (int j = 0; j < bones; j++) {
-				unsigned int boneAffected = readInt(&in);
-				std::vector<glm::mat4> transforms;
-				for (int k = 0; k <= duration; k++) {
-					transforms.push_back(readTransform(&in));
-				}
-				trans[boneAffected] = transforms;
-			}
-
-			BMWAnim* current = new BMWAnim();
-			current->duration = duration;
-			current->rate = speed;
-			current->transforms = trans;
-			animlist->push_back(current);
-		}
 	}
 
 	std::string BMWLoader::readString(std::ifstream* in) {
