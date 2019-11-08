@@ -43,7 +43,7 @@ namespace wolf
 			current.m_pDecl->AppendAttribute(AT_Color, 4, CT_UByte);
 			current.m_pDecl->AppendAttribute(AT_TexCoord1, 2, CT_Float);
 			current.m_pDecl->AppendAttribute(AT_Normal, 3, CT_Float);
-			current.m_pDecl->AppendAttribute(AT_BoneIndices, 4, CT_UInt);
+			current.m_pDecl->AppendAttribute(AT_BoneIndices, 4, CT_Float);
 			current.m_pDecl->AppendAttribute(AT_BoneWeight, 4, CT_Float);
 			current.m_pDecl->SetVertexBuffer(current.m_pVB);
 			current.m_pDecl->SetIndexBuffer(current.m_pIB);
