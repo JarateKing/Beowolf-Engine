@@ -56,6 +56,14 @@ namespace wolf
 				cur.normalDirX = readFloat(&in);
 				cur.normalDirY = readFloat(&in);
 				cur.normalDirZ = readFloat(&in);
+				glm::vec4 boneIndices = glm::vec4();
+				glm::vec4 boneWeight = glm::vec4();
+				for (int k = 0; k < (*boneWeights)[j].size() && k < 4; k++) {
+					boneIndices[k] = (*boneWeights)[j][k].first;
+					boneWeight[k] = (*boneWeights)[j][k].second;
+				}
+				cur.boneIndices = boneIndices;
+				cur.boneWeights = boneWeight;
 				(*meshlist)[i].push_back(cur);
 			}
 			unsigned int indices = readInt(&in);
