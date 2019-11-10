@@ -25,6 +25,8 @@ private:
 	void SmoothFullHeights(int width, int numTimes);
 	void GroupTextures(int width);
 
+	float minH, maxH;
+
 	wolf::Texture* pTex;
 
 	std::vector<int> roads;

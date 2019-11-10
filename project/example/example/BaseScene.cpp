@@ -62,7 +62,7 @@ void BaseScene::Init()
 		wolf::SceneRenderer::getInstance().AddNode((wolf::Node*)new wolf::DebugCube());
 	}*/
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
-	grid = new HexGrid(10, 10, 5.0f, 1.0f, 20.0f, "resources/textures/tiles/Tile_Texs_1.tga");
+	grid = new HexGrid(50 , 50, 5.0f, 1.0f, 20.0f, "resources/textures/tiles/Tile_Texs_1.tga");
 }
 
 void BaseScene::Update()

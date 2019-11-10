@@ -4,6 +4,9 @@
 
 HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile)
 {
+	minH = minHeight;
+	maxH = maxHeight;
+
 	GenerateHeights(width, length, minHeight, maxHeight);
 	SmoothFullHeights(width, 3);
 	GenerateLoc(width, length, tileWidth);
@@ -147,6 +150,36 @@ void HexGrid::GenerateVerts(float tileWidth, float toEdge)
 			p5Tex.x = 0.5f;
 			p5Tex.y = 0.625f;
 		}
+		else if (std::find(mountains.begin(), mountains.end(), i) != mountains.end())
+		{
+			p0Tex.x = 0.75f;
+			p0Tex.y = 0.0f;
+			p1Tex.x = 0.5f;
+			p1Tex.y = 0.125f;
+			p2Tex.x = 0.5f;
+			p2Tex.y = 0.375f;
+			p3Tex.x = 0.75f;
+			p3Tex.y = 0.5f;
+			p4Tex.x = 1.0f;
+			p4Tex.y = 0.375f;
+			p5Tex.x = 1.0f;
+			p5Tex.y = 0.125f;
+		}
+		else if (std::find(desert.begin(), desert.end(), i) != desert.end())
+		{
+			p0Tex.x = 0.75f;
+			p0Tex.y = 0.5f;
+			p1Tex.x = 0.5f;
+			p1Tex.y = 0.625f;
+			p2Tex.x = 0.5f;
+			p2Tex.y = 0.875f;
+			p3Tex.x = 0.75f;
+			p3Tex.y = 1.0f;
+			p4Tex.x = 1.0f;
+			p4Tex.y = 0.875f;
+			p5Tex.x = 1.0f;
+			p5Tex.y = 0.625f;
+		}
 		else
 		{
 			p0Tex.x = 0.25f;
@@ -193,79 +226,124 @@ void HexGrid::GenerateVerts(float tileWidth, float toEdge)
 		vertices.push_back(verts[2]);
 		vertices.push_back(verts[1]);
 
-		//test
-		//0  vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-		//1  vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		//2  vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		//3  vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-		//4  vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		//5  vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+		if (std::find(mountains.begin(), mountains.end(), i) != mountains.end())
+		{
+			//front left vertices
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 200, 200, 200, 255, 0.6f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 200, 200, 200, 255, 0.6f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.6f, 0.0f });
 
-		//Front left Vertices
-		//vertices.push_back(verts[0]);
-		//vertices.push_back(verts[1]);
-		vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(verts[7]);
-		//vertices.push_back(verts[0]);
-		vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(verts[7]);
-		vertices.push_back(verts[6]);
+			//Left Vertices
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f });
 
-		//Left Vertices
-		//vertices.push_back(verts[1]);
-		vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(verts[8]);
-		//vertices.push_back(verts[2]);
-		//vertices.push_back(verts[1]);
-		vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(verts[8]);
-		vertices.push_back(verts[7]);
+			//Back left Vertices
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f });
 
-		//Back left Vertices
-		//vertices.push_back(verts[2]);
-		vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(verts[9]);
-		//vertices.push_back(verts[3]);
-		//vertices.push_back(verts[2]);
-		vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(verts[9]);
-		vertices.push_back(verts[8]);
+			//Back right Vertices
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f });
 
-		//Back right Vertices
-		//vertices.push_back(verts[3]);
-		vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(verts[10]);
-		//vertices.push_back(verts[4]);
-		//vertices.push_back(verts[3]);
-		vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(verts[10]);
-		vertices.push_back(verts[9]);
+			//Right Vertices
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f });
 
-		//Right Vertices
-		//vertices.push_back(verts[4]);
-		vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(verts[11]);
-		//vertices.push_back(verts[5]);
-		//vertices.push_back(verts[4]);
-		vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(verts[11]);
-		vertices.push_back(verts[10]);
+			//Front right Vertices
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.6f, 0.0f });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 200, 200, 200, 255, 0.6f, 0.45f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.6f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f });
+		}
+		else
+		{
+			//Front left Vertices
+			//vertices.push_back(verts[0]);
+			//vertices.push_back(verts[1]);
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(verts[7]);
+			//vertices.push_back(verts[0]);
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(verts[7]);
+			vertices.push_back(verts[6]);
 
-		//Front right Vertices
-		//vertices.push_back(verts[5]);
-		vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(verts[6]);
-		//vertices.push_back(verts[0]);
-		//vertices.push_back(verts[5]);
-		vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-		vertices.push_back(verts[6]);
-		vertices.push_back(verts[11]);
+			//Left Vertices
+			//vertices.push_back(verts[1]);
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(verts[8]);
+			//vertices.push_back(verts[2]);
+			//vertices.push_back(verts[1]);
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(verts[8]);
+			vertices.push_back(verts[7]);
+
+			//Back left Vertices
+			//vertices.push_back(verts[2]);
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(verts[9]);
+			//vertices.push_back(verts[3]);
+			//vertices.push_back(verts[2]);
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(verts[9]);
+			vertices.push_back(verts[8]);
+
+			//Back right Vertices
+			//vertices.push_back(verts[3]);
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(verts[10]);
+			//vertices.push_back(verts[4]);
+			//vertices.push_back(verts[3]);
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(verts[10]);
+			vertices.push_back(verts[9]);
+
+			//Right Vertices
+			//vertices.push_back(verts[4]);
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(verts[11]);
+			//vertices.push_back(verts[5]);
+			//vertices.push_back(verts[4]);
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(verts[11]);
+			vertices.push_back(verts[10]);
+
+			//Front right Vertices
+			//vertices.push_back(verts[5]);
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(verts[6]);
+			//vertices.push_back(verts[0]);
+			//vertices.push_back(verts[5]);
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
+			vertices.push_back(verts[6]);
+			vertices.push_back(verts[11]);
+		}
 	}
 
 	for (int i = 0; i < vertices.size(); i++)
@@ -286,7 +364,6 @@ void HexGrid::GroupTextures(int width)
 	//Creating road layout
 	while ((roads.size() < (int)(positions.size() * 0.35)))
 	{
-		std::cout << (int)(positions.size() * 0.35) << std::endl;
 		int pos = midPoint;
 		ranInto = false;
 
@@ -316,7 +393,6 @@ void HexGrid::GroupTextures(int width)
 					if ((roads.size() > (positions.size() * 0.35)) || std::find(roads.begin(), roads.end(), (pos + (width - 1))) != roads.end() || (pos + (width - 1)) <= 0 || (pos + (width - 1)) >= positions.size())
 					{
 						ranInto = true;
-						std::cout << "Recalculating" << std::endl;
 					}
 					else
 					{
@@ -384,21 +460,136 @@ void HexGrid::GroupTextures(int width)
 					midPoint = wolf::RNG::GetRandom(0, positions.size());
 			}
 		}
-		std::cout << roads.size() << std::endl;
-		/*for (int i = 0; i < roads.size(); i++)
-		{
-			std::cout << roads.at(i) << std::endl;
-		}*/
 	}
+
 	//Laying out mountains
 
+	float minMHeight = maxH * 0.75;
+	float maxMHeight = maxH;
+
+	while ((mountains.size() < (int)(positions.size() * 0.20)))
+	{
+		bool found = true;
+		int start;
+
+		while (found)
+		{
+			start = wolf::RNG::GetRandom(0, positions.size());
+			if (std::find(roads.begin(), roads.end(), start) == roads.end())
+				found = false;
+		}
+
+		mountains.push_back(start);
+
+		if ((mountains.size() < (positions.size() * 0.20)) && std::find(mountains.begin(), mountains.end(), (start + (width - 1))) == mountains.end() && std::find(roads.begin(), roads.end(), (start + (width - 1))) == roads.end() && (start + (width - 1)) >= 0 && (start + (width - 1)) < positions.size())
+		{
+			mountains.push_back(start + (width - 1));
+		}
+
+		if ((mountains.size() < (positions.size() * 0.20)) && std::find(mountains.begin(), mountains.end(), (start - 1)) == mountains.end() && std::find(roads.begin(), roads.end(), (start  - 1)) == roads.end() && (start - 1) >= 0 && (start - 1) < positions.size())
+		{
+			mountains.push_back(start - 1);
+		}
+
+		if ((mountains.size() < (positions.size() * 0.20)) && std::find(mountains.begin(), mountains.end(), (start - width)) == mountains.end() && std::find(roads.begin(), roads.end(), (start - width)) == roads.end() && (start - width) >= 0 && (start - width) < positions.size())
+		{
+			mountains.push_back(start - width);
+		}
+
+		if ((mountains.size() < (positions.size() * 0.20)) && std::find(mountains.begin(), mountains.end(), (start - (width - 1))) == mountains.end() && std::find(roads.begin(), roads.end(), (start - (width - 1))) == roads.end() && (start - (width - 1)) >= 0 && (start - (width - 1)) < positions.size())
+		{
+			mountains.push_back(start - (width - 1));
+		}
+
+		if ((mountains.size() < (positions.size() * 0.20)) && std::find(mountains.begin(), mountains.end(), (start + 1)) == mountains.end() && std::find(roads.begin(), roads.end(), (start + 1)) == roads.end() && (start + 1) >= 0 && (start + 1) < positions.size())
+		{
+			mountains.push_back(start + 1);
+		}
+
+		if ((mountains.size() < (positions.size() * 0.20)) && std::find(mountains.begin(), mountains.end(), (start + width)) == mountains.end() && std::find(roads.begin(), roads.end(), (start + width)) == roads.end() && (start + width) >= 0 && (start + width) < positions.size())
+		{
+			mountains.push_back(start + width);
+		}
+	}
 
 	//Laying out Deserts
 
+	int desertStart = wolf::RNG::GetRandom(0, positions.size());
+	desert.push_back(desertStart);
+	std::vector<int> nextLayer;
+	std::vector<int> currentLayer;
+	bool changed = false;
+	bool continuing = true;
 
-	//Setting rest to grass
+	while ((desert.size() < (int)(positions.size() * 0.20)) && continuing)
+	{
+		if (changed == true)
+		{
+			changed = false;
+		}
+		else
+		{
+			continuing = false;
+		}
 
-	
+		for (int i = 0; i < desert.size(); i++)
+		{
+			desertStart = desert.at(i);
+			if ((desert.size() < (positions.size() * 0.20)) && std::find(desert.begin(), desert.end(), (desertStart + (width - 1))) == desert.end() && std::find(roads.begin(), roads.end(), (desertStart + (width - 1))) == roads.end() && (desertStart + (width - 1)) >= 0 && (desertStart + (width - 1)) <= positions.size())
+			{
+				desert.push_back(desertStart + (width - 1));
+				changed = true;
+			}
+
+			if ((desert.size() < (positions.size() * 0.20)) && std::find(desert.begin(), desert.end(), (desertStart - 1)) == desert.end() && std::find(roads.begin(), roads.end(), (desertStart - 1)) == roads.end() && (desertStart - 1) >= 0 && (desertStart - 1) <= positions.size())
+			{
+				desert.push_back(desertStart - 1);
+				changed = true;
+			}
+
+			if ((desert.size() < (positions.size() * 0.20)) && std::find(desert.begin(), desert.end(), (desertStart - width)) == desert.end() && std::find(roads.begin(), roads.end(), (desertStart - width)) == roads.end() && (desertStart - width) >= 0 && (desertStart - width) <= positions.size())
+			{
+				desert.push_back(desertStart - width);
+				changed = true;
+			}
+
+			if ((desert.size() < (positions.size() * 0.20)) && std::find(desert.begin(), desert.end(), (desertStart - (width - 1))) == desert.end() && std::find(roads.begin(), roads.end(), (desertStart - (width - 1))) == roads.end() && (desertStart - (width - 1)) >= 0 && (desertStart - (width - 1)) <= positions.size())
+			{
+				desert.push_back(desertStart - (width - 1));
+				changed = true;
+			}
+
+			if ((desert.size() < (positions.size() * 0.20)) && std::find(desert.begin(), desert.end(), (desertStart + 1)) == desert.end() && std::find(roads.begin(), roads.end(), (desertStart + 1)) == roads.end() && (desertStart + 1) >= 0 && (desertStart + 1) <= positions.size())
+			{
+				desert.push_back(desertStart + 1);
+				changed = true;
+			}
+
+			if ((desert.size() < (positions.size() * 0.20)) && std::find(desert.begin(), desert.end(), (desertStart + width)) == desert.end() && std::find(roads.begin(), roads.end(), (desertStart + width)) == roads.end() && (desertStart + width) >= 0 && (desertStart + width) <= positions.size())
+			{
+				desert.push_back(desertStart + width);
+				changed = true;
+			}
+		}
+	}
+
+	for (int i = 0; i < mountains.size(); i++)
+	{
+		if (std::find(desert.begin(), desert.end(), mountains.at(i)) != desert.end())
+		{
+			std::cout << "Erasing: " << mountains.at(i) << std::endl;
+			mountains.erase(mountains.begin() + i);
+		}
+	}
+
+	std::cout << "Mountain size: " << mountains.size() << std::endl;
+	std::cout << "Heights size: " << heights.size() << std::endl;
+
+	for (int i = 0; i < mountains.size(); i++)
+	{
+		std::cout << "Mountain number: " << mountains.at(i) << std::endl;
+		heights.at(mountains.at(i)) = wolf::RNG::GetRandom(minMHeight, maxMHeight);
+	}
 }
 
 void HexGrid::SmoothFullHeights(int width, int numTimes)
