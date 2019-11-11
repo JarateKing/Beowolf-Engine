@@ -1,14 +1,16 @@
 #include "Camera.h"
+#include <iostream>
 
 Camera::Camera(float horizontalAngle, float verticalAngle, glm::vec3 position)
 {
 	m_horiz = horizontalAngle * DEG2RAD;
 	m_verti = verticalAngle;
 	m_pos = position;
+	startY = position.y;
 
 	ApplyAngleVectors();
 
-	m_proj = wolf::ProjMatrix::GetProjectionMatrix(wolf::ProjMatrix::GetFovCombo(90.0f));
+	m_proj = wolf::ProjMatrix::GetProjectionMatrix(wolf::ProjMatrix::GetFovCombo(fov));
 	m_view = glm::lookAt(m_pos, m_pos + m_aim, m_up);
 }
 
@@ -34,7 +36,7 @@ void Camera::Update(float delta)
 	}
 
 	// position controls
-	float movespeed = delta * 10.0f;
+	float movespeed = delta * 25.0f;
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_W))
 		m_pos += glm::vec3(m_aim.x, 0.0f, m_aim.z) * movespeed;
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_S))
@@ -43,9 +45,25 @@ void Camera::Update(float delta)
 		m_pos -= m_right * movespeed;
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_D))
 		m_pos += m_right * movespeed;
+	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_Q))
+	{
+		float m_posZ = m_pos.z;
+		if (m_pos.y >= startY - 15)
+		{
+			m_pos += m_aim * movespeed;
+		}
+	}
+	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_SPACE))
+	{
+		float m_posZ = m_pos.z;
+		if (m_pos.y <= startY + 15)
+		{
+			m_pos -= m_aim * movespeed;
+		}
+	}
 
 	// updating matrix incase something changed
-	m_proj = wolf::ProjMatrix::GetProjectionMatrix(wolf::ProjMatrix::GetFovCombo(90.0f));
+	m_proj = wolf::ProjMatrix::GetProjectionMatrix(wolf::ProjMatrix::GetFovCombo(fov));
 	m_view = glm::lookAt(m_pos, m_pos + m_aim, m_up);
 }
 
