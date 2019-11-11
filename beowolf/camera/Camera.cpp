@@ -47,25 +47,20 @@ void Camera::Update(float delta)
 		m_pos += m_right * movespeed;
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_Q))
 	{
-		if (fov >= 75.0f && fov <= 90.0f)
-			fov -= 0.1f;
-		m_pos += glm::vec3(0.0f, m_aim.y, 0.0f) * movespeed;
+		float m_posZ = m_pos.z;
+		if (m_pos.y >= startY - 15)
+		{
+			m_pos += m_aim * movespeed;
+		}
 	}
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_SPACE))
 	{
-		if (fov >= 75.0f && fov <= 90.0f)
-			fov += 0.1f;
-		m_pos -= glm::vec3(0.0f, m_aim.y, 0.0f) * movespeed;
+		float m_posZ = m_pos.z;
+		if (m_pos.y <= startY + 15)
+		{
+			m_pos -= m_aim * movespeed;
+		}
 	}
-
-	if (fov <= 75.0f)
-		fov = 75.0f;
-	if (fov >= 90.0f)
-		fov = 90.0f;
-	if (m_pos.y >= startY + 10)
-		m_pos.y = startY + 10;
-	if (m_pos.y <= startY - 10)
-		m_pos.y = startY - 10;
 
 	// updating matrix incase something changed
 	m_proj = wolf::ProjMatrix::GetProjectionMatrix(wolf::ProjMatrix::GetFovCombo(fov));

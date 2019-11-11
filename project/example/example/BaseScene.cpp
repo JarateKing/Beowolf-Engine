@@ -8,7 +8,6 @@
 #include "sound/W_SoundEngine.h"
 #include "beowolf/hexGrid/HexGrid.h"
 #include "camera/Camera.h"
-//#include "DebugCamera.h"
 #include "DebugCube.h"
 #include "SceneRenderer.h"
 #include "W_Time.h"
