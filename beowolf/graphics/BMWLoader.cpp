@@ -1,8 +1,14 @@
 #include "BMWLoader.h"
 #include <iostream>
+#include <algorithm>
 
 namespace wolf
 {
+	bool boneWeightCompare(std::pair<int, float> a, std::pair<int, float> b) {
+		if (a.second == b.second) return a.first > b.first;
+		return a.second > b.second;
+	}
+
 	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights, std::vector<BMWAnim*>* animlist) {
 		std::ifstream in(file, std::ifstream::binary);
 
@@ -47,6 +53,7 @@ namespace wolf
 				for (int k = 0; k < boneWeightNum; k++) {
 					(*boneWeights)[boneVertexID].push_back({readInt(&in), readFloat(&in)});
 				}
+				std::sort((*boneWeights)[boneVertexID].begin(), (*boneWeights)[boneVertexID].end(), boneWeightCompare);
 			}
 
 			unsigned int vertices = readInt(&in);
