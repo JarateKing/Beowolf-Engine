@@ -20,10 +20,10 @@ void main()
 {
 	ivec4 boneIndices = ivec4(a_boneIndices);
 	vec4 blendedPos = vec4(0,0,0,0);
-	blendedPos += BoneMatrixArray[boneIndices.x] * a_position * a_boneWeights.x;
-	blendedPos += BoneMatrixArray[boneIndices.y] * a_position * a_boneWeights.y;
-	blendedPos += BoneMatrixArray[boneIndices.z] * a_position * a_boneWeights.z;
-	blendedPos += BoneMatrixArray[boneIndices.w] * a_position * a_boneWeights.w;
+	//blendedPos += BoneMatrixArray[boneIndices.x] * a_position * a_boneWeights.x;
+	//blendedPos += BoneMatrixArray[boneIndices.y] * a_position * a_boneWeights.y;
+	//blendedPos += BoneMatrixArray[boneIndices.z] * a_position * a_boneWeights.z;
+	//blendedPos += BoneMatrixArray[boneIndices.w] * a_position * a_boneWeights.w;
 	
 	//vec3 blendedNormal = vec3(0,0,0);
 	//blendedNormal += BoneMatrixArrayIT[boneIndices.x] * a_normal * a_boneWeights.x;
@@ -33,8 +33,8 @@ void main()
 
 
     //gl_Position = WorldViewProj * blendedPos;
-	//gl_Position = projection * view * world * a_position;
-	gl_Position = projection * view * world * blendedPos;
+	gl_Position = projection * view * world * a_position;
+	//gl_Position = projection * view * world * blendedPos;
 	v_uv1 = a_uv1;
     //v_normal = WorldIT * blendedNormal;
 }
