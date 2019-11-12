@@ -58,7 +58,7 @@ namespace wolf
 		setScale(glm::vec3(RNG::GetRandom(0.75f, 1.5f), RNG::GetRandom(0.75f, 1.5f), RNG::GetRandom(0.75f, 1.5f)));
 
 		// set up rendering
-		g_pProgram = ProgramManager::CreateProgram("../resources/shaders/cube.vsh", "../resources/shaders/cube.fsh");
+		g_pProgram = ProgramManager::CreateProgram("resources/shaders/cube.vsh", "resources/shaders/cube.fsh");
 		g_pVB = BufferManager::CreateVertexBuffer(cubeVertices, sizeof(Vertex) * 6 * 6);
 
 		g_pDecl = new VertexDeclaration();
@@ -90,6 +90,7 @@ namespace wolf
 		// Bind Uniforms
 		g_pProgram->SetUniform("projection", projview);
 		g_pProgram->SetUniform("world", glm::translate(getPos()) * glm::scale(getScale()));
+		g_pProgram->SetUniform("view", glm::mat4());
 
 		// Set up source data
 		g_pDecl->Bind();

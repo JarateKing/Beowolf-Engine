@@ -6,7 +6,11 @@
 #include "AffectorRandomPos.h"
 
 #include "tinyxml.h"
+#include "JSON/json.hpp"
 #include <sstream>
+#include <fstream>
+
+using json = nlohmann::json;
 
 Effect::Effect()
 {
@@ -15,8 +19,130 @@ Effect::Effect()
 	m_emitters.push_back(emitter);
 }
 
-Effect::Effect(std::string xmlPath)
+Effect::Effect(std::string jsonPath)
 {
+	std::ifstream file(jsonPath);
+	std::string content((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
+
+	json j = json::parse(content);
+	size_t it_h = 0;
+
+	auto& gameObjects = j["Effect"];
+	for (auto& gameObject : gameObjects)
+	{
+		// emitter setup
+		int max = 0;
+		glm::vec3 pos;
+		int duration = -1;
+		float rate = 0.1;
+		std::string texture = "../resources/textures/particles/particle.dds";
+		bool additive = false;
+		float lifespanMin = 1.0f;
+		float lifespanMax = 1.0f;
+
+		std::string maxt = gameObject[it_h]["max_particles"];
+		std::string xt = gameObject[it_h]["pX"];
+		std::string yt = gameObject[it_h]["pY"];
+		std::string zt = gameObject[it_h]["pZ"];
+		std::string durationt = gameObject[it_h]["duration"];
+		std::string ratet = gameObject[it_h]["rate"];
+		std::string texturet = gameObject[it_h]["texture"];
+		std::string additivet = gameObject[it_h]["additive"];
+		std::string lifespanMint = gameObject[it_h]["lifespanMin"];
+		std::string lifespanMaxt = gameObject[it_h]["lifespanMax"];
+
+		max = std::stoi(maxt);
+		pos = glm::vec3(std::stof(xt), std::stof(yt), std::stof(zt));
+		duration = std::stoi(durationt);
+		rate = std::stof(ratet);
+		texture = texturet;
+		if (additivet == "true")
+			additive = true;
+		lifespanMin = std::stof(lifespanMint);
+		lifespanMax = std::stof(lifespanMaxt);
+
+		Emitter* emitter = new Emitter(max, duration, rate, texture);
+		emitter->Translate(pos);
+		emitter->SetAdditive(additive);
+		emitter->SetLifespan(lifespanMin, lifespanMax);
+
+		auto& affectors = gameObject[it_h]["affectors"];
+		for (auto& affector : affectors)
+		{
+			if (affector["type"] == "scale")
+			{
+				float start;
+				float end;
+
+				std::string startt = affector["start"];
+				start = std::stof(startt);
+
+				std::string endt = affector["end"];
+				end = std::stof(endt);
+
+				emitter->AddAffector(new AffectorScale(start, end));
+			}
+			else if (affector["type"] == "recolor")
+			{
+				glm::vec3 start;
+				glm::vec3 end;
+
+				std::string sRt = affector["sR"];
+				std::string sGt = affector["sG"];
+				std::string sBt = affector["sB"];
+				std::string eRt = affector["eR"];
+				std::string eGt = affector["eG"];
+				std::string eBt = affector["eB"];
+
+				start = glm::vec3(std::stof(sRt), std::stof(sGt), std::stof(sBt));
+				end = glm::vec3(std::stof(eRt), std::stof(eGt), std::stof(eBt));
+
+				emitter->AddAffector(new AffectorRecolor(start, end));
+			}
+			else if (affector["type"] == "fade")
+			{
+				float start;
+				float end;
+
+				std::string startt = affector["start"];
+				start = std::stof(startt);
+
+				std::string endt = affector["end"];
+				end = std::stof(endt);
+
+				emitter->AddAffector(new AffectorFade(start, end));
+			}
+			else if (affector["type"] == "velocity")
+			{
+				glm::vec3 start;
+				glm::vec3 end;
+
+				std::string sXt = affector["sX"];
+				std::string sYt = affector["sY"];
+				std::string sZt = affector["sZ"];
+				std::string eXt = affector["eX"];
+				std::string eYt = affector["eY"];
+				std::string eZt = affector["eZ"];
+
+				start = glm::vec3(std::stof(sXt), std::stof(sYt), std::stof(sZt));
+				end = glm::vec3(std::stof(eXt), std::stof(eYt), std::stof(eZt));
+
+				emitter->AddAffector(new AffectorVelocity(start, end));
+			}
+			else if (affector["type"] == "randomPos")
+			{
+				float radius;
+
+				std::string radiust = affector["radius"];
+				radius = std::stof(radiust);
+
+				emitter->AddAffector(new AffectorRandomPos(radius));
+			}
+		}
+
+
+	}
+	/*
 	// verify things exist
 	TiXmlDocument doc(xmlPath.c_str());
 	if (doc.LoadFile() == false)
@@ -30,7 +156,7 @@ Effect::Effect(std::string xmlPath)
 		Effect();
 		return;
 	}
-
+	
 	// loop through each emitter
 	TiXmlNode* pComponentNode = pNode->FirstChild();
 	while (pComponentNode != NULL)
@@ -62,6 +188,7 @@ Effect::Effect(std::string xmlPath)
 		emitter->Translate(pos);
 		emitter->SetAdditive(additive);
 		emitter->SetLifespan(lifespanMin, lifespanMax);
+		
 
 		// affectors setup
 		for (TiXmlNode* i = pComponentNode->FirstChild(); i != NULL; i = i->NextSibling())
@@ -133,6 +260,7 @@ Effect::Effect(std::string xmlPath)
 		// get next emitter
 		pComponentNode = pComponentNode->NextSibling();
 	}
+	*/
 }
 
 Effect::~Effect()

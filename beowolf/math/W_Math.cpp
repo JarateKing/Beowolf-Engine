@@ -144,4 +144,19 @@ namespace wolf
 		if (val == 0) return 0;
 		return (val > 0) * 2 - 1;
 	}
+
+	float Math::easeIn(float percent)
+	{
+		return percent * percent * percent;
+	}
+
+	float Math::easeOut(float percent)
+	{
+		return pow(percent, 1.0 / 3.0);
+	}
+
+	float Math::ease(float percent)
+	{
+		return (1 - cos(PI * percent)) * 0.5;
+	}
 }

@@ -24,7 +24,6 @@ Program* ProgramManager::CreateProgram(const std::string& p_strVS, const std::st
 		iter->second->m_iRefCount++;
 		return iter->second->m_pProg;
 	}
-
 	Program* pProg = new Program(p_strVS, p_strPS);
 	Entry* pEntry = new Entry(pProg);
 	pEntry->m_iRefCount++;

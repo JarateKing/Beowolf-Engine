@@ -2,13 +2,24 @@
 #define GLFW_NO_GLU
 #include "BaseScene.h"
 #include <iostream>
-
 #include <BMWModel.h>
 #include <W_Time.h>
 #include <W_ProjectionMatrix.h>
 #include <DebugCamera.h>
+#include <iomanip>
+#include "sound/W_SoundEngine.h"
+#include "beowolf/hexGrid/HexGrid.h"
+#include "camera/Camera.h"
+#include "DebugCube.h"
+#include "SceneRenderer.h"
+#include "W_Time.h"
+#include "W_Math.h"
 
-wolf::DebugCamera* cam;
+const float DISTANCEFACTOR = 1.0f;
+wolf::SoundEngine SE;
+static Camera* cam;
+static glm::mat4 cull;
+static HexGrid* grid;
 wolf::BMWModel* test;
 
 BaseScene::BaseScene()
@@ -20,9 +31,14 @@ void BaseScene::Init()
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	cam = new wolf::DebugCamera(0, 0, glm::vec3(0, 0, -4));
 	test = new wolf::BMWModel("resources/models/myskeleton.bmw", "resources/shaders/animatable.vsh", "resources/shaders/animatable.fsh");
 	test->setTransform(glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.01, 0.01, 0.01)));
+
+	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
+	cull = cam->GetViewMatrix();
+
+	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
+	grid = new HexGrid(50 , 50, 5.0f, 1.0f, 20.0f, "resources/textures/tiles/Tile_Texs_1.tga");
 }
 
 void BaseScene::Update()

@@ -29,6 +29,10 @@ namespace wolf
 		static int wrap(int val, int min, int max);
 		static float wrap(float val, float min, float max);
 		static int getSign(int val);
+
+		static float easeIn(float percent);
+		static float easeOut(float percent);
+		static float ease(float percent);
 	};
 }
 

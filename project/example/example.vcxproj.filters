@@ -52,6 +52,12 @@
     <Filter Include="lib\powervr">
       <UniqueIdentifier>{fee00efd-2598-4d5b-bc74-0a7e68cf82c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="beowolf\graphics\hexgrid">
+      <UniqueIdentifier>{8fa4012f-3ea0-4a30-8f7c-1d68d8867c39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="beowolf\camera">
+      <UniqueIdentifier>{1c944a87-b7f8-4c91-82e7-3bdcf7b28c0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\beowolf\W_Common.cpp">
@@ -742,6 +748,11 @@
     </ClCompile>
     <ClCompile Include="..\..\beowolf\graphics\BMWModel.cpp">
       <Filter>beowolf\graphics</Filter>
+    <ClCompile Include="..\..\beowolf\hexGrid\HexGrid.cpp">
+      <Filter>beowolf\graphics\hexgrid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\camera\Camera.cpp">
+      <Filter>beowolf\camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1676,6 +1687,11 @@
     </ClInclude>
     <ClInclude Include="..\..\beowolf\graphics\BMWModel.h">
       <Filter>beowolf\graphics</Filter>
+    <ClInclude Include="..\..\beowolf\hexGrid\HexGrid.h">
+      <Filter>beowolf\graphics\hexgrid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\camera\Camera.h">
+      <Filter>beowolf\camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

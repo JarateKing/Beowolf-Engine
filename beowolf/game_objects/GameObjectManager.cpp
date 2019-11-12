@@ -10,8 +10,11 @@
 #include "GameObjectManager.h"
 #include "ComponentRenderable.h"
 #include "ComponentRigidBody.h"
+#include <fstream>
+#include <iostream>
 
 using namespace Common;
+
 
 //------------------------------------------------------------------------------
 // Method:    GameObjectManager
@@ -162,6 +165,42 @@ bool GameObjectManager::SetGameObjectGUID(GameObject* p_pGameObject, const std::
 //------------------------------------------------------------------------------
 GameObject* GameObjectManager::CreateGameObject(const std::string& p_strGameObject)
 {
+
+	//Load the document and return NULL if it fails to parse
+	std::ifstream file(p_strGameObject);
+	std::string content((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
+	
+	json j = json::parse(content);
+	size_t it_h = 0;
+
+	// Create the game object
+	GameObject* pGO = new GameObject(this);
+	m_mGOMap.insert(std::pair<std::string, GameObject*>(pGO->GetGUID(), pGO));
+
+	auto& gameObjects = j["GameObject"];
+
+	for (auto& gameObject : gameObjects)
+	{
+		std::string szComponentName = gameObject[it_h]["Component Name"];
+		ComponentFactoryMap::iterator it = m_mComponentFactoryMap.find(szComponentName);
+
+		if (it != m_mComponentFactoryMap.end())
+		{
+			ComponentFactoryMethod factory = it->second;
+			ComponentBase* pComponent;
+
+			pComponent = factory(j);
+
+
+			if (pComponent != NULL)
+			{
+				pGO->AddComponent(pComponent);
+			}
+		}
+	}
+
+	return pGO;
+	/*
 	// Load the document and return NULL if it fails to parse
 	TiXmlDocument doc(p_strGameObject.c_str());
 	if (doc.LoadFile() == false)
@@ -211,6 +250,7 @@ GameObject* GameObjectManager::CreateGameObject(const std::string& p_strGameObje
 	}
 		
 	return pGO;
+	*/
 }
 
 //------------------------------------------------------------------------------
