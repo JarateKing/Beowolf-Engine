@@ -53,6 +53,7 @@ void BaseScene::Render()
 	glDisable(GL_BLEND);
 
 	test->render(cam->GetViewMatrix(), glm::mat4(), false);
+	grid->Render(cam->GetViewMatrix());
 
 	glDepthMask(false);
 	glEnable(GL_BLEND);
