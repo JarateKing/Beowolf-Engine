@@ -1,8 +1,10 @@
 #include "W_ResourceLoader.h"
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
-#define FALLBACK_TEXTURE "resources/textures/fallback.tga"
+#define FALLBACK_TEXTURE_TGA "resources/textures/fallback.tga"
+#define FALLBACK_TEXTURE_DDS "resources/textures/fallback.dds"
 #define FALLBACK_VERTEXSHADER "resources/shaders/fallback.vsh"
 #define FALLBACK_PIXELSHADER "resources/shaders/fallback.fsh"
 #define FALLBACK_MODEL "resources/models/teapot.bmw"
@@ -16,7 +18,7 @@ namespace wolf
 			return filename;
 		
 		std::cout << "Failed to find texture " << name << "\n";
-		return FALLBACK_TEXTURE;
+		return (name.substr(std::max(0, (int)(name.length()) - 4)) != ".dds") ? FALLBACK_TEXTURE_TGA : FALLBACK_TEXTURE_DDS;
 	}
 
 	std::string ResourceLoader::getVertexShader(std::string name) {
