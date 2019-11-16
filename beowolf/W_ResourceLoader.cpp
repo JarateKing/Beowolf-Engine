@@ -4,7 +4,11 @@
 namespace wolf
 {
 	std::string ResourceLoader::getTexture(std::string name) {
-		return "resources/textures/" + name;
+		std::string filename = "resources/textures/" + name;
+		if (checkFileExists(filename))
+			return filename;
+		else
+			return "resources/textures/fallback.tga";
 	}
 
 	std::string ResourceLoader::getVertexShader(std::string name) {
