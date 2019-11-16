@@ -21,6 +21,11 @@ namespace wolf
 		ResourceLoader(ResourceLoader const&) = delete;
 		void operator=(ResourceLoader const&) = delete;
 
+		std::string getTexture(std::string name);
+		std::string getVertexShader(std::string name);
+		std::string getPixelShader(std::string name);
+		std::string getModel(std::string name);
+
 	private:
 		//-------------------------------------------------------------------------
 		// PRIVATE METHODS
