@@ -12,11 +12,19 @@ namespace wolf
 	}
 
 	std::string ResourceLoader::getVertexShader(std::string name) {
-		return "resources/shaders/" + name;
+		std::string filename = "resources/shaders/" + name;
+		if (checkFileExists(filename))
+			return filename;
+		else
+			return "resources/shaders/fallback.vsh";
 	}
 
 	std::string ResourceLoader::getPixelShader(std::string name) {
-		return "resources/shaders/" + name;
+		std::string filename = "resources/shaders/" + name;
+		if (checkFileExists(filename))
+			return filename;
+		else
+			return "resources/shaders/fallback.fsh";
 	}
 
 	std::string ResourceLoader::getModel(std::string name) {
