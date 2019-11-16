@@ -32,7 +32,12 @@ namespace wolf
 	}
 
 	std::string ResourceLoader::getModel(std::string name) {
-		return "resources/models/" + name;
+		std::string filename = "resources/models/" + name;
+		if (checkFileExists(filename))
+			return filename;
+
+		std::cout << "Failed to find model " << name << "\n";
+		return "resources/models/teapot.bmw";
 	}
 
 	bool ResourceLoader::checkFileExists(std::string filename) {
