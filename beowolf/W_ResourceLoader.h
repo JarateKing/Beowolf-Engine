@@ -25,6 +25,7 @@ namespace wolf
 		std::string getVertexShader(std::string name);
 		std::string getPixelShader(std::string name);
 		std::string getModel(std::string name);
+		std::string getFont(std::string name);
 
 	private:
 		//-------------------------------------------------------------------------

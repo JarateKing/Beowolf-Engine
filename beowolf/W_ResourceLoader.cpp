@@ -6,6 +6,7 @@
 #define FALLBACK_VERTEXSHADER "resources/shaders/fallback.vsh"
 #define FALLBACK_PIXELSHADER "resources/shaders/fallback.fsh"
 #define FALLBACK_MODEL "resources/models/teapot.bmw"
+#define FALLBACK_FONT "resources/fonts/opensans_semibold.fnt"
 
 namespace wolf
 {
@@ -43,6 +44,15 @@ namespace wolf
 
 		std::cout << "Failed to find model " << name << "\n";
 		return FALLBACK_MODEL;
+	}
+
+	std::string ResourceLoader::getFont(std::string name) {
+		std::string filename = "resources/fonts/" + name;
+		if (checkFileExists(filename))
+			return filename;
+
+		std::cout << "Failed to find font " << name << "\n";
+		return FALLBACK_FONT;
 	}
 
 	bool ResourceLoader::checkFileExists(std::string filename) {
