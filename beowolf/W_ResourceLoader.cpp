@@ -2,6 +2,11 @@
 #include <iostream>
 #include <fstream>
 
+#define FALLBACK_TEXTURE "resources/textures/fallback.tga"
+#define FALLBACK_VERTEXSHADER "resources/shaders/fallback.vsh"
+#define FALLBACK_PIXELSHADER "resources/shaders/fallback.fsh"
+#define FALLBACK_MODEL "resources/models/teapot.bmw"
+
 namespace wolf
 {
 	std::string ResourceLoader::getTexture(std::string name) {
@@ -10,7 +15,7 @@ namespace wolf
 			return filename;
 		
 		std::cout << "Failed to find texture " << name << "\n";
-		return "resources/textures/fallback.tga";
+		return FALLBACK_TEXTURE;
 	}
 
 	std::string ResourceLoader::getVertexShader(std::string name) {
@@ -19,7 +24,7 @@ namespace wolf
 			return filename;
 
 		std::cout << "Failed to find vertex shader " << name << "\n";
-		return "resources/shaders/fallback.vsh";
+		return FALLBACK_VERTEXSHADER;
 	}
 
 	std::string ResourceLoader::getPixelShader(std::string name) {
@@ -28,7 +33,7 @@ namespace wolf
 			return filename;
 
 		std::cout << "Failed to find pixel shader " << name << "\n";
-		return "resources/shaders/fallback.fsh";
+		return FALLBACK_PIXELSHADER;
 	}
 
 	std::string ResourceLoader::getModel(std::string name) {
@@ -37,7 +42,7 @@ namespace wolf
 			return filename;
 
 		std::cout << "Failed to find model " << name << "\n";
-		return "resources/models/teapot.bmw";
+		return FALLBACK_MODEL;
 	}
 
 	bool ResourceLoader::checkFileExists(std::string filename) {
