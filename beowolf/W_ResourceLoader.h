@@ -1,6 +1,8 @@
 #ifndef W_RESOURCELOADER_H
 #define W_RESOURCELOADER_H
 
+#include <string>
+
 namespace wolf
 {
 	class ResourceLoader
@@ -25,6 +27,8 @@ namespace wolf
 		//-------------------------------------------------------------------------
 		// private constructor
 		ResourceLoader() {}
+
+		bool checkFileExists(std::string filename);
 	};
 }
 
