@@ -22,7 +22,7 @@ namespace wolf
 	}
 
 	std::pair<std::string, std::string> ResourceLoader::getShaders(std::string name) {
-		return { getVertexShader(name + ".vsh"), getVertexShader(name + ".fsh") };
+		return { getVertexShader(name + ".vsh"), getPixelShader(name + ".fsh") };
 	}
 
 	std::string ResourceLoader::getVertexShader(std::string name) {
