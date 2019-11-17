@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 #include "W_Program.h"
 #include "W_Common.h"
+#include "W_ResourceLoader.h"
 
 namespace wolf
 {
@@ -39,15 +40,14 @@ Program::Program(const std::string& p_strVS, const std::string& p_strPS) : m_uiP
     if( !CompileShader(&uiVS, GL_VERTEX_SHADER, p_strVS))
 	{
         printf("Failed to compile vertex shader\n");
-        return;
+		CompileShader(&uiVS, GL_VERTEX_SHADER, wolf::ResourceLoader::Instance().getVertexShader("fallback.vsh"));
     }
 
     // 2. Create and compile fragment shader.
     if( !CompileShader(&uiPS, GL_FRAGMENT_SHADER, p_strPS))
 	{
         printf("Failed to compile pixel shader\n");
-		glDeleteShader(uiVS);
-        return;
+		CompileShader(&uiPS, GL_FRAGMENT_SHADER, wolf::ResourceLoader::Instance().getPixelShader("fallback.fsh"));
     }
 
     // 3. Create shader program that we'll (hopefully) eventually return
