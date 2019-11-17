@@ -1,7 +1,5 @@
 #version 150
 
-fail to compile !!!
-
 //uniform sampler2D texture1;
 //uniform sampler2D texture2;
 //uniform float fade;

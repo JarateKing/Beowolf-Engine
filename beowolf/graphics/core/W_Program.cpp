@@ -35,18 +35,21 @@ static const char* gs_aAttributeMap[wolf::AT_NUM_ATTRIBS] =
 Program::Program(const std::string& p_strVS, const std::string& p_strPS) : m_uiProgram(0)
 {
     GLuint uiVS, uiPS;
-    
+	bool usingFallback = false;
+
     // 1. Create and compile vertex shader.
-    if( !CompileShader(&uiVS, GL_VERTEX_SHADER, p_strVS))
+    if (!CompileShader(&uiVS, GL_VERTEX_SHADER, p_strVS))
 	{
         printf("Failed to compile vertex shader\n");
+		usingFallback = true;
 		CompileShader(&uiVS, GL_VERTEX_SHADER, wolf::ResourceLoader::Instance().getVertexShader("fallback.vsh"));
     }
 
     // 2. Create and compile fragment shader.
-    if( !CompileShader(&uiPS, GL_FRAGMENT_SHADER, p_strPS))
+    if (usingFallback || !CompileShader(&uiPS, GL_FRAGMENT_SHADER, p_strPS))
 	{
-        printf("Failed to compile pixel shader\n");
+		if (!usingFallback)
+			printf("Failed to compile pixel shader\n");
 		CompileShader(&uiPS, GL_FRAGMENT_SHADER, wolf::ResourceLoader::Instance().getPixelShader("fallback.fsh"));
     }
 
