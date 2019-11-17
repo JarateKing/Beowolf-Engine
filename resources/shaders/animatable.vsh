@@ -1,7 +1,5 @@
 #version 150
 
-fail to compile !!!
-
 uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 world;
