@@ -42,7 +42,10 @@ Program::Program(const std::string& p_strVS, const std::string& p_strPS) : m_uiP
 	{
         printf("Failed to compile vertex shader\n");
 		usingFallback = true;
-		CompileShader(&uiVS, GL_VERTEX_SHADER, wolf::ResourceLoader::Instance().getVertexShader("fallback.vsh"));
+		if (!CompileShader(&uiVS, GL_VERTEX_SHADER, wolf::ResourceLoader::Instance().getVertexShader("fallback.vsh"))) {
+			printf("Failed to compile fallback vertex shader\n");
+			return;
+		}
     }
 
     // 2. Create and compile fragment shader.
@@ -50,7 +53,11 @@ Program::Program(const std::string& p_strVS, const std::string& p_strPS) : m_uiP
 	{
 		if (!usingFallback)
 			printf("Failed to compile pixel shader\n");
-		CompileShader(&uiPS, GL_FRAGMENT_SHADER, wolf::ResourceLoader::Instance().getPixelShader("fallback.fsh"));
+		if (!CompileShader(&uiPS, GL_FRAGMENT_SHADER, wolf::ResourceLoader::Instance().getPixelShader("fallback.fsh"))) {
+			printf("Failed to compile fallback pixel shader\n");
+			glDeleteShader(uiVS);
+			return;
+		}
     }
 
     // 3. Create shader program that we'll (hopefully) eventually return
