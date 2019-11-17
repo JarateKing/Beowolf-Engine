@@ -31,7 +31,8 @@ void BaseScene::Init()
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("myskeleton.bmw"), wolf::ResourceLoader::Instance().getVertexShader("animatable.vsh"), wolf::ResourceLoader::Instance().getPixelShader("animatable.fsh"));
+	auto shaders = wolf::ResourceLoader::Instance().getShaders("aanimatable");
+	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("myskeleton.bmw"), shaders.first, shaders.second);
 	test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 25.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.1, 0.1, 0.1)));
 
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
