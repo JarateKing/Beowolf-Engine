@@ -21,6 +21,10 @@ namespace wolf
 		return (name.substr(std::max(0, (int)(name.length()) - 4)) != ".dds") ? FALLBACK_TEXTURE_TGA : FALLBACK_TEXTURE_DDS;
 	}
 
+	std::pair<std::string, std::string> ResourceLoader::getShaders(std::string name) {
+		return { getVertexShader(name + ".vsh"), getVertexShader(name + ".fsh") };
+	}
+
 	std::string ResourceLoader::getVertexShader(std::string name) {
 		std::string filename = "resources/shaders/" + name;
 		if (checkFileExists(filename))
