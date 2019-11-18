@@ -9,12 +9,13 @@
 #include "JSON/json.hpp"
 #include <sstream>
 #include <fstream>
+#include "W_ResourceLoader.h"
 
 using json = nlohmann::json;
 
 Effect::Effect()
 {
-	Emitter* emitter = new Emitter(1, -1, 0.1f, "../resources/textures/particles/particle.dds");
+	Emitter* emitter = new Emitter(1, -1, 0.1f, wolf::ResourceLoader::Instance().getTexture("particles/particle.dds"));
 
 	m_emitters.push_back(emitter);
 }
@@ -35,7 +36,7 @@ Effect::Effect(std::string jsonPath)
 		glm::vec3 pos;
 		int duration = -1;
 		float rate = 0.1;
-		std::string texture = "../resources/textures/particles/particle.dds";
+		std::string texture = wolf::ResourceLoader::Instance().getTexture("particles/particle.dds");
 		bool additive = false;
 		float lifespanMin = 1.0f;
 		float lifespanMax = 1.0f;
