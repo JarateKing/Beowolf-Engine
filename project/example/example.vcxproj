@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\beowolf\camera\Camera.cpp" />
+    <ClCompile Include="..\..\beowolf\camera\HexSelector.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\AIActionNode.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\AIDecisionNode.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\AIDecisionTree.cpp" />
@@ -317,6 +318,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\camera\Camera.h" />
+    <ClInclude Include="..\..\beowolf\camera\HexSelector.h" />
     <ClInclude Include="..\..\beowolf\game_objects\AIActionNode.h" />
     <ClInclude Include="..\..\beowolf\game_objects\AIDecisionNode.h" />
     <ClInclude Include="..\..\beowolf\game_objects\AIDecisionTree.h" />

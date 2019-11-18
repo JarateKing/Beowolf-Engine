@@ -754,6 +754,9 @@
     <ClCompile Include="..\..\beowolf\camera\Camera.cpp">
       <Filter>beowolf\camera</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\camera\HexSelector.cpp">
+      <Filter>beowolf\camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\W_Common.h">
@@ -1691,6 +1694,9 @@
       <Filter>beowolf\graphics\hexgrid</Filter>
     </ClInclude>
     <ClInclude Include="..\..\beowolf\camera\Camera.h">
+      <Filter>beowolf\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\camera\HexSelector.h">
       <Filter>beowolf\camera</Filter>
     </ClInclude>
   </ItemGroup>

@@ -579,17 +579,12 @@ void HexGrid::GroupTextures(int width)
 	{
 		if (std::find(desert.begin(), desert.end(), mountains.at(i)) != desert.end())
 		{
-			std::cout << "Erasing: " << mountains.at(i) << std::endl;
 			mountains.erase(mountains.begin() + i);
 		}
 	}
 
-	std::cout << "Mountain size: " << mountains.size() << std::endl;
-	std::cout << "Heights size: " << heights.size() << std::endl;
-
 	for (int i = 0; i < mountains.size(); i++)
 	{
-		std::cout << "Mountain number: " << mountains.at(i) << std::endl;
 		heights.at(mountains.at(i)) = wolf::RNG::GetRandom(minMHeight, maxMHeight);
 	}
 }
@@ -658,4 +653,14 @@ void HexGrid::Render(glm::mat4 projview)
 
 	// Draw!
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+}
+
+std::vector<float> HexGrid::GetHeights()
+{
+	return heights;
+}
+
+std::vector<glm::vec2> HexGrid::GetPos()
+{
+	return positions;
 }
