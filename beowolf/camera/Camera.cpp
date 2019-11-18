@@ -78,3 +78,53 @@ glm::mat4 Camera::GetViewMatrix()
 {
 	return m_proj * m_view;
 }
+
+glm::vec3 Camera::GetRayFromScreen()
+{
+	int width, height;
+	glfwGetWindowSize(&width, &height);
+
+	float x = ((2.0f * (float)wolf::Input::Instance().getMousePos().x) / (float)width) - 1.0f;
+	float y = 1.0f - ((2.0f * (float)wolf::Input::Instance().getMousePos().y) / (float)height);
+
+	glm::vec4 ray(x, y, -1.0f, 1.0f);
+	glm::vec4 ray_eye = glm::inverse(m_proj) * ray;
+	ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1.0f, 0.0f);
+
+	glm::vec4 ray_worT = (glm::inverse(m_view) * ray_eye);
+	glm::vec3 ray_wor(ray_worT.x, ray_worT.y, ray_worT.z);
+	//dir
+	ray_wor = glm::normalize(ray_wor);
+
+	return ray_wor;
+}
+
+int Camera::CalculateIntersection(std::vector<float> heights, std::vector<glm::vec2> positions, float tileWidth)
+{
+	glm::vec3 direction = GetRayFromScreen();
+	glm::vec3 intersection;
+	glm::vec2 currPos;
+	float toEdge = sqrt(pow(tileWidth / 2, 2) - pow(tileWidth / 4, 2));
+	int target = -1;
+	int intersecting = 0;
+
+	for (int i = 0; i < heights.size(); i++)
+	{
+		currPos = positions.at(i);
+		intersection = m_pos + ((heights.at(i) - m_pos.y) / direction.y) * direction;
+		if ((intersection.x >= (currPos.x - toEdge)) && (intersection.x <= (currPos.x + toEdge)) && (intersection.z <= (currPos.y + (tileWidth / 2))) && (intersection.z >= (currPos.y - (tileWidth / 2))))
+		{
+			intersecting++;
+			if (target == -1)
+				target = i;
+			else if (target >= 0)
+			{
+				if (heights.at(target) < heights.at(i))
+					target = i;
+			}
+		}
+	}
+	if (target > heights.size() || target < 0)
+		target = -1;
+	return target;
+}

@@ -4,6 +4,7 @@
 #include "W_Common.h"
 #include "W_ProjectionMatrix.h"
 #include "W_Input.h"
+#include <vector>
 
 class Camera
 {
@@ -12,10 +13,11 @@ public:
 	~Camera();
 	void Update(float delta);
 	glm::mat4 GetViewMatrix();
-
+	int CalculateIntersection(std::vector<float> heights, std::vector<glm::vec2> positions, float tileWidth);
 
 private:
 	void ApplyAngleVectors();
+	glm::vec3 GetRayFromScreen();
 
 	float m_horiz;
 	float m_verti;
