@@ -743,6 +743,11 @@
     <ClCompile Include="..\..\lib\PowerVR\PVRTVertex.cpp">
       <Filter>lib\powervr</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\BMWLoader.cpp">
+      <Filter>beowolf\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beowolf\graphics\BMWModel.cpp">
+      <Filter>beowolf\graphics</Filter>
     <ClCompile Include="..\..\beowolf\hexGrid\HexGrid.cpp">
       <Filter>beowolf\graphics\hexgrid</Filter>
     </ClCompile>
@@ -1677,6 +1682,11 @@
     <ClInclude Include="..\..\lib\PowerVR\PVRTVertex.h">
       <Filter>lib\powervr</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\BMWLoader.h">
+      <Filter>beowolf\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beowolf\graphics\BMWModel.h">
+      <Filter>beowolf\graphics</Filter>
     <ClInclude Include="..\..\beowolf\hexGrid\HexGrid.h">
       <Filter>beowolf\graphics\hexgrid</Filter>
     </ClInclude>

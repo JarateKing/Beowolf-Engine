@@ -121,6 +121,8 @@
     <ClCompile Include="..\..\beowolf\game_objects\SceneManager.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\StateMachine.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\Transform.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\BMWLoader.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\BMWModel.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Buffer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_BufferManager.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Common.cpp" />
@@ -358,6 +360,8 @@
     <ClInclude Include="..\..\beowolf\game_objects\StateBase.h" />
     <ClInclude Include="..\..\beowolf\game_objects\StateMachine.h" />
     <ClInclude Include="..\..\beowolf\game_objects\Transform.h" />
+    <ClInclude Include="..\..\beowolf\graphics\BMWLoader.h" />
+    <ClInclude Include="..\..\beowolf\graphics\BMWModel.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Buffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_BufferManager.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Common.h" />

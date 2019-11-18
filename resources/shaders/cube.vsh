@@ -8,6 +8,6 @@ out vec4 v_color;
 
 void main()
 {
-    gl_Position = projection * world * a_position;
+    gl_Position = projection * view * world * a_position;
 	v_color = a_color;
 }
