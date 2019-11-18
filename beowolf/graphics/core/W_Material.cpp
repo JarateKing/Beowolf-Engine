@@ -163,6 +163,10 @@ void Material::Apply()
 //----------------------------------------------------------
 // Sets what program this material uses
 //----------------------------------------------------------
+void Material::SetProgram(std::pair<std::string, std::string> shaders) {
+	SetProgram(shaders.first, shaders.second);
+}
+
 void Material::SetProgram(const std::string& p_strVS, const std::string& p_strPS)
 {
 	if( m_pProgram )
