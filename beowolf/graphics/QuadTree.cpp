@@ -1,4 +1,5 @@
 #include "QuadTree.h"
+#include "W_ResourceLoader.h"
 
 namespace wolf
 {
@@ -29,7 +30,7 @@ namespace wolf
 							 m_xpos, 0, m_zpos + m_depth,
 		};
 
-		m_Program = ProgramManager::CreateProgram("resources/shaders/line.vsh", "resources/shaders/line.fsh");
+		m_Program = ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("line"));
 		m_VB = BufferManager::CreateVertexBuffer(points, sizeof(GLfloat) * 3 * 8);
 		m_Decl = new VertexDeclaration();
 		m_Decl->Begin();
