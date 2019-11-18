@@ -65,8 +65,6 @@ void Camera::Update(float delta)
 	// updating matrix incase something changed
 	m_proj = wolf::ProjMatrix::GetProjectionMatrix(wolf::ProjMatrix::GetFovCombo(fov));
 	m_view = glm::lookAt(m_pos, m_pos + m_aim, m_up);
-
-	glm::vec3 test = GetRayFromScreen();
 }
 
 void Camera::ApplyAngleVectors()
