@@ -4,6 +4,9 @@
 #include <iostream>
 #include "W_Math.h"
 #include "W_ProjectionMatrix.h"
+#include <BMWModel.h>
+#include <W_Time.h>
+#include <W_ProjectionMatrix.h>
 #include <iomanip>
 #include "sound/W_SoundEngine.h"
 #include "beowolf/hexGrid/HexGrid.h"
@@ -20,6 +23,7 @@ static glm::mat4 cull;
 static HexGrid* grid;
 wolf::MousePos mouse;
 static HexSelector* selector;
+wolf::BMWModel* test;
 
 BaseScene::BaseScene()
 {
@@ -27,35 +31,12 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
-	/////////////////////////
-	//Demo for Audio System//
-	/////////////////////////
-
-	//Listener and sound info
-	//glm::vec3 listFor{ 0.0f, 0.0f, 1.0f };
-	//glm::vec3 listUp{ 0.0f, 1.0f, 0.0f };
-	//glm::vec3 listVel{ 10.0f, 0.0f, 0.0f };
-	//glm::vec3 listPos{ -50.0f, 0.0f, 0.0f };
-	//glm::vec3 soundPos{ 0.0f, 0.0f, 0.0f };
-	//glm::vec3 soundVel{ 100.0f, 0.0f, 0.0f };
-
-	//Initialize System
-	//SE.InitSystem();
-
-	//Creates loop sound, sets listener pos
-	//SE.AddSound("media/drumloop.wav", "drumloop", false);
-	//SE.PlayLoopSound("drumloop");
-	//SE.Change3DSoundPos("drumloop", soundPos, soundVel);
-	//SE.SetListenerAttr(listPos, listVel, listFor, listUp);
-
-	//Use this example for standard base sound
-	//SE.AddSound("media/drumloop.wav", "drumloop", true);
-	//SE.PlayBasicSound("drumloop");
-
-	//HexGrid grid(5, 5, 10.0f);
-	//grid.PrintOutLoc();
-
 	glEnable(GL_DEPTH_TEST);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	test = new wolf::BMWModel("resources/models/myskeleton.bmw", "resources/shaders/animatable.vsh", "resources/shaders/animatable.fsh");
+	test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 25.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.1, 0.1, 0.1)));
+
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
@@ -85,6 +66,9 @@ void BaseScene::Update()
 	//mouse = wolf::Input::Instance().getMousePos();
 	//std::cout << mouse.x << ", " << mouse.y << std::endl;
 	//cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
+	double deltaT = wolf::Time::Instance().deltaTime();
+	cam->Update(deltaT);
+	test->update(deltaT);
 }
 
 void BaseScene::Render()
@@ -92,6 +76,16 @@ void BaseScene::Render()
 	wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
 	grid->Render(cam->GetViewMatrix());
 	selector->Render(cam->GetViewMatrix());
+	glDepthMask(true);
+	glDisable(GL_BLEND);
+
+	test->render(cam->GetViewMatrix(), glm::mat4(), false);
+	grid->Render(cam->GetViewMatrix());
+
+	glDepthMask(false);
+	glEnable(GL_BLEND);
+
+	test->render(cam->GetViewMatrix(), glm::mat4(), true);
 }
 
 
