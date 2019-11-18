@@ -1,5 +1,6 @@
 #include "Emitter.h"
 #include "W_RNG.h"
+#include "W_ResourceLoader.h"
 
 Emitter::Emitter(int max, float duration, float rate, std::string texture)
 {
@@ -27,7 +28,7 @@ Emitter::Emitter(int max, float duration, float rate, std::string texture)
 		}
 	}
 
-	g_pProgram = wolf::ProgramManager::CreateProgram("../resources/shaders/particle.vsh", "../resources/shaders/particle.fsh");
+	g_pProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("particle"));
 	g_pVB = wolf::BufferManager::CreateVertexBuffer(m_quads, sizeof(wolf::Vertex) * m_max * 6);
 	g_pTexture = wolf::CreateTextureFromDDS(texture);
 

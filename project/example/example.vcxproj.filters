@@ -1,313 +1,240 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="beowolf">
-      <UniqueIdentifier>{f2f3ad9a-1695-4ecc-87c6-34f920e5e20a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\graphics">
-      <UniqueIdentifier>{7d458c5e-7c61-4d71-9945-70f533b55791}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\game_objects">
-      <UniqueIdentifier>{69722200-137a-4d15-b5d5-6ea5f91dfdf7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\math">
-      <UniqueIdentifier>{22814523-c534-414e-8bee-37d090c38a6e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\physics">
-      <UniqueIdentifier>{bbf3cf92-26bc-4492-8910-cb878e0edad4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\sound">
-      <UniqueIdentifier>{aa1fba00-fa0e-4d7b-9b8c-3af2d11c72d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\text">
-      <UniqueIdentifier>{13242610-484a-4ca9-9ae1-affa916a2dc7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\graphics\core">
-      <UniqueIdentifier>{bc4a3228-c265-4c76-9a67-0f42fb63d3ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\graphics\particles">
-      <UniqueIdentifier>{68f06c4f-4187-480a-b986-d366b339873d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\graphics\text">
-      <UniqueIdentifier>{9d239dd9-eef9-4ab8-ba20-509ac7c75815}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\graphics\particles\affectors">
-      <UniqueIdentifier>{95d942c7-0a16-4e2d-847f-7e17a5115609}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\game_objects\components">
-      <UniqueIdentifier>{10947e67-8b03-44c6-8088-a245a46f738c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib">
-      <UniqueIdentifier>{025650f9-329a-4a64-9182-92dc55c22a1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\tinyxml">
-      <UniqueIdentifier>{d9edab93-67bc-406e-acaf-4d85d42cab4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\bullet">
-      <UniqueIdentifier>{58098070-967d-4082-bbd1-60530dad3e37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\fmod">
-      <UniqueIdentifier>{14aba672-36fd-492d-8c89-1dceb1a3182f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\powervr">
-      <UniqueIdentifier>{fee00efd-2598-4d5b-bc74-0a7e68cf82c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\graphics\hexgrid">
-      <UniqueIdentifier>{8fa4012f-3ea0-4a30-8f7c-1d68d8867c39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="beowolf\camera">
-      <UniqueIdentifier>{1c944a87-b7f8-4c91-82e7-3bdcf7b28c0a}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\beowolf\W_Common.cpp">
-      <Filter>beowolf</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\W_Input.cpp">
-      <Filter>beowolf</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\text\W_TextTable.cpp">
-      <Filter>beowolf\text</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\sound\W_SoundEngine.cpp">
-      <Filter>beowolf\sound</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\physics\BulletPhysicsDebugDrawer.cpp">
-      <Filter>beowolf\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\physics\BulletPhysicsManager.cpp">
-      <Filter>beowolf\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\physics\BulletPhysicsMaterialManager.cpp">
-      <Filter>beowolf\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\math\W_Math.cpp">
-      <Filter>beowolf\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\math\W_Math2D.cpp">
-      <Filter>beowolf\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\math\W_Math3D.cpp">
-      <Filter>beowolf\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\math\W_ProjectionMatrix.cpp">
-      <Filter>beowolf\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\math\W_RNG.cpp">
-      <Filter>beowolf\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\math\W_Time.cpp">
-      <Filter>beowolf\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\DebugCamera.cpp">
-      <Filter>beowolf\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\DebugCube.cpp">
-      <Filter>beowolf\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\Node.cpp">
-      <Filter>beowolf\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\QuadTree.cpp">
-      <Filter>beowolf\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\SceneRenderer.cpp">
-      <Filter>beowolf\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_MaterialManager.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_Model.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_Program.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_ProgramManager.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_Sprite.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_Texture.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_TextureManager.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_VertexBuffer.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_VertexDeclaration.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_Buffer.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_BufferManager.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_Common.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_IndexBuffer.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_LineDrawer.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\core\W_Material.cpp">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\particles\Effect.cpp">
-      <Filter>beowolf\graphics\particles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\particles\Emitter.cpp">
-      <Filter>beowolf\graphics\particles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\particles\Particle.cpp">
-      <Filter>beowolf\graphics\particles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.cpp">
-      <Filter>beowolf\graphics\particles\affectors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorRandomPos.cpp">
-      <Filter>beowolf\graphics\particles\affectors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorRecolor.cpp">
-      <Filter>beowolf\graphics\particles\affectors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorScale.cpp">
-      <Filter>beowolf\graphics\particles\affectors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorVelocity.cpp">
-      <Filter>beowolf\graphics\particles\affectors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\text\W_Font.cpp">
-      <Filter>beowolf\graphics\text</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\graphics\text\W_TextBox.cpp">
-      <Filter>beowolf\graphics\text</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\AIActionNode.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\AIDecisionNode.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\AIDecisionTree.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\AIPathfinder.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\AIStateChasing.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\AIStateChasingFast.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\AIStateGrabbingCoin1.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\AIStateGrabbingCoin2.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\AIStateIdle.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\AIStateWander.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\EventDetails.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\EventManager.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\GameObject.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\GameObjectManager.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\LuaScriptManager.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\SceneCamera.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\SceneManager.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\StateMachine.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\Transform.cpp">
-      <Filter>beowolf\game_objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentMovingPointlight.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderableMesh.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderablePlane.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderableSprite.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRigidBody.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRotating.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentScore.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentSphereCollider.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentStunOnCollision.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentAIController.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentAnimController.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentBobbing.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCameraPos.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCharacterController.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCoinTimer.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentDestroyOnCollision.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentFollow.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentGun.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentLifespan.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentLookat.cpp">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClCompile>
+    <ClCompile Include="..\..\beowolf\camera\Camera.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIActionNode.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIDecisionNode.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIDecisionTree.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIPathfinder.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateChasing.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateChasingFast.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateGrabbingCoin1.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateGrabbingCoin2.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateIdle.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\AIStateWander.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentAIController.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentAnimController.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentBobbing.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCameraPos.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCharacterController.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentCoinTimer.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentDestroyOnCollision.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentFollow.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentGun.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentLifespan.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentLookat.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentMovingPointlight.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderableMesh.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderablePlane.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRenderableSprite.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRigidBody.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentRotating.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentScore.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentSphereCollider.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentStunOnCollision.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\EventDetails.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\EventManager.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\GameObject.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\GameObjectManager.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\LuaScriptManager.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\SceneCamera.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\SceneManager.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\StateMachine.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\Transform.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\BMWLoader.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\BMWModel.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Buffer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_BufferManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Common.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_IndexBuffer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_LineDrawer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Material.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_MaterialManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Model.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Program.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_ProgramManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Sprite.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_Texture.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_TextureManager.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_VertexBuffer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\core\W_VertexDeclaration.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\DebugCamera.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\DebugCube.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\Node.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorRandomPos.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorRecolor.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorScale.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorVelocity.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\Effect.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\Emitter.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\Particle.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\QuadTree.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\SceneRenderer.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\text\W_Font.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\text\W_TextBox.cpp" />
+    <ClCompile Include="..\..\beowolf\hexGrid\HexGrid.cpp" />
+    <ClCompile Include="..\..\beowolf\math\W_Math.cpp" />
+    <ClCompile Include="..\..\beowolf\math\W_Math2D.cpp" />
+    <ClCompile Include="..\..\beowolf\math\W_Math3D.cpp" />
+    <ClCompile Include="..\..\beowolf\math\W_ProjectionMatrix.cpp" />
+    <ClCompile Include="..\..\beowolf\math\W_RNG.cpp" />
+    <ClCompile Include="..\..\beowolf\math\W_Time.cpp" />
+    <ClCompile Include="..\..\beowolf\physics\BulletPhysicsDebugDrawer.cpp" />
+    <ClCompile Include="..\..\beowolf\physics\BulletPhysicsManager.cpp" />
+    <ClCompile Include="..\..\beowolf\physics\BulletPhysicsMaterialManager.cpp" />
+    <ClCompile Include="..\..\beowolf\sound\W_SoundEngine.cpp" />
+    <ClCompile Include="..\..\beowolf\text\W_TextTable.cpp" />
+    <ClCompile Include="..\..\beowolf\W_Common.cpp" />
+    <ClCompile Include="..\..\beowolf\W_Input.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btAxisSweep3.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btBroadphaseProxy.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btCollisionAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btDbvt.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btDbvtBroadphase.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btDispatcher.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btMultiSapBroadphase.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btOverlappingPairCache.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btQuantizedBvh.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btSimpleBroadphase.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btActivatingCollisionAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btBox2dBox2dCollisionAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btBoxBoxCollisionAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btBoxBoxDetector.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btCollisionDispatcher.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btCollisionObject.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btCollisionWorld.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btCompoundCollisionAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btConvex2dConvex2dAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btConvexConcaveCollisionAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btConvexConvexAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btConvexPlaneCollisionAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btDefaultCollisionConfiguration.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btEmptyCollisionAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btGhostObject.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btInternalEdgeUtility.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btManifoldResult.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btSimulationIslandManager.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btSphereBoxCollisionAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btSphereSphereCollisionAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btSphereTriangleCollisionAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btUnionFind.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\SphereTriangleDetector.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btBox2dShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btBoxShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btBvhTriangleMeshShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btCapsuleShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btCollisionShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btCompoundShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConcaveShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConeShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvex2dShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvexHullShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvexInternalShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvexPointCloudShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvexPolyhedron.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvexShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvexTriangleMeshShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btCylinderShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btEmptyShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btMinkowskiSumShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btMultimaterialTriangleMeshShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btMultiSphereShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btOptimizedBvh.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btPolyhedralConvexShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btScaledBvhTriangleMeshShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btShapeHull.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btSphereShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btStaticPlaneShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btStridingMeshInterface.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTetrahedronShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleBuffer.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleCallback.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleIndexVertexArray.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleIndexVertexMaterialArray.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleMesh.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleMeshShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btUniformScalingShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btContactProcessing.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btGenericPoolAllocator.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btGImpactBvh.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btGImpactCollisionAlgorithm.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btGImpactQuantizedBvh.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btGImpactShape.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btTriangleShapeEx.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_box_set.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_contact.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_memory.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_tri_collision.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btContinuousConvexCollision.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btConvexCast.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btGjkConvexCast.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btGjkEpa2.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btGjkEpaPenetrationDepthSolver.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btGjkPairDetector.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btMinkowskiPenetrationDepthSolver.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btPersistentManifold.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btPolyhedralContactClipping.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btRaycastCallback.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btSubSimplexConvexCast.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btVoronoiSimplexSolver.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\Character\btKinematicCharacterController.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btConeTwistConstraint.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btContactConstraint.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btGearConstraint.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btGeneric6DofConstraint.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btGeneric6DofSpringConstraint.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btHinge2Constraint.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btHingeConstraint.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btPoint2PointConstraint.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btSequentialImpulseConstraintSolver.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btSliderConstraint.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btSolve2LinearConstraint.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btTypedConstraint.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btUniversalConstraint.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\Dynamics\btDiscreteDynamicsWorld.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\Dynamics\btRigidBody.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\Dynamics\btSimpleDynamicsWorld.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\Dynamics\Bullet-C-API.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\Vehicle\btRaycastVehicle.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\BulletDynamics\Vehicle\btWheelInfo.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\LinearMath\btAlignedAllocator.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\LinearMath\btConvexHull.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\LinearMath\btConvexHullComputer.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\LinearMath\btGeometryUtil.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\LinearMath\btPolarDecomposition.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\LinearMath\btQuickprof.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\LinearMath\btSerializer.cpp" />
+    <ClCompile Include="..\..\lib\bullet\src\LinearMath\btVector3.cpp" />
+    <ClCompile Include="..\..\lib\fmod\core\examples\common.cpp" />
+    <ClCompile Include="..\..\lib\fmod\core\examples\common_platform.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTBoneBatch.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTDecompress.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTError.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTFixedPoint.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTGeometry.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTMatrixF.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTMatrixX.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTMisc.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTModelPOD.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTPFXParser.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTQuaternionF.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTQuaternionX.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTResourceFile.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTString.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTTexture.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTTrans.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTTriStrip.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTVector.cpp" />
+    <ClCompile Include="..\..\lib\PowerVR\PVRTVertex.cpp" />
+    <ClCompile Include="..\..\lib\tinyxml\tinystr.cpp" />
+    <ClCompile Include="..\..\lib\tinyxml\tinyxml.cpp" />
+    <ClCompile Include="..\..\lib\tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\lib\tinyxml\tinyxmlparser.cpp" />
     <ClCompile Include="example\BaseScene.cpp" />
     <ClCompile Include="example\main.cpp" />
+    <ClCompile Include="..\..\beowolf\W_ResourceLoader.cpp" />
     <ClCompile Include="..\..\lib\tinyxml\tinystr.cpp">
       <Filter>lib\tinyxml</Filter>
     </ClCompile>
@@ -759,281 +686,321 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\beowolf\W_Common.h">
-      <Filter>beowolf</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\W_Input.h">
-      <Filter>beowolf</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\W_Input_Keys.h">
-      <Filter>beowolf</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\W_Types.h">
-      <Filter>beowolf</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\text\W_TextTable.h">
-      <Filter>beowolf\text</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\sound\W_SoundEngine.h">
-      <Filter>beowolf\sound</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\physics\BulletPhysicsDebugDrawer.h">
-      <Filter>beowolf\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\physics\BulletPhysicsManager.h">
-      <Filter>beowolf\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\physics\BulletPhysicsMaterialManager.h">
-      <Filter>beowolf\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\math\W_Math.h">
-      <Filter>beowolf\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\math\W_Math_Types.h">
-      <Filter>beowolf\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\math\W_Math2D.h">
-      <Filter>beowolf\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\math\W_Math3D.h">
-      <Filter>beowolf\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\math\W_ProjectionMatrix.h">
-      <Filter>beowolf\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\math\W_RNG.h">
-      <Filter>beowolf\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\math\W_Time.h">
-      <Filter>beowolf\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\DebugCamera.h">
-      <Filter>beowolf\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\DebugCube.h">
-      <Filter>beowolf\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\Node.h">
-      <Filter>beowolf\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\QuadTree.h">
-      <Filter>beowolf\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\SceneRenderer.h">
-      <Filter>beowolf\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_MaterialManager.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Model.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Program.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_ProgramManager.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Sprite.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Texture.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_TextureManager.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Types.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_VertexBuffer.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_VertexDeclaration.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Buffer.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_BufferManager.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Common.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_IndexBuffer.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_LineDrawer.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Material.h">
-      <Filter>beowolf\graphics\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\particles\Effect.h">
-      <Filter>beowolf\graphics\particles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\particles\Emitter.h">
-      <Filter>beowolf\graphics\particles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\particles\Particle.h">
-      <Filter>beowolf\graphics\particles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\Affector.h">
-      <Filter>beowolf\graphics\particles\affectors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.h">
-      <Filter>beowolf\graphics\particles\affectors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorRandomPos.h">
-      <Filter>beowolf\graphics\particles\affectors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorRecolor.h">
-      <Filter>beowolf\graphics\particles\affectors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorScale.h">
-      <Filter>beowolf\graphics\particles\affectors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorVelocity.h">
-      <Filter>beowolf\graphics\particles\affectors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\text\W_Font.h">
-      <Filter>beowolf\graphics\text</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\graphics\text\W_TextBox.h">
-      <Filter>beowolf\graphics\text</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\AIActionNode.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\AIDecisionNode.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\AIDecisionTree.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\AINode.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\AIPathfinder.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\AIStateChasing.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\AIStateChasingFast.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\AIStateGrabbingCoin1.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\AIStateGrabbingCoin2.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\AIStateIdle.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\AIStateWander.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\EventDetails.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\EventManager.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\GameObject.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\GameObjectManager.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\LuaScriptManager.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\SceneCamera.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\SceneManager.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\StateBase.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\StateMachine.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\Transform.h">
-      <Filter>beowolf\game_objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentMovingPointlight.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderable.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderableMesh.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderablePlane.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderableSprite.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRigidBody.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRotating.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentScore.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentSphereCollider.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentStunOnCollision.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentAIController.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentAnimController.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentBase.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentBobbing.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCameraPos.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCharacterController.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCoinTimer.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentDestroyOnCollision.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentFollow.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentGun.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentLifespan.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentLookat.h">
-      <Filter>beowolf\game_objects\components</Filter>
-    </ClInclude>
+    <ClInclude Include="..\..\beowolf\camera\Camera.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIActionNode.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIDecisionNode.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIDecisionTree.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AINode.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIPathfinder.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateChasing.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateChasingFast.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateGrabbingCoin1.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateGrabbingCoin2.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateIdle.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\AIStateWander.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentAIController.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentAnimController.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentBase.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentBobbing.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCameraPos.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCharacterController.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentCoinTimer.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentDestroyOnCollision.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentFollow.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentGun.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentLifespan.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentLookat.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentMovingPointlight.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderable.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderableMesh.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderablePlane.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRenderableSprite.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRigidBody.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentRotating.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentScore.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentSphereCollider.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentStunOnCollision.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\EventDetails.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\EventManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\GameObject.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\GameObjectManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\LuaScriptManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\SceneCamera.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\SceneManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\StateBase.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\StateMachine.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\Transform.h" />
+    <ClInclude Include="..\..\beowolf\graphics\BMWLoader.h" />
+    <ClInclude Include="..\..\beowolf\graphics\BMWModel.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Buffer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_BufferManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Common.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_IndexBuffer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_LineDrawer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Material.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_MaterialManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Model.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Program.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_ProgramManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Sprite.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Texture.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_TextureManager.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_Types.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_VertexBuffer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\core\W_VertexDeclaration.h" />
+    <ClInclude Include="..\..\beowolf\graphics\DebugCamera.h" />
+    <ClInclude Include="..\..\beowolf\graphics\DebugCube.h" />
+    <ClInclude Include="..\..\beowolf\graphics\Node.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\Affector.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorRandomPos.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorRecolor.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorScale.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorVelocity.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\Effect.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\Emitter.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\Particle.h" />
+    <ClInclude Include="..\..\beowolf\graphics\QuadTree.h" />
+    <ClInclude Include="..\..\beowolf\graphics\SceneRenderer.h" />
+    <ClInclude Include="..\..\beowolf\graphics\text\W_Font.h" />
+    <ClInclude Include="..\..\beowolf\graphics\text\W_TextBox.h" />
+    <ClInclude Include="..\..\beowolf\hexGrid\HexGrid.h" />
+    <ClInclude Include="..\..\beowolf\math\W_Math.h" />
+    <ClInclude Include="..\..\beowolf\math\W_Math2D.h" />
+    <ClInclude Include="..\..\beowolf\math\W_Math3D.h" />
+    <ClInclude Include="..\..\beowolf\math\W_Math_Types.h" />
+    <ClInclude Include="..\..\beowolf\math\W_ProjectionMatrix.h" />
+    <ClInclude Include="..\..\beowolf\math\W_RNG.h" />
+    <ClInclude Include="..\..\beowolf\math\W_Time.h" />
+    <ClInclude Include="..\..\beowolf\physics\BulletPhysicsDebugDrawer.h" />
+    <ClInclude Include="..\..\beowolf\physics\BulletPhysicsManager.h" />
+    <ClInclude Include="..\..\beowolf\physics\BulletPhysicsMaterialManager.h" />
+    <ClInclude Include="..\..\beowolf\sound\W_SoundEngine.h" />
+    <ClInclude Include="..\..\beowolf\text\W_TextTable.h" />
+    <ClInclude Include="..\..\beowolf\W_Common.h" />
+    <ClInclude Include="..\..\beowolf\W_Input.h" />
+    <ClInclude Include="..\..\beowolf\W_Input_Keys.h" />
+    <ClInclude Include="..\..\beowolf\W_Types.h" />
+    <ClInclude Include="..\..\lib\bullet\src\btBulletCollisionCommon.h" />
+    <ClInclude Include="..\..\lib\bullet\src\btBulletDynamicsCommon.h" />
+    <ClInclude Include="..\..\lib\bullet\src\Bullet-C-Api.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btAxisSweep3.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btBroadphaseInterface.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btBroadphaseProxy.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btCollisionAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btDbvt.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btDbvtBroadphase.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btDispatcher.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btMultiSapBroadphase.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btOverlappingPairCache.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btOverlappingPairCallback.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btQuantizedBvh.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btSimpleBroadphase.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btActivatingCollisionAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btBox2dBox2dCollisionAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btBoxBoxCollisionAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btBoxBoxDetector.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btCollisionConfiguration.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btCollisionCreateFunc.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btCollisionDispatcher.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btCollisionObject.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btCollisionObjectWrapper.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btCollisionWorld.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btCompoundCollisionAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btConvex2dConvex2dAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btConvexConcaveCollisionAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btConvexConvexAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btConvexPlaneCollisionAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btDefaultCollisionConfiguration.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btEmptyCollisionAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btGhostObject.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btInternalEdgeUtility.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btManifoldResult.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btSimulationIslandManager.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btSphereBoxCollisionAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btSphereSphereCollisionAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btSphereTriangleCollisionAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\btUnionFind.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionDispatch\SphereTriangleDetector.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btBox2dShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btBoxShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btBvhTriangleMeshShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btCapsuleShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btCollisionMargin.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btCollisionShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btCompoundShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConcaveShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConeShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvex2dShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvexHullShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvexInternalShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvexPointCloudShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvexPolyhedron.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvexShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btConvexTriangleMeshShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btCylinderShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btEmptyShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btMaterial.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btMinkowskiSumShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btMultimaterialTriangleMeshShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btMultiSphereShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btOptimizedBvh.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btPolyhedralConvexShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btScaledBvhTriangleMeshShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btShapeHull.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btSphereShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btStaticPlaneShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btStridingMeshInterface.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTetrahedronShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleBuffer.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleCallback.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleIndexVertexArray.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleIndexVertexMaterialArray.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleInfoMap.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleMesh.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleMeshShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btTriangleShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\CollisionShapes\btUniformScalingShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btBoxCollision.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btClipPolygon.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btContactProcessing.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btGenericPoolAllocator.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btGeometryOperations.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btGImpactBvh.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btGImpactCollisionAlgorithm.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btGImpactMassUtil.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btGImpactQuantizedBvh.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btGImpactShape.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btQuantization.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\btTriangleShapeEx.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_array.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_basic_geometry_operations.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_bitset.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_box_collision.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_box_set.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_clip_polygon.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_contact.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_geometry.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_geom_types.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_hash_table.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_linear_math.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_math.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_memory.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_radixsort.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\Gimpact\gim_tri_collision.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btContinuousConvexCollision.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btConvexCast.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btConvexPenetrationDepthSolver.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btDiscreteCollisionDetectorInterface.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btGjkConvexCast.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btGjkEpa2.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btGjkEpaPenetrationDepthSolver.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btGjkPairDetector.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btManifoldPoint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btMinkowskiPenetrationDepthSolver.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btPersistentManifold.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btPointCollector.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btPolyhedralContactClipping.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btRaycastCallback.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btSimplexSolverInterface.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btSubSimplexConvexCast.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletCollision\NarrowPhaseCollision\btVoronoiSimplexSolver.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\Character\btCharacterControllerInterface.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\Character\btKinematicCharacterController.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btConeTwistConstraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btConstraintSolver.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btContactConstraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btContactSolverInfo.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btGearConstraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btGeneric6DofConstraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btGeneric6DofSpringConstraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btHinge2Constraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btHingeConstraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btJacobianEntry.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btPoint2PointConstraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btSequentialImpulseConstraintSolver.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btSliderConstraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btSolve2LinearConstraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btSolverBody.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btSolverConstraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btTypedConstraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\ConstraintSolver\btUniversalConstraint.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\Dynamics\btActionInterface.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\Dynamics\btDiscreteDynamicsWorld.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\Dynamics\btDynamicsWorld.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\Dynamics\btRigidBody.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\Dynamics\btSimpleDynamicsWorld.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\Vehicle\btRaycastVehicle.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\Vehicle\btVehicleRaycaster.h" />
+    <ClInclude Include="..\..\lib\bullet\src\BulletDynamics\Vehicle\btWheelInfo.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btAabbUtil2.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btAlignedAllocator.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btAlignedObjectArray.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btConvexHull.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btConvexHullComputer.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btDefaultMotionState.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btGeometryUtil.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btGrahamScan2dConvexHull.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btHashMap.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btIDebugDraw.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btList.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btMatrix3x3.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btMinMax.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btMotionState.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btPolarDecomposition.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btPoolAllocator.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btQuadWord.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btQuaternion.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btQuickprof.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btRandom.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btScalar.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btSerializer.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btStackAlloc.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btTransform.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btTransformUtil.h" />
+    <ClInclude Include="..\..\lib\bullet\src\LinearMath\btVector3.h" />
+    <ClInclude Include="..\..\lib\fmod\core\examples\common.h" />
+    <ClInclude Include="..\..\lib\fmod\core\examples\common_platform.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod.hpp" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_codec.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_common.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_dsp.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_errors.h" />
+    <ClInclude Include="..\..\lib\fmod\core\inc\fmod_output.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTArray.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTBackground.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTBoneBatch.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTDecompress.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTError.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTFixedPoint.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTGeometry.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTGlobal.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTHash.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTMathTable.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTMatrix.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTMemoryFileSystem.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTMisc.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTModelPOD.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTools.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTPFXParser.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTQuaternion.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTResourceFile.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTSingleton.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTSkipGraph.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTString.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTTexture.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTTrans.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTTriStrip.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTVector.h" />
+    <ClInclude Include="..\..\lib\PowerVR\PVRTVertex.h" />
+    <ClInclude Include="..\..\lib\tinyxml\tinystr.h" />
+    <ClInclude Include="..\..\lib\tinyxml\tinyxml.h" />
     <ClInclude Include="example\BaseScene.h" />
     <ClInclude Include="example\Scene.h" />
+    <ClInclude Include="..\..\beowolf\W_ResourceLoader.h" />
     <ClInclude Include="..\..\lib\tinyxml\tinystr.h">
       <Filter>lib\tinyxml</Filter>
     </ClInclude>

@@ -15,6 +15,10 @@ std::map<std::pair<std::string,std::string>, ProgramManager::Entry*>	ProgramMana
 // Creates a new Program or returns an existing copy if already
 // loaded previously
 //----------------------------------------------------------
+Program* ProgramManager::CreateProgram(std::pair<std::string, std::string> shaders) {
+	return CreateProgram(shaders.first, shaders.second);
+}
+
 Program* ProgramManager::CreateProgram(const std::string& p_strVS, const std::string& p_strPS)
 {
 	std::map<std::pair<std::string, std::string>, Entry*>::iterator iter = m_programs.find(std::pair<std::string,std::string>(p_strVS,p_strPS));

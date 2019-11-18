@@ -8,6 +8,7 @@
 #include "W_Common.h"
 #include "W_BufferManager.h"
 #include "W_MaterialManager.h"
+#include "W_ResourceLoader.h"
 
 namespace wolf
 {
@@ -115,7 +116,7 @@ Model::Model(const std::string& p_strFile, const std::string& p_strTexturePrefix
 		}
 		else
 		{
-			pMaterial->SetProgram("../resources/shaders/textured.vsh", "../resources/shaders/textured.fsh");
+			pMaterial->SetProgram(wolf::ResourceLoader::Instance().getShaders("textured"));
 		}
 
 		// Grab the texture it's using and change the filename it expects to

@@ -1,6 +1,6 @@
 #include "HexGrid.h"
 #include "W_RNG.h"
-
+#include "W_ResourceLoader.h"
 
 HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile)
 {
@@ -13,7 +13,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	
 
 	// set up rendering
-	g_dProgram = wolf::ProgramManager::CreateProgram("resources/shaders/hex.vsh", "resources/shaders/hex.fsh");
+	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("hex"));
 	g_pVB = wolf::BufferManager::CreateVertexBuffer(p_verts, sizeof(wolf::Vertex) * vertices.size());
 
 	g_pDecl = new wolf::VertexDeclaration();
