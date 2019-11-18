@@ -2,6 +2,8 @@
 #define GLFW_NO_GLU
 #include "BaseScene.h"
 #include <iostream>
+#include "W_Math.h"
+#include "W_ProjectionMatrix.h"
 #include <iomanip>
 #include "sound/W_SoundEngine.h"
 #include "beowolf/hexGrid/HexGrid.h"
@@ -9,14 +11,15 @@
 #include "DebugCube.h"
 #include "SceneRenderer.h"
 #include "W_Time.h"
-#include "W_Math.h"
+#include "camera/HexSelector.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
 static Camera* cam;
 static glm::mat4 cull;
 static HexGrid* grid;
-
+wolf::MousePos mouse;
+static HexSelector* selector;
 
 BaseScene::BaseScene()
 {
@@ -55,27 +58,40 @@ void BaseScene::Init()
 	glEnable(GL_DEPTH_TEST);
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
-
-	/*for (int i = 0; i < 30; i++)
-	{
-		wolf::SceneRenderer::getInstance().AddNode((wolf::Node*)new wolf::DebugCube());
-	}*/
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
-	grid = new HexGrid(50 , 50, 5.0f, 1.0f, 20.0f, "resources/textures/tiles/Tile_Texs_1.tga");
-	//for (float i = 0.0f; i <= 1.000001f; i += 0.1f) {
-		//std::cout << std::fixed << std::setprecision(1) << i;
-		//std::cout << " = in: " << std::fixed << std::setprecision(6) << wolf::Math::easeIn(i);
-		//std::cout << " - out: " << std::fixed << std::setprecision(6) << wolf::Math::easeOut(i);
-		//std::cout << " - both: " << std::fixed << std::setprecision(6) << wolf::Math::ease(i) << "\n";
-	//}
+	grid = new HexGrid(10, 10, 5.0f, 1.0f, 20.0f, "resources/textures/tiles/Tile_Texs_1.tga");
+	selector = new HexSelector(5.0f);
 }
 
 void BaseScene::Update()
 {
+	//Updates the Position of listener of 3D sound, useless for stereo sound
+	//FMOD_VECTOR pos = SE.GetListenerPos();
+	//glm::vec3 listPos{ pos.x, pos.y, pos.z };
+	//listPos.x = listPos.x + 0.1f;
+	//SE.SetListenerAttr(listPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//SE.UpdateSystem();
+	float delta = wolf::Time::Instance().deltaTime();
+	cam->Update(delta);
+	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
+	std::vector<float> heights = grid->GetHeights();
+	std::vector<glm::vec2> positions = grid->GetPos();
+	//std::cout << target << std::endl;
+	if (!(target < 0))
+	{
+		selector->Update(target, positions.at(target), heights.at(target));
+	}
+	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
+	//mouse = wolf::Input::Instance().getMousePos();
+	//std::cout << mouse.x << ", " << mouse.y << std::endl;
+	//cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 }
 
 void BaseScene::Render()
 {
+	wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
+	grid->Render(cam->GetViewMatrix());
+	selector->Render(cam->GetViewMatrix());
 }
 
 

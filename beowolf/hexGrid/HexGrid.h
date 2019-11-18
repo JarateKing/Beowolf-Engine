@@ -17,6 +17,8 @@ public:
 	~HexGrid();
 	void PrintOutLoc();
 	void Render(glm::mat4 projView);
+	std::vector<float> GetHeights();
+	std::vector<glm::vec2> GetPos();
 
 private:
 	void GenerateLoc(int width, int length, float tileWidth);
