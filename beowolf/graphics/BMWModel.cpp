@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <stack>
 #include "W_BufferManager.h"
+#include "W_Input.h"
 
 namespace wolf
 {
@@ -97,16 +98,24 @@ namespace wolf
 		if (m_anims.size() > 0) {
 			for (auto it : m_anims[0]->transforms) {
 				boneMatrix[it.first] = it.second[frame];
-
-				std::cout << "frame " << frame << " m[" << it.first << "] = ";
-				for (int x = 0; x < 4; x++) {
-					for (int y = 0; y < 4; y++)
-						std::cout << std::fixed << std::setprecision(1) << boneMatrix[it.first][x][y] << ",";
-					std::cout << "  ";
-				}
-				std::cout << "\n";
 			}
-			frame = (frame + 1) % m_anims[0]->duration;
+
+			int offset = wolf::Input::Instance().isKeyHeld(INPUT_KB_N);
+			if (wolf::Input::Instance().isKeyHeld(INPUT_KB_N)) {
+				/*
+				for (auto it : m_anims[0]->transforms) {
+					std::cout << "frame " << frame << " m[" << it.first << "] = ";
+					for (int x = 0; x < 4; x++) {
+						for (int y = 0; y < 4; y++)
+							std::cout << std::fixed << std::setprecision(1) << boneMatrix[it.first][x][y] << ",";
+						std::cout << "  ";
+					}
+					std::cout << "\n";
+				}
+				*/
+			}
+
+			frame = (frame + offset) % m_anims[0]->duration;
 		}
 
 		m_meshes[meshID].m_pProg->Bind();
