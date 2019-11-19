@@ -1,5 +1,6 @@
 #include "BMWModel.h"
 #include <iostream>
+#include <iomanip>
 #include <stack>
 #include "W_BufferManager.h"
 
@@ -100,7 +101,7 @@ namespace wolf
 				std::cout << "frame " << frame << " m[" << it.first << "] = ";
 				for (int x = 0; x < 4; x++) {
 					for (int y = 0; y < 4; y++)
-						std::cout << boneMatrix[it.first][x][y] << ",";
+						std::cout << std::fixed << std::setprecision(1) << boneMatrix[it.first][x][y] << ",";
 					std::cout << "  ";
 				}
 				std::cout << "\n";
