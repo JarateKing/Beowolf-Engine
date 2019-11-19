@@ -94,10 +94,18 @@ namespace wolf
 
 		glm::mat4 boneMatrix[64];
 		if (m_anims.size() > 0) {
-			frame = (frame + 1) % m_anims[0]->duration;
 			for (auto it : m_anims[0]->transforms) {
 				boneMatrix[it.first] = it.second[frame];
+
+				std::cout << "frame " << frame << " m[" << it.first << "] = ";
+				for (int x = 0; x < 4; x++) {
+					for (int y = 0; y < 4; y++)
+						std::cout << boneMatrix[it.first][x][y] << ",";
+					std::cout << "  ";
+				}
+				std::cout << "\n";
 			}
+			frame = (frame + 1) % m_anims[0]->duration;
 		}
 
 		m_meshes[meshID].m_pProg->Bind();
