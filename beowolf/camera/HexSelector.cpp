@@ -1,5 +1,6 @@
 #include "HexSelector.h"
 #include <iostream>
+#include "W_ResourceLoader.h"
 
 HexSelector::HexSelector(float tileWidth)
 {
@@ -7,7 +8,7 @@ HexSelector::HexSelector(float tileWidth)
 	GenerateVerts();
 
 	// set up rendering
-	g_dProgram = wolf::ProgramManager::CreateProgram("resources/shaders/cube.vsh", "resources/shaders/cube.fsh");
+	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("cube"));
 	g_pVB = wolf::BufferManager::CreateVertexBuffer(p_verts, sizeof(wolf::Vertex) * 36);
 
 	g_pDecl = new wolf::VertexDeclaration();
