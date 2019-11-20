@@ -4,7 +4,7 @@
 #include <iostream>
 #include "W_Math.h"
 #include "W_ProjectionMatrix.h"
-#include <BMWModel.h>
+//#include <BMWModel.h>
 #include <W_Time.h>
 #include <W_ProjectionMatrix.h>
 #include <iomanip>
@@ -16,6 +16,7 @@
 #include "W_Time.h"
 #include "W_ResourceLoader.h"
 #include "camera/HexSelector.h"
+#include "ComponentHexPos.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -24,7 +25,7 @@ static glm::mat4 cull;
 static HexGrid* grid;
 wolf::MousePos mouse;
 static HexSelector* selector;
-wolf::BMWModel* test;
+//wolf::BMWModel* test;
 
 BaseScene::BaseScene()
 {
@@ -35,42 +36,30 @@ void BaseScene::Init()
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable");
-	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("myskeleton.bmw"), shaders.first, shaders.second);
-	test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 25.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.1, 0.1, 0.1)));
+	//auto shaders = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
+	//test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("tree.bmw"), shaders.first, shaders.second);
+	//test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 0.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(1.5, 1.5, 1.5)));
 
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
-	grid = new HexGrid(10, 10, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+	grid = new HexGrid(20, 20, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
 	selector = new HexSelector(5.0f);
+
 }
 
 void BaseScene::Update()
 {
-	//Updates the Position of listener of 3D sound, useless for stereo sound
-	//FMOD_VECTOR pos = SE.GetListenerPos();
-	//glm::vec3 listPos{ pos.x, pos.y, pos.z };
-	//listPos.x = listPos.x + 0.1f;
-	//SE.SetListenerAttr(listPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//SE.UpdateSystem();
 	float delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
 	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	std::vector<float> heights = grid->GetHeights();
 	std::vector<glm::vec2> positions = grid->GetPos();
-	//std::cout << target << std::endl;
 	if (!(target < 0))
 	{
 		selector->Update(target, positions.at(target), heights.at(target));
 	}
 	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
-	//mouse = wolf::Input::Instance().getMousePos();
-	//std::cout << mouse.x << ", " << mouse.y << std::endl;
-	//cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
-	double deltaT = wolf::Time::Instance().deltaTime();
-	cam->Update(deltaT);
-	test->update(deltaT);
 }
 
 void BaseScene::Render()
@@ -78,16 +67,15 @@ void BaseScene::Render()
 	wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
 	grid->Render(cam->GetViewMatrix());
 	selector->Render(cam->GetViewMatrix());
-	glDepthMask(true);
-	glDisable(GL_BLEND);
+	//glDepthMask(true);
+	//glDisable(GL_BLEND);
 
-	test->render(cam->GetViewMatrix(), glm::mat4(), false);
-	grid->Render(cam->GetViewMatrix());
+	//test->render(cam->GetViewMatrix(), glm::mat4(), false);
 
-	glDepthMask(false);
-	glEnable(GL_BLEND);
+	//glDepthMask(false);
+	//glEnable(GL_BLEND);
 
-	test->render(cam->GetViewMatrix(), glm::mat4(), true);
+	//test->render(cam->GetViewMatrix(), glm::mat4(), true);
 }
 
 

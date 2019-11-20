@@ -29,7 +29,7 @@ void Camera::Update(float delta)
 
 	if (wolf::Input::Instance().isMouseHeld(INPUT_RMB))
 	{
-		float sens = -0.22f * DEG2RAD;
+		float sens = -0.11f * DEG2RAD;
 		m_horiz += wolf::Input::Instance().getMouseDelta().x * sens;
 
 		ApplyAngleVectors();

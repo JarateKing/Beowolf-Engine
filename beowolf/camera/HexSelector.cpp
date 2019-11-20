@@ -7,7 +7,7 @@ HexSelector::HexSelector(float tileWidth)
 	GenerateVerts();
 
 	// set up rendering
-	g_dProgram = wolf::ProgramManager::CreateProgram("resources/shaders/hex.vsh", "resources/shaders/hex.fsh");
+	g_dProgram = wolf::ProgramManager::CreateProgram("resources/shaders/cube.vsh", "resources/shaders/cube.fsh");
 	g_pVB = wolf::BufferManager::CreateVertexBuffer(p_verts, sizeof(wolf::Vertex) * 36);
 
 	g_pDecl = new wolf::VertexDeclaration();
@@ -60,22 +60,24 @@ void HexSelector::GenerateVerts()
 {
 	float toEdge = sqrt(pow(tWidth / 2, 2) - pow(tWidth / 4, 2));
 	float diff = tWidth / 10.0f;
-	float tWidth2 = tWidth + diff;
+	float tWidth2 = tWidth - diff;
 	float toEdgeSecond = sqrt(pow(tWidth2 / 2, 2) - pow(tWidth2 / 4, 2));
+	glm::vec3 inColor{0, 0, 0};
+	glm::vec3 outColor{255, 255, 255};
 
-	wolf::Vertex v0 = {0.0f, 0.0f, (0.0f - tWidth / 2), 255, 0, 0, 255};
-	wolf::Vertex v1 = { (0.0f - toEdge), 0.0f, (0.0f - tWidth / 4), 255, 0, 0, 255};
-	wolf::Vertex v2 = { (0.0f - toEdge), 0.0f, (0.0f + tWidth / 4), 255, 0, 0, 255};
-	wolf::Vertex v3 = { 0.0f, 0.0f, (0.0f + tWidth / 2), 255, 0, 0, 255};
-	wolf::Vertex v4 = { (0.0f + toEdge), 0.0f, (0.0f + tWidth / 4), 255, 0, 0, 255};
-	wolf::Vertex v5 = { (0.0f + toEdge), 0.0f, (0.0f - tWidth / 4), 255, 0, 0, 255};
+	wolf::Vertex v0 = {0.0f, 0.0f, (0.0f - tWidth / 2), inColor.x, inColor.y, inColor.z, 255};
+	wolf::Vertex v1 = { (0.0f - toEdge), 0.0f, (0.0f - tWidth / 4), inColor.x, inColor.y, inColor.z, 255};
+	wolf::Vertex v2 = { (0.0f - toEdge), 0.0f, (0.0f + tWidth / 4),inColor.x, inColor.y, inColor.z, 255};
+	wolf::Vertex v3 = { 0.0f, 0.0f, (0.0f + tWidth / 2), inColor.x, inColor.y, inColor.z, 255};
+	wolf::Vertex v4 = { (0.0f + toEdge), 0.0f, (0.0f + tWidth / 4), inColor.x, inColor.y, inColor.z, 255};
+	wolf::Vertex v5 = { (0.0f + toEdge), 0.0f, (0.0f - tWidth / 4), inColor.x, inColor.y, inColor.z, 255};
 
-	wolf::Vertex v6 = { 0.0f, 0.0f, (0.0f - tWidth2 / 2), 0, 0, 0, 255};
-	wolf::Vertex v7 = { (0.0f - toEdgeSecond), 0.0f, (0.0f - tWidth2 / 4), 0, 0, 0, 255};
-	wolf::Vertex v8 = { (0.0f - toEdgeSecond), 0.0f, (0.0f + tWidth2 / 4), 0, 0, 0, 255};
-	wolf::Vertex v9 = { 0.0f, 0.0f, (0.0f + tWidth2 / 2) , 0, 0, 0, 255};
-	wolf::Vertex v10 = { (0.0f + toEdgeSecond), 0.0f, (0.0f + tWidth2 / 4), 0, 0, 0, 255};
-	wolf::Vertex v11 = { (0.0f + toEdgeSecond), 0.0f, (0.0f - tWidth2 / 4), 0, 0, 0, 255};
+	wolf::Vertex v6 = { 0.0f, 0.0f, (0.0f - tWidth2 / 2), outColor.x, outColor.y, outColor.z, 255};
+	wolf::Vertex v7 = { (0.0f - toEdgeSecond), 0.0f, (0.0f - tWidth2 / 4), outColor.x, outColor.y, outColor.z, 255};
+	wolf::Vertex v8 = { (0.0f - toEdgeSecond), 0.0f, (0.0f + tWidth2 / 4), outColor.x, outColor.y, outColor.z, 255};
+	wolf::Vertex v9 = { 0.0f, 0.0f, (0.0f + tWidth2 / 2) , outColor.x, outColor.y, outColor.z, 255};
+	wolf::Vertex v10 = { (0.0f + toEdgeSecond), 0.0f, (0.0f + tWidth2 / 4), outColor.x, outColor.y, outColor.z, 255};
+	wolf::Vertex v11 = { (0.0f + toEdgeSecond), 0.0f, (0.0f - tWidth2 / 4), outColor.x, outColor.y, outColor.z, 255};
 
 	p_verts[0] = v0;
 	p_verts[1] = v1;
