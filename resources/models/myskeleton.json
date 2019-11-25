@@ -1,0 +1,61 @@
+{
+    "clips" : [
+        {
+            "name": "idle",
+            "start": 1422,
+            "end": 1479
+        },
+        {
+            "name": "walk",
+            "start": 408,
+            "end": 470
+        },
+        {
+            "name": "attack",
+            "start": 1483,
+            "end": 1548,
+            "mode": "hold"
+        },
+        {
+            "name": "attack2",
+            "start": 1552,
+            "end": 1622
+        },
+        {
+            "name": "attack3",
+            "start": 1626,
+            "end": 1696
+        },
+        {
+            "name": "leap",
+            "start": 1036,
+            "end": 1037
+        },
+        {
+            "name": "spawn",
+            "start": 937,
+            "end": 1009,
+            "mode": "hold"
+        },
+        {
+            "name": "defeat",
+            "start": 827,
+            "end": 936
+        },
+        {
+            "name": "victory",
+            "start": 762,
+            "end": 827
+        },
+        {
+            "name": "summon",
+            "start": 676,
+            "end": 761
+        },
+        {
+            "name": "death",
+            "start": 613,
+            "end": 683
+        }
+    ]
+}
