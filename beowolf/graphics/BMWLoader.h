@@ -20,6 +20,11 @@ namespace wolf
 		BMWAnim() {};
 	};
 
+	struct BMWAnimSegment {
+		unsigned int start;
+		unsigned int end;
+	};
+
 	class BMWLoader
 	{
 	public:
