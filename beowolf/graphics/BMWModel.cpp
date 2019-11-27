@@ -134,4 +134,8 @@ namespace wolf
 	void BMWModel::setTransform(glm::mat4 transform) {
 		this->transform = transform;
 	}
+
+	void BMWModel::setAnim(std::string name, bool isDefault) {
+
+	}
 }

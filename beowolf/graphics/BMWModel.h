@@ -21,6 +21,7 @@ namespace wolf
 
 		glm::mat4 getTransform();
 		void setTransform(glm::mat4 transform);
+		void setAnim(std::string name, bool isDefault);
 
 	private:
 		struct Mesh
@@ -52,6 +53,8 @@ namespace wolf
 		std::vector<BMWAnim*> m_anims;
 		std::map<std::string, BMWAnimSegment*> m_animFrames;
 		glm::mat4 transform;
+		BMWAnimSegment* m_currentAnimation;
+		std::string m_defaultAnimation;
 		BMWNode m_rootNode;
 		std::vector<NodeMesh> m_toRender;
 	};
