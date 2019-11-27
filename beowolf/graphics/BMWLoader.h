@@ -21,6 +21,7 @@ namespace wolf
 	};
 
 	struct BMWAnimSegment {
+		unsigned int anim;
 		unsigned int start;
 		unsigned int end;
 	};
@@ -34,7 +35,7 @@ namespace wolf
 			return instance;
 		}
 
-		void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights, std::vector<BMWAnim*>* animlist);
+		void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights, std::vector<BMWAnim*>* animlist, std::map<std::string, BMWAnimSegment*> animations);
 
 	private:
 		BMWLoader() {}

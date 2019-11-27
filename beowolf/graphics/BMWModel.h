@@ -50,6 +50,7 @@ namespace wolf
 		std::map<int, BMWNode*> m_nodeIDs;
 		std::map<int, std::vector<std::pair<int, float>>> m_boneWeights;
 		std::vector<BMWAnim*> m_anims;
+		std::map<std::string, BMWAnimSegment*> m_animFrames;
 		glm::mat4 transform;
 		BMWNode m_rootNode;
 		std::vector<NodeMesh> m_toRender;

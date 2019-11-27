@@ -9,7 +9,7 @@ namespace wolf
 {
 	BMWModel::BMWModel(std::string file, std::string vertexShader, std::string pixelShader)
 	{
-		BMWLoader::getInstance().loadFile(file, &m_textures, &m_vertices, &m_indices, &m_rootNode, &m_nodeIDs, &m_boneWeights, &m_anims);
+		BMWLoader::getInstance().loadFile(file, &m_textures, &m_vertices, &m_indices, &m_rootNode, &m_nodeIDs, &m_boneWeights, &m_anims, &m_animFrames);
 
 		// set up m_meshes
 		for (int i = 0; i < m_vertices.size(); i++) {
@@ -100,9 +100,9 @@ namespace wolf
 				boneMatrix[it.first] = it.second[frame];
 			}
 
-			int offset = wolf::Input::Instance().isKeyHeld(INPUT_KB_N);
-			if (wolf::Input::Instance().isKeyHeld(INPUT_KB_N)) {
-				/*
+			int offset = wolf::Input::Instance().isKeyPressed(INPUT_KB_N) || wolf::Input::Instance().isKeyHeld(INPUT_KB_M);
+			if (wolf::Input::Instance().isKeyPressed(INPUT_KB_N)) {
+				
 				for (auto it : m_anims[0]->transforms) {
 					std::cout << "frame " << frame << " m[" << it.first << "] = ";
 					for (int x = 0; x < 4; x++) {
@@ -112,7 +112,6 @@ namespace wolf
 					}
 					std::cout << "\n";
 				}
-				*/
 			}
 
 			frame = (frame + offset) % m_anims[0]->duration;
