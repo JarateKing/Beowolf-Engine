@@ -24,6 +24,7 @@ namespace wolf
 		unsigned int anim;
 		unsigned int start;
 		unsigned int end;
+		bool isLoop;
 	};
 
 	class BMWLoader
