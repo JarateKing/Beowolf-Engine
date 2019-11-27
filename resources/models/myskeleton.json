@@ -1,4 +1,6 @@
 {
+	"defaultAnim": "idle",
+	
 	"clips" : [
 		{
 			"name": "idle",

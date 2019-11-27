@@ -25,6 +25,8 @@ namespace wolf
 			std::string jsonFileData = jsonFileStream.str();
 			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
 
+			std::string defaultAnim = jsonData["defaultAnim"];
+
 			for (auto anim : jsonData["clips"]) {
 				BMWAnimSegment clip = BMWAnimSegment();
 				clip.anim = 0;
