@@ -4,12 +4,19 @@
 #include <stack>
 #include "W_BufferManager.h"
 #include "W_Input.h"
+#include "W_Time.h"
+#include "W_Math.h"
 
 namespace wolf
 {
 	BMWModel::BMWModel(std::string file, std::string vertexShader, std::string pixelShader)
 	{
-		BMWLoader::getInstance().loadFile(file, &m_textures, &m_vertices, &m_indices, &m_rootNode, &m_nodeIDs, &m_boneWeights, &m_anims, &m_animFrames);
+		BMWLoader::getInstance().loadFile(file, &m_textures, &m_vertices, &m_indices, &m_rootNode, &m_nodeIDs, &m_boneWeights, &m_anims, &m_animFrames, &m_defaultAnimation);
+		m_hasAnimations = m_animFrames.size() > 0;
+		m_currentAnimation = m_animFrames["idle"];
+		m_animationFrame = m_currentAnimation->start;
+		std::cout << m_currentAnimation->start;
+
 
 		// set up m_meshes
 		for (int i = 0; i < m_vertices.size(); i++) {
@@ -87,34 +94,19 @@ namespace wolf
 	}
 
 	void BMWModel::renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, unsigned int meshID) {
-		static int frame = 0;
-
 		m_meshes[meshID].m_pDecl->Bind();
 
 		if (m_meshes[meshID].m_pTex != NULL)
 			m_meshes[meshID].m_pTex->Bind();
 
-		glm::mat4 boneMatrix[64];
-		if (m_anims.size() > 0) {
+		if (m_hasAnimations) {
+			m_animationFrame += wolf::Time::Instance().deltaTime() * 60;
+			m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
+
+			// set up bone matrix
 			for (auto it : m_anims[0]->transforms) {
-				boneMatrix[it.first] = it.second[frame];
+				m_boneMatrix[it.first] = it.second[m_animationFrame];
 			}
-
-			int offset = wolf::Input::Instance().isKeyPressed(INPUT_KB_N) || wolf::Input::Instance().isKeyHeld(INPUT_KB_M);
-			if (wolf::Input::Instance().isKeyPressed(INPUT_KB_N)) {
-				
-				for (auto it : m_anims[0]->transforms) {
-					std::cout << "frame " << frame << " m[" << it.first << "] = ";
-					for (int x = 0; x < 4; x++) {
-						for (int y = 0; y < 4; y++)
-							std::cout << std::fixed << std::setprecision(1) << boneMatrix[it.first][x][y] << ",";
-						std::cout << "  ";
-					}
-					std::cout << "\n";
-				}
-			}
-
-			frame = (frame + offset) % m_anims[0]->duration;
 		}
 
 		m_meshes[meshID].m_pProg->Bind();
@@ -122,7 +114,8 @@ namespace wolf
 		m_meshes[meshID].m_pProg->SetUniform("view", view);
 		m_meshes[meshID].m_pProg->SetUniform("world", world);
 		m_meshes[meshID].m_pProg->SetUniform("tex", 0);
-		m_meshes[meshID].m_pProg->SetUniform("BoneMatrixArray", boneMatrix, 64);
+		if (m_hasAnimations)
+			m_meshes[meshID].m_pProg->SetUniform("BoneMatrixArray", m_boneMatrix, 64);
 
 		glDrawElements(GL_TRIANGLES, m_meshes[meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
 	}
@@ -135,7 +128,8 @@ namespace wolf
 		this->transform = transform;
 	}
 
-	void BMWModel::setAnim(std::string name, bool isDefault) {
-
+	void BMWModel::setAnim(std::string name) {
+		if (m_animFrames.count(name))
+			m_currentAnimation = m_animFrames[name];
 	}
 }

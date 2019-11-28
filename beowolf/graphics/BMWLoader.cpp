@@ -11,7 +11,7 @@ namespace wolf
 		return a.second > b.second;
 	}
 
-	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights, std::vector<BMWAnim*>* animlist, std::map<std::string, BMWAnimSegment*>* animations) {
+	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights, std::vector<BMWAnim*>* animlist, std::map<std::string, BMWAnimSegment*>* animations, std::string* defaultAnim) {
 		std::ifstream in(file, std::ifstream::binary);
 		
 		std::string jsonFile = file;
@@ -24,18 +24,19 @@ namespace wolf
 			jsonFileStream << jsonIn.rdbuf();
 			std::string jsonFileData = jsonFileStream.str();
 			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
-
-			std::string defaultAnim = jsonData["defaultAnim"];
+			
+			std::string defaultAnimStr = jsonData["defaultAnim"];
+			defaultAnim = new std::string(defaultAnimStr);
 
 			for (auto anim : jsonData["clips"]) {
-				BMWAnimSegment clip = BMWAnimSegment();
-				clip.anim = 0;
-				clip.start = anim["start"];
-				clip.end = anim["end"];
-				clip.isLoop = anim["loop"];
+				BMWAnimSegment* clip = new BMWAnimSegment;
+				clip->anim = 0;
+				clip->start = anim["start"];
+				clip->end = anim["end"];
+				clip->isLoop = anim["loop"];
 				std::string clipName = anim["name"];
 
-				(*animations)[clipName] = &clip;
+				(*animations)[clipName] = clip;
 			}
 		}
 
