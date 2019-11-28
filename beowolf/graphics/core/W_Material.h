@@ -13,6 +13,7 @@
 #include "W_ProgramManager.h"
 #include <string>
 #include <map>
+#include <utility>
 
 namespace wolf
 {
@@ -46,6 +47,8 @@ class Material
 		void SetBlendEquation(BlendEquation p_eEqn) { m_eBlendEquation = p_eEqn; }
 
 		const std::string& GetName() const { return m_strName; }
+
+		void SetProgram(std::pair<std::string, std::string> shaders);
 		void SetProgram(const std::string& p_strVS, const std::string& p_strPS);
 		//-------------------------------------------------------------------------
 

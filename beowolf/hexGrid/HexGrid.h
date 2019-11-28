@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <BMWModel.h>
 #include "W_Common.h"
 #include "W_BufferManager.h"
 #include "W_VertexDeclaration.h"
@@ -17,6 +18,8 @@ public:
 	~HexGrid();
 	void PrintOutLoc();
 	void Render(glm::mat4 projView);
+	std::vector<float> GetHeights();
+	std::vector<glm::vec2> GetPos();
 
 private:
 	void GenerateLoc(int width, int length, float tileWidth);
@@ -28,10 +31,13 @@ private:
 	float minH, maxH;
 
 	wolf::Texture* pTex;
+	wolf::BMWModel* test;
+	std::vector<wolf::BMWModel*> trees;
 
 	std::vector<int> roads;
 	std::vector<int> mountains;
 	std::vector<int> desert;
+	std::vector<int> grass;
 
 	std::vector<glm::vec2> positions;
 	std::vector<float> heights;

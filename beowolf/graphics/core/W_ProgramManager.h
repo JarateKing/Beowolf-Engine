@@ -13,6 +13,7 @@
 #include "W_Program.h"
 #include <string>
 #include <map>
+#include <utility>
 
 namespace wolf
 {
@@ -22,6 +23,7 @@ class ProgramManager
 		//-------------------------------------------------------------------------
 		// PUBLIC INTERFACE
 		//-------------------------------------------------------------------------
+		static Program* CreateProgram(std::pair<std::string, std::string> shaders);
 		static Program* CreateProgram(const std::string& p_strVS, const std::string& p_strPS);
 		static void DestroyProgram(Program* p_pTex);
 

@@ -1,5 +1,6 @@
 #include "DebugCube.h"
 #include "W_RNG.h"
+#include "W_ResourceLoader.h"
 
 namespace wolf
 {
@@ -58,7 +59,7 @@ namespace wolf
 		setScale(glm::vec3(RNG::GetRandom(0.75f, 1.5f), RNG::GetRandom(0.75f, 1.5f), RNG::GetRandom(0.75f, 1.5f)));
 
 		// set up rendering
-		g_pProgram = ProgramManager::CreateProgram("resources/shaders/cube.vsh", "resources/shaders/cube.fsh");
+		g_pProgram = ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("cube"));
 		g_pVB = BufferManager::CreateVertexBuffer(cubeVertices, sizeof(Vertex) * 6 * 6);
 
 		g_pDecl = new VertexDeclaration();

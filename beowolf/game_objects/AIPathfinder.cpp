@@ -9,6 +9,7 @@
 
 #include "AIPathfinder.h"
 #include "ComponentRenderableMesh.h"
+#include "W_ResourceLoader.h"
 #if defined(_WIN32)
 #include "windows.h"
 #else
@@ -70,7 +71,7 @@ AIPathfinder::AIPathfinder()
 	m_pLineDrawer(NULL)
 {
 	m_pLineDrawer = new wolf::LineDrawer();
-	m_pLineDrawer->Init("week9/ExampleGame/data/lines.vsh", "week9/ExampleGame/data/lines.fsh");
+	m_pLineDrawer->Init(wolf::ResourceLoader::Instance().getVertexShader("lines.vsh"), wolf::ResourceLoader::Instance().getPixelShader("lines.fsh"));
 }
 
 //------------------------------------------------------------------------------
@@ -427,7 +428,7 @@ void AIPathfinder::ToggleDebugRendering(Common::GameObjectManager* p_pGameObject
 			sprintf(goNameBuffer, "Node%d", i);
 			Common::GameObject* pNode = p_pGameObjectManager->CreateGameObject();
 			week2::ComponentRenderableMesh* pRenderableComponent = new week2::ComponentRenderableMesh();
-			pRenderableComponent->Init("assignmentResources/assignment4/node.pod", "assignmentResources/assignment4/data/", "assignmentResources/assignment2/shaders/textured.vsh", "assignmentResources/assignment2/shaders/textured.fsh");
+			pRenderableComponent->Init("assignmentResources/assignment4/node.pod", "assignmentResources/assignment4/data/", wolf::ResourceLoader::Instance().getVertexShader("textured.vsh"), wolf::ResourceLoader::Instance().getPixelShader("textured.fsh"));
 			pNode->AddComponent(pRenderableComponent);
 			p_pGameObjectManager->SetGameObjectGUID(pNode, goNameBuffer);
 
