@@ -135,5 +135,6 @@ namespace wolf
 	void BMWModel::setAnim(std::string name) {
 		if (m_hasAnimations)
 			m_currentAnimation = m_animFrames[name];
+		m_animationFrame = m_currentAnimation->start;
 	}
 }
