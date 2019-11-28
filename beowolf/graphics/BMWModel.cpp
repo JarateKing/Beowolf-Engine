@@ -11,11 +11,10 @@ namespace wolf
 {
 	BMWModel::BMWModel(std::string file, std::string vertexShader, std::string pixelShader)
 	{
-		BMWLoader::getInstance().loadFile(file, &m_textures, &m_vertices, &m_indices, &m_rootNode, &m_nodeIDs, &m_boneWeights, &m_anims, &m_animFrames, &m_defaultAnimation);
+		BMWLoader::getInstance().loadFile(file, &m_textures, &m_vertices, &m_indices, &m_rootNode, &m_nodeIDs, &m_boneWeights, &m_anims, &m_animFrames, m_defaultAnimation);
 		m_hasAnimations = m_animFrames.size() > 0;
-		m_currentAnimation = m_animFrames["idle"];
+		m_currentAnimation = m_animFrames[m_defaultAnimation];
 		m_animationFrame = m_currentAnimation->start;
-		std::cout << m_currentAnimation->start;
 
 
 		// set up m_meshes
@@ -103,7 +102,7 @@ namespace wolf
 			m_animationFrame += wolf::Time::Instance().deltaTime() * m_anims[0]->rate;
 
 			if (m_animationFrame >= m_currentAnimation->end && !m_currentAnimation->isLoop)
-				setAnim("idle");
+				setAnim(m_defaultAnimation);
 
 			m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
 
