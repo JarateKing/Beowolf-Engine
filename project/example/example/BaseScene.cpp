@@ -14,6 +14,7 @@
 #include "SceneRenderer.h"
 #include "W_Time.h"
 #include "W_Math.h"
+#include "W_Input.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -46,6 +47,13 @@ void BaseScene::Update()
 	double delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
 	test->update(delta);
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_B))
+		test->setAnim("attack");
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_N))
+		test->setAnim("attack2");
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
+		test->setAnim("attack3");
 }
 
 void BaseScene::Render()
