@@ -13,8 +13,10 @@ namespace wolf
 	{
 		BMWLoader::getInstance().loadFile(file, &m_textures, &m_vertices, &m_indices, &m_rootNode, &m_nodeIDs, &m_boneWeights, &m_anims, &m_animFrames, m_defaultAnimation);
 		m_hasAnimations = m_animFrames.size() > 0;
-		m_currentAnimation = m_animFrames[m_defaultAnimation];
-		m_animationFrame = m_currentAnimation->start;
+		if (m_hasAnimations) {
+			m_currentAnimation = m_animFrames[m_defaultAnimation];
+			m_animationFrame = m_currentAnimation->start;
+		}
 
 
 		// set up m_meshes
