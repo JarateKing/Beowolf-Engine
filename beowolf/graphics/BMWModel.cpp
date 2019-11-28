@@ -100,7 +100,7 @@ namespace wolf
 			m_meshes[meshID].m_pTex->Bind();
 
 		if (m_hasAnimations) {
-			m_animationFrame += wolf::Time::Instance().deltaTime() * 60;
+			m_animationFrame -= wolf::Time::Instance().deltaTime() * m_anims[0]->rate;
 			m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
 
 			// set up bone matrix
