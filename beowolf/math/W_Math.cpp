@@ -126,15 +126,13 @@ namespace wolf
 
 	float Math::wrap(float val, float min, float max)
 	{
-		float range = max - min + 1;
-
 		// wrap it in terms of min
 		while (val < min)
 			val += min;
 
 		// wrap it in terms of max
 		while (val > max)
-			val -= max;
+			val = val - max + min;
 
 		return val;
 	}
