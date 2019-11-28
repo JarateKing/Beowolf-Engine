@@ -8,7 +8,7 @@
 #include <W_Time.h>
 #include <W_ProjectionMatrix.h>
 #include <iomanip>
-#include "DebugCamera.h"
+//#include "DebugCamera.h"
 #include "sound/W_SoundEngine.h"
 #include "beowolf/hexGrid/HexGrid.h"
 #include "camera/Camera.h"
@@ -23,7 +23,7 @@
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
-static wolf::DebugCamera* cam;
+static Camera* cam;
 static glm::mat4 cull;
 static HexGrid* grid;
 wolf::MousePos mouse;
@@ -43,7 +43,7 @@ void BaseScene::Init()
 	//test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("tree.bmw"), shaders.first, shaders.second);
 	//test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 0.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(1.5, 1.5, 1.5)));
 
-	cam = new wolf::DebugCamera(0, 5.5, glm::vec3(0, 50.0f, 0));
+	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
 	grid = new HexGrid(20, 20, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
