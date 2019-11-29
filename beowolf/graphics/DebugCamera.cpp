@@ -39,7 +39,7 @@ namespace wolf
 		}
 
 		// position controls
-		float movespeed = delta * 3.0f;
+		float movespeed = delta * 25.0f;
 		if (wolf::Input::Instance().isKeyHeld(INPUT_KB_W))
 			m_pos += m_aim * movespeed;
 		if (wolf::Input::Instance().isKeyHeld(INPUT_KB_S))

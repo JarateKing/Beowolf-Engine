@@ -1,6 +1,8 @@
 #include "BMWLoader.h"
 #include <iostream>
 #include <algorithm>
+#include <sstream>
+#include "JSON/json.hpp"
 
 namespace wolf
 {
@@ -9,8 +11,34 @@ namespace wolf
 		return a.second > b.second;
 	}
 
-	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights, std::vector<BMWAnim*>* animlist) {
+	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights, std::vector<BMWAnim*>* animlist, std::map<std::string, BMWAnimSegment*>* animations, std::string& defaultAnim) {
 		std::ifstream in(file, std::ifstream::binary);
+		
+		std::string jsonFile = file;
+		if (jsonFile.substr(jsonFile.size() - 4) == ".bmw")
+			jsonFile = jsonFile.substr(0, jsonFile.size() - 4) + ".json";
+
+		std::ifstream jsonIn(jsonFile);
+		if (jsonIn) {
+			std::stringstream jsonFileStream;
+			jsonFileStream << jsonIn.rdbuf();
+			std::string jsonFileData = jsonFileStream.str();
+			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
+			
+			std::string defaultAnimStr = jsonData["defaultAnim"];
+			defaultAnim = defaultAnimStr;
+
+			for (auto anim : jsonData["clips"]) {
+				BMWAnimSegment* clip = new BMWAnimSegment;
+				clip->anim = 0;
+				clip->start = anim["start"];
+				clip->end = anim["end"];
+				clip->isLoop = anim["loop"];
+				std::string clipName = anim["name"];
+
+				(*animations)[clipName] = clip;
+			}
+		}
 
 		readString(&in);
 		unsigned int materials = readInt(&in);
