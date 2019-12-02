@@ -11,13 +11,15 @@ namespace wolf
 {
 	BMWModel::BMWModel(std::string file, std::string vertexShader, std::string pixelShader)
 	{
-		BMWLoader::getInstance().loadFile(file, &m_textures, &m_vertices, &m_indices, &m_rootNode, &m_nodeIDs, &m_boneWeights, &m_anims, &m_animFrames, m_defaultAnimation);
+		std::cout << "A\n";
+		m_rootNode = BMWLoader::getInstance().loadFile(file, &m_textures, &m_vertices, &m_indices, &m_nodeIDs, &m_boneWeights, &m_anims, &m_animFrames, m_defaultAnimation);
+		std::cout << "B " << m_rootNode << "\n";
+
 		m_hasAnimations = m_animFrames.size() > 0;
 		if (m_hasAnimations) {
 			m_currentAnimation = m_animFrames[m_defaultAnimation];
 			m_animationFrame = m_currentAnimation->start;
 		}
-
 
 		// set up m_meshes
 		for (int i = 0; i < m_vertices.size(); i++) {
@@ -62,19 +64,26 @@ namespace wolf
 			m_meshes.push_back(current);
 		}
 
-		std::stack<BMWNode> nodes;
+		std::cout << "===\n";
+		std::stack<BMWNode*> nodes;
 		nodes.push(m_rootNode);
 		while (!nodes.empty()) {
-			BMWNode current = nodes.top();
-			nodes.pop();
-			for (int i = 0; i < current.children.size(); i++)
-				nodes.push(current.children[i]);
+			{
+				BMWNode* current = nodes.top();
+				nodes.pop();
 
-			for (int i = 0; i < current.meshNum; i++) {
-				NodeMesh renderable;
-				renderable.transform = current.transform;
-				renderable.meshID = current.meshIDs[i];
-				m_toRender.push_back(renderable);
+				std::cout << current << " " << current->meshNum << "\n";
+
+				for (int i = 0; i < current->children.size(); i++) {
+					nodes.push(current->children[i]);
+				}
+
+				for (int i = 0; i < current->meshNum; i++) {
+					NodeMesh renderable;
+					renderable.transform = current->transform;
+					renderable.meshID = current->meshIDs[i];
+					m_toRender.push_back(renderable);
+				}
 			}
 		}
 	}

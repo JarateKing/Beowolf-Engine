@@ -58,7 +58,7 @@ namespace wolf
 		glm::mat4 m_boneMatrix[64];
 		bool m_hasAnimations;
 		float m_animationFrame;
-		BMWNode m_rootNode;
+		BMWNode* m_rootNode;
 		std::vector<NodeMesh> m_toRender;
 	};
 }

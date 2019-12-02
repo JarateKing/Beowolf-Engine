@@ -11,7 +11,20 @@ namespace wolf
 		return a.second > b.second;
 	}
 
-	void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights, std::vector<BMWAnim*>* animlist, std::map<std::string, BMWAnimSegment*>* animations, std::string& defaultAnim) {
+	BMWNode* BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights, std::vector<BMWAnim*>* animlist, std::map<std::string, BMWAnimSegment*>* animations, std::string& defaultAnim) {
+		if (m_stored.count(file)) {
+			BMWModeLData memo = m_stored[file];
+			texlist = memo.texlist;
+			meshlist = memo.meshlist;
+			indexlist = memo.indexlist;
+			nodeIDs = memo.nodeIDs;
+			boneWeights = memo.boneWeights;
+			animlist = memo.animlist;
+			animations = memo.animations;
+			defaultAnim = memo.defaultAnim;
+			return memo.root;
+		}
+		
 		std::ifstream in(file, std::ifstream::binary);
 		
 		std::string jsonFile = file;
@@ -110,7 +123,21 @@ namespace wolf
 			}
 		}
 
-		*root = readNode(&in, nodeIDs);
+		std::cout << "c\n";
+		BMWNode* root = readNode(&in, nodeIDs);
+		std::cout << "REAL " << root << " \n";
+
+		m_stored[file].texlist = texlist;
+		m_stored[file].meshlist = meshlist;
+		m_stored[file].indexlist = indexlist;
+		m_stored[file].root = root;
+		m_stored[file].nodeIDs = nodeIDs;
+		m_stored[file].boneWeights = boneWeights;
+		m_stored[file].animlist = animlist;
+		m_stored[file].animations = animations;
+		m_stored[file].defaultAnim = defaultAnim;
+
+		return root;
 	}
 
 	std::string BMWLoader::readString(std::ifstream* in) {
@@ -150,7 +177,7 @@ namespace wolf
 		return transform;
 	}
 
-	BMWNode BMWLoader::readNode(std::ifstream* in, std::map<int, BMWNode*>* nodeIDs) {
+	BMWNode* BMWLoader::readNode(std::ifstream* in, std::map<int, BMWNode*>* nodeIDs) {
 		unsigned int nodeId = readInt(in);
 		
 		glm::mat4 transform = readTransform(in);
@@ -161,19 +188,20 @@ namespace wolf
 			meshes[i] = readInt(in);
 
 		unsigned int childNum = readInt(in);
-		std::vector<BMWNode> children;
+		std::vector<BMWNode*> children(childNum);
 
 		for (int i = 0; i < childNum; i++) {
-			children.push_back(readNode(in, nodeIDs));
+			children[i] = readNode(in, nodeIDs);
 		}
 
-		BMWNode toret;
-		toret.transform = transform;
-		toret.meshNum = meshNum;
-		toret.meshIDs = meshes;
-		toret.children = children;
+		std::cout << "a\n";
+		BMWNode* toret = new BMWNode();
+		toret->transform = transform;
+		toret->meshNum = meshNum;
+		toret->meshIDs = meshes;
+		toret->children = children;
 
-		(*nodeIDs)[nodeId] = &toret;
+		(*nodeIDs).insert({ nodeId, toret });
 		return toret;
 	}
 }
