@@ -25,7 +25,9 @@ static glm::mat4 cull;
 static HexGrid* grid;
 wolf::MousePos mouse;
 static HexSelector* selector;
-//wolf::BMWModel* test;
+wolf::BMWModel* test;
+week2::ComponentHexPos hexPos;
+std::vector<int> testMove;
 
 BaseScene::BaseScene()
 {
@@ -36,16 +38,26 @@ void BaseScene::Init()
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//auto shaders = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
-	//test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("tree.bmw"), shaders.first, shaders.second);
-	//test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 0.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(1.5, 1.5, 1.5)));
+	auto shaders = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
+	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("Fir_Tree.bmw"), shaders.first, shaders.second);
+	test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 0.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.01, 0.01, 0.01)));
 
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
 	grid = new HexGrid(20, 20, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
 	selector = new HexSelector(5.0f);
-
+	hexPos.SetGrid(grid);
+	testMove.push_back(1);
+	testMove.push_back(2);
+	testMove.push_back(3);
+	testMove.push_back(10);
+	testMove.push_back(15);
+	testMove.push_back(20);
+	testMove.push_back(1);
+	testMove.push_back(2);
+	testMove.push_back(1);
+	testMove.push_back(2);
 }
 
 void BaseScene::Update()
@@ -60,6 +72,13 @@ void BaseScene::Update()
 		selector->Update(target, positions.at(target), heights.at(target));
 	}
 	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
+	{
+		hexPos.Move(testMove, 20.0f);
+	}
+	hexPos.Update(delta);
+	test->setTransform(glm::translate(hexPos.GetPos()) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.01, 0.01, 0.01)));
+
 }
 
 void BaseScene::Render()
@@ -67,15 +86,15 @@ void BaseScene::Render()
 	wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
 	grid->Render(cam->GetViewMatrix());
 	selector->Render(cam->GetViewMatrix());
-	//glDepthMask(true);
-	//glDisable(GL_BLEND);
+	glDepthMask(true);
+	glDisable(GL_BLEND);
 
-	//test->render(cam->GetViewMatrix(), glm::mat4(), false);
+	test->render(cam->GetViewMatrix(), glm::mat4(), false);
 
-	//glDepthMask(false);
-	//glEnable(GL_BLEND);
+	glDepthMask(false);
+	glEnable(GL_BLEND);
 
-	//test->render(cam->GetViewMatrix(), glm::mat4(), true);
+	test->render(cam->GetViewMatrix(), glm::mat4(), true);
 }
 
 

@@ -31,6 +31,7 @@ private:
 	float minH, maxH;
 
 	wolf::Texture* pTex;
+	wolf::Texture* pTex2;
 	wolf::BMWModel* test;
 	std::vector<wolf::BMWModel*> trees;
 

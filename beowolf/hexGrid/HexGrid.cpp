@@ -27,14 +27,33 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 		}
 	}
 
-	for (int i = 0; i < treeNum; i++)
+	int rnd;
+	std::string model;
+	/*for (int i = 0; i < treeNum; i++)
 	{
 		auto shaders = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
-		test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("tree.bmw"), shaders.first, shaders.second);
-		float setScale = wolf::RNG::GetRandom(1.0f, 3.0f);
+		rnd = wolf::RNG::GetRandom(0, 3);
+		switch (rnd) {
+
+		case 0:
+			model = "Fir_Tree.bmw";
+			break;
+		case 1:
+			model = "Oak_Tree.bmw";
+			break;
+		case 2:
+			model = "Palm_Tree.bmw";
+			break;
+		case 3:
+			model = "Poplar_Tree.bmw";
+			break;
+		}
+
+		test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(model), shaders.first, shaders.second);
+		float setScale = wolf::RNG::GetRandom(0.01f, 0.02f);
 		test->setTransform(glm::translate(glm::vec3(positions.at(treePos.at(i)).x, heights.at(treePos.at(i)), positions.at(treePos.at(i)).y)) * glm::rotate(180.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(setScale, setScale, setScale)));
 		trees.push_back(test);
-	}
+	}*/
 
 	// set up rendering
 	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("hex"));
@@ -54,7 +73,6 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	pTex = wolf::TextureManager::CreateTexture(texFile);
 	pTex->SetFilterMode(wolf::Texture::FM_LinearMipmap, wolf::Texture::FM_Linear);
 	pTex->SetWrapMode(wolf::Texture::WM_Repeat);
-	pTex->Bind();
 }
 
 HexGrid::~HexGrid()
@@ -687,7 +705,7 @@ void HexGrid::Render(glm::mat4 projview)
 	// Draw!
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
-	for (int i = 0; i < trees.size(); i++)
+	/*for (int i = 0; i < trees.size(); i++)
 	{
 		glDepthMask(true);
 		glDisable(GL_BLEND);
@@ -699,8 +717,7 @@ void HexGrid::Render(glm::mat4 projview)
 		glDepthMask(false);
 		glEnable(GL_BLEND);
 		trees.at(i)->render(projview, glm::mat4(), true);
-
-	}
+	}*/
 }
 
 std::vector<float> HexGrid::GetHeights()

@@ -20,12 +20,18 @@ namespace week2
 		virtual void Update(float p_fDelta);
 		virtual void SetGrid(HexGrid* p_grid);
 
-		void MoveTo(int targetHex);
+		void Move(std::vector<int> p_path, float timeToComplete);
 		glm::vec3 GetPos();
 
 	private:
 		int currentHex;
 		HexGrid* m_grid;
+		bool moving = false;
+		std::vector<int> pathway;
+		float timeForPath, timePerTile;
+		float timeTaken = 0.0f;
+		glm::vec3 currentPos;
+		int totalTargets;
 
 	};
 }
