@@ -39,9 +39,9 @@ void BaseScene::Init()
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable");
-	//test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("myskeleton.bmw"), shaders.first, shaders.second);
-	//test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 20.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.1, 0.1, 0.1)));
+	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable");
+	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("myskeleton.bmw"), shaders.first, shaders.second);
+	test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 20.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.1, 0.1, 0.1)));
 
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
@@ -55,14 +55,14 @@ void BaseScene::Update()
 	float delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
 
-	//test->update(delta);
-	//
-	//if (wolf::Input::Instance().isKeyPressed(INPUT_KB_B))
-	//	test->setAnim("attack");
-	//if (wolf::Input::Instance().isKeyPressed(INPUT_KB_N))
-	//	test->setAnim("attack2");
-	//if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
-	//	test->setAnim("attack3");
+	test->update(delta);
+	
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_B))
+		test->setAnim("attack");
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_N))
+		test->setAnim("attack2");
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
+		test->setAnim("attack3");
 
 	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	std::vector<float> heights = grid->GetHeights();
@@ -79,7 +79,7 @@ void BaseScene::Render()
 	glDepthMask(true);
 	glDisable(GL_BLEND);
 
-	//test->render(cam->GetViewMatrix(), glm::mat4(), false);
+	test->render(cam->GetViewMatrix(), glm::mat4(), false);
 	wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
 	grid->Render(cam->GetViewMatrix());
 	selector->Render(cam->GetViewMatrix());
