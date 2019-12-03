@@ -31,6 +31,7 @@ namespace wolf
 		if (jsonFile.substr(jsonFile.size() - 4) == ".bmw")
 			jsonFile = jsonFile.substr(0, jsonFile.size() - 4) + ".json";
 
+		std::vector<std::string> texOverrides;
 		std::ifstream jsonIn(jsonFile);
 		if (jsonIn) {
 			std::stringstream jsonFileStream;
@@ -51,6 +52,10 @@ namespace wolf
 
 				(animations)[clipName] = clip;
 			}
+
+			for (auto tex : jsonData["textureOverrides"]) {
+				texOverrides.push_back(tex["texture"]);
+			}
 		}
 
 		readString(&in);
@@ -61,6 +66,11 @@ namespace wolf
 				(texlist).push_back(readString(&in));
 			}
 		}
+
+		for (int i = 0; i < texlist.size() && i < texOverrides.size(); i++)
+			texlist[i] = texOverrides[i];
+		for (int i = texlist.size(); i < texOverrides.size(); i++)
+			texlist.push_back(texOverrides[i]);
 
 		unsigned int anims = readInt(&in);
 		for (int i = 0; i < anims; i++) {
