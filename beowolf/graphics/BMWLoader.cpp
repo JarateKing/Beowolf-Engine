@@ -126,14 +126,14 @@ namespace wolf
 
 		BMWNode* root = readNode(&in, &nodeIDs);
 
-		m_stored[file].texlist = std::vector<std::string>(texlist);
-		m_stored[file].meshlist = std::vector<std::vector<Vertex>>(meshlist);
-		m_stored[file].indexlist = std::vector<std::vector<unsigned int>>(indexlist);
+		m_stored[file].texlist = texlist;
+		m_stored[file].meshlist = meshlist;
+		m_stored[file].indexlist = indexlist;
 		m_stored[file].root = root;
-		m_stored[file].nodeIDs = std::map<int, BMWNode*>(nodeIDs);
-		m_stored[file].boneWeights = std::map<int, std::vector<std::pair<int, float>>>(boneWeights);
-		m_stored[file].animlist = std::vector<BMWAnim*>(animlist);
-		m_stored[file].animations = std::map<std::string, BMWAnimSegment*>(animations);
+		m_stored[file].nodeIDs = nodeIDs;
+		m_stored[file].boneWeights = boneWeights;
+		m_stored[file].animlist = animlist;
+		m_stored[file].animations = animations;
 		m_stored[file].defaultAnim = defaultAnim;
 
 		std::cout << "storing " << &meshlist << "\n";
