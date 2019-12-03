@@ -6,6 +6,7 @@
 #include "W_Input.h"
 #include "W_Time.h"
 #include "W_Math.h"
+#include "W_ResourceLoader.h"
 
 namespace wolf
 {
@@ -49,11 +50,8 @@ namespace wolf
 					(*m_textures)[i] = (*m_textures)[i].substr(0, (*m_textures)[i].find(".png")) + std::string(".dds");
 					transparency = true;
 				}
-				// hotfix for multiple duplicate models
-				if ((*m_textures)[i].find("resources/models/") != 0)
-					(*m_textures)[i] = "resources/models/" + (*m_textures)[i];
 
-				current.m_pTex = wolf::TextureManager::CreateTexture((*m_textures)[i]);
+				current.m_pTex = wolf::TextureManager::CreateTexture(wolf::ResourceLoader::Instance().getModelTexture((*m_textures)[i]));
 				current.m_pTex->SetWrapMode(wolf::Texture::WM_Repeat);
 				current.isTransparent = transparency;
 
