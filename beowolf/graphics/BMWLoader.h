@@ -49,7 +49,7 @@ namespace wolf
 			return instance;
 		}
 
-		BMWNode* BMWLoader::loadFile(std::string file, std::vector<std::string>& texlist, std::vector<std::vector<Vertex>>& meshlist, std::vector<std::vector<unsigned int>>& indexlist, std::map<int, BMWNode*>& nodeIDs, std::map<int, std::vector<std::pair<int, float>>>& boneWeights, std::vector<BMWAnim*>& animlist, std::map<std::string, BMWAnimSegment*>& animations, std::string& defaultAnim);
+		BMWModeLData* loadFile(std::string file);
 
 	private:
 		BMWLoader() {}

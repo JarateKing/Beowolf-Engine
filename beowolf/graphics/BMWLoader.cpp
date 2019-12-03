@@ -11,19 +11,19 @@ namespace wolf
 		return a.second > b.second;
 	}
 
-	BMWNode* BMWLoader::loadFile(std::string file, std::vector<std::string>& texlist, std::vector<std::vector<Vertex>>& meshlist, std::vector<std::vector<unsigned int>>& indexlist, std::map<int, BMWNode*>& nodeIDs, std::map<int, std::vector<std::pair<int, float>>>& boneWeights, std::vector<BMWAnim*>& animlist, std::map<std::string, BMWAnimSegment*>& animations, std::string& defaultAnim) {
+	BMWModeLData* BMWLoader::loadFile(std::string file) {
 		if (m_stored.count(file)) {
-			BMWModeLData memo = m_stored[file];
-			texlist = memo.texlist;
-			meshlist = memo.meshlist;
-			indexlist = memo.indexlist;
-			nodeIDs = memo.nodeIDs;
-			boneWeights = memo.boneWeights;
-			animlist = memo.animlist;
-			animations = memo.animations;
-			defaultAnim = memo.defaultAnim;
-			return memo.root;
+			return &m_stored[file];
 		}
+
+		std::vector<std::string> texlist;
+		std::vector<std::vector<Vertex>> meshlist;
+		std::vector<std::vector<unsigned int>> indexlist;
+		std::map<int, BMWNode*> nodeIDs;
+		std::map<int, std::vector<std::pair<int, float>>> boneWeights;
+		std::vector<BMWAnim*> animlist;
+		std::map<std::string, BMWAnimSegment*> animations;
+		std::string defaultAnim;
 		
 		std::ifstream in(file, std::ifstream::binary);
 		
@@ -135,7 +135,7 @@ namespace wolf
 		m_stored[file].animations = animations;
 		m_stored[file].defaultAnim = defaultAnim;
 
-		return root;
+		return &m_stored[file];
 	}
 
 	std::string BMWLoader::readString(std::ifstream* in) {

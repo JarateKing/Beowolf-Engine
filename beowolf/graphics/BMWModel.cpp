@@ -11,38 +11,49 @@ namespace wolf
 {
 	BMWModel::BMWModel(std::string file, std::string vertexShader, std::string pixelShader)
 	{
-		m_rootNode = BMWLoader::getInstance().loadFile(file, m_textures, m_vertices, m_indices, m_nodeIDs, m_boneWeights, m_anims, m_animFrames, m_defaultAnimation);
+		BMWModeLData* data = BMWLoader::getInstance().loadFile(file);
 
-		m_hasAnimations = m_animFrames.size() > 0;
+		m_anims = &data->animlist;
+		m_animFrames = &data->animations;
+		m_defaultAnimation = &data->defaultAnim;
+		m_vertices = &data->meshlist;
+		m_textures = &data->texlist;
+		m_rootNode = data->root;
+		m_indices = &data->indexlist;
+
+		m_hasAnimations = m_animFrames->size() > 0;
 		if (m_hasAnimations) {
-			m_currentAnimation = m_animFrames[m_defaultAnimation];
+			m_currentAnimation = (*m_animFrames)[*m_defaultAnimation];
 			m_animationFrame = m_currentAnimation->start;
 		}
 
 		// set up m_meshes
-		for (int i = 0; i < m_vertices.size(); i++) {
+		// TODO: move this into loader, so that this can be cached between models
+		for (int i = 0; i < m_vertices->size(); i++) {
 			Mesh current;
 
 			current.size = m_vertices[i].size();
-			current.m_pVB = wolf::BufferManager::CreateVertexBuffer(&(m_vertices[i][0]), sizeof(Vertex) * m_vertices[i].size());
+			current.m_pVB = wolf::BufferManager::CreateVertexBuffer(&((*m_vertices)[i][0]), sizeof(Vertex) * (*m_vertices)[i].size());
 
-			current.m_pIB = wolf::BufferManager::CreateIndexBuffer(m_indices[i].size());
-			current.m_pIB->Write(&(m_indices[i][0]), m_indices[i].size() * sizeof(unsigned int));
+			current.m_pIB = wolf::BufferManager::CreateIndexBuffer((*m_indices)[i].size());
+			current.m_pIB->Write(&((*m_indices)[i][0]), (*m_indices)[i].size() * sizeof(unsigned int));
 
 			current.m_pProg = wolf::ProgramManager::CreateProgram(vertexShader, pixelShader);
 
 			current.m_pTex = NULL;
-			if (m_textures.size() > i) {
+			if (m_textures->size() > i) {
 				bool transparency = false; // TODO: improve, naive assumption that jpg's always mean opaque and png's always mean transparent
-				if (m_textures[i].find(".jpg") != std::string::npos)
-					m_textures[i] = m_textures[i].substr(0, m_textures[i].find(".jpg")) + std::string(".dds");
-				else if (m_textures[i].find(".png") != std::string::npos) {
-					m_textures[i] = m_textures[i].substr(0, m_textures[i].find(".png")) + std::string(".dds");
+				if ((*m_textures)[i].find(".jpg") != std::string::npos)
+					(*m_textures)[i] = (*m_textures)[i].substr(0, (*m_textures)[i].find(".jpg")) + std::string(".dds");
+				else if ((*m_textures)[i].find(".png") != std::string::npos) {
+					(*m_textures)[i] = (*m_textures)[i].substr(0, (*m_textures)[i].find(".png")) + std::string(".dds");
 					transparency = true;
 				}
-				m_textures[i] = "resources/models/" + m_textures[i];
+				// hotfix for multiple duplicate models
+				if ((*m_textures)[i].find("resources/models/") != 0)
+					(*m_textures)[i] = "resources/models/" + (*m_textures)[i];
 
-				current.m_pTex = wolf::TextureManager::CreateTexture(m_textures[i]);
+				current.m_pTex = wolf::TextureManager::CreateTexture((*m_textures)[i]);
 				current.m_pTex->SetWrapMode(wolf::Texture::WM_Repeat);
 				current.isTransparent = transparency;
 			}
@@ -105,15 +116,15 @@ namespace wolf
 			m_meshes[meshID].m_pTex->Bind();
 
 		if (m_hasAnimations) {
-			m_animationFrame += wolf::Time::Instance().deltaTime() * m_anims[0]->rate;
+			m_animationFrame += wolf::Time::Instance().deltaTime() * (*m_anims)[0]->rate;
 
 			if (m_animationFrame >= m_currentAnimation->end && !m_currentAnimation->isLoop)
-				setAnim(m_defaultAnimation);
+				setAnim(*m_defaultAnimation);
 
 			m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
 
 			// set up bone matrix
-			for (auto it : m_anims[0]->transforms) {
+			for (auto it : (*m_anims)[0]->transforms) {
 				m_boneMatrix[it.first] = it.second[m_animationFrame];
 			}
 		}
@@ -139,7 +150,7 @@ namespace wolf
 
 	void BMWModel::setAnim(std::string name) {
 		if (m_hasAnimations)
-			m_currentAnimation = m_animFrames[name];
+			m_currentAnimation = (*m_animFrames)[name];
 		m_animationFrame = m_currentAnimation->start;
 	}
 }
