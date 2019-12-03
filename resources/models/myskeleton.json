@@ -1,6 +1,12 @@
 {
 	"defaultAnim": "idle",
 	
+	"textureOverrides" : [
+		{
+			"texture": "bark_0021.jpg"
+		}
+	],
+	
 	"clips" : [
 		{
 			"name": "idle",
