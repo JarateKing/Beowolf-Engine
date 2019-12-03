@@ -56,6 +56,10 @@ namespace wolf
 				current.m_pTex = wolf::TextureManager::CreateTexture((*m_textures)[i]);
 				current.m_pTex->SetWrapMode(wolf::Texture::WM_Repeat);
 				current.isTransparent = transparency;
+
+				// hotfix for multiple duplicate models
+				if (transparency)
+					(*m_textures)[i] = (*m_textures)[i].substr(0, (*m_textures)[i].find(".dds")) + std::string(".png");
 			}
 
 			current.m_pDecl = new wolf::VertexDeclaration();
