@@ -12,7 +12,6 @@ namespace wolf
 	BMWModel::BMWModel(std::string file, std::string vertexShader, std::string pixelShader)
 	{
 		m_rootNode = BMWLoader::getInstance().loadFile(file, m_textures, m_vertices, m_indices, m_nodeIDs, m_boneWeights, m_anims, m_animFrames, m_defaultAnimation);
-		std::cout << "taking " << &m_vertices << " " << m_vertices.size() << "\n";
 
 		m_hasAnimations = m_animFrames.size() > 0;
 		if (m_hasAnimations) {

@@ -12,9 +12,6 @@ namespace wolf
 		unsigned int meshNum;
 		unsigned int* meshIDs;
 		std::vector<BMWNode*> children;
-
-		BMWNode() { std::cout << "+ " << this << "\n"; }
-		~BMWNode() { std::cout << "! " << this << "\n"; }
 	};
 
 	struct BMWAnim {

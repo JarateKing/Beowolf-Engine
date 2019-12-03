@@ -22,7 +22,6 @@ namespace wolf
 			animlist = memo.animlist;
 			animations = memo.animations;
 			defaultAnim = memo.defaultAnim;
-			std::cout << "using " << &memo.meshlist << " " << memo.meshlist.size() << "\n";
 			return memo.root;
 		}
 		
@@ -136,9 +135,6 @@ namespace wolf
 		m_stored[file].animations = animations;
 		m_stored[file].defaultAnim = defaultAnim;
 
-		std::cout << "storing " << &meshlist << "\n";
-		std::cout << "stored " << &m_stored[file].meshlist << "\n";
-
 		return root;
 	}
 
@@ -196,7 +192,6 @@ namespace wolf
 			children[i] = readNode(in, nodeIDs);
 		}
 
-		std::cout << "a\n";
 		BMWNode* toret = new BMWNode();
 		toret->transform = transform;
 		toret->meshNum = meshNum;
