@@ -11,7 +11,7 @@ namespace wolf
 		return a.second > b.second;
 	}
 
-	BMWNode* BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights, std::vector<BMWAnim*>* animlist, std::map<std::string, BMWAnimSegment*>* animations, std::string& defaultAnim) {
+	BMWNode* BMWLoader::loadFile(std::string file, std::vector<std::string>& texlist, std::vector<std::vector<Vertex>>& meshlist, std::vector<std::vector<unsigned int>>& indexlist, std::map<int, BMWNode*>& nodeIDs, std::map<int, std::vector<std::pair<int, float>>>& boneWeights, std::vector<BMWAnim*>& animlist, std::map<std::string, BMWAnimSegment*>& animations, std::string& defaultAnim) {
 		if (m_stored.count(file)) {
 			BMWModeLData memo = m_stored[file];
 			texlist = memo.texlist;
@@ -22,6 +22,7 @@ namespace wolf
 			animlist = memo.animlist;
 			animations = memo.animations;
 			defaultAnim = memo.defaultAnim;
+			std::cout << "using " << &memo.meshlist << " " << memo.meshlist.size() << "\n";
 			return memo.root;
 		}
 		
@@ -49,7 +50,7 @@ namespace wolf
 				clip->isLoop = anim["loop"];
 				std::string clipName = anim["name"];
 
-				(*animations)[clipName] = clip;
+				(animations)[clipName] = clip;
 			}
 		}
 
@@ -58,7 +59,7 @@ namespace wolf
 		for (int i = 0; i < materials; i++) {
 			unsigned int textures = readInt(&in);
 			for (int j = 0; j < textures; j++) {
-				(*texlist).push_back(readString(&in));
+				(texlist).push_back(readString(&in));
 			}
 		}
 
@@ -82,7 +83,7 @@ namespace wolf
 			current->duration = duration;
 			current->rate = speed;
 			current->transforms = trans;
-			animlist->push_back(current);
+			animlist.push_back(current);
 		}
 
 		unsigned int meshes = readInt(&in);
@@ -92,13 +93,13 @@ namespace wolf
 				int boneVertexID = readInt(&in);
 				int boneWeightNum = readInt(&in);
 				for (int k = 0; k < boneWeightNum; k++) {
-					(*boneWeights)[boneVertexID].push_back({readInt(&in), readFloat(&in)});
+					(boneWeights)[boneVertexID].push_back({readInt(&in), readFloat(&in)});
 				}
-				std::sort((*boneWeights)[boneVertexID].begin(), (*boneWeights)[boneVertexID].end(), boneWeightCompare);
+				std::sort((boneWeights)[boneVertexID].begin(), (boneWeights)[boneVertexID].end(), boneWeightCompare);
 			}
 
 			unsigned int vertices = readInt(&in);
-			(*meshlist).push_back(std::vector<Vertex>());
+			(meshlist).push_back(std::vector<Vertex>());
 			for (int j = 0; j < vertices; j++) {
 				Vertex cur = { readFloat(&in), readFloat(&in), readFloat(&in), readInt(&in), readInt(&in), readInt(&in), readInt(&in), readFloat(&in), readFloat(&in) };
 				cur.normalDirX = readFloat(&in);
@@ -106,36 +107,37 @@ namespace wolf
 				cur.normalDirZ = readFloat(&in);
 				glm::vec4 boneIndices = glm::vec4();
 				glm::vec4 boneWeight = glm::vec4();
-				for (int k = 0; k < (*boneWeights)[j].size() && k < 4; k++) {
-					boneIndices[k] = (*boneWeights)[j][k].first;
-					boneWeight[k] = (*boneWeights)[j][k].second;
+				for (int k = 0; k < (boneWeights)[j].size() && k < 4; k++) {
+					boneIndices[k] = (boneWeights)[j][k].first;
+					boneWeight[k] = (boneWeights)[j][k].second;
 				}
 				cur.boneIndices = boneIndices;
 				cur.boneWeights = boneWeight;
-				(*meshlist)[i].push_back(cur);
+				(meshlist)[i].push_back(cur);
 			}
 			unsigned int indices = readInt(&in);
-			(*indexlist).push_back(std::vector<unsigned int>());
+			(indexlist).push_back(std::vector<unsigned int>());
 			for (int j = 0; j < indices; j++) {
 				for (int k = 0; k < 3; k++) {
-					(*indexlist)[i].push_back(readInt(&in));
+					(indexlist)[i].push_back(readInt(&in));
 				}
 			}
 		}
 
-		std::cout << "c\n";
-		BMWNode* root = readNode(&in, nodeIDs);
-		std::cout << "REAL " << root << " \n";
+		BMWNode* root = readNode(&in, &nodeIDs);
 
-		m_stored[file].texlist = texlist;
-		m_stored[file].meshlist = meshlist;
-		m_stored[file].indexlist = indexlist;
+		m_stored[file].texlist = std::vector<std::string>(texlist);
+		m_stored[file].meshlist = std::vector<std::vector<Vertex>>(meshlist);
+		m_stored[file].indexlist = std::vector<std::vector<unsigned int>>(indexlist);
 		m_stored[file].root = root;
-		m_stored[file].nodeIDs = nodeIDs;
-		m_stored[file].boneWeights = boneWeights;
-		m_stored[file].animlist = animlist;
-		m_stored[file].animations = animations;
+		m_stored[file].nodeIDs = std::map<int, BMWNode*>(nodeIDs);
+		m_stored[file].boneWeights = std::map<int, std::vector<std::pair<int, float>>>(boneWeights);
+		m_stored[file].animlist = std::vector<BMWAnim*>(animlist);
+		m_stored[file].animations = std::map<std::string, BMWAnimSegment*>(animations);
 		m_stored[file].defaultAnim = defaultAnim;
+
+		std::cout << "storing " << &meshlist << "\n";
+		std::cout << "stored " << &m_stored[file].meshlist << "\n";
 
 		return root;
 	}

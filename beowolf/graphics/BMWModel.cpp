@@ -11,9 +11,8 @@ namespace wolf
 {
 	BMWModel::BMWModel(std::string file, std::string vertexShader, std::string pixelShader)
 	{
-		std::cout << "A\n";
-		m_rootNode = BMWLoader::getInstance().loadFile(file, &m_textures, &m_vertices, &m_indices, &m_nodeIDs, &m_boneWeights, &m_anims, &m_animFrames, m_defaultAnimation);
-		std::cout << "B " << m_rootNode << "\n";
+		m_rootNode = BMWLoader::getInstance().loadFile(file, m_textures, m_vertices, m_indices, m_nodeIDs, m_boneWeights, m_anims, m_animFrames, m_defaultAnimation);
+		std::cout << "taking " << &m_vertices << " " << m_vertices.size() << "\n";
 
 		m_hasAnimations = m_animFrames.size() > 0;
 		if (m_hasAnimations) {
@@ -64,15 +63,12 @@ namespace wolf
 			m_meshes.push_back(current);
 		}
 
-		std::cout << "===\n";
 		std::stack<BMWNode*> nodes;
 		nodes.push(m_rootNode);
 		while (!nodes.empty()) {
 			{
 				BMWNode* current = nodes.top();
 				nodes.pop();
-
-				std::cout << current << " " << current->meshNum << "\n";
 
 				for (int i = 0; i < current->children.size(); i++) {
 					nodes.push(current->children[i]);
