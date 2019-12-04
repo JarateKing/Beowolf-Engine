@@ -43,6 +43,10 @@ void BaseScene::Init()
 {
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	// auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable_uv");
+	// test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("myskeleton.bmw"), shaders.first, shaders.second);
+	// test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 20.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.1, 0.1, 0.1)));
   
 	auto shaders = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
 	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("Fir_Tree.bmw"), shaders.first, shaders.second);
@@ -51,7 +55,6 @@ void BaseScene::Init()
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
-
 	grid = new HexGrid(5, 5, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
 	selector = new HexSelector(5.0f);
 	hexPos.SetGrid(grid);
@@ -82,6 +85,8 @@ void BaseScene::Update()
 		test->setAnim("attack2");
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
 		test->setAnim("attack3");
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_V))
+		test->setAnim("poo");
 
 	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	std::vector<float> heights = grid->GetHeights();

@@ -34,10 +34,7 @@ Emitter::Emitter(int max, float duration, float rate, std::string texture)
 
 	g_pDecl = new wolf::VertexDeclaration();
 	g_pDecl->Begin();
-	g_pDecl->AppendAttribute(wolf::AT_Position, 3, wolf::CT_Float);
-	g_pDecl->AppendAttribute(wolf::AT_Color, 4, wolf::CT_UByte);
-	g_pDecl->AppendAttribute(wolf::AT_TexCoord1, 2, wolf::CT_Float);
-	g_pDecl->AppendAttribute(wolf::AT_Normal, 3, wolf::CT_Float);
+	wolf::Vertex::applyAttributes(g_pDecl);
 	g_pDecl->SetVertexBuffer(g_pVB);
 	g_pDecl->End();
 }
@@ -103,10 +100,7 @@ void Emitter::Update(float delta, glm::mat3 view)
 	delete g_pDecl;
 	g_pDecl = new wolf::VertexDeclaration();
 	g_pDecl->Begin();
-	g_pDecl->AppendAttribute(wolf::AT_Position, 3, wolf::CT_Float);
-	g_pDecl->AppendAttribute(wolf::AT_Color, 4, wolf::CT_UByte);
-	g_pDecl->AppendAttribute(wolf::AT_TexCoord1, 2, wolf::CT_Float);
-	g_pDecl->AppendAttribute(wolf::AT_Normal, 3, wolf::CT_Float);
+	wolf::Vertex::applyAttributes(g_pDecl);
 	g_pDecl->SetVertexBuffer(g_pVB);
 	g_pDecl->End();
 }
