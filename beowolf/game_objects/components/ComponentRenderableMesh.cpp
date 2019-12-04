@@ -77,7 +77,7 @@ Common::ComponentBase* ComponentRenderableMesh::CreateComponent(json p_node)
 {
 	ComponentRenderableMesh* component = new ComponentRenderableMesh();
 	size_t it_h = 0;
-	auto& gameObjects = p_node["GameObject"];
+	auto& gameObjects = p_node;
 
 	for (auto& gameObject : gameObjects)
 	{

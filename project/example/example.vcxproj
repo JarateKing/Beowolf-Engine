@@ -102,7 +102,6 @@
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentDestroyOnCollision.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentFollow.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentGun.cpp" />
-    <ClCompile Include="..\..\beowolf\game_objects\components\ComponentHexMovementController.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentHexPos.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentLifespan.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentLookat.cpp" />
@@ -343,7 +342,6 @@
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentDestroyOnCollision.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentFollow.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentGun.h" />
-    <ClInclude Include="..\..\beowolf\game_objects\components\ComponentHexMovementController.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentHexPos.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentLifespan.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentLookat.h" />

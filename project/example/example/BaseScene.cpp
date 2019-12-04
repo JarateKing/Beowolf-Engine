@@ -17,6 +17,7 @@
 #include "W_ResourceLoader.h"
 #include "camera/HexSelector.h"
 #include "ComponentHexPos.h"
+#include "AIPathfinder.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -28,9 +29,11 @@ static HexSelector* selector;
 wolf::BMWModel* test;
 week2::ComponentHexPos hexPos;
 std::vector<int> testMove;
+//week9::AIPathfinder* pathFinder;
 
 BaseScene::BaseScene()
 {
+	//pathFinder->CreateInstance();
 }
 
 void BaseScene::Init()
@@ -45,7 +48,7 @@ void BaseScene::Init()
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
-	grid = new HexGrid(20, 20, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+	grid = new HexGrid(5, 5, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
 	selector = new HexSelector(5.0f);
 	hexPos.SetGrid(grid);
 	testMove.push_back(1);
@@ -58,6 +61,8 @@ void BaseScene::Init()
 	testMove.push_back(2);
 	testMove.push_back(1);
 	testMove.push_back(2);
+
+	//pathFinder->Instance()->Load("resources/objects/AIPathfindingDataTest.json");
 }
 
 void BaseScene::Update()
@@ -70,6 +75,7 @@ void BaseScene::Update()
 	if (!(target < 0))
 	{
 		selector->Update(target, positions.at(target), heights.at(target));
+		grid->Update(target, delta);
 	}
 	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))

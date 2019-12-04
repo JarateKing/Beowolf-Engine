@@ -10,6 +10,7 @@
 #include "W_ProgramManager.h"
 #include "W_Texture.h"
 #include "W_TextureManager.h"
+#include "AIPathfinder.h"
 
 class HexGrid
 {
@@ -20,6 +21,7 @@ public:
 	void Render(glm::mat4 projView);
 	std::vector<float> GetHeights();
 	std::vector<glm::vec2> GetPos();
+	void Update(int target, float delta);
 
 private:
 	void GenerateLoc(int width, int length, float tileWidth);
@@ -27,9 +29,12 @@ private:
 	void GenerateVerts(float tileWidth, float toEdge);
 	void SmoothFullHeights(int width, int numTimes);
 	void GroupTextures(int width);
+	void GenerateHexJSON(int width, int length);
+	
 
 	float minH, maxH;
 
+	week9::AIPathfinder* pathFinder;
 	wolf::Texture* pTex;
 	wolf::Texture* pTex2;
 	wolf::BMWModel* test;
@@ -39,6 +44,8 @@ private:
 	std::vector<int> mountains;
 	std::vector<int> desert;
 	std::vector<int> grass;
+
+	std::vector<int> workables;
 
 	std::vector<glm::vec2> positions;
 	std::vector<float> heights;
@@ -50,6 +57,11 @@ private:
 	wolf::VertexBuffer* g_pVB;
 	wolf::VertexDeclaration* g_pDecl;
 	wolf::Program* g_dProgram;
+	
+	bool targeting = false;
+	int targetingT = -1;
+	int abstractTarget = -1;
+	float timeBetween = 1.0f;
 };
 
 #endif
