@@ -1,0 +1,78 @@
+{
+	"defaultAnim": "idle",
+	
+	"textureOverrides" : [
+		{
+			"texture": "myskeleton.dds"
+		}
+	],
+	
+	"clips" : [
+		{
+			"name": "idle",
+			"start": 1422,
+			"end": 1479,
+			"loop": true
+		},
+		{
+			"name": "walk",
+			"start": 408,
+			"end": 470,
+			"loop": true
+		},
+		{
+			"name": "attack",
+			"start": 1483,
+			"end": 1548,
+			"loop": false
+		},
+		{
+			"name": "attack2",
+			"start": 1552,
+			"end": 1622,
+			"loop": false
+		},
+		{
+			"name": "attack3",
+			"start": 1626,
+			"end": 1696,
+			"loop": false
+		},
+		{
+			"name": "leap",
+			"start": 1036,
+			"end": 1037,
+			"loop": true
+		},
+		{
+			"name": "spawn",
+			"start": 937,
+			"end": 1009,
+			"loop": false
+		},
+		{
+			"name": "defeat",
+			"start": 827,
+			"end": 936,
+			"loop": true
+		},
+		{
+			"name": "victory",
+			"start": 762,
+			"end": 827,
+			"loop": true
+		},
+		{
+			"name": "summon",
+			"start": 676,
+			"end": 761,
+			"loop": false
+		},
+		{
+			"name": "death",
+			"start": 613,
+			"end": 683,
+			"loop": true
+		}
+	]
+}

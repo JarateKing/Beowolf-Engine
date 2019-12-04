@@ -1,5 +1,7 @@
 #version 150
 
+uniform sampler2D tex;
+
 //uniform sampler2D texture1;
 //uniform sampler2D texture2;
 //uniform float fade;
@@ -33,5 +35,6 @@ void main()
 	//vec4 light = clamp(ambient + diffuse + specular, 0, 1);
 
     //PixelColor = texture(texture1, v_uv1) * vec4( light.rgb, 1.0);
-	PixelColor = vec4(v_uv1[0], v_uv1[1], 1.0, 1.0);
+	PixelColor = texture(tex, v_uv1);
+	//PixelColor = vec4(v_uv1[0], v_uv1[1], 1.0, 1.0);
 }

@@ -21,6 +21,15 @@ namespace wolf
 		return (name.substr(std::max(0, (int)(name.length()) - 4)) != ".dds") ? FALLBACK_TEXTURE_TGA : FALLBACK_TEXTURE_DDS;
 	}
 
+	std::string ResourceLoader::getModelTexture(std::string name) {
+		std::string filename = "resources/models/" + name;
+		if (checkFileExists(filename))
+			return filename;
+
+		std::cout << "Failed to find texture " << name << "\n";
+		return (name.substr(std::max(0, (int)(name.length()) - 4)) != ".dds") ? FALLBACK_TEXTURE_TGA : FALLBACK_TEXTURE_DDS;
+	}
+
 	std::pair<std::string, std::string> ResourceLoader::getShaders(std::string name) {
 		return { getVertexShader(name + ".vsh"), getPixelShader(name + ".fsh") };
 	}
