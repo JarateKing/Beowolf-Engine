@@ -225,7 +225,7 @@ void Program::SetUniform(const char* p_strName, const glm::mat4* p_m, int p_uiNu
 	int iLoc = glGetUniformLocation(m_uiProgram,p_strName);
 	if( iLoc == -1 )
 	{
-		printf("WARNING: Unknown uniform %s\n", p_strName);
+		//printf("WARNING: Unknown uniform %s\n", p_strName);
 		return;
 	}
 	glUniformMatrix4fv(iLoc, p_uiNumMatrices, GL_FALSE, glm::value_ptr(*p_m));
@@ -239,7 +239,7 @@ void Program::SetUniform(const char* p_strName, const glm::mat3* p_m, int p_uiNu
 	int iLoc = glGetUniformLocation(m_uiProgram,p_strName);
 	if( iLoc == -1 )
 	{
-		printf("WARNING: Unknown uniform %s\n", p_strName);
+		//printf("WARNING: Unknown uniform %s\n", p_strName);
 		return;
 	}
 	glUniformMatrix3fv(iLoc, p_uiNumMatrices, GL_FALSE, glm::value_ptr(*p_m));

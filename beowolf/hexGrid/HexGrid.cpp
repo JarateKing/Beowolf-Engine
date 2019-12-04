@@ -1,15 +1,22 @@
 #include "HexGrid.h"
 #include "W_RNG.h"
 #include "W_ResourceLoader.h"
+#include "W_Input.h"
+#include <fstream>
+#include <string>
+
 
 HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile)
 {
+	pathFinder->CreateInstance();
 	minH = minHeight;
 	maxH = maxHeight;
 
 	GenerateHeights(width, length, minHeight, maxHeight);
 	SmoothFullHeights(width, 3);
 	GenerateLoc(width, length, tileWidth);
+	GenerateHexJSON(width, length);
+	pathFinder->Instance()->Load("resources/objects/AIPathfindingDataTest.json");
 
 	int treeNum = wolf::RNG::GetRandom(0, (positions.size() - mountains.size() - desert.size() - roads.size()) / 2);
 	std::vector<int> treePos;
@@ -27,14 +34,33 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 		}
 	}
 
-	for (int i = 0; i < treeNum; i++)
+	int rnd;
+	std::string model;
+	/*for (int i = 0; i < treeNum; i++)
 	{
 		auto shaders = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
-		test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("tree.bmw"), shaders.first, shaders.second);
-		float setScale = wolf::RNG::GetRandom(1.0f, 3.0f);
+		rnd = wolf::RNG::GetRandom(0, 3);
+		switch (rnd) {
+
+		case 0:
+			model = "Fir_Tree.bmw";
+			break;
+		case 1:
+			model = "Oak_Tree.bmw";
+			break;
+		case 2:
+			model = "Palm_Tree.bmw";
+			break;
+		case 3:
+			model = "Poplar_Tree.bmw";
+			break;
+		}
+
+		test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(model), shaders.first, shaders.second);
+		float setScale = wolf::RNG::GetRandom(0.01f, 0.02f);
 		test->setTransform(glm::translate(glm::vec3(positions.at(treePos.at(i)).x, heights.at(treePos.at(i)), positions.at(treePos.at(i)).y)) * glm::rotate(180.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(setScale, setScale, setScale)));
 		trees.push_back(test);
-	}
+	}*/
 
 	// set up rendering
 	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("hex"));
@@ -54,7 +80,6 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	pTex = wolf::TextureManager::CreateTexture(texFile);
 	pTex->SetFilterMode(wolf::Texture::FM_LinearMipmap, wolf::Texture::FM_Linear);
 	pTex->SetWrapMode(wolf::Texture::WM_Repeat);
-	pTex->Bind();
 }
 
 HexGrid::~HexGrid()
@@ -687,7 +712,7 @@ void HexGrid::Render(glm::mat4 projview)
 	// Draw!
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
-	for (int i = 0; i < trees.size(); i++)
+	/*for (int i = 0; i < trees.size(); i++)
 	{
 		glDepthMask(true);
 		glDisable(GL_BLEND);
@@ -699,8 +724,7 @@ void HexGrid::Render(glm::mat4 projview)
 		glDepthMask(false);
 		glEnable(GL_BLEND);
 		trees.at(i)->render(projview, glm::mat4(), true);
-
-	}
+	}*/
 }
 
 std::vector<float> HexGrid::GetHeights()
@@ -711,4 +735,129 @@ std::vector<float> HexGrid::GetHeights()
 std::vector<glm::vec2> HexGrid::GetPos()
 {
 	return positions;
+}
+
+void HexGrid::GenerateHexJSON(int width, int length)
+{
+	std::ofstream outputFile;
+	outputFile.open("resources/objects/AIPathfindingDataTest.json", std::ofstream::out | std::ofstream::trunc);
+	outputFile << "{\"Paths\":{\"Nodes\":[\n";
+
+	std::string currAdd = "";
+
+	for (int i = 0; i < positions.size(); i++)
+	{
+		if (std::find(mountains.begin(), mountains.end(), i) == mountains.end())
+		{
+			workables.push_back(i);
+		}
+	}
+
+	for (int i = 0; i < workables.size(); i++)
+	{
+		if (i < workables.size() -1)
+		{
+			outputFile << "{\"ID\":\"" << i << "\",\"X\":\"" << positions.at(workables.at(i)).x << "\",\"Y\":\"0\",\"Z\":\"" << positions.at(workables.at(i)).y << "\"},\n";
+		}
+		else if (i == workables.size()-1)
+		{
+			outputFile << "{\"ID\":\"" << i << "\",\"X\":\"" << positions.at(workables.at(i)).x << "\",\"Y\":\"0\",\"Z\":\"" << positions.at(workables.at(i)).y << "\"}],\n\"Arcs\":[\n";
+		}
+	}
+
+	for (int i = 0; i < workables.size(); i++)
+	{
+		if (((int)(i + 1) / (int)width == (int)i / (int)width) && ((i + 1) < workables.size()) && std::find(mountains.begin(), mountains.end(), (i + 1)) == mountains.end())
+		{
+			//to the right
+			//outputFile << "{\"start\":\"" << i << "\",\"end\":\"" << (i + 1) << "\"},\n";
+			currAdd = currAdd + "{\"start\":\"" + std::to_string(i) + "\",\"end\":\"" + std::to_string(i + 1) + "\"},\n";
+		}
+
+		if (((((int)(i + width - 1) / (int)(width)) - 1) == (int)i / (int)width) && ((i + width - 1) < workables.size()) && std::find(mountains.begin(), mountains.end(), (i + 1)) == mountains.end())
+		{
+			//bottom left
+			//outputFile << "{\"start\":\"" << i << "\",\"end\":\"" << (i + width - 1) << "\"},\n";
+			currAdd = currAdd + "{\"start\":\"" + std::to_string(i) + "\",\"end\":\"" + std::to_string(i + width - 1) + "\"},\n";
+		}
+
+		if (((((int)(i + width) / (int)(width)) - 1) == (int)i / (int)width) && ((i + width) < workables.size()) && std::find(mountains.begin(), mountains.end(), (i + 1)) == mountains.end())
+		{
+			//bottom right
+			//outputFile << "{\"start\":\"" << i << "\",\"end\":\"" << (i + width) << "\"},\n";
+			currAdd = currAdd + "{\"start\":\"" + std::to_string(i) + "\",\"end\":\"" + std::to_string(i + width) + "\"},\n";
+		}
+	}
+
+	currAdd.pop_back();
+	currAdd.pop_back();
+	outputFile << currAdd;
+	outputFile << "]}}";
+
+}
+
+void HexGrid::Update(int target, float delta)
+{
+	abstractTarget = target;
+
+	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == false && timeBetween >= 1.0f)
+	{
+		//std::cout << "Updating" << std::endl;
+		targeting = true;
+		targetingT = target;
+		timeBetween = 0.0f;
+	}
+
+	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == true && timeBetween >= 1.0f)
+	{
+		//std::cout << "Updating" << std::endl;
+		targeting = false;
+		targetingT = -1;
+		timeBetween = 0.0f;
+	}
+
+	if (targeting)
+	{
+		std::list<glm::vec3> path = pathFinder->Instance()->FindPath(glm::vec3(positions.at(targetingT).x, 0.0f, positions.at(targetingT).y), glm::vec3(positions.at(target).x, 0.0f, positions.at(target).y));
+		std::vector<glm::vec3> pathway;
+
+		for (int i = 0; i < path.size(); i++)
+		{
+			pathway.push_back(path.front());
+			path.pop_front();
+		}
+
+		std::vector<int> tiles;
+		for (int i = 0; i < pathway.size(); i++)
+		{
+			for (int j = 0; j < positions.size(); j++)
+			{
+				if (positions.at(j).x == pathway.at(i).x && positions.at(j).y == pathway.at(i).z)
+				{
+					std::cout << "ADDDDDDIIINNGGG" << std::endl;
+					tiles.push_back(j);
+				}
+			}
+		}
+		//std::cout << pathway.size() << ", " << tiles.size() << std::endl;
+		/*std::cout << "Pathway: ";
+		for (int i = 0; i < pathway.size(); i++)
+		{
+			std::cout << pathway.at(i).x << ", " << pathway.at(i).z << std::endl;
+		}*/
+		
+		
+		std::cout << "Pathway: ";
+		for (int i = 0; i < tiles.size(); i++)
+		{
+			std::cout << tiles.at(i) << ", ";
+		}
+		std::cout << std::endl;
+		
+		timeBetween += delta;
+	}
+	else
+	{
+		timeBetween += delta;
+	}
 }

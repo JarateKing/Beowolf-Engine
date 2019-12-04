@@ -10,6 +10,8 @@
 #include "AIPathfinder.h"
 #include "ComponentRenderableMesh.h"
 #include "W_ResourceLoader.h"
+#include <iostream>
+#include <fstream>
 #if defined(_WIN32)
 #include "windows.h"
 #else
@@ -107,6 +109,55 @@ AIPathfinder::~AIPathfinder()
 //------------------------------------------------------------------------------
 bool AIPathfinder::Load(const char* p_strPathfindingData)
 {
+	std::ifstream inFile(p_strPathfindingData);
+
+	json p_path = json::parse(inFile);
+
+	size_t it_h = 0;
+
+	auto& nodes = p_path["Paths"]["Nodes"];
+
+	for (auto& node : nodes)
+	{
+		std::string IDStr = node["ID"];
+		std::string xstr = node["X"];
+		std::string ystr = node["Y"];
+		std::string zstr = node["Z"];
+
+		int idx = std::stoi(IDStr);
+		float x = std::stof(xstr);
+		float y = std::stof(ystr);
+		float z = std::stof(zstr);
+
+		//std::cout << idx << ": " << x << ", " << y << ", " << z << std::endl;
+
+		// Add the node to our list
+		PathNode* pNode = new PathNode();
+		pNode->m_vPosition = glm::vec3(x, y, z);
+		m_lPathNodes.push_back(pNode);
+		//assert(idx == (m_lPathNodes.size() - 1));
+	}
+
+	auto& arcs = p_path["Paths"]["Arcs"];
+	for (auto& arc : arcs)
+	{
+		std::string startN = arc["start"];
+		std::string endN = arc["end"];
+			
+		int start = std::stoi(startN);
+		int end = std::stoi(endN);
+
+		//std::cout << start << ", " << end << std::endl;
+
+		//assert(start >= 0 && start < m_lPathNodes.size());
+		//assert(end >= 0 && end < m_lPathNodes.size());
+
+		PathNode* pNode1 = m_lPathNodes[start];
+		PathNode* pNode2 = m_lPathNodes[end];
+		pNode1->m_lNeighbourNodes.push_back(pNode2);
+		pNode2->m_lNeighbourNodes.push_back(pNode1);
+	}
+/*
 	// Load the path finding document
 	TiXmlDocument doc(p_strPathfindingData);
 	if (doc.LoadFile() == false)
@@ -180,7 +231,7 @@ bool AIPathfinder::Load(const char* p_strPathfindingData)
 		// Next arc
 		pPath = pPath->NextSibling();
 	}
-
+	*/
 	// Initialized successfully
 	return true;
 }
