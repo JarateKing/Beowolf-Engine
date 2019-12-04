@@ -103,6 +103,7 @@ void BaseScene::Update()
 	glm::vec3 old = hexPos.GetPos();
 	hexPos.Update(delta);
 	glm::vec3 dif = hexPos.GetPos() - old;
+	dif.y = 0;
 	float dir = RAD2DEG * glm::dot(glm::normalize(dif), glm::vec3(1.0, 0.0, 0.0));
 
 	test->setTransform(glm::translate(hexPos.GetPos()) * glm::rotate(dir, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.1, 0.1, 0.1)));
