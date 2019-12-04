@@ -43,22 +43,22 @@ namespace wolf
 
 		void renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, unsigned int meshID);
 
-		std::vector<std::string> m_textures;
-		std::vector<std::vector<Vertex>> m_vertices;
-		std::vector<std::vector<unsigned int>> m_indices;
+		std::vector<std::string>* m_textures;
+		std::vector<std::vector<Vertex>>* m_vertices;
+		std::vector<std::vector<unsigned int>>* m_indices;
 		std::vector<Mesh> m_meshes;
-		std::vector<Material*> m_materials;
-		std::map<int, BMWNode*> m_nodeIDs;
-		std::map<int, std::vector<std::pair<int, float>>> m_boneWeights;
-		std::vector<BMWAnim*> m_anims;
-		std::map<std::string, BMWAnimSegment*> m_animFrames;
+		std::vector<Material*>* m_materials;
+		std::map<int, BMWNode*>* m_nodeIDs;
+		std::map<int, std::vector<std::pair<int, float>>>* m_boneWeights;
+		std::vector<BMWAnim*>* m_anims;
+		std::map<std::string, BMWAnimSegment*>* m_animFrames;
 		glm::mat4 transform;
 		BMWAnimSegment* m_currentAnimation;
-		std::string m_defaultAnimation;
+		std::string* m_defaultAnimation;
 		glm::mat4 m_boneMatrix[64];
 		bool m_hasAnimations;
 		float m_animationFrame;
-		BMWNode m_rootNode;
+		BMWNode* m_rootNode;
 		std::vector<NodeMesh> m_toRender;
 	};
 }

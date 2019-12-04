@@ -41,12 +41,12 @@ void BaseScene::Init()
 
 	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable");
 	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("myskeleton.bmw"), shaders.first, shaders.second);
-	test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 0.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.1, 0.1, 0.1)));
+	test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 20.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.1, 0.1, 0.1)));
 
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
-	grid = new HexGrid(20, 20, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+	grid = new HexGrid(25, 25, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
 	selector = new HexSelector(5.0f);
 }
 
@@ -56,7 +56,7 @@ void BaseScene::Update()
 	cam->Update(delta);
 
 	test->update(delta);
-
+	
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_B))
 		test->setAnim("attack");
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_N))

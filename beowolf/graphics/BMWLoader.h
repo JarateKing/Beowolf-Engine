@@ -3,6 +3,7 @@
 #include <map>
 #include <fstream>
 #include <string>
+#include <iostream>
 
 namespace wolf
 {
@@ -10,7 +11,7 @@ namespace wolf
 		glm::mat4 transform;
 		unsigned int meshNum;
 		unsigned int* meshIDs;
-		std::vector<BMWNode> children;
+		std::vector<BMWNode*> children;
 	};
 
 	struct BMWAnim {
@@ -27,6 +28,18 @@ namespace wolf
 		bool isLoop;
 	};
 
+	struct BMWModeLData {
+		std::vector<std::string> texlist;
+		std::vector<std::vector<Vertex>> meshlist;
+		std::vector<std::vector<unsigned int>> indexlist;
+		BMWNode* root;
+		std::map<int, BMWNode*> nodeIDs;
+		std::map<int, std::vector<std::pair<int, float>>> boneWeights;
+		std::vector<BMWAnim*> animlist;
+		std::map<std::string, BMWAnimSegment*> animations;
+		std::string defaultAnim;
+	};
+
 	class BMWLoader
 	{
 	public:
@@ -36,7 +49,7 @@ namespace wolf
 			return instance;
 		}
 
-		void BMWLoader::loadFile(std::string file, std::vector<std::string>* texlist, std::vector<std::vector<Vertex>>* meshlist, std::vector<std::vector<unsigned int>>* indexlist, BMWNode* root, std::map<int, BMWNode*>* nodeIDs, std::map<int, std::vector<std::pair<int, float>>>* boneWeights, std::vector<BMWAnim*>* animlist, std::map<std::string, BMWAnimSegment*>* animations, std::string& defaultAnim);
+		BMWModeLData* loadFile(std::string file);
 
 	private:
 		BMWLoader() {}
@@ -44,7 +57,9 @@ namespace wolf
 		unsigned int readInt(std::ifstream* in);
 		float readFloat(std::ifstream* in);
 		glm::mat4 readTransform(std::ifstream* in);
-		BMWNode readNode(std::ifstream* in, std::map<int, BMWNode*>* nodeIDs);
+		BMWNode* readNode(std::ifstream* in, std::map<int, BMWNode*>* nodeIDs);
+
+		std::map<std::string, BMWModeLData> m_stored;
 
 	public:
 		BMWLoader(BMWLoader const&) = delete;
