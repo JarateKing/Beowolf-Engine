@@ -46,7 +46,7 @@ void BaseScene::Init()
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
-	grid = new HexGrid(25, 25, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+	grid = new HexGrid(30, 30, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
 	selector = new HexSelector(5.0f);
 }
 
@@ -63,6 +63,8 @@ void BaseScene::Update()
 		test->setAnim("attack2");
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
 		test->setAnim("attack3");
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_V))
+		test->setAnim("poo");
 
 	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	std::vector<float> heights = grid->GetHeights();
