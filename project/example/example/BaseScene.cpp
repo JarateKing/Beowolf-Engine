@@ -21,6 +21,7 @@
 #include "camera/HexSelector.h"
 #include "ComponentHexPos.h"
 #include "AIPathfinder.h"
+#include <cmath>
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -105,7 +106,8 @@ void BaseScene::Update()
 	hexPos.Update(delta);
 	glm::vec3 dif = hexPos.GetPos() - old;
 	dif.y = 0;
-	float dir = RAD2DEG * glm::dot(glm::normalize(dif), glm::vec3(1.0, 0.0, 0.0));
+	dif = glm::normalize(dif);
+	float dir = atan2(dif.x, dif.z) * RAD2DEG;
 
 	test->setTransform(glm::translate(hexPos.GetPos()) * glm::rotate(dir, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.1, 0.1, 0.1)));
 }
