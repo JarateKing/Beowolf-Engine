@@ -75,19 +75,51 @@ namespace wolf
 
 		Vertex operator +(const Vertex other)
 		{
-			return { x + other.x,
-					 y + other.y,
-					 z + other.z,
-					 (GLubyte)(r + other.r),
-					 (GLubyte)(g + other.g),
-					 (GLubyte)(b + other.b),
-					 (GLubyte)(a + other.a),
-					 u + other.u,
-					 v + other.v
+			return {
+				x + other.x,
+				y + other.y,
+				z + other.z,
+				(GLubyte)(r + other.r),
+				(GLubyte)(g + other.g),
+				(GLubyte)(b + other.b),
+				(GLubyte)(a + other.a),
+				u + other.u,
+				v + other.v
 			};
 		}
 
-		static void applyAttributes(VertexDeclaration* decl) {
+		Vertex operator -(const Vertex other)
+		{
+			return {
+				x - other.x,
+				y - other.y,
+				z - other.z,
+				(GLubyte)(r - other.r),
+				(GLubyte)(g - other.g),
+				(GLubyte)(b - other.b),
+				(GLubyte)(a - other.a),
+				u - other.u,
+				v - other.v
+			};
+		}
+
+		Vertex operator *(const Vertex other)
+		{
+			return {
+				x * other.x,
+				y * other.y,
+				z * other.z,
+				(GLubyte)(r * other.r),
+				(GLubyte)(g * other.g),
+				(GLubyte)(b * other.b),
+				(GLubyte)(a * other.a),
+				u * other.u,
+				v * other.v
+			};
+		}
+
+		static void applyAttributes(VertexDeclaration* decl)
+		{
 			decl->AppendAttribute(AT_Position, 3, CT_Float);
 			decl->AppendAttribute(AT_Color, 4, CT_UByte);
 			decl->AppendAttribute(AT_TexCoord1, 2, CT_Float);
