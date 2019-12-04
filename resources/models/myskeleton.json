@@ -1,6 +1,12 @@
 {
 	"defaultAnim": "idle",
 	
+	"textureOverrides" : [
+		{
+			"texture": "myskeleton.dds"
+		}
+	],
+	
 	"clips" : [
 		{
 			"name": "idle",
