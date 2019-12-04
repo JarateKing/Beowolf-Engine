@@ -42,12 +42,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 
 	g_pDecl = new wolf::VertexDeclaration();
 	g_pDecl->Begin();
-	g_pDecl->AppendAttribute(wolf::AT_Position, 3, wolf::CT_Float);
-	g_pDecl->AppendAttribute(wolf::AT_Color, 4, wolf::CT_UByte);
-	g_pDecl->AppendAttribute(wolf::AT_TexCoord1, 2, wolf::CT_Float);
-	g_pDecl->AppendAttribute(wolf::AT_Normal, 3, wolf::CT_Float);
-	g_pDecl->AppendAttribute(wolf::AT_BoneIndices, 4, wolf::CT_Float);
-	g_pDecl->AppendAttribute(wolf::AT_BoneWeight, 4, wolf::CT_Float);
+	wolf::Vertex::applyAttributes(g_pDecl);
 	g_pDecl->SetVertexBuffer(g_pVB);
 	g_pDecl->End();
 
