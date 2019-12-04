@@ -150,5 +150,11 @@ namespace wolf
 			m_currentAnimation = (*m_animFrames)[name];
 			m_animationFrame = m_currentAnimation->start;
 		}
+		else if (m_hasAnimations) {
+			std::cout << "Attempted setting \"" << name << "\" animation, but does not exist!\n";
+		}
+		else {
+			std::cout << "Attempted setting \"" << name << "\" animation, but animations not supported on this model!\n";
+		}
 	}
 }
