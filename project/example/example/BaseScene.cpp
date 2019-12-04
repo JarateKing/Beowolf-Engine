@@ -98,6 +98,7 @@ void BaseScene::Update()
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
 	{
 		hexPos.Move(testMove, 20.0f);
+		test->setAnim("walk");
 	}
 
 	glm::vec3 old = hexPos.GetPos();
