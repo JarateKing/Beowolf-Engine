@@ -500,7 +500,7 @@ void HexGrid::GroupTextures(int width)
 
 		while (found)
 		{
-			start = wolf::RNG::GetRandom(0, positions.size());
+			start = wolf::RNG::GetRandom(0, positions.size() - 1);
 			if (std::find(roads.begin(), roads.end(), start) == roads.end())
 				found = false;
 		}
