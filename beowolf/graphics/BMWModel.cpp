@@ -4,7 +4,6 @@
 #include <stack>
 #include "W_BufferManager.h"
 #include "W_Input.h"
-#include "W_Time.h"
 #include "W_Math.h"
 #include "W_ResourceLoader.h"
 
@@ -93,7 +92,18 @@ namespace wolf
 
 	void BMWModel::update(float delta)
 	{
+		if (m_hasAnimations) {
+			m_animationFrame += delta * (*m_anims)[0]->rate;
 
+			if (m_animationFrame >= m_currentAnimation->end && !m_currentAnimation->isLoop)
+				setAnim(*m_defaultAnimation);
+
+			m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
+
+			for (auto it : (*m_anims)[0]->transforms) {
+				m_boneMatrix[it.first] = it.second[m_animationFrame];
+			}
+		}
 	}
 
 	void BMWModel::render(glm::mat4 view, glm::mat4 proj, bool renderAlphas)
@@ -111,20 +121,6 @@ namespace wolf
 
 		if (m_meshes[meshID].m_pTex != NULL)
 			m_meshes[meshID].m_pTex->Bind();
-
-		if (m_hasAnimations) {
-			m_animationFrame += wolf::Time::Instance().deltaTime() * (*m_anims)[0]->rate;
-
-			if (m_animationFrame >= m_currentAnimation->end && !m_currentAnimation->isLoop)
-				setAnim(*m_defaultAnimation);
-
-			m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
-
-			// set up bone matrix
-			for (auto it : (*m_anims)[0]->transforms) {
-				m_boneMatrix[it.first] = it.second[m_animationFrame];
-			}
-		}
 
 		m_meshes[meshID].m_pProg->Bind();
 		m_meshes[meshID].m_pProg->SetUniform("projection", proj);
