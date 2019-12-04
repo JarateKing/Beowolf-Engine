@@ -9,6 +9,7 @@
 
 #include "W_Types.h"
 #include <string>
+#include "W_VertexDeclaration.h"
 
 #ifdef DEBUG
 #define GL_CHECK_ERROR() { GLenum e = glGetError(); if( e != GL_NO_ERROR ) { printf("GL ERROR: %x\n", e); } }
@@ -84,6 +85,15 @@ namespace wolf
 					 u + other.u,
 					 v + other.v
 			};
+		}
+
+		static void applyAttributes(VertexDeclaration* decl) {
+			decl->AppendAttribute(AT_Position, 3, CT_Float);
+			decl->AppendAttribute(AT_Color, 4, CT_UByte);
+			decl->AppendAttribute(AT_TexCoord1, 2, CT_Float);
+			decl->AppendAttribute(AT_Normal, 3, CT_Float);
+			decl->AppendAttribute(AT_BoneIndices, 4, CT_Float);
+			decl->AppendAttribute(AT_BoneWeight, 4, CT_Float);
 		}
 	};
 
