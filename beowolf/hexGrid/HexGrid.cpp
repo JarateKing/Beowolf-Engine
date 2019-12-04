@@ -36,7 +36,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 
 	int rnd;
 	std::string model;
-	/*for (int i = 0; i < treeNum; i++)
+	for (int i = 0; i < treeNum; i++)
 	{
 		auto shaders = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
 		rnd = wolf::RNG::GetRandom(0, 3);
@@ -60,7 +60,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 		float setScale = wolf::RNG::GetRandom(0.01f, 0.02f);
 		test->setTransform(glm::translate(glm::vec3(positions.at(treePos.at(i)).x, heights.at(treePos.at(i)), positions.at(treePos.at(i)).y)) * glm::rotate(180.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(setScale, setScale, setScale)));
 		trees.push_back(test);
-	}*/
+	}
 
 	// set up rendering
 	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("hex"));
@@ -707,7 +707,7 @@ void HexGrid::Render(glm::mat4 projview)
 	// Draw!
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
-	/*for (int i = 0; i < trees.size(); i++)
+	for (int i = 0; i < trees.size(); i++)
 	{
 		glDepthMask(true);
 		glDisable(GL_BLEND);
@@ -719,7 +719,7 @@ void HexGrid::Render(glm::mat4 projview)
 		glDepthMask(false);
 		glEnable(GL_BLEND);
 		trees.at(i)->render(projview, glm::mat4(), true);
-	}*/
+	}
 }
 
 std::vector<float> HexGrid::GetHeights()
