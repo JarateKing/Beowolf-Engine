@@ -1,0 +1,1 @@
+msdfgen.exe -font "%1" 'O' -o "out.png" -size 64 64 -autoframe -testrender "test.png" 1024 1024
