@@ -9,6 +9,13 @@
 !project/rename-project.bat
 !project/ignored-files.txt
 
+# tool specific
+## font_converter
+!tools/font_converter/*.exe
+tools/font_converter/*.ttf
+tools/font_converter/*.tga
+tools/font_converter/*.png
+
 # re-include globally ignored files
 !*.lib
 
