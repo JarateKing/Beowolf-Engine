@@ -1,1 +1,3 @@
-msdfgen.exe -font "%1" 'O' -o "out.png" -size 64 64 -autoframe -testrender "test.png" 1024 1024
+for /F "tokens=*" %%A in (fontsheet.txt) do (
+	msdfgen.exe -font "%1" %%A -o "text_%%A.png" -size 64 64 -autoframe
+)
