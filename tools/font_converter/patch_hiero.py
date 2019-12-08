@@ -24,6 +24,12 @@ with open("fontsheet.txt") as charList:
 		replace = "char id=" + str(n) + " x=" + str(curPos % tilesX * tileSize) + " y=" + str(curPos // tilesX * tileSize)
 		fntFile = re.sub(pattern, replace, fntFile)
 		
+		# may have to set height to 64 for everything
+		# and y offset to 0 along with that
+		# TODO: find way that I don't have to
+		
 		curPos = curPos + 1
 		
 print(fntFile)
+
+# TODO: save modified file
