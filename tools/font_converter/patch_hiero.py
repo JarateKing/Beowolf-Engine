@@ -18,6 +18,7 @@ with open("opensans.fnt") as file:
 	
 fntFile = re.sub("height=\d+", "height=64", fntFile)
 fntFile = re.sub("yoffset=\d+", "yoffset=0", fntFile)
+fntFile = re.sub("scaleW=\d+ scaleH=\d+", "scaleW=" + str(tilesX * tileSize) + " scaleH=" + str(tilesY * tileSize), fntFile)
 
 with open("fontsheet.txt") as charList:
 	for char in charList:
