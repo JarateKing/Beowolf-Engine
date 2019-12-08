@@ -14,5 +14,7 @@ This is a font converter based off of multi-channel signed distance fields that 
 2. Convert font using hiero:
 2. 1. Set Size to 56
 2. 2. Set Rendering to Java
-2. 3. Select File > Save BMFont files (text)...
+2. 3. Increase padding on all axis (by 6 is a good amount)
+2. 4. Decrease offsets by twice as much (-12 if you used 6)
+2. 5. Select File > Save BMFont files (text)...
 3. Run `patch_hiero.py`
