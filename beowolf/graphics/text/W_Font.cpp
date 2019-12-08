@@ -39,7 +39,7 @@ namespace wolf
 		{
 			std::getline(fileReader, line, '\"');
 			std::getline(fileReader, line, '.');
-			m_textures.push_back(dir + line + ".dds");
+			m_textures.push_back(dir + line + ".tga");
 			std::getline(fileReader, line);
 		}
 	
@@ -110,12 +110,12 @@ namespace wolf
 	
 	float Font::GetCharY1(const char& input)
 	{
-		return m_characters[input].y1 / m_srcHeight;
+		return 1.0f - m_characters[input].y1 / m_srcHeight;
 	}
 	
 	float Font::GetCharY2(const char& input)
 	{
-		return (m_characters[input].y1 + m_characters[input].y2) / m_srcHeight;
+		return 1.0f - (m_characters[input].y1 + m_characters[input].y2) / m_srcHeight;
 	}
 	
 	float Font::GetCharXOffset(const char& input)

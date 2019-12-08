@@ -11,7 +11,7 @@ namespace wolf
 {
 	constexpr float DESIRED_width = 1240.0f;
 	constexpr float DESIRED_height = 220.0f;
-	constexpr float FONTSIZE = 0.125f;
+	constexpr float FONTSIZE = 0.3f;
 	
 	static const Vertex squareVertices[] = {
 			{ 0.0f, 0.0f, 1.0f,	1, 1, 1, 1, 0.0f, 0.0f },
