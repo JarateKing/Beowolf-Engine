@@ -9,6 +9,7 @@ import re
 tilesX = 16
 tilesY = 8
 tileSize = 64
+tileXoffset = 5
 
 curPos = 0
 fntFile = ""
@@ -25,7 +26,7 @@ with open("fontsheet.txt") as charList:
 		n = int(char)
 		
 		pattern = "char id=" + str(n) + "\s+x=\d+\s+y=\d+"
-		replace = "char id=" + str(n) + " x=" + str(curPos % tilesX * tileSize) + " y=" + str(curPos // tilesX * tileSize)
+		replace = "char id=" + str(n) + " x=" + str(curPos % tilesX * tileSize + tileXoffset) + " y=" + str(curPos // tilesX * tileSize)
 		fntFile = re.sub(pattern, replace, fntFile)
 		
 		curPos = curPos + 1
