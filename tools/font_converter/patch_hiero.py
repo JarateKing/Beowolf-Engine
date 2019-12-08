@@ -4,17 +4,26 @@
 # while this converter doesn't pack them any
 # so we need to modify its x & y positioning
 
+import re
+
 tilesX = 16
 tilesY = 8
 tileSize = 64
 
 curPos = 0
+fntFile = ""
+
+with open("opensans.fnt") as file:
+	fntFile = file.read()
+
 with open("fontsheet.txt") as charList:
 	for char in charList:
 		n = int(char)
-		print(n)
 		
-		# find the line in the file
-		# replace the line with new xpos / ypos based off curPos
+		pattern = "char id=" + str(n) + "\s+x=\d+\s+y=\d+"
+		replace = "char id=" + str(n) + " x=" + str(curPos % tilesX * tileSize) + " y=" + str(curPos // tilesX * tileSize)
+		fntFile = re.sub(pattern, replace, fntFile)
 		
 		curPos = curPos + 1
+		
+print(fntFile)
