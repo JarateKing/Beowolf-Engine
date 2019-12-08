@@ -10,12 +10,12 @@ import sys
 tilesX = 16
 tilesY = 8
 tileSize = 64
-tileXoffset = 5
+tileXoffset = 1
 
 curPos = 0
 fntFile = ""
 
-with open(sys.argv[1]) as file:
+with open(sys.argv[1], 'r') as file:
 	fntFile = file.read()
 	
 fntFile = re.sub("height=\d+", "height=64", fntFile)
