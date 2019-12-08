@@ -15,6 +15,9 @@ fntFile = ""
 
 with open("opensans.fnt") as file:
 	fntFile = file.read()
+	
+fntFile = re.sub("height=\d+", "height=64", fntFile)
+fntFile = re.sub("yoffset=\d+", "yoffset=0", fntFile)
 
 with open("fontsheet.txt") as charList:
 	for char in charList:
@@ -23,10 +26,6 @@ with open("fontsheet.txt") as charList:
 		pattern = "char id=" + str(n) + "\s+x=\d+\s+y=\d+"
 		replace = "char id=" + str(n) + " x=" + str(curPos % tilesX * tileSize) + " y=" + str(curPos // tilesX * tileSize)
 		fntFile = re.sub(pattern, replace, fntFile)
-		
-		# may have to set height to 64 for everything
-		# and y offset to 0 along with that
-		# TODO: find way that I don't have to
 		
 		curPos = curPos + 1
 		
