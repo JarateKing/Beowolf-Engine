@@ -5,6 +5,7 @@
 # so we need to modify its x & y positioning
 
 import re
+import sys
 
 tilesX = 16
 tilesY = 8
@@ -14,7 +15,7 @@ tileXoffset = 5
 curPos = 0
 fntFile = ""
 
-with open("opensans.fnt") as file:
+with open(sys.argv[1]) as file:
 	fntFile = file.read()
 	
 fntFile = re.sub("height=\d+", "height=64", fntFile)
