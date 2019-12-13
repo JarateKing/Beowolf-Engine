@@ -151,9 +151,10 @@ void BaseScene::Render()
 	glDepthMask(false);
 	glEnable(GL_BLEND);
 
-	test->render(cam->GetViewMatrix(), glm::mat4(), true);
-
 	testhud->Render(hudProjMat);
+
+	glDepthMask(true);
+	glDisable(GL_BLEND);
 }
 
 
