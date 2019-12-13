@@ -74,12 +74,14 @@ namespace wolf
 	void TextBox::SetSize(float size) {
 		m_fontSize = size;
 	}
+
+	void TextBox::SetString(const std::string& id) {
+		SetStringRaw(m_localization->GetString(id));
+	}
 	
-	void TextBox::SetString(const std::string& id)
+	void TextBox::SetStringRaw(const std::string& text)
 	{
 		m_glyphs.clear();
-	
-		std::string localizedString = m_localization->GetString(id);
 	
 		float offsetHead = 0.0f;
 		float offsetLine = 0.0f;
@@ -92,12 +94,12 @@ namespace wolf
 		std::vector<std::vector<Vertex>>* lines = new std::vector<std::vector<Vertex>>[m_font->GetTotalTextures()];
 		std::vector<Vertex>* currentLine = new std::vector<Vertex>[m_font->GetTotalTextures()];
 		std::vector<float> lineSpaceRemaining;
-		for (int i = 0; i < localizedString.length(); i++)
+		for (int i = 0; i < text.length(); i++)
 		{
 			// check if word won't fit on line
 			if (offsetHead > 0 && isNewWord)
 			{
-				std::string remaining = localizedString.substr(i);
+				std::string remaining = text.substr(i);
 				float postHead = offsetHead;
 				int ptr = 0;
 				
@@ -122,7 +124,7 @@ namespace wolf
 				}
 			}
 	
-			char cur = localizedString.at(i);
+			char cur = text.at(i);
 	
 			int tex = m_font->GetTextureNum(cur);
 	

@@ -25,6 +25,7 @@ namespace wolf
 		void SetPos(const int& xpos, const int& ypos);
 		void SetSize(float size);
 		void SetString(const std::string& id);
+		void SetStringRaw(const std::string& text);
 		void SetTextColor(const glm::vec4& color);
 		void SetTextAlignment(const float& alignment);
 		void Render(glm::mat4 proj);
