@@ -23,6 +23,7 @@ namespace wolf
 		~TextBox();
 		void SetBounds(const int& width, const int& height);
 		void SetPos(const int& xpos, const int& ypos);
+		void SetSize(float size);
 		void SetString(const std::string& id);
 		void SetTextColor(const glm::vec4& color);
 		void SetTextAlignment(const float& alignment);
@@ -39,6 +40,7 @@ namespace wolf
 		std::vector<std::vector<Vertex>> m_glyphs;
 		float m_alignmentFactor;
 		glm::mat4 m_world;
+		float m_fontSize = 16.0f;
 	
 		std::vector<wolf::VertexBuffer*> g_pVB;
 		std::vector<wolf::VertexDeclaration*> g_pDecl;

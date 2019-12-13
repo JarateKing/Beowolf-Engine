@@ -11,7 +11,7 @@ namespace wolf
 {
 	constexpr float DESIRED_width = 1920.0f;
 	constexpr float DESIRED_height = 1080.0f;
-	constexpr float FONTSIZE = 0.3f;
+	constexpr float FONTSIZE = 1.0f / 56.0f;
 	
 	static const Vertex squareVertices[] = {
 			{ 0.0f, 0.0f, 1.0f,	1, 1, 1, 1, 0.0f, 0.0f },
@@ -70,6 +70,10 @@ namespace wolf
 	
 		m_world = glm::translate(m_xPos, m_yPos, 0.0f) * glm::scale(m_xBound, m_yBound, 1.0f);
 	}
+
+	void TextBox::SetSize(float size) {
+		m_fontSize = size;
+	}
 	
 	void TextBox::SetString(const std::string& id)
 	{
@@ -100,16 +104,16 @@ namespace wolf
 				for (int i = 0; i < remaining.length(); i++)
 				{
 					if (remaining.at(i) != ' ')
-						postHead += m_font->GetCharXAdvance(remaining.at(i)) * FONTSIZE * widthFactor;
+						postHead += m_font->GetCharXAdvance(remaining.at(i)) * (FONTSIZE * m_fontSize) * widthFactor;
 					else
 						break;
 				}
 	
-				if (postHead >= 1 - m_font->GetCharXAdvance('W') * FONTSIZE * widthFactor)
+				if (postHead >= 1 - m_font->GetCharXAdvance('W') * (FONTSIZE * m_fontSize) * widthFactor)
 				{
 					lineSpaceRemaining.push_back(1 - offsetHead);
 					offsetHead = 0;
-					offsetLine += lineOffset * FONTSIZE;
+					offsetLine += lineOffset * (FONTSIZE * m_fontSize);
 					for (int j = 0; j < m_font->GetTotalTextures(); j++)
 					{
 						lines[j].push_back(currentLine[j]);
@@ -123,9 +127,9 @@ namespace wolf
 			int tex = m_font->GetTextureNum(cur);
 	
 			float x1 = offsetHead;
-			float x2 = offsetHead + m_font->GetCharWidth(cur) * FONTSIZE * widthFactor;
-			float y1 = (offsetLine + (m_font->GetCharYOffset(cur))) * heightFactor * FONTSIZE;
-			float y2 = (offsetLine + (m_font->GetCharYOffset(cur) + m_font->GetCharHeight(cur))) * heightFactor * FONTSIZE;
+			float x2 = offsetHead + m_font->GetCharWidth(cur) * (FONTSIZE * m_fontSize) * widthFactor;
+			float y1 = (offsetLine + (m_font->GetCharYOffset(cur))) * heightFactor * (FONTSIZE * m_fontSize);
+			float y2 = (offsetLine + (m_font->GetCharYOffset(cur) + m_font->GetCharHeight(cur))) * heightFactor * (FONTSIZE * m_fontSize);
 	
 			float u1 = m_font->GetCharX1(cur);
 			float u2 = m_font->GetCharX2(cur);
@@ -139,12 +143,12 @@ namespace wolf
 			currentLine[tex].push_back(Vertex({ x2, y1,	1.0f, 1, 1, 1, 1, u2, v1}));
 			currentLine[tex].push_back(Vertex({ x1, y1,	1.0f, 1, 1, 1, 1, u1, v1}));
 	
-			offsetHead += m_font->GetCharXAdvance(cur) * FONTSIZE * widthFactor;
-			if (offsetHead >= 1 - m_font->GetCharXAdvance('W') * FONTSIZE * widthFactor)
+			offsetHead += m_font->GetCharXAdvance(cur) * (FONTSIZE * m_fontSize) * widthFactor;
+			if (offsetHead >= 1 - m_font->GetCharXAdvance('W') * (FONTSIZE * m_fontSize) * widthFactor)
 			{
 				lineSpaceRemaining.push_back(1 - offsetHead);
 				offsetHead = 0;
-				offsetLine += lineOffset * FONTSIZE;
+				offsetLine += lineOffset * (FONTSIZE * m_fontSize);
 				for (int j = 0; j < m_font->GetTotalTextures(); j++)
 				{
 					lines[j].push_back(currentLine[j]);
