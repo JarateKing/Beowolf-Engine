@@ -69,12 +69,12 @@ class Texture
 		//-------------------------------------------------------------------------
 
 		// Made private to enforce creation/destruction via TextureManager
-		Texture(const std::string& p_strFile);
-		Texture(void* p_pData, unsigned int p_uiWidth, unsigned int p_uiHeight, Format p_eFormat);
+		Texture(const std::string& p_strFile, bool includeMipmaps = true);
+		Texture(void* p_pData, unsigned int p_uiWidth, unsigned int p_uiHeight, Format p_eFormat, bool includeMipmaps = true);
 		virtual ~Texture();
 
-		void LoadFromDDS(const std::string& p_strFile);
-		void LoadFromTGA(const std::string& p_strFile);
+		void LoadFromDDS(const std::string& p_strFile, bool includeMipmaps = true);
+		void LoadFromTGA(const std::string& p_strFile, bool includeMipmaps = true);
 		//-------------------------------------------------------------------------
 
 		//-------------------------------------------------------------------------

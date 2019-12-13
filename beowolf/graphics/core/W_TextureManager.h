@@ -22,8 +22,8 @@ class TextureManager
 		//-------------------------------------------------------------------------
 		// PUBLIC INTERFACE
 		//-------------------------------------------------------------------------
-		static Texture* CreateTexture(const std::string& p_strFile);
-		static Texture* CreateTexture(void* p_pData, unsigned int p_uiWidth, unsigned int p_uiHeight, Texture::Format p_eFormat);
+		static Texture* CreateTexture(const std::string& p_strFile, bool includeMipmaps = true);
+		static Texture* CreateTexture(void* p_pData, unsigned int p_uiWidth, unsigned int p_uiHeight, Texture::Format p_eFormat, bool includeMipmaps = true);
 		static void DestroyTexture(Texture* p_pTex);
 
 		// TODO: You should really have a method like "Cleanup" that will delete
