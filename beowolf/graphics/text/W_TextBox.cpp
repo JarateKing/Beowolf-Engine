@@ -9,8 +9,8 @@
 
 namespace wolf
 {
-	constexpr float DESIRED_width = 1240.0f;
-	constexpr float DESIRED_height = 220.0f;
+	constexpr float DESIRED_width = 1920.0f;
+	constexpr float DESIRED_height = 1080.0f;
 	constexpr float FONTSIZE = 0.3f;
 	
 	static const Vertex squareVertices[] = {
@@ -81,8 +81,8 @@ namespace wolf
 		float offsetLine = 0.0f;
 		float lineOffset = m_font->GetLineOffset();
 	
-		float widthFactor = (DESIRED_width / m_xBound) * 1.825f;
-		float heightFactor = (DESIRED_height / m_yBound) * 10.0f;
+		float widthFactor = DESIRED_width / m_xBound;
+		float heightFactor = DESIRED_height / m_yBound;
 	
 		bool isNewWord = true;
 		std::vector<std::vector<Vertex>>* lines = new std::vector<std::vector<Vertex>>[m_font->GetTotalTextures()];
