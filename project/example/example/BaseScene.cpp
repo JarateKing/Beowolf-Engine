@@ -23,6 +23,7 @@
 #include "AIPathfinder.h"
 #include <cmath>
 #include "W_Hud.h"
+#include "W_ProjectionMatrix.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -37,6 +38,7 @@ week2::ComponentHexPos hexPos;
 std::vector<int> testMove;
 //week9::AIPathfinder* pathFinder;
 wolf::Hud* testhud;
+glm::mat4 hudProjMat;
 
 BaseScene::BaseScene()
 {
@@ -79,6 +81,7 @@ void BaseScene::Init()
 	//pathFinder->Instance()->Load("resources/objects/AIPathfindingDataTest.json");
 
 	testhud = new wolf::Hud();
+	hudProjMat = glm::ortho(0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 1000.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void BaseScene::Update()
@@ -150,7 +153,7 @@ void BaseScene::Render()
 
 	test->render(cam->GetViewMatrix(), glm::mat4(), true);
 
-	testhud->Render();
+	testhud->Render(hudProjMat);
 }
 
 
