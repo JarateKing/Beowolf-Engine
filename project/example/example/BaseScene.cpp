@@ -22,6 +22,7 @@
 #include "ComponentHexPos.h"
 #include "AIPathfinder.h"
 #include <cmath>
+#include "W_Hud.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -35,6 +36,7 @@ wolf::BMWModel* test2;
 week2::ComponentHexPos hexPos;
 std::vector<int> testMove;
 //week9::AIPathfinder* pathFinder;
+wolf::Hud* testhud;
 
 BaseScene::BaseScene()
 {
@@ -75,6 +77,8 @@ void BaseScene::Init()
 	testMove.push_back(2);
 
 	//pathFinder->Instance()->Load("resources/objects/AIPathfindingDataTest.json");
+
+	testhud = new wolf::Hud();
 }
 
 void BaseScene::Update()
@@ -82,6 +86,8 @@ void BaseScene::Update()
 	static bool wasJustAnimated = false;
 	float delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
+
+	testhud->Update(delta);
 
 	test->update(delta);
 	test2->update(delta);
@@ -143,6 +149,8 @@ void BaseScene::Render()
 	glEnable(GL_BLEND);
 
 	test->render(cam->GetViewMatrix(), glm::mat4(), true);
+
+	testhud->Render();
 }
 
 
