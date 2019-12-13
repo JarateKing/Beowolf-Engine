@@ -81,7 +81,7 @@ void BaseScene::Init()
 	//pathFinder->Instance()->Load("resources/objects/AIPathfindingDataTest.json");
 
 	testhud = new wolf::Hud();
-	hudProjMat = glm::ortho(0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 1000.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	hudProjMat = glm::ortho(0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void BaseScene::Update()
@@ -131,8 +131,6 @@ void BaseScene::Update()
 		wasJustAnimated = false;
 		test->setAnim("idle");
 	}
-
-	std::cout << dir << "\n";
 
 	test->setTransform(glm::translate(hexPos.GetPos()) * glm::rotate(dir, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.025, 0.025, 0.025)));
 }

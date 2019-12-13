@@ -10,7 +10,7 @@ import sys
 tilesX = 16
 tilesY = 8
 tileSize = 64
-tileXoffset = 1
+tileXoffset = 5
 
 curPos = 0
 fntFile = ""
@@ -18,8 +18,8 @@ fntFile = ""
 with open(sys.argv[1], 'r') as file:
 	fntFile = file.read()
 	
-fntFile = re.sub("height=\d+", "height=64", fntFile)
-fntFile = re.sub("yoffset=\d+", "yoffset=0", fntFile)
+fntFile = re.sub("height=\d+", "height=62", fntFile)
+fntFile = re.sub("yoffset=\d+", "yoffset=1", fntFile)
 fntFile = re.sub("scaleW=\d+ scaleH=\d+", "scaleW=" + str(tilesX * tileSize) + " scaleH=" + str(tilesY * tileSize), fntFile)
 
 with open("fontsheet.txt") as charList:
