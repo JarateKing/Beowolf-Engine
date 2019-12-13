@@ -21,7 +21,7 @@ namespace wolf {
 	}
 
 	void Hud::Update(float p_fDelta) {
-
+		m_textboxes[0]->SetStringRaw("FPS: " + std::to_string(1.0f / p_fDelta));
 	}
 
 	void Hud::Render(glm::mat4 projection) {
