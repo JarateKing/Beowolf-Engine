@@ -189,10 +189,7 @@ namespace wolf
 				g_pVB[i] = wolf::BufferManager::CreateVertexBuffer(&(m_glyphs[i][0]), sizeof(Vertex) * m_glyphs[i].size());
 				g_pDecl[i] = new wolf::VertexDeclaration();
 				g_pDecl[i]->Begin();
-				g_pDecl[i]->AppendAttribute(AT_Position, 3, CT_Float);
-				g_pDecl[i]->AppendAttribute(AT_Color, 4, CT_UByte);
-				g_pDecl[i]->AppendAttribute(AT_TexCoord1, 2, CT_Float);
-				g_pDecl[i]->AppendAttribute(AT_Normal, 3, CT_Float);
+				Vertex::applyAttributes(g_pDecl[i]);
 				g_pDecl[i]->SetVertexBuffer(g_pVB[i]);
 				g_pDecl[i]->End();
 			}
