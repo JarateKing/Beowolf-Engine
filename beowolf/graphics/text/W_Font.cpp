@@ -85,7 +85,7 @@ namespace wolf
 		if (number >= m_textures.size())
 			return NULL;
 	
-		return wolf::TextureManager::CreateTexture(m_textures[number]);
+		return wolf::TextureManager::CreateTexture(m_textures[number], false);
 	}
 	
 	int Font::GetTextureNum(const char& input)
