@@ -91,7 +91,7 @@ namespace wolf
 	
 		glm::vec2 screenDimensions = ProjMatrix::GetScreenSize();
 		float aspectFactor = (screenDimensions.x / screenDimensions.y) / (16.0 / 9.0);
-		float widthFactor = DESIRED_width / aspectFactor / m_xBound;
+		float widthFactor = DESIRED_width / m_xBound;
 		float heightFactor = DESIRED_height * aspectFactor / m_yBound;
 	
 		bool isNewWord = true;
