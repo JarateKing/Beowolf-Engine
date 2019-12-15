@@ -92,7 +92,8 @@ void BaseScene::Update()
 
 	testhud->Update(delta);
 
-	test->update(delta);
+	// TODO: skeletons updating / animating is a huge fps killer
+	//test->update(delta);
 	test2->update(delta);
 	
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_J))
