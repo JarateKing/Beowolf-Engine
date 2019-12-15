@@ -4,7 +4,7 @@
 #include "W_Common.h"
 #include "W_Font.h"
 #include "W_TextTable.h"
-#include "W_TextBox.h"
+#include "W_HudElement.h"
 #include <vector>
 
 namespace wolf

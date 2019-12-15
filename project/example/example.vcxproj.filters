@@ -239,6 +239,7 @@
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentHexPos.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_Hud.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudElement.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\hud\W_HudImage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\camera\Camera.h" />
@@ -560,5 +561,6 @@
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentHexPos.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_Hud.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudElement.h" />
+    <ClInclude Include="..\..\beowolf\graphics\hud\W_HudImage.h" />
   </ItemGroup>
 </Project>
