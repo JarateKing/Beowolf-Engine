@@ -56,22 +56,6 @@ namespace wolf
 	{
 	
 	}
-	
-	void TextBox::SetBounds(const int& width, const int& height)
-	{
-		m_xBound = width;
-		m_yBound = height;
-	
-		m_world = glm::translate(m_xPos, m_yPos, 0.0f) * glm::scale(m_xBound, m_yBound, 1.0f);
-	}
-	
-	void TextBox::SetPos(const int& xpos, const int& ypos)
-	{
-		m_xPos = xpos;
-		m_yPos = ypos;
-	
-		m_world = glm::translate(m_xPos, m_yPos, 0.0f) * glm::scale(m_xBound, m_yBound, 1.0f);
-	}
 
 	void TextBox::SetSize(float size) {
 		m_fontSize = size;
@@ -219,12 +203,7 @@ namespace wolf
 		m_alignmentFactor = alignment;
 	}
 
-	void TextBox::SetZ(const float& zpos) {
-		m_zPos = zpos;
-	}
-
-	float TextBox::GetZ() {
-		return m_zPos;
+	void TextBox::Update(float p_fDelta) {
 	}
 	
 	void TextBox::Render(glm::mat4 proj)
