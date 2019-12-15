@@ -102,8 +102,9 @@ namespace wolf
 
 				m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
 
-				for (auto it : (*m_anims)[0]->transforms) {
-					m_boneMatrix[it.first] = it.second[m_animationFrame];
+				BMWAnim* curAnim = (*m_anims)[0];
+				for (auto it : curAnim->transforms[m_animationFrame]) {
+					m_boneMatrix[it.first] = it.second;
 				}
 			}
 		}
