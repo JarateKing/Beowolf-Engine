@@ -18,9 +18,9 @@ namespace wolf {
 		((TextBox*)m_elements[0])->SetString("Engine_Name");
 		((TextBox*)m_elements[0])->SetTextColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-		m_elements.push_back(new HudImage("hud/test"));
+		m_elements.push_back(new HudImage("particles/particle.dds"));
 		m_elements[1]->SetBounds(100, 100);
-		m_elements[1]->SetPos(0, 0);
+		m_elements[1]->SetPos(20, 20);
 	}
 
 	Hud::~Hud() {
