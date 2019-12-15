@@ -89,10 +89,9 @@ namespace wolf
 			}
 
 			std::vector<std::map<int, glm::mat4>> trans((transMap.begin()->second).size());
-			for (int j = 0; j < (transMap.begin()->second).size(); j++) {
-				for (auto it : transMap) {
+			for (auto it : transMap) {
+				for (int j = 0; j < it.second.size(); j++)
 					trans[j][it.first] = it.second[j];
-				}
 			}
 
 			BMWAnim* current = new BMWAnim();
