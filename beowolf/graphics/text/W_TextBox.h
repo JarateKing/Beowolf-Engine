@@ -28,6 +28,7 @@ namespace wolf
 		void SetStringRaw(const std::string& text);
 		void SetTextColor(const glm::vec4& color);
 		void SetTextAlignment(const float& alignment);
+		void SetZ(const float& zpos);
 		void Render(glm::mat4 proj);
 	
 	private:
@@ -42,6 +43,7 @@ namespace wolf
 		float m_alignmentFactor;
 		glm::mat4 m_world;
 		float m_fontSize = 16.0f;
+		float m_zPos = 1.0f;
 	
 		std::vector<wolf::VertexBuffer*> g_pVB;
 		std::vector<wolf::VertexDeclaration*> g_pDecl;

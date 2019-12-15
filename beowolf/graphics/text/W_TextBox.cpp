@@ -142,12 +142,12 @@ namespace wolf
 			float v1 = m_font->GetCharY1(cur);
 			float v2 = m_font->GetCharY2(cur);
 	
-			currentLine[tex].push_back(Vertex({ x1, y1,	1.0f, 1, 1, 1, 1, u1, v1}));
-			currentLine[tex].push_back(Vertex({ x1, y2,	1.0f, 1, 1, 1, 1, u1, v2}));
-			currentLine[tex].push_back(Vertex({ x2, y2,	1.0f, 1, 1, 1, 1, u2, v2}));
-			currentLine[tex].push_back(Vertex({ x2, y2,	1.0f, 1, 1, 1, 1, u2, v2}));
-			currentLine[tex].push_back(Vertex({ x2, y1,	1.0f, 1, 1, 1, 1, u2, v1}));
-			currentLine[tex].push_back(Vertex({ x1, y1,	1.0f, 1, 1, 1, 1, u1, v1}));
+			currentLine[tex].push_back(Vertex({ x1, y1,	m_zPos, 1, 1, 1, 1, u1, v1}));
+			currentLine[tex].push_back(Vertex({ x1, y2,	m_zPos, 1, 1, 1, 1, u1, v2}));
+			currentLine[tex].push_back(Vertex({ x2, y2,	m_zPos, 1, 1, 1, 1, u2, v2}));
+			currentLine[tex].push_back(Vertex({ x2, y2,	m_zPos, 1, 1, 1, 1, u2, v2}));
+			currentLine[tex].push_back(Vertex({ x2, y1,	m_zPos, 1, 1, 1, 1, u2, v1}));
+			currentLine[tex].push_back(Vertex({ x1, y1,	m_zPos, 1, 1, 1, 1, u1, v1}));
 	
 			offsetHead += m_font->GetCharXAdvance(cur) * (FONTSIZE * m_fontSize) * widthFactor;
 			if (offsetHead >= 1 - m_font->GetCharXAdvance('W') * (FONTSIZE * m_fontSize) * widthFactor)
@@ -217,6 +217,10 @@ namespace wolf
 	void TextBox::SetTextAlignment(const float& alignment)
 	{
 		m_alignmentFactor = alignment;
+	}
+
+	void TextBox::SetZ(const float& zpos) {
+		m_zPos = zpos;
 	}
 	
 	void TextBox::Render(glm::mat4 proj)
