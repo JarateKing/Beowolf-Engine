@@ -6,6 +6,8 @@
 #include "W_VertexBuffer.h"
 #include "W_TextBox.h"
 #include "W_ResourceLoader.h"
+#include "W_ProjectionMatrix.h"
+#include <iostream>
 
 namespace wolf
 {
@@ -87,8 +89,10 @@ namespace wolf
 		float offsetLine = 0.0f;
 		float lineOffset = m_font->GetLineOffset();
 	
-		float widthFactor = DESIRED_width / m_xBound;
-		float heightFactor = DESIRED_height / m_yBound;
+		glm::vec2 screenDimensions = ProjMatrix::GetScreenSize();
+		float aspectFactor = (screenDimensions.x / screenDimensions.y) / (16.0 / 9.0);
+		float widthFactor = DESIRED_width / aspectFactor / m_xBound;
+		float heightFactor = DESIRED_height * aspectFactor / m_yBound;
 	
 		bool isNewWord = true;
 		std::vector<std::vector<Vertex>>* lines = new std::vector<std::vector<Vertex>>[m_font->GetTotalTextures()];
