@@ -20,7 +20,7 @@ namespace wolf
 
 	private:
 		std::vector<Font*> m_fontlist;
-		std::vector<TextBox*> m_textboxes;
+		std::vector<HudElement*> m_elements;
 		TextTable* m_localization;
 	};
 }
