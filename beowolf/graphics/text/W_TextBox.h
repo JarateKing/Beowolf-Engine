@@ -29,6 +29,7 @@ namespace wolf
 		void SetTextColor(const glm::vec4& color);
 		void SetTextAlignment(const float& alignment);
 		void SetZ(const float& zpos);
+		float GetZ();
 		void Render(glm::mat4 proj);
 	
 	private:

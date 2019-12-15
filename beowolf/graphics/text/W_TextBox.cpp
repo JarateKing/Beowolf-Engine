@@ -222,6 +222,10 @@ namespace wolf
 	void TextBox::SetZ(const float& zpos) {
 		m_zPos = zpos;
 	}
+
+	float TextBox::GetZ() {
+		return m_zPos;
+	}
 	
 	void TextBox::Render(glm::mat4 proj)
 	{
