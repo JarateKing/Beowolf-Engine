@@ -2,6 +2,7 @@
 
 #include "W_TextBox.h"
 #include "W_HudImage.h"
+#include "W_HudColorPanel.h"
 #include <algorithm>
 
 namespace wolf {
@@ -26,11 +27,17 @@ namespace wolf {
 		m_elements[0]->SetZ(2.0f);
 
 		m_elements.push_back(new HudImage("particles/particle.dds"));
-		m_elements[1]->SetX(0.5, true);
-		m_elements[1]->SetY(0.5, true);
-		m_elements[1]->SetW(0.5, true);
-		m_elements[1]->SetH(0.5, true);
+		m_elements[1]->SetX(1920 - 80);
+		m_elements[1]->SetY(0);
+		m_elements[1]->SetW(80);
+		m_elements[1]->SetH(80);
 		m_elements[1]->SetZ(5.0f);
+
+		m_elements.push_back(new HudColorPanel(glm::vec4(0.0f, 0.0f, 0.0f, 0.3f)));
+		m_elements[2]->SetPos(0, 0);
+		m_elements[2]->SetW(1, true);
+		m_elements[2]->SetH(80);
+		m_elements[2]->SetZ(10.0f);
 	}
 
 	Hud::~Hud() {
