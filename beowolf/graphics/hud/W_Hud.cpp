@@ -45,7 +45,10 @@ namespace wolf {
 	}
 
 	void Hud::Update(float p_fDelta) {
-		std::stable_sort(m_elements.begin(), m_elements.end(), zSortCompare);
+		if (m_prevElementsSize != m_elements.size()) {
+			std::stable_sort(m_elements.begin(), m_elements.end(), zSortCompare);
+			m_prevElementsSize = m_elements.size();
+		}
 
 		for (int i = m_elements.size() - 1; i >= 0; i--)
 			m_elements[i]->Update(p_fDelta);

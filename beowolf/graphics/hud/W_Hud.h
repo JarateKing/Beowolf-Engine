@@ -22,6 +22,7 @@ namespace wolf
 		std::vector<Font*> m_fontlist;
 		std::vector<HudElement*> m_elements;
 		TextTable* m_localization;
+		int m_prevElementsSize = 0;
 	};
 }
 
