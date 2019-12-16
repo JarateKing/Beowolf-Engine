@@ -240,6 +240,7 @@
     <ClCompile Include="..\..\beowolf\graphics\hud\W_Hud.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudElement.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudImage.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\hud\W_HudColorPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\camera\Camera.h" />
@@ -562,5 +563,6 @@
     <ClInclude Include="..\..\beowolf\graphics\hud\W_Hud.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudElement.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudImage.h" />
+    <ClInclude Include="..\..\beowolf\graphics\hud\W_HudColorPanel.h" />
   </ItemGroup>
 </Project>

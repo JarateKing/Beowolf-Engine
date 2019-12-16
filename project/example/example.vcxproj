@@ -143,6 +143,7 @@
     <ClCompile Include="..\..\beowolf\graphics\DebugCamera.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\DebugCube.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_Hud.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\hud\W_HudColorPanel.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudElement.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudImage.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\Node.cpp" />
@@ -389,6 +390,7 @@
     <ClInclude Include="..\..\beowolf\graphics\DebugCamera.h" />
     <ClInclude Include="..\..\beowolf\graphics\DebugCube.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_Hud.h" />
+    <ClInclude Include="..\..\beowolf\graphics\hud\W_HudColorPanel.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudElement.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudImage.h" />
     <ClInclude Include="..\..\beowolf\graphics\Node.h" />
