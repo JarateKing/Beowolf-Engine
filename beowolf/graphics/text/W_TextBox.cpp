@@ -74,6 +74,7 @@ namespace wolf
 
 	void TextBox::UpdateString(const std::string& text)
 	{
+		m_prevText = text;
 		m_glyphs.clear();
 	
 		float offsetHead = 0.0f;
@@ -226,7 +227,8 @@ namespace wolf
 			}
 		}
 
-		UpdateString(text);
+		if (text != m_str && text != m_prevText)
+			UpdateString(text);
 	}
 	
 	void TextBox::Render(glm::mat4 proj)

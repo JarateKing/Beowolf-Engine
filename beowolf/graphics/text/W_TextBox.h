@@ -41,6 +41,7 @@ namespace wolf
 		float m_alignmentFactor;
 		float m_fontSize = 16.0f;
 		std::string m_str;
+		std::string m_prevText;
 	
 		std::vector<wolf::VertexBuffer*> g_pVB;
 		std::vector<wolf::VertexDeclaration*> g_pDecl;
