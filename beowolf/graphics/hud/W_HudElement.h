@@ -12,7 +12,11 @@ namespace wolf
 		virtual void Render(glm::mat4 proj) = 0;
 
 		void SetBounds(const int& width, const int& height);
+		void SetW(const float& width, const bool& isRelative = false);
+		void SetH(const float& height, const bool& isRelative = false);
 		void SetPos(const int& xpos, const int& ypos);
+		void SetX(const float& xpos, const bool& isRelative = false);
+		void SetY(const float& ypos, const bool& isRelative = false);
 		void SetZ(const float& zpos);
 		float GetZ();
 
