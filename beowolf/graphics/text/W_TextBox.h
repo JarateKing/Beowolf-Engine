@@ -38,6 +38,7 @@ namespace wolf
 		std::vector<std::vector<Vertex>> m_glyphs;
 		float m_alignmentFactor;
 		float m_fontSize = 16.0f;
+		std::string m_str;
 	
 		std::vector<wolf::VertexBuffer*> g_pVB;
 		std::vector<wolf::VertexDeclaration*> g_pDecl;

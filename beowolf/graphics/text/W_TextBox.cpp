@@ -8,6 +8,7 @@
 #include "W_ResourceLoader.h"
 #include "W_ProjectionMatrix.h"
 #include <iostream>
+#include <string>
 
 namespace wolf
 {
@@ -67,6 +68,7 @@ namespace wolf
 	
 	void TextBox::SetStringRaw(const std::string& text)
 	{
+		m_str = text;
 		m_glyphs.clear();
 	
 		float offsetHead = 0.0f;
@@ -204,6 +206,22 @@ namespace wolf
 	}
 
 	void TextBox::Update(float p_fDelta) {
+		// check if string has ID values
+		std::string text = m_str;
+		int pos = 0;
+		while (pos != std::string::npos) {
+			pos = text.find('$', pos);
+			if (pos != std::string::npos) {
+				int next = text.find('$', pos + 1);
+				if (next != std::string::npos) {
+					std::string replace = m_localization->GetVar(m_str.substr(pos + 1, next - pos - 1));
+					text = text.substr(0, pos) + replace + text.substr(next + 1);
+					pos = next + (replace.length() - (next - pos));
+				}
+			}
+		}
+
+		std::cout << text << "\n";
 	}
 	
 	void TextBox::Render(glm::mat4 proj)
