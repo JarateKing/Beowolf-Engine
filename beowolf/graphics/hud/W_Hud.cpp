@@ -41,10 +41,12 @@ namespace wolf {
 	}
 
 	Hud::~Hud() {
-
 	}
 
 	void Hud::Update(float p_fDelta) {
+		m_localization->SetVar("delta", std::to_string(p_fDelta));
+		m_localization->SetVar("fps", std::to_string(1.0 / p_fDelta));
+
 		if (m_prevElementsSize != m_elements.size()) {
 			std::stable_sort(m_elements.begin(), m_elements.end(), zSortCompare);
 			m_prevElementsSize = m_elements.size();
