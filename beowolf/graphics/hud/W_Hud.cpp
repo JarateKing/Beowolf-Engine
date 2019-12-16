@@ -26,8 +26,10 @@ namespace wolf {
 		m_elements[0]->SetZ(2.0f);
 
 		m_elements.push_back(new HudImage("particles/particle.dds"));
-		m_elements[1]->SetBounds(100, 100);
-		m_elements[1]->SetPos(20, 20);
+		m_elements[1]->SetX(0.5, true);
+		m_elements[1]->SetY(0.5, true);
+		m_elements[1]->SetW(0.5, true);
+		m_elements[1]->SetH(0.5, true);
 		m_elements[1]->SetZ(5.0f);
 	}
 
