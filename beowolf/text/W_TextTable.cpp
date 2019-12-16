@@ -8,6 +8,7 @@ namespace wolf
 {
 	TextTable::TextTable()
 	{
+		m_varMap[""] = "$";
 	}
 
 	TextTable::~TextTable()
