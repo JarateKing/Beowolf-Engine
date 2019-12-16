@@ -8,7 +8,7 @@
 namespace wolf {
 
 	bool zSortCompare(HudElement* a, HudElement* b) {
-		return a->GetZ() >= b->GetZ();
+		return a->GetZ() < b->GetZ();
 	}
 
 	Hud::Hud() {
@@ -47,12 +47,12 @@ namespace wolf {
 	void Hud::Update(float p_fDelta) {
 		std::stable_sort(m_elements.begin(), m_elements.end(), zSortCompare);
 
-		for (int i = 0; i < m_elements.size(); i++)
+		for (int i = m_elements.size() - 1; i >= 0; i--)
 			m_elements[i]->Update(p_fDelta);
 	}
 
 	void Hud::Render(glm::mat4 projection) {
-		for (int i = 0; i < m_elements.size(); i++)
+		for (int i = m_elements.size() - 1; i >= 0; i--)
 			m_elements[i]->Render(projection);
 	}
 }
