@@ -69,7 +69,7 @@ namespace wolf
 	void TextBox::SetStringRaw(const std::string& text)
 	{
 		m_str = text;
-		m_hasVars = text.find('$') != std::string::npos;
+		m_hasVars = text.find('$') != text.find_last_of('$');
 		if (m_hasVars)
 			UpdateString(ReplaceTextVars(text));
 		else
