@@ -33,6 +33,7 @@ namespace wolf
 	
 	private:
 		void UpdateString(const std::string& text);
+		std::string ReplaceTextVars(const std::string& text);
 
 		glm::vec4 m_textcolor;
 		Font* m_font;
@@ -42,6 +43,7 @@ namespace wolf
 		float m_fontSize = 16.0f;
 		std::string m_str;
 		std::string m_prevText;
+		bool m_hasVars = false;
 	
 		std::vector<wolf::VertexBuffer*> g_pVB;
 		std::vector<wolf::VertexDeclaration*> g_pDecl;

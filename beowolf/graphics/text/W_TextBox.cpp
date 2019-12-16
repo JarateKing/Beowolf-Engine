@@ -69,7 +69,11 @@ namespace wolf
 	void TextBox::SetStringRaw(const std::string& text)
 	{
 		m_str = text;
-		UpdateString(text);
+		m_hasVars = text.find('$') != std::string::npos;
+		if (m_hasVars)
+			UpdateString(ReplaceTextVars(text));
+		else
+			UpdateString(text);
 	}
 
 	void TextBox::UpdateString(const std::string& text)
@@ -211,24 +215,29 @@ namespace wolf
 		m_alignmentFactor = alignment;
 	}
 
-	void TextBox::Update(float p_fDelta) {
-		// check if string has ID values
-		std::string text = m_str;
+	std::string TextBox::ReplaceTextVars(const std::string& text) {
+		std::string toret = text;
 		int pos = 0;
 		while (pos != std::string::npos) {
-			pos = text.find('$', pos);
+			pos = toret.find('$', pos);
 			if (pos != std::string::npos) {
-				int next = text.find('$', pos + 1);
+				int next = toret.find('$', pos + 1);
 				if (next != std::string::npos) {
-					std::string replace = m_localization->GetVar(m_str.substr(pos + 1, next - pos - 1));
-					text = text.substr(0, pos) + replace + text.substr(next + 1);
+					std::string replace = m_localization->GetVar(toret.substr(pos + 1, next - pos - 1));
+					toret = toret.substr(0, pos) + replace + toret.substr(next + 1);
 					pos = next + (replace.length() - (next - pos));
 				}
 			}
 		}
+		return toret;
+	}
 
-		if (text != m_str && text != m_prevText)
-			UpdateString(text);
+	void TextBox::Update(float p_fDelta) {
+		if (m_hasVars) {
+			std::string text = ReplaceTextVars(m_str);
+			if (text != m_prevText)
+				UpdateString(text);
+		}
 	}
 	
 	void TextBox::Render(glm::mat4 proj)
