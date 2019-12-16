@@ -69,6 +69,11 @@ namespace wolf
 	void TextBox::SetStringRaw(const std::string& text)
 	{
 		m_str = text;
+		UpdateString(text);
+	}
+
+	void TextBox::UpdateString(const std::string& text)
+	{
 		m_glyphs.clear();
 	
 		float offsetHead = 0.0f;
@@ -221,7 +226,7 @@ namespace wolf
 			}
 		}
 
-		std::cout << text << "\n";
+		UpdateString(text);
 	}
 	
 	void TextBox::Render(glm::mat4 proj)

@@ -32,6 +32,8 @@ namespace wolf
 		void Render(glm::mat4 proj);
 	
 	private:
+		void UpdateString(const std::string& text);
+
 		glm::vec4 m_textcolor;
 		Font* m_font;
 		TextTable* m_localization;
