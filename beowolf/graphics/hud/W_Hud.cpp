@@ -17,7 +17,6 @@ namespace wolf {
 
 	Hud::Hud(std::string file) {
 		m_localization = new TextTable();
-		m_localization->SetLanguage("ENGLISH");
 
 		std::ifstream jsonIn(file);
 		if (jsonIn) {
@@ -25,16 +24,17 @@ namespace wolf {
 			jsonFileStream << jsonIn.rdbuf();
 			std::string jsonFileData = jsonFileStream.str();
 			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
-			
-			if (jsonData.contains("defaultLanguage")) {
-				m_localization->SetLanguage(jsonData["defaultLanguage"]);
-			}
 
 			if (jsonData.contains("localization")) {
 				for (auto localization : jsonData["localization"]) {
 					m_localization->Load(localization["file"]);
 				}
 			}
+
+			if (jsonData.contains("defaultLanguage"))
+				m_localization->SetLanguage(jsonData["defaultLanguage"]);
+			else
+				m_localization->SetLanguage("ENGLISH");
 
 			if (jsonData.contains("fonts")) {
 				for (auto font : jsonData["fonts"]) {
