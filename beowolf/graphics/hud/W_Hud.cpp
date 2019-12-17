@@ -16,9 +16,9 @@ namespace wolf {
 		m_localization->Load("resources/localization/engine.txt");
 		m_localization->SetLanguage("ENGLISH");
 
-		m_fontlist.push_back(new Font("resources/fonts/", "opensans.fnt"));
+		m_fontlist["opensans.fnt"] = new Font("resources/fonts/", "opensans.fnt");
 
-		m_elements.push_back(new TextBox(m_fontlist[0], m_localization));
+		m_elements.push_back(new TextBox(m_fontlist["opensans.fnt"], m_localization));
 		m_elements[0]->SetBounds(1240, 220);
 		m_elements[0]->SetPos(20, 20);
 		((TextBox*)m_elements[0])->SetTextAlignment(AL_Left);
