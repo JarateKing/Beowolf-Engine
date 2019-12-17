@@ -4,7 +4,7 @@
 namespace wolf
 {
 	const double THRESHOLD = 60.0;
-	const int HISTORY_SIZE = 30;
+	const int HISTORY_SIZE = 50;
 	const double FPS_THRESHOLD = 0.125;
 
 	void Time::update()
