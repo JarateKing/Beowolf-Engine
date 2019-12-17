@@ -32,6 +32,12 @@ namespace wolf
 			glfwSetTime(currentTime - THRESHOLD);
 			lastTime -= THRESHOLD;
 			currentTime -= THRESHOLD;
+
+			double timeSum = 0.0;
+			for (int i = 0; i < times.size(); i++) {
+				timeSum += times[i];
+			}
+			timeAvg = timeSum / times.size();
 		}
 	}
 
