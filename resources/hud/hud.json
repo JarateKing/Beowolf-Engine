@@ -1,4 +1,12 @@
 {
+	"fonts": [
+		{
+			"name": "OpenSans",
+			"folder": "resources/fonts/",
+			"file": "opensans.fnt"
+		}
+	],
+
 	"elements" : [
 		{
 			"type": "textbox",
@@ -12,7 +20,7 @@
 			"labelRaw": false,
 			"alignment": "left",
 			
-			"font": "opensans.fnt",
+			"font": "OpenSans",
 			"color": "1.0 1.0 1.0 1.0"
 		},
 		{
