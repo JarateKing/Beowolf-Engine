@@ -25,17 +25,24 @@ namespace wolf {
 			jsonFileStream << jsonIn.rdbuf();
 			std::string jsonFileData = jsonFileStream.str();
 			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
-
-			std::string defaultLanguage = jsonData["defaultLanguage"];
-			std::cout << defaultLanguage << "\n";
-
-			for (auto localization : jsonData["localization"]) {
+			
+			if (jsonData.contains("defaultLanguage")) {
+				m_localization->SetLanguage(jsonData["defaultLanguage"]);
 			}
 
-			for (auto font : jsonData["fonts"]) {
+			if (jsonData.contains("localization")) {
+				for (auto localization : jsonData["localization"]) {
+				}
 			}
 
-			for (auto element : jsonData["elements"]) {
+			if (jsonData.contains("fonts")) {
+				for (auto font : jsonData["fonts"]) {
+				}
+			}
+
+			if (jsonData.contains("elements")) {
+				for (auto element : jsonData["elements"]) {
+				}
 			}
 		}
 	}
