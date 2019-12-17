@@ -1,4 +1,12 @@
 {
+	"defaultLanguage": "ENGLISH",
+
+	"localization": [
+		{
+			"file": "resources/localization/engine.txt"
+		}
+	],
+
 	"fonts": [
 		{
 			"name": "OpenSans",
