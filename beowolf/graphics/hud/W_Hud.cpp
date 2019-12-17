@@ -32,16 +32,53 @@ namespace wolf {
 
 			if (jsonData.contains("localization")) {
 				for (auto localization : jsonData["localization"]) {
+					m_localization->Load(localization["file"]);
 				}
 			}
 
 			if (jsonData.contains("fonts")) {
 				for (auto font : jsonData["fonts"]) {
+					std::string fontName = font["name"];
+					std::string fontFolder = font["folder"];
+					std::string fontFile = font["file"];
+					m_fontlist[fontName] = new Font(fontFolder, fontFile);
 				}
 			}
 
 			if (jsonData.contains("elements")) {
 				for (auto element : jsonData["elements"]) {
+					float x = 0, y = 0, z = 1, w = 0, h = 0;
+					bool rx = false, ry = false, rw = false, rh = false;
+					if (element.contains("xpos"))
+						x = element["xpos"];
+					if (element.contains("ypos"))
+						y = element["ypos"];
+					if (element.contains("zpos"))
+						z = element["zpos"];
+					if (element.contains("wide"))
+						w = element["wide"];
+					if (element.contains("tall"))
+						h = element["tall"];
+
+					if (element.contains("xposRelative"))
+						rx = element["xposRelative"];
+					if (element.contains("yposRelative"))
+						ry = element["yposRelative"];
+					if (element.contains("wideRelative"))
+						rw = element["wideRelative"];
+					if (element.contains("tallRelative"))
+						rh = element["tallRelative"];
+
+					std::string type = element["type"];
+					if (type == "textbox") {
+
+					}
+					else if (type == "image") {
+						
+					}
+					else if (type == "fillcolor") {
+
+					}
 				}
 			}
 		}
