@@ -4,6 +4,10 @@
 #include "W_HudImage.h"
 #include "W_HudColorPanel.h"
 #include <algorithm>
+#include "JSON/json.hpp"
+#include <sstream>
+#include <fstream>
+#include <iostream>
 
 namespace wolf {
 
@@ -11,11 +15,29 @@ namespace wolf {
 		return a->GetZ() < b->GetZ();
 	}
 
-	Hud::Hud() {
+	Hud::Hud(std::string file) {
 		m_localization = new TextTable();
 		m_localization->SetLanguage("ENGLISH");
 
+		std::ifstream jsonIn(file);
+		if (jsonIn) {
+			std::stringstream jsonFileStream;
+			jsonFileStream << jsonIn.rdbuf();
+			std::string jsonFileData = jsonFileStream.str();
+			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
 
+			std::string defaultLanguage = jsonData["defaultLanguage"];
+			std::cout << defaultLanguage << "\n";
+
+			for (auto localization : jsonData["localization"]) {
+			}
+
+			for (auto font : jsonData["fonts"]) {
+			}
+
+			for (auto element : jsonData["elements"]) {
+			}
+		}
 	}
 
 	Hud::~Hud() {

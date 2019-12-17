@@ -12,7 +12,7 @@ namespace wolf
 	class Hud
 	{
 	public:
-		Hud();
+		Hud(std::string file);
 		~Hud();
 
 		void Update(float p_fDelta);
