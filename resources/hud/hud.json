@@ -1,0 +1,40 @@
+{
+	"elements" : [
+		{
+			"type": "textbox",
+			"xpos": 20,
+			"ypos": 20,
+			"zpos": 2,
+			"wide": 1240,
+			"tall": 220,
+			
+			"label": "Engine_FPS",
+			"labelRaw": false,
+			"alignment": "left",
+			
+			"font": "opensans.fnt",
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"type": "image",
+			"xpos": 1840,
+			"ypos": 0,
+			"zpos": 5,
+			"wide": 80,
+			"tall": 80,
+			
+			"image": "particles/particle.dds"
+		},
+		{
+			"type": "fillcolor",
+			"xpos": 0,
+			"ypos": 0,
+			"zpos": 10,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 80,
+			
+			"color": "0.0 0.0 0.0 0.3"
+		}
+	]
+}
