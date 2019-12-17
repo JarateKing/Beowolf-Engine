@@ -139,9 +139,6 @@ namespace wolf {
 	}
 
 	void Hud::Update(float p_fDelta) {
-		m_localization->SetVar("delta", std::to_string(p_fDelta));
-		m_localization->SetVar("fps", std::to_string(1.0 / p_fDelta));
-
 		if (m_prevElementsSize != m_elements.size()) {
 			std::stable_sort(m_elements.begin(), m_elements.end(), zSortCompare);
 			m_prevElementsSize = m_elements.size();
@@ -154,5 +151,9 @@ namespace wolf {
 	void Hud::Render(glm::mat4 projection) {
 		for (int i = m_elements.size() - 1; i >= 0; i--)
 			m_elements[i]->Render(projection);
+	}
+
+	void Hud::SetVar(std::string id, std::string val) {
+		m_localization->SetVar(id, val);
 	}
 }
