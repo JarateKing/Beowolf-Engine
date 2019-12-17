@@ -5,6 +5,7 @@ namespace wolf
 {
 	const double THRESHOLD = 60.0;
 	const int HISTORY_SIZE = 30;
+	const double FPS_THRESHOLD = 0.125;
 
 	void Time::update()
 	{
@@ -23,7 +24,14 @@ namespace wolf
 		else {
 			timeAvg = timeAvg + (deltaTime() / HISTORY_SIZE) - (times[timeCount] / HISTORY_SIZE);
 			times[timeCount] = deltaTime();
-			timeCount = (timeCount + 1) % HISTORY_SIZE;
+			if (++timeCount >= HISTORY_SIZE)
+				timeCount = 0;
+		}
+
+		timeSinceDisplayUpdate += deltaTime();
+		if (timeSinceDisplayUpdate >= FPS_THRESHOLD) {
+			timeSinceDisplayUpdate -= FPS_THRESHOLD;
+			timeToDisplay = timeAvg;
 		}
 
 		// prevent loss of precision
@@ -48,6 +56,6 @@ namespace wolf
 
 	double Time::getFPS()
 	{
-		return 1.0 / timeAvg;
+		return 1.0 / timeToDisplay;
 	}
 }

@@ -40,6 +40,8 @@ namespace wolf
 		std::vector<double> times;
 		int timeCount = 0;
 		double timeAvg = 0.0;
+		double timeToDisplay = 0.0;
+		double timeSinceDisplayUpdate = 0.0;
 	};
 }
 
