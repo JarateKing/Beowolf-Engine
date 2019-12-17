@@ -74,6 +74,7 @@ namespace wolf {
 						std::string fontName = element["font"];
 						std::string textLabel = element["label"];
 						bool isTextLabelRaw = element["labelRaw"];
+						float fontSize = element["fontSize"];
 
 						std::string textAlignment = element["alignment"];
 						float alignment = AL_Center;
@@ -90,16 +91,18 @@ namespace wolf {
 						TextBox* current = new TextBox(m_fontlist[fontName], m_localization);
 						current->SetTextAlignment(alignment);
 						current->SetTextColor(actualColor);
-						if (isTextLabelRaw)
-							current->SetStringRaw(textLabel);
-						else
-							current->SetString(textLabel);
-
+						current->SetSize(fontSize);
 						current->SetX(x, rx);
 						current->SetY(y, ry);
 						current->SetW(w, rw);
 						current->SetH(h, rh);
 						current->SetZ(z);
+
+						if (isTextLabelRaw)
+							current->SetStringRaw(textLabel);
+						else
+							current->SetString(textLabel);
+
 						m_elements.push_back(current);
 					}
 					else if (type == "image") {

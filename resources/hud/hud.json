@@ -29,6 +29,7 @@
 			"alignment": "left",
 			
 			"font": "OpenSans",
+			"fontSize": 16,
 			"color": "1.0 1.0 1.0 1.0"
 		},
 		{
