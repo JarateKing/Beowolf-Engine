@@ -23,4 +23,9 @@ namespace wolf
 	{
 		return (currentTime - lastTime);
 	}
+
+	double Time::getFPS()
+	{
+		return 60.0f;
+	}
 }
