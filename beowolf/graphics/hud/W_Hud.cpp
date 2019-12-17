@@ -71,7 +71,36 @@ namespace wolf {
 
 					std::string type = element["type"];
 					if (type == "textbox") {
+						std::string fontName = element["font"];
+						std::string textLabel = element["label"];
+						bool isTextLabelRaw = element["labelRaw"];
 
+						std::string textAlignment = element["alignment"];
+						float alignment = AL_Center;
+						if (textAlignment == "left")
+							alignment = AL_Left;
+						if (textAlignment == "right")
+							alignment = AL_Right;
+
+						std::string textColor = element["color"];
+						glm::vec4 actualColor = glm::vec4(1, 1, 1, 1);
+						std::stringstream colorSS(textColor);
+						colorSS >> actualColor[0] >> actualColor[1] >> actualColor[2] >> actualColor[3];
+
+						TextBox* current = new TextBox(m_fontlist[fontName], m_localization);
+						current->SetTextAlignment(alignment);
+						current->SetTextColor(actualColor);
+						if (isTextLabelRaw)
+							current->SetStringRaw(textLabel);
+						else
+							current->SetString(textLabel);
+
+						current->SetX(x, rx);
+						current->SetY(y, ry);
+						current->SetW(w, rw);
+						current->SetH(h, rh);
+						current->SetZ(z);
+						m_elements.push_back(current);
 					}
 					else if (type == "image") {
 						std::string imageFile = element["image"];
@@ -85,7 +114,18 @@ namespace wolf {
 						m_elements.push_back(current);
 					}
 					else if (type == "fillcolor") {
+						std::string textColor = element["color"];
+						glm::vec4 actualColor = glm::vec4(1, 1, 1, 1);
+						std::stringstream colorSS(textColor);
+						colorSS >> actualColor[0] >> actualColor[1] >> actualColor[2] >> actualColor[3];
 
+						HudColorPanel* current = new HudColorPanel(actualColor);
+						current->SetX(x, rx);
+						current->SetY(y, ry);
+						current->SetW(w, rw);
+						current->SetH(h, rh);
+						current->SetZ(z);
+						m_elements.push_back(current);
 					}
 				}
 			}
