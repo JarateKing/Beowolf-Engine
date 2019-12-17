@@ -74,7 +74,15 @@ namespace wolf {
 
 					}
 					else if (type == "image") {
-						
+						std::string imageFile = element["image"];
+
+						HudImage* current = new HudImage(imageFile);
+						current->SetX(x, rx);
+						current->SetY(y, ry);
+						current->SetW(w, rw);
+						current->SetH(h, rh);
+						current->SetZ(z);
+						m_elements.push_back(current);
 					}
 					else if (type == "fillcolor") {
 
