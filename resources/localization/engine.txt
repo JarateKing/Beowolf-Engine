@@ -1,4 +1,4 @@
 STRING	ENGLISH	FRENCH
 Engine_Lang	English	Francais
 Engine_Name	Beowolf Engine	Moteur de Jeu Beowolf
-Engine_FPS	FPS: $fps$	FPS: $fps$
+Engine_FPS	FPS: $fps$ / $deltaMS$ms	FPS: $fps$ / $deltaMS$ms

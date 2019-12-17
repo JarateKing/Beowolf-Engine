@@ -90,6 +90,8 @@ void BaseScene::Update()
 	float delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
 
+	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
+	testhud->SetVar("fps", std::to_string(1.0 / delta));
 	testhud->Update(delta);
 
 	// TODO: skeletons updating / animating is a huge fps killer
