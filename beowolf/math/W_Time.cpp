@@ -3,7 +3,7 @@
 
 namespace wolf
 {
-	const double THRESHOLD = 5.0;
+	const double THRESHOLD = 60.0;
 	const int HISTORY_SIZE = 30;
 
 	void Time::update()
