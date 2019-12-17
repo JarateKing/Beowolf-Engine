@@ -38,8 +38,8 @@ namespace wolf
 		double currentTime = 1.0;
 
 		std::vector<double> times;
-		int timeCount;
-		double timeAvg;
+		int timeCount = 0;
+		double timeAvg = 0.0;
 	};
 }
 
