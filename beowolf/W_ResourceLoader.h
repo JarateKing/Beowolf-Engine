@@ -23,6 +23,7 @@ namespace wolf
 		void operator=(ResourceLoader const&) = delete;
 
 		std::string getTexture(std::string name);
+		std::string getModelTexture(std::string name);
 		std::pair<std::string, std::string> getShaders(std::string name);
 		std::string getVertexShader(std::string name);
 		std::string getPixelShader(std::string name);
