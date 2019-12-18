@@ -3,6 +3,7 @@
 #include "W_TextBox.h"
 #include "W_HudImage.h"
 #include "W_HudColorPanel.h"
+#include "W_HudGradient.h"
 #include <algorithm>
 #include "JSON/json.hpp"
 #include <sstream>
@@ -123,6 +124,35 @@ namespace wolf {
 						colorSS >> actualColor[0] >> actualColor[1] >> actualColor[2] >> actualColor[3];
 
 						HudColorPanel* current = new HudColorPanel(actualColor);
+						current->SetX(x, rx);
+						current->SetY(y, ry);
+						current->SetW(w, rw);
+						current->SetH(h, rh);
+						current->SetZ(z);
+						m_elements.push_back(current);
+					}
+					else if (type == "gradient") {
+						std::string textColor1 = element["topLeft"];
+						glm::vec4 topleftColor = glm::vec4(1, 1, 1, 1);
+						std::stringstream topleftSS(textColor1);
+						topleftSS >> topleftColor[0] >> topleftColor[1] >> topleftColor[2] >> topleftColor[3];
+
+						std::string textColor2 = element["topRight"];
+						glm::vec4 toprightColor = glm::vec4(1, 1, 1, 1);
+						std::stringstream toprightSS(textColor2);
+						toprightSS >> toprightColor[0] >> toprightColor[1] >> toprightColor[2] >> toprightColor[3];
+
+						std::string textColor3 = element["bottomRight"];
+						glm::vec4 bottomrightColor = glm::vec4(1, 1, 1, 1);
+						std::stringstream bottomrightSS(textColor3);
+						bottomrightSS >> bottomrightColor[0] >> bottomrightColor[1] >> bottomrightColor[2] >> bottomrightColor[3];
+
+						std::string textColor4 = element["bottomLeft"];
+						glm::vec4 bottomleftColor = glm::vec4(1, 1, 1, 1);
+						std::stringstream bottomleftSS(textColor4);
+						bottomleftSS >> bottomleftColor[0] >> bottomleftColor[1] >> bottomleftColor[2] >> bottomleftColor[3];
+
+						HudGradient* current = new HudGradient(topleftColor, toprightColor, bottomleftColor, bottomrightColor);
 						current->SetX(x, rx);
 						current->SetY(y, ry);
 						current->SetW(w, rw);
