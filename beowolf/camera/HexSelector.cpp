@@ -25,7 +25,9 @@ HexSelector::HexSelector(float tileWidth)
 
 HexSelector::~HexSelector()
 {
-
+	delete g_pDecl;
+	wolf::BufferManager::DestroyBuffer(g_pVB);
+	//wolf::ProgramManager::DestroyProgram(g_dProgram);
 }
 
 void HexSelector::Update(int target, glm::vec2 position, float height)

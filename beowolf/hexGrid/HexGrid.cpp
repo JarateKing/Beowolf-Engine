@@ -4,6 +4,7 @@
 #include "W_Input.h"
 #include <fstream>
 #include <string>
+#define EPSILON_VALUE 0.00001
 
 
 HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile)
@@ -15,7 +16,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	GenerateHeights(width, length, minHeight, maxHeight);
 	SmoothFullHeights(width, 3);
 	GenerateLoc(width, length, tileWidth);
-	GenerateHexJSON(width, length);
+	GenerateHexJSON(width, length, tileWidth);
 	pathFinder->Instance()->Load("resources/objects/AIPathfindingDataTest.json");
 
 	int treeNum = wolf::RNG::GetRandom(0, (positions.size() - mountains.size() - desert.size() - roads.size()) / 2);
@@ -632,6 +633,7 @@ void HexGrid::GroupTextures(int width)
 		}
 	}
 
+	//NEED TO FIX ISSUE HERE
 	for (int i = 0; i < mountains.size(); i++)
 	{
 		heights.at(mountains.at(i)) = wolf::RNG::GetRandom(minMHeight, maxMHeight);
@@ -712,6 +714,10 @@ void HexGrid::Render(glm::mat4 projview)
 	// Draw!
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
+	for (int i = 0; i < selections.size(); i++)
+	{
+		selections.at(i)->Render(projview);
+	}
 	/*for (int i = 0; i < trees.size(); i++)
 	{
 		glDepthMask(true);
@@ -737,7 +743,7 @@ std::vector<glm::vec2> HexGrid::GetPos()
 	return positions;
 }
 
-void HexGrid::GenerateHexJSON(int width, int length)
+void HexGrid::GenerateHexJSON(int width, int length, float tileWidth)
 {
 	std::ofstream outputFile;
 	outputFile.open("resources/objects/AIPathfindingDataTest.json", std::ofstream::out | std::ofstream::trunc);
@@ -755,11 +761,11 @@ void HexGrid::GenerateHexJSON(int width, int length)
 
 	for (int i = 0; i < workables.size(); i++)
 	{
-		if (i < workables.size() -1)
+		if (i < workables.size() - 1)
 		{
 			outputFile << "{\"ID\":\"" << i << "\",\"X\":\"" << positions.at(workables.at(i)).x << "\",\"Y\":\"0\",\"Z\":\"" << positions.at(workables.at(i)).y << "\"},\n";
 		}
-		else if (i == workables.size()-1)
+		else if (i == workables.size() - 1)
 		{
 			outputFile << "{\"ID\":\"" << i << "\",\"X\":\"" << positions.at(workables.at(i)).x << "\",\"Y\":\"0\",\"Z\":\"" << positions.at(workables.at(i)).y << "\"}],\n\"Arcs\":[\n";
 		}
@@ -767,25 +773,49 @@ void HexGrid::GenerateHexJSON(int width, int length)
 
 	for (int i = 0; i < workables.size(); i++)
 	{
-		if (((int)(i + 1) / (int)width == (int)i / (int)width) && ((i + 1) < workables.size()) && std::find(mountains.begin(), mountains.end(), (i + 1)) == mountains.end())
+		if (WithinSameLine(workables.at(i), workables.at(i) + 1, width) && std::find(mountains.begin(), mountains.end(), workables.at(i) + 1) == mountains.end() && WithinBounds(workables.at(i) + 1))
 		{
 			//to the right
-			//outputFile << "{\"start\":\"" << i << "\",\"end\":\"" << (i + 1) << "\"},\n";
-			currAdd = currAdd + "{\"start\":\"" + std::to_string(i) + "\",\"end\":\"" + std::to_string(i + 1) + "\"},\n";
+			int endNode = -1;
+			for (int j = 0; j < workables.size(); j++)
+			{
+				if (workables.at(j) == workables.at(i) + 1)
+					endNode = j;
+			}
+			if (endNode != -1 && endNode < workables.size())
+			{
+				currAdd = currAdd + "{\"start\":\"" + std::to_string(i) + "\",\"end\":\"" + std::to_string(endNode) + "\"},\n";
+			}
 		}
 
-		if (((((int)(i + width - 1) / (int)(width)) - 1) == (int)i / (int)width) && ((i + width - 1) < workables.size()) && std::find(mountains.begin(), mountains.end(), (i + 1)) == mountains.end())
+		if (WithinLineBelow(workables.at(i), workables.at(i) + width - 1, width) && std::find(mountains.begin(), mountains.end(), workables.at(i) + width - 1) == mountains.end() && WithinBounds(workables.at(i) + width - 1))
 		{
 			//bottom left
-			//outputFile << "{\"start\":\"" << i << "\",\"end\":\"" << (i + width - 1) << "\"},\n";
-			currAdd = currAdd + "{\"start\":\"" + std::to_string(i) + "\",\"end\":\"" + std::to_string(i + width - 1) + "\"},\n";
+			int endNode = -1;
+			for (int j = 0; j < workables.size(); j++)
+			{
+				if (workables.at(j) == workables.at(i) + width - 1)
+					endNode = j;
+			}
+			if (endNode != -1 && endNode < workables.size())
+			{
+				currAdd = currAdd + "{\"start\":\"" + std::to_string(i) + "\",\"end\":\"" + std::to_string(endNode) + "\"},\n";
+			}
 		}
 
-		if (((((int)(i + width) / (int)(width)) - 1) == (int)i / (int)width) && ((i + width) < workables.size()) && std::find(mountains.begin(), mountains.end(), (i + 1)) == mountains.end())
+		if (WithinLineBelow(workables.at(i), workables.at(i) + width, width) && std::find(mountains.begin(), mountains.end(), workables.at(i) + width) == mountains.end() && WithinBounds(workables.at(i) + width))
 		{
 			//bottom right
-			//outputFile << "{\"start\":\"" << i << "\",\"end\":\"" << (i + width) << "\"},\n";
-			currAdd = currAdd + "{\"start\":\"" + std::to_string(i) + "\",\"end\":\"" + std::to_string(i + width) + "\"},\n";
+			int endNode = -1;
+			for (int j = 0; j < workables.size(); j++)
+			{
+				if (workables.at(j) == workables.at(i) + width)
+					endNode = j;
+			}
+			if (endNode != -1 && endNode < workables.size())
+			{
+				currAdd = currAdd + "{\"start\":\"" + std::to_string(i) + "\",\"end\":\"" + std::to_string(endNode) + "\"},\n";
+			}
 		}
 	}
 
@@ -794,6 +824,54 @@ void HexGrid::GenerateHexJSON(int width, int length)
 	outputFile << currAdd;
 	outputFile << "]}}";
 
+}
+
+bool HexGrid::WithinSameLine(int tile1, int tile2, int width)
+{
+	//Within same pair of rows at least
+	if ((int)tile1 / (int)(width + width - 1) == (int)tile2 / (int)(width + width - 1))
+	{
+		if (tile1 % (width + width - 1) < width)
+		{
+			if ((tile2 % (width + width - 1)) < width)
+				return true;
+		}
+		else
+		{
+			if ((tile2 % (width + width - 1)) > width)
+				return true;
+		}
+	}
+
+	return false;
+}
+
+bool HexGrid::WithinLineBelow(int tile1, int tile2, int width)
+{
+	//capable of being within two rows
+	if (tile2 - tile1 < (width + width - 1))
+	{
+		if (tile1 % (width + width - 1) < width)
+		{
+			if (tile2 % (width + width - 1) >= width)
+				return true;
+		}
+		else
+		{
+			if (tile2 % (width + width - 1) < width)
+				return true;
+		}
+	}
+
+	return false;
+}
+
+bool HexGrid::WithinBounds(int tile)
+{
+	if (tile < positions.size())
+		return true;
+
+	return false;
 }
 
 void HexGrid::Update(int target, float delta)
@@ -821,43 +899,72 @@ void HexGrid::Update(int target, float delta)
 		std::list<glm::vec3> path = pathFinder->Instance()->FindPath(glm::vec3(positions.at(targetingT).x, 0.0f, positions.at(targetingT).y), glm::vec3(positions.at(target).x, 0.0f, positions.at(target).y));
 		std::vector<glm::vec3> pathway;
 
-		for (int i = 0; i < path.size(); i++)
+		std::cout << "PATH" << std::endl;
+		for (auto node : path)
 		{
-			pathway.push_back(path.front());
-			path.pop_front();
+			std::cout << "Node: " << node.x << ", " << node.y << ", " << node.z << std::endl;
+			pathway.push_back(node);
+		}
+		std::cout << std::endl;
+
+		for (int i = 0; i < positions.size(); i++)
+		{
+			std::cout << "Position: " << positions.at(i).x << ", " << "0.0f" << ", " << positions.at(i).y << std::endl;
 		}
 
+		std::cout << std::endl;
 		std::vector<int> tiles;
 		for (int i = 0; i < pathway.size(); i++)
 		{
 			for (int j = 0; j < positions.size(); j++)
 			{
-				if (positions.at(j).x == pathway.at(i).x && positions.at(j).y == pathway.at(i).z)
+				if (cmpf(positions.at(j).x, pathway.at(i).x) && cmpf(positions.at(j).y,pathway.at(i).z))
 				{
-					std::cout << "ADDDDDDIIINNGGG" << std::endl;
 					tiles.push_back(j);
 				}
 			}
 		}
-		//std::cout << pathway.size() << ", " << tiles.size() << std::endl;
-		/*std::cout << "Pathway: ";
-		for (int i = 0; i < pathway.size(); i++)
-		{
-			std::cout << pathway.at(i).x << ", " << pathway.at(i).z << std::endl;
-		}*/
-		
-		
-		std::cout << "Pathway: ";
-		for (int i = 0; i < tiles.size(); i++)
-		{
-			std::cout << tiles.at(i) << ", ";
-		}
-		std::cout << std::endl;
-		
+	
 		timeBetween += delta;
+		
+		while (tiles.size() > selections.size())
+		{
+			HexSelector* selector = new HexSelector(5.0f);
+			selections.push_back(selector);
+		}
+
+		while (tiles.size() < selections.size())
+		{
+			delete selections.at(selections.size() - 1);
+			selections.erase(selections.end() - 1);
+		}
+
+		for (int i = 0; i < selections.size(); i++)
+		{
+			std::cout << "Selections size: " << selections.size() << std::endl;
+			std::cout << "Pathway size: " << pathway.size() << std::endl;
+			std::cout << "Tiles size: " << tiles.size() << std::endl;
+			std::cout << "Heights size: " << heights.size() << std::endl;
+			std::cout << "Positions size: " << positions.size() << std::endl;
+			std::cout << "Tiles.at(i): " << tiles.at(i) << std::endl;
+			std::cout << std::endl;
+
+			selections.at(i)->Update(tiles.at(i), positions.at(tiles.at(i)), heights.at(tiles.at(i)));
+		}
 	}
 	else
 	{
 		timeBetween += delta;
+
+		for (int i = 0; i < selections.size(); i++)
+		{
+			delete selections.at(0);
+			selections.erase(selections.begin());
+		}
 	}
+}
+
+bool HexGrid::cmpf(float a, float b)
+{
+	return (fabs(a - b) < EPSILON_VALUE);
 }
