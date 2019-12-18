@@ -52,6 +52,20 @@
 			"tall": 80,
 			
 			"color": "0.0 0.0 0.0 0.3"
+		},
+		{
+			"type": "gradient",
+			"xpos": 0,
+			"ypos": 80,
+			"zpos": 10,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 30,
+			
+			"topLeft": "1.0 0.0 0.0 1.0",
+			"topRight": "0.0 1.0 0.0 1.0",
+			"bottomLeft": "0.0 0.0 1.0 1.0",
+			"bottomRight": "1.0 1.0 1.0 0.0"
 		}
 	]
 }

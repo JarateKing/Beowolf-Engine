@@ -145,6 +145,7 @@
     <ClCompile Include="..\..\beowolf\graphics\hud\W_Hud.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudColorPanel.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudElement.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\hud\W_HudGradient.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudImage.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\Node.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.cpp" />
@@ -392,6 +393,7 @@
     <ClInclude Include="..\..\beowolf\graphics\hud\W_Hud.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudColorPanel.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudElement.h" />
+    <ClInclude Include="..\..\beowolf\graphics\hud\W_HudGradient.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudImage.h" />
     <ClInclude Include="..\..\beowolf\graphics\Node.h" />
     <ClInclude Include="..\..\beowolf\graphics\particles\affectors\Affector.h" />
