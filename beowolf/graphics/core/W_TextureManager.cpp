@@ -15,7 +15,7 @@ std::map<std::string, TextureManager::Entry*>	TextureManager::m_textures;
 // Creates a new texture or returns an existing copy if already
 // loaded previously
 //----------------------------------------------------------
-Texture* TextureManager::CreateTexture(const std::string& p_strFile)
+Texture* TextureManager::CreateTexture(const std::string& p_strFile, bool includeMipmaps)
 {
 	std::map<std::string, Entry*>::iterator iter = m_textures.find(p_strFile);
 
@@ -35,9 +35,9 @@ Texture* TextureManager::CreateTexture(const std::string& p_strFile)
 // When creating directly from data, we don't check for duplicates
 // and just delegate directly to the texture class
 //----------------------------------------------------------
-Texture* TextureManager::CreateTexture(void* p_pData, unsigned int p_uiWidth, unsigned int p_uiHeight, Texture::Format p_eFormat)
+Texture* TextureManager::CreateTexture(void* p_pData, unsigned int p_uiWidth, unsigned int p_uiHeight, Texture::Format p_eFormat, bool includeMipmaps)
 {
-	return new Texture(p_pData, p_uiWidth, p_uiHeight, p_eFormat);
+	return new Texture(p_pData, p_uiWidth, p_uiHeight, p_eFormat, includeMipmaps);
 }
 
 //----------------------------------------------------------

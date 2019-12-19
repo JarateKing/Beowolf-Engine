@@ -8,6 +8,7 @@ namespace wolf
 {
 	TextTable::TextTable()
 	{
+		m_varMap[""] = "$";
 	}
 
 	TextTable::~TextTable()
@@ -70,5 +71,16 @@ namespace wolf
 	std::string TextTable::GetString(const std::string& id)
 	{
 		return m_lookupMap[m_currentLanguage][id];
+	}
+
+	void TextTable::SetVar(const std::string& id, const std::string& val) {
+		m_varMap[id] = val;
+	}
+
+	std::string TextTable::GetVar(const std::string& id) {
+		if (m_varMap.count(id) == 0)
+			return "$" + id + "$";
+		
+		return m_varMap[id];
 	}
 }

@@ -1,6 +1,7 @@
 #include <W_Common.h>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <fstream>
 #include <string>
 #include <iostream>
@@ -17,7 +18,7 @@ namespace wolf
 	struct BMWAnim {
 		unsigned int duration;
 		unsigned int rate;
-		std::map<int, std::vector<glm::mat4>> transforms;
+		std::vector<std::map<int, glm::mat4>> transforms;
 		BMWAnim() {};
 	};
 

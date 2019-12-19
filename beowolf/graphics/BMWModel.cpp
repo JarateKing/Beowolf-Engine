@@ -93,15 +93,19 @@ namespace wolf
 	void BMWModel::update(float delta)
 	{
 		if (m_hasAnimations) {
+			int prev = m_animationFrame;
 			m_animationFrame += delta * (*m_anims)[0]->rate;
+			if (prev != (int)(m_animationFrame)) {
 
-			if (m_animationFrame >= m_currentAnimation->end && !m_currentAnimation->isLoop)
-				setAnim(*m_defaultAnimation);
+				if (m_animationFrame >= m_currentAnimation->end && !m_currentAnimation->isLoop)
+					setAnim(*m_defaultAnimation);
 
-			m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
+				m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
 
-			for (auto it : (*m_anims)[0]->transforms) {
-				m_boneMatrix[it.first] = it.second[m_animationFrame];
+				BMWAnim* curAnim = (*m_anims)[0];
+				for (auto it : curAnim->transforms[m_animationFrame]) {
+					m_boneMatrix[it.first] = it.second;
+				}
 			}
 		}
 	}

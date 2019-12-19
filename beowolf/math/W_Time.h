@@ -1,6 +1,8 @@
 #ifndef W_TIME_H
 #define W_TIME_H
 
+#include <vector>
+
 namespace wolf
 {
 	class Time
@@ -21,6 +23,7 @@ namespace wolf
 
 		void update();
 		double deltaTime();
+		double getFPS();
 	private:
 		//-------------------------------------------------------------------------
 		// PRIVATE METHODS
@@ -33,6 +36,12 @@ namespace wolf
 		//-------------------------------------------------------------------------
 		double lastTime = 1.0;
 		double currentTime = 1.0;
+
+		std::vector<double> times;
+		int timeCount = 0;
+		double timeAvg = 0.0;
+		double timeToDisplay = 0.0;
+		double timeSinceDisplayUpdate = 0.0;
 	};
 }
 

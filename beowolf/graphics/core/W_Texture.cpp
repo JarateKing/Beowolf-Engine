@@ -38,15 +38,15 @@ static GLenum gs_aWrapMap[Texture::WM_NUM_WRAP_MODES] =
 //----------------------------------------------------------
 // Constructor, taking in filename to load
 //----------------------------------------------------------
-Texture::Texture(const std::string& p_strFile) 
+Texture::Texture(const std::string& p_strFile, bool includeMipmaps)
 	: m_eFilterMin(Texture::FM_Invalid), m_eFilterMag(Texture::FM_Invalid),
 	  m_eWrapU(Texture::WM_Invalid), m_eWrapV(Texture::WM_Invalid),
 	  m_uiWidth(0), m_uiHeight(0), m_uiTex(0)
 {
 	if( p_strFile.find(".dds") != std::string::npos )
-		LoadFromDDS(p_strFile);
+		LoadFromDDS(p_strFile, includeMipmaps);
 	else if( p_strFile.find(".tga") != std::string::npos )
-		LoadFromTGA(p_strFile);
+		LoadFromTGA(p_strFile, includeMipmaps);
 	else
 	{
 		printf("ERROR: No idea how to load this file - %s!", p_strFile.c_str());
@@ -58,7 +58,7 @@ Texture::Texture(const std::string& p_strFile)
 //----------------------------------------------------------
 // Constructor taking in data already in ram
 //----------------------------------------------------------
-Texture::Texture(void* p_pData, unsigned int p_uiWidth, unsigned int p_uiHeight, Format p_eFormat)
+Texture::Texture(void* p_pData, unsigned int p_uiWidth, unsigned int p_uiHeight, Format p_eFormat, bool includeMipmaps)
 	: m_eFilterMin(Texture::FM_Invalid), m_eFilterMag(Texture::FM_Invalid),
 	  m_eWrapU(Texture::WM_Invalid), m_eWrapV(Texture::WM_Invalid),
 	  m_uiWidth(0), m_uiHeight(0), m_uiTex(0)
@@ -73,8 +73,10 @@ Texture::Texture(void* p_pData, unsigned int p_uiWidth, unsigned int p_uiHeight,
 
 	SetWrapMode(WM_Clamp);
 
-	glGenerateMipmap(GL_TEXTURE_2D);
-	SetFilterMode(FM_TrilinearMipmap, FM_Linear);
+	if (includeMipmaps) {
+		glGenerateMipmap(GL_TEXTURE_2D);
+		SetFilterMode(FM_TrilinearMipmap, FM_Linear);
+	}
 }
 
 //----------------------------------------------------------
@@ -98,7 +100,7 @@ void Texture::Bind() const
 // Builds the texture from the given DDS file, including mipmap
 // levels, if found in the DDS
 //----------------------------------------------------------
-void Texture::LoadFromDDS(const std::string& p_strFile)
+void Texture::LoadFromDDS(const std::string& p_strFile, bool includeMipmaps)
 {
 	bool bHasMips = false;
 	m_uiTex = wolf::CreateTextureFromDDS(p_strFile, &m_uiWidth, &m_uiHeight, &bHasMips);
@@ -115,7 +117,7 @@ void Texture::LoadFromDDS(const std::string& p_strFile)
 // Builds the texture from the given TGA file. Mipmap levels
 // are automatically generated
 //----------------------------------------------------------
-void Texture::LoadFromTGA(const std::string& p_strFile)
+void Texture::LoadFromTGA(const std::string& p_strFile, bool includeMipmaps)
 {
 	glGenTextures(1,&m_uiTex);
 	glBindTexture(GL_TEXTURE_2D, m_uiTex);
@@ -129,8 +131,10 @@ void Texture::LoadFromTGA(const std::string& p_strFile)
     
 	glfwFreeImage(&img);
 
-	glGenerateMipmap(GL_TEXTURE_2D);
-	SetFilterMode(FM_TrilinearMipmap, FM_Linear);
+	if (includeMipmaps) {
+		glGenerateMipmap(GL_TEXTURE_2D);
+		SetFilterMode(FM_TrilinearMipmap, FM_Linear);
+	}
 }
 
 //----------------------------------------------------------

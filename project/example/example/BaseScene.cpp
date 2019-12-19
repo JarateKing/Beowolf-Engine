@@ -22,6 +22,8 @@
 #include "ComponentHexPos.h"
 #include "AIPathfinder.h"
 #include <cmath>
+#include "W_Hud.h"
+#include "W_ProjectionMatrix.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -35,6 +37,8 @@ wolf::BMWModel* test2;
 week2::ComponentHexPos hexPos;
 std::vector<int> testMove;
 //week9::AIPathfinder* pathFinder;
+wolf::Hud* testhud;
+glm::mat4 hudProjMat;
 
 BaseScene::BaseScene()
 {
@@ -75,6 +79,9 @@ void BaseScene::Init()
 	testMove.push_back(2);
 
 	//pathFinder->Instance()->Load("resources/objects/AIPathfindingDataTest.json");
+
+	testhud = new wolf::Hud("resources/hud/hud.json");
+	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void BaseScene::Update()
@@ -83,7 +90,14 @@ void BaseScene::Update()
 	float delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
 
-	test->update(delta);
+	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
+	std::string fpsString = std::to_string(fpsValue);
+	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
+	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
+	testhud->Update(delta);
+
+	// TODO: skeletons updating / animating is a huge fps killer
+	//test->update(delta);
 	test2->update(delta);
 	
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_J))
@@ -123,8 +137,6 @@ void BaseScene::Update()
 		test->setAnim("idle");
 	}
 
-	std::cout << dir << "\n";
-
 	test->setTransform(glm::translate(hexPos.GetPos()) * glm::rotate(dir, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.025, 0.025, 0.025)));
 }
 
@@ -142,7 +154,10 @@ void BaseScene::Render()
 	glDepthMask(false);
 	glEnable(GL_BLEND);
 
-	test->render(cam->GetViewMatrix(), glm::mat4(), true);
+	testhud->Render(hudProjMat);
+
+	glDepthMask(true);
+	glDisable(GL_BLEND);
 }
 
 
