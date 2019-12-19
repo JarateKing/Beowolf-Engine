@@ -11,6 +11,7 @@
 #include "W_Texture.h"
 #include "W_TextureManager.h"
 #include "AIPathfinder.h"
+#include "camera/HexSelector.h"
 
 class HexGrid
 {
@@ -29,8 +30,11 @@ private:
 	void GenerateVerts(float tileWidth, float toEdge);
 	void SmoothFullHeights(int width, int numTimes);
 	void GroupTextures(int width);
-	void GenerateHexJSON(int width, int length);
-	
+	void GenerateHexJSON(int width, int length, float tileWidth);
+	bool WithinSameLine(int tile1, int tile2, int width);
+	bool WithinLineBelow(int tile1, int tile2, int width);
+	bool WithinBounds(int tile);
+	bool cmpf(float a, float b);
 
 	float minH, maxH;
 
@@ -39,6 +43,8 @@ private:
 	wolf::Texture* pTex2;
 	wolf::BMWModel* test;
 	std::vector<wolf::BMWModel*> trees;
+	std::vector<HexSelector*> selections;
+	std::vector<int> selectionTabs;
 
 	std::vector<int> roads;
 	std::vector<int> mountains;
