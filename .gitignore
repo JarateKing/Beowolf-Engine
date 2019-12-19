@@ -19,6 +19,9 @@ tools/font_converter/*.png
 # re-include globally ignored files
 !*.lib
 
+# ignore specific files
+resources/objects/AIPathfindingDataTest.json
+
 # ignore all visual studio files
 *.obj
 *.suo
