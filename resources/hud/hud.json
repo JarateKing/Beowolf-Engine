@@ -1,0 +1,71 @@
+{
+	"defaultLanguage": "ENGLISH",
+
+	"localization": [
+		{
+			"file": "resources/localization/engine.txt"
+		}
+	],
+
+	"fonts": [
+		{
+			"name": "OpenSans",
+			"folder": "resources/fonts/",
+			"file": "opensans.fnt"
+		}
+	],
+
+	"elements" : [
+		{
+			"type": "textbox",
+			"xpos": 20,
+			"ypos": 20,
+			"zpos": 2,
+			"wide": 1240,
+			"tall": 220,
+			
+			"label": "Engine_FPS",
+			"labelRaw": false,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 16,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"type": "image",
+			"xpos": 1840,
+			"ypos": 0,
+			"zpos": 5,
+			"wide": 80,
+			"tall": 80,
+			
+			"image": "particles/particle.dds"
+		},
+		{
+			"type": "fillcolor",
+			"xpos": 0,
+			"ypos": 0,
+			"zpos": 10,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 65,
+			
+			"color": "0.0 0.0 0.0 0.3"
+		},
+		{
+			"type": "gradient",
+			"xpos": 0,
+			"ypos": 65,
+			"zpos": 10,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 30,
+			
+			"topLeft": "0.0 0.0 0.0 0.3",
+			"topRight": "0.0 0.0 0.0 0.3",
+			"bottomLeft": "0.0 0.0 0.0 0.0",
+			"bottomRight": "0.0 0.0 0.0 0.0"
+		}
+	]
+}

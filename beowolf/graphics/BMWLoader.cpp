@@ -78,14 +78,20 @@ namespace wolf
 			unsigned int speed = readInt(&in);
 			unsigned int bones = readInt(&in);
 
-			std::map<int, std::vector<glm::mat4>> trans;
+			std::map<int, std::vector<glm::mat4>> transMap;
 			for (int j = 0; j < bones; j++) {
 				unsigned int boneAffected = readInt(&in);
 				std::vector<glm::mat4> transforms;
 				for (int k = 0; k <= duration; k++) {
 					transforms.push_back(readTransform(&in));
 				}
-				trans[boneAffected] = transforms;
+				transMap[boneAffected] = transforms;
+			}
+
+			std::vector<std::map<int, glm::mat4>> trans((transMap.begin()->second).size());
+			for (auto it : transMap) {
+				for (int j = 0; j < it.second.size(); j++)
+					trans[j][it.first] = it.second[j];
 			}
 
 			BMWAnim* current = new BMWAnim();

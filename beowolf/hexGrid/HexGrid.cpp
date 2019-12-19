@@ -37,7 +37,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 
 	int rnd;
 	std::string model;
-	/*for (int i = 0; i < treeNum; i++)
+	for (int i = 0; i < treeNum; i++)
 	{
 		auto shaders = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
 		rnd = wolf::RNG::GetRandom(0, 3);
@@ -61,7 +61,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 		float setScale = wolf::RNG::GetRandom(0.01f, 0.02f);
 		test->setTransform(glm::translate(glm::vec3(positions.at(treePos.at(i)).x, heights.at(treePos.at(i)), positions.at(treePos.at(i)).y)) * glm::rotate(180.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(setScale, setScale, setScale)));
 		trees.push_back(test);
-	}*/
+	}
 
 	// set up rendering
 	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("hex"));
@@ -69,12 +69,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 
 	g_pDecl = new wolf::VertexDeclaration();
 	g_pDecl->Begin();
-	g_pDecl->AppendAttribute(wolf::AT_Position, 3, wolf::CT_Float);
-	g_pDecl->AppendAttribute(wolf::AT_Color, 4, wolf::CT_UByte);
-	g_pDecl->AppendAttribute(wolf::AT_TexCoord1, 2, wolf::CT_Float);
-	g_pDecl->AppendAttribute(wolf::AT_Normal, 3, wolf::CT_Float);
-	g_pDecl->AppendAttribute(wolf::AT_BoneIndices, 4, wolf::CT_Float);
-	g_pDecl->AppendAttribute(wolf::AT_BoneWeight, 4, wolf::CT_Float);
+	wolf::Vertex::applyAttributes(g_pDecl);
 	g_pDecl->SetVertexBuffer(g_pVB);
 	g_pDecl->End();
 
@@ -526,7 +521,7 @@ void HexGrid::GroupTextures(int width)
 
 		while (found)
 		{
-			start = wolf::RNG::GetRandom(0, positions.size());
+			start = wolf::RNG::GetRandom(0, positions.size() - 1);
 			if (std::find(roads.begin(), roads.end(), start) == roads.end())
 				found = false;
 		}
@@ -718,7 +713,7 @@ void HexGrid::Render(glm::mat4 projview)
 	{
 		selections.at(i)->Render(projview);
 	}
-	/*for (int i = 0; i < trees.size(); i++)
+	for (int i = 0; i < trees.size(); i++)
 	{
 		glDepthMask(true);
 		glDisable(GL_BLEND);
@@ -730,7 +725,7 @@ void HexGrid::Render(glm::mat4 projview)
 		glDepthMask(false);
 		glEnable(GL_BLEND);
 		trees.at(i)->render(projview, glm::mat4(), true);
-	}*/
+	}
 }
 
 std::vector<float> HexGrid::GetHeights()

@@ -64,10 +64,7 @@ namespace wolf
 
 		g_pDecl = new VertexDeclaration();
 		g_pDecl->Begin();
-		g_pDecl->AppendAttribute(AT_Position, 3, CT_Float);
-		g_pDecl->AppendAttribute(AT_Color, 4, CT_UByte);
-		g_pDecl->AppendAttribute(AT_TexCoord1, 2, CT_Float);
-		g_pDecl->AppendAttribute(AT_Normal, 3, CT_Float);
+		Vertex::applyAttributes(g_pDecl);
 		g_pDecl->SetVertexBuffer(g_pVB);
 		g_pDecl->End();
 	}

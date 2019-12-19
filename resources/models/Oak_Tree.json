@@ -1,0 +1,9 @@
+{
+	"defaultAnim": "idle",
+
+	"textureOverrides" : [
+		{
+			"texture": "Oak_Tree.fbm/tree_diffuse2.dds"
+		}
+	]
+}

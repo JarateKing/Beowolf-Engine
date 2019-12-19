@@ -6,12 +6,15 @@
 #include "W_VertexBuffer.h"
 #include "W_TextBox.h"
 #include "W_ResourceLoader.h"
+#include "W_ProjectionMatrix.h"
+#include <iostream>
+#include <string>
 
 namespace wolf
 {
-	constexpr float DESIRED_width = 1240.0f;
-	constexpr float DESIRED_height = 220.0f;
-	constexpr float FONTSIZE = 0.125f;
+	constexpr float DESIRED_width = 1920.0f;
+	constexpr float DESIRED_height = 1080.0f;
+	constexpr float FONTSIZE = 1.0f / 56.0f;
 	
 	static const Vertex squareVertices[] = {
 			{ 0.0f, 0.0f, 1.0f,	1, 1, 1, 1, 0.0f, 0.0f },
@@ -34,7 +37,7 @@ namespace wolf
 	
 		for (int i = 0; i < m_font->GetTotalTextures(); i++)
 		{
-			g_pProgram.push_back(wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("font")));
+			g_pProgram.push_back(wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("font_msdf")));
 			g_pVB.push_back(wolf::BufferManager::CreateVertexBuffer(squareVertices, sizeof(Vertex) * 6));
 	
 			g_pDecl.push_back(new wolf::VertexDeclaration());
@@ -54,62 +57,65 @@ namespace wolf
 	{
 	
 	}
-	
-	void TextBox::SetBounds(const int& width, const int& height)
-	{
-		m_xBound = width;
-		m_yBound = height;
-	
-		m_world = glm::translate(m_xPos, m_yPos, 0.0f) * glm::scale(m_xBound, m_yBound, 1.0f);
+
+	void TextBox::SetSize(float size) {
+		m_fontSize = size;
+	}
+
+	void TextBox::SetString(const std::string& id) {
+		SetStringRaw(m_localization->GetString(id));
 	}
 	
-	void TextBox::SetPos(const int& xpos, const int& ypos)
+	void TextBox::SetStringRaw(const std::string& text)
 	{
-		m_xPos = xpos;
-		m_yPos = ypos;
-	
-		m_world = glm::translate(m_xPos, m_yPos, 0.0f) * glm::scale(m_xBound, m_yBound, 1.0f);
+		m_str = text;
+		m_hasVars = text.find('$') != text.find_last_of('$');
+		if (m_hasVars)
+			UpdateString(ReplaceTextVars(text));
+		else
+			UpdateString(text);
 	}
-	
-	void TextBox::SetString(const std::string& id)
+
+	void TextBox::UpdateString(const std::string& text)
 	{
+		m_prevText = text;
 		m_glyphs.clear();
-	
-		std::string localizedString = m_localization->GetString(id);
 	
 		float offsetHead = 0.0f;
 		float offsetLine = 0.0f;
 		float lineOffset = m_font->GetLineOffset();
 	
-		float widthFactor = (DESIRED_width / m_xBound) * 1.825f;
-		float heightFactor = (DESIRED_height / m_yBound) * 10.0f;
+		glm::vec2 screenDimensions = ProjMatrix::GetScreenSize();
+		float aspectFactor = (screenDimensions.x / screenDimensions.y) / (16.0 / 9.0);
+		float widthFactor = DESIRED_width / m_xBound;
+		float heightFactor = DESIRED_height * aspectFactor / m_yBound;
 	
 		bool isNewWord = true;
 		std::vector<std::vector<Vertex>>* lines = new std::vector<std::vector<Vertex>>[m_font->GetTotalTextures()];
 		std::vector<Vertex>* currentLine = new std::vector<Vertex>[m_font->GetTotalTextures()];
 		std::vector<float> lineSpaceRemaining;
-		for (int i = 0; i < localizedString.length(); i++)
+		for (int i = 0; i < text.length(); i++)
 		{
 			// check if word won't fit on line
 			if (offsetHead > 0 && isNewWord)
 			{
-				std::string remaining = localizedString.substr(i);
+				std::string remaining = text.substr(i);
 				float postHead = offsetHead;
 				int ptr = 0;
 				
 				for (int i = 0; i < remaining.length(); i++)
 				{
 					if (remaining.at(i) != ' ')
-						postHead += m_font->GetCharXAdvance(remaining.at(i)) * FONTSIZE * widthFactor;
+						postHead += m_font->GetCharXAdvance(remaining.at(i)) * (FONTSIZE * m_fontSize) * widthFactor;
 					else
 						break;
 				}
 	
-				if (postHead >= 1 - m_font->GetCharXAdvance('W') * FONTSIZE * widthFactor)
+				if (postHead >= 1 - m_font->GetCharXAdvance('W') * (FONTSIZE * m_fontSize) * widthFactor)
 				{
 					lineSpaceRemaining.push_back(1 - offsetHead);
 					offsetHead = 0;
-					offsetLine += lineOffset * FONTSIZE;
+					offsetLine += lineOffset * (FONTSIZE * m_fontSize);
 					for (int j = 0; j < m_font->GetTotalTextures(); j++)
 					{
 						lines[j].push_back(currentLine[j]);
@@ -118,33 +124,33 @@ namespace wolf
 				}
 			}
 	
-			char cur = localizedString.at(i);
+			char cur = text.at(i);
 	
 			int tex = m_font->GetTextureNum(cur);
 	
 			float x1 = offsetHead;
-			float x2 = offsetHead + m_font->GetCharWidth(cur) * FONTSIZE * widthFactor;
-			float y1 = (offsetLine + (m_font->GetCharYOffset(cur))) * heightFactor * FONTSIZE;
-			float y2 = (offsetLine + (m_font->GetCharYOffset(cur) + m_font->GetCharHeight(cur))) * heightFactor * FONTSIZE;
+			float x2 = offsetHead + m_font->GetCharWidth(cur) * (FONTSIZE * m_fontSize) * widthFactor;
+			float y1 = (offsetLine + (m_font->GetCharYOffset(cur))) * heightFactor * (FONTSIZE * m_fontSize);
+			float y2 = (offsetLine + (m_font->GetCharYOffset(cur) + m_font->GetCharHeight(cur))) * heightFactor * (FONTSIZE * m_fontSize);
 	
 			float u1 = m_font->GetCharX1(cur);
 			float u2 = m_font->GetCharX2(cur);
 			float v1 = m_font->GetCharY1(cur);
 			float v2 = m_font->GetCharY2(cur);
 	
-			currentLine[tex].push_back(Vertex({ x1, y1,	1.0f, 1, 1, 1, 1, u1, v1}));
-			currentLine[tex].push_back(Vertex({ x1, y2,	1.0f, 1, 1, 1, 1, u1, v2}));
-			currentLine[tex].push_back(Vertex({ x2, y2,	1.0f, 1, 1, 1, 1, u2, v2}));
-			currentLine[tex].push_back(Vertex({ x2, y2,	1.0f, 1, 1, 1, 1, u2, v2}));
-			currentLine[tex].push_back(Vertex({ x2, y1,	1.0f, 1, 1, 1, 1, u2, v1}));
-			currentLine[tex].push_back(Vertex({ x1, y1,	1.0f, 1, 1, 1, 1, u1, v1}));
+			currentLine[tex].push_back(Vertex({ x1, y1,	m_zPos, 1, 1, 1, 1, u1, v1}));
+			currentLine[tex].push_back(Vertex({ x1, y2,	m_zPos, 1, 1, 1, 1, u1, v2}));
+			currentLine[tex].push_back(Vertex({ x2, y2,	m_zPos, 1, 1, 1, 1, u2, v2}));
+			currentLine[tex].push_back(Vertex({ x2, y2,	m_zPos, 1, 1, 1, 1, u2, v2}));
+			currentLine[tex].push_back(Vertex({ x2, y1,	m_zPos, 1, 1, 1, 1, u2, v1}));
+			currentLine[tex].push_back(Vertex({ x1, y1,	m_zPos, 1, 1, 1, 1, u1, v1}));
 	
-			offsetHead += m_font->GetCharXAdvance(cur) * FONTSIZE * widthFactor;
-			if (offsetHead >= 1 - m_font->GetCharXAdvance('W') * FONTSIZE * widthFactor)
+			offsetHead += m_font->GetCharXAdvance(cur) * (FONTSIZE * m_fontSize) * widthFactor;
+			if (offsetHead >= 1 - m_font->GetCharXAdvance('W') * (FONTSIZE * m_fontSize) * widthFactor)
 			{
 				lineSpaceRemaining.push_back(1 - offsetHead);
 				offsetHead = 0;
-				offsetLine += lineOffset * FONTSIZE;
+				offsetLine += lineOffset * (FONTSIZE * m_fontSize);
 				for (int j = 0; j < m_font->GetTotalTextures(); j++)
 				{
 					lines[j].push_back(currentLine[j]);
@@ -189,10 +195,7 @@ namespace wolf
 				g_pVB[i] = wolf::BufferManager::CreateVertexBuffer(&(m_glyphs[i][0]), sizeof(Vertex) * m_glyphs[i].size());
 				g_pDecl[i] = new wolf::VertexDeclaration();
 				g_pDecl[i]->Begin();
-				g_pDecl[i]->AppendAttribute(AT_Position, 3, CT_Float);
-				g_pDecl[i]->AppendAttribute(AT_Color, 4, CT_UByte);
-				g_pDecl[i]->AppendAttribute(AT_TexCoord1, 2, CT_Float);
-				g_pDecl[i]->AppendAttribute(AT_Normal, 3, CT_Float);
+				Vertex::applyAttributes(g_pDecl[i]);
 				g_pDecl[i]->SetVertexBuffer(g_pVB[i]);
 				g_pDecl[i]->End();
 			}
@@ -210,6 +213,31 @@ namespace wolf
 	void TextBox::SetTextAlignment(const float& alignment)
 	{
 		m_alignmentFactor = alignment;
+	}
+
+	std::string TextBox::ReplaceTextVars(const std::string& text) {
+		std::string toret = text;
+		int pos = 0;
+		while (pos != std::string::npos) {
+			pos = toret.find('$', pos);
+			if (pos != std::string::npos) {
+				int next = toret.find('$', pos + 1);
+				if (next != std::string::npos) {
+					std::string replace = m_localization->GetVar(toret.substr(pos + 1, next - pos - 1));
+					toret = toret.substr(0, pos) + replace + toret.substr(next + 1);
+					pos = next + (replace.length() - (next - pos));
+				}
+			}
+		}
+		return toret;
+	}
+
+	void TextBox::Update(float p_fDelta) {
+		if (m_hasVars) {
+			std::string text = ReplaceTextVars(m_str);
+			if (text != m_prevText)
+				UpdateString(text);
+		}
 	}
 	
 	void TextBox::Render(glm::mat4 proj)
