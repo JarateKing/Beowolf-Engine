@@ -4,7 +4,7 @@
 #include "W_Input.h"
 #include <fstream>
 #include <string>
-#define EPSILON_VALUE 0.00001
+#define EPSILON_VALUE 0.01
 
 
 HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile)
@@ -894,20 +894,11 @@ void HexGrid::Update(int target, float delta)
 		std::list<glm::vec3> path = pathFinder->Instance()->FindPath(glm::vec3(positions.at(targetingT).x, 0.0f, positions.at(targetingT).y), glm::vec3(positions.at(target).x, 0.0f, positions.at(target).y));
 		std::vector<glm::vec3> pathway;
 
-		std::cout << "PATH" << std::endl;
 		for (auto node : path)
 		{
-			std::cout << "Node: " << node.x << ", " << node.y << ", " << node.z << std::endl;
 			pathway.push_back(node);
 		}
-		std::cout << std::endl;
 
-		for (int i = 0; i < positions.size(); i++)
-		{
-			std::cout << "Position: " << positions.at(i).x << ", " << "0.0f" << ", " << positions.at(i).y << std::endl;
-		}
-
-		std::cout << std::endl;
 		std::vector<int> tiles;
 		for (int i = 0; i < pathway.size(); i++)
 		{
@@ -919,7 +910,7 @@ void HexGrid::Update(int target, float delta)
 				}
 			}
 		}
-	
+
 		timeBetween += delta;
 		
 		while (tiles.size() > selections.size())
@@ -936,14 +927,6 @@ void HexGrid::Update(int target, float delta)
 
 		for (int i = 0; i < selections.size(); i++)
 		{
-			std::cout << "Selections size: " << selections.size() << std::endl;
-			std::cout << "Pathway size: " << pathway.size() << std::endl;
-			std::cout << "Tiles size: " << tiles.size() << std::endl;
-			std::cout << "Heights size: " << heights.size() << std::endl;
-			std::cout << "Positions size: " << positions.size() << std::endl;
-			std::cout << "Tiles.at(i): " << tiles.at(i) << std::endl;
-			std::cout << std::endl;
-
 			selections.at(i)->Update(tiles.at(i), positions.at(tiles.at(i)), heights.at(tiles.at(i)));
 		}
 	}
