@@ -873,9 +873,13 @@ void HexGrid::Update(int target, float delta)
 {
 	abstractTarget = target;
 
+	if (lastFrame != target)
+	{
+		changed = true;
+	}
+
 	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == false && timeBetween >= 1.0f)
 	{
-		//std::cout << "Updating" << std::endl;
 		targeting = true;
 		targetingT = target;
 		timeBetween = 0.0f;
@@ -883,7 +887,6 @@ void HexGrid::Update(int target, float delta)
 
 	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == true && timeBetween >= 1.0f)
 	{
-		//std::cout << "Updating" << std::endl;
 		targeting = false;
 		targetingT = -1;
 		timeBetween = 0.0f;
@@ -891,43 +894,47 @@ void HexGrid::Update(int target, float delta)
 
 	if (targeting)
 	{
-		std::list<glm::vec3> path = pathFinder->Instance()->FindPath(glm::vec3(positions.at(targetingT).x, 0.0f, positions.at(targetingT).y), glm::vec3(positions.at(target).x, 0.0f, positions.at(target).y));
-		std::vector<glm::vec3> pathway;
-
-		for (auto node : path)
+		if (changed)
 		{
-			pathway.push_back(node);
-		}
+			std::list<glm::vec3> path = pathFinder->Instance()->FindPath(glm::vec3(positions.at(targetingT).x, 0.0f, positions.at(targetingT).y), glm::vec3(positions.at(target).x, 0.0f, positions.at(target).y));
+			std::vector<glm::vec3> pathway;
 
-		std::vector<int> tiles;
-		for (int i = 0; i < pathway.size(); i++)
-		{
-			for (int j = 0; j < positions.size(); j++)
+			for (auto node : path)
 			{
-				if (cmpf(positions.at(j).x, pathway.at(i).x) && cmpf(positions.at(j).y,pathway.at(i).z))
+				pathway.push_back(node);
+			}
+
+			std::vector<int> tiles;
+			for (int i = 0; i < pathway.size(); i++)
+			{
+				for (int j = 0; j < positions.size(); j++)
 				{
-					tiles.push_back(j);
+					if (cmpf(positions.at(j).x, pathway.at(i).x) && cmpf(positions.at(j).y, pathway.at(i).z))
+					{
+						tiles.push_back(j);
+					}
 				}
 			}
-		}
 
-		timeBetween += delta;
-		
-		while (tiles.size() > selections.size())
-		{
-			HexSelector* selector = new HexSelector(5.0f);
-			selections.push_back(selector);
-		}
+			timeBetween += delta;
 
-		while (tiles.size() < selections.size())
-		{
-			delete selections.at(selections.size() - 1);
-			selections.erase(selections.end() - 1);
-		}
+			while (tiles.size() > selections.size())
+			{
+				HexSelector* selector = new HexSelector(5.0f);
+				selections.push_back(selector);
+			}
 
-		for (int i = 0; i < selections.size(); i++)
-		{
-			selections.at(i)->Update(tiles.at(i), positions.at(tiles.at(i)), heights.at(tiles.at(i)));
+			while (tiles.size() < selections.size())
+			{
+				delete selections.at(selections.size() - 1);
+				selections.erase(selections.end() - 1);
+			}
+
+			for (int i = 0; i < selections.size(); i++)
+			{
+				selections.at(i)->Update(tiles.at(i), positions.at(tiles.at(i)), heights.at(tiles.at(i)));
+			}
+			changed = false;
 		}
 	}
 	else
@@ -940,6 +947,7 @@ void HexGrid::Update(int target, float delta)
 			selections.erase(selections.begin());
 		}
 	}
+	lastFrame = target;
 }
 
 bool HexGrid::cmpf(float a, float b)

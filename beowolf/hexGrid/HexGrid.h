@@ -65,8 +65,10 @@ private:
 	wolf::Program* g_dProgram;
 	
 	bool targeting = false;
+	bool changed = true;
 	int targetingT = -1;
 	int abstractTarget = -1;
+	int lastFrame = -1;
 	float timeBetween = 1.0f;
 };
 
