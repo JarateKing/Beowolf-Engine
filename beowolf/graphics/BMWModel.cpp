@@ -143,13 +143,6 @@ namespace wolf
 	}
 
 	void BMWModel::setTransform(glm::mat4 transform) {
-		//for (int i = 0; i < 4; i++) {
-		//	for (int j = 0; j < 4; j++) {
-		//		std::cout << m_transformModel[i][j] << ", ";
-		//	}
-		//	std::cout << "    ";
-		//}
-		//std::cout << "\n";
 		this->transform = transform * m_transformModel;
 	}
 

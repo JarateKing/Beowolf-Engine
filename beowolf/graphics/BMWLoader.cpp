@@ -46,7 +46,7 @@ namespace wolf
 			float rotation = 0.0f;
 			glm::vec3 rotationAngle = glm::vec3(0, 1, 0);
 			glm::vec3 translation;
-			glm::vec3 scale;
+			glm::vec3 scale = glm::vec3(1, 1, 1);
 			if (jsonData.contains("rotation"))
 				rotation = jsonData["rotation"];
 
@@ -161,14 +161,6 @@ namespace wolf
 		m_stored[file].animations = animations;
 		m_stored[file].defaultAnim = defaultAnim;
 		m_stored[file].transform = transformModel;
-
-		//for (int i = 0; i < 4; i++) {
-		//	for (int j = 0; j < 4; j++) {
-		//		std::cout << transformModel[i][j] << ", ";
-		//	}
-		//	std::cout << "    ";
-		//}
-		//std::cout << "\n";
 
 		return &m_stored[file];
 	}
