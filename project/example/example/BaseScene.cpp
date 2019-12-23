@@ -52,10 +52,10 @@ void BaseScene::Init()
 
 	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable_uv");
 	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("myskeleton.bmw"), shaders.first, shaders.second);
-	test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 20.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.025, 0.025, 0.025)));
+	test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 20.0f)));
 
 	test2 = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("myskeleton.bmw"), shaders.first, shaders.second);
-	test2->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 20.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.1, 0.1, 0.1)));
+	test2->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 20.0f)));
   
 	//auto shaders = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
 	//test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("Fir_Tree.bmw"), shaders.first, shaders.second);

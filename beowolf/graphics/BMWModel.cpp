@@ -20,6 +20,7 @@ namespace wolf
 		m_textures = &data->texlist;
 		m_rootNode = data->root;
 		m_indices = &data->indexlist;
+		m_transformModel = data->transform;
 
 		m_hasAnimations = m_animFrames->size() > 0;
 		if (m_hasAnimations) {
@@ -142,7 +143,14 @@ namespace wolf
 	}
 
 	void BMWModel::setTransform(glm::mat4 transform) {
-		this->transform = transform;
+		//for (int i = 0; i < 4; i++) {
+		//	for (int j = 0; j < 4; j++) {
+		//		std::cout << m_transformModel[i][j] << ", ";
+		//	}
+		//	std::cout << "    ";
+		//}
+		//std::cout << "\n";
+		this->transform = transform * m_transformModel;
 	}
 
 	void BMWModel::setAnim(std::string name) {

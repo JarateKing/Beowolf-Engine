@@ -53,6 +53,7 @@ namespace wolf
 		std::vector<BMWAnim*>* m_anims;
 		std::map<std::string, BMWAnimSegment*>* m_animFrames;
 		glm::mat4 transform;
+		glm::mat4 m_transformModel;
 		BMWAnimSegment* m_currentAnimation;
 		std::string* m_defaultAnimation;
 		glm::mat4 m_boneMatrix[64];
