@@ -47,8 +47,24 @@ namespace wolf
 			glm::vec3 rotationAngle = glm::vec3(0, 1, 0);
 			glm::vec3 translation;
 			glm::vec3 scale = glm::vec3(1, 1, 1);
-			if (jsonData.contains("rotation"))
+			if (jsonData.contains("rotation")) {
 				rotation = jsonData["rotation"];
+			}
+			if (jsonData.contains("rotationAngle")) {
+				std::string vector = jsonData["rotationAngle"];
+				std::stringstream vectorSS(vector);
+				vectorSS >> rotationAngle[0] >> rotationAngle[1] >> rotationAngle[2];
+			}
+			if (jsonData.contains("translation")) {
+				std::string vector = jsonData["translation"];
+				std::stringstream vectorSS(vector);
+				vectorSS >> translation[0] >> translation[1] >> translation[2];
+			}
+			if (jsonData.contains("scale")) {
+				std::string vector = jsonData["scale"];
+				std::stringstream vectorSS(vector);
+				vectorSS >> scale[0] >> scale[1] >> scale[2];
+			}
 
 			transformModel = glm::translate(translation) * glm::rotate(rotation, rotationAngle) * glm::scale(scale);
 
