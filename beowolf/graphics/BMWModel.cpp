@@ -89,6 +89,8 @@ namespace wolf
 				}
 			}
 		}
+
+		transform = m_transformModel;
 	}
 
 	void BMWModel::update(float delta)
