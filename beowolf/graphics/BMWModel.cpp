@@ -20,6 +20,7 @@ namespace wolf
 		m_textures = &data->texlist;
 		m_rootNode = data->root;
 		m_indices = &data->indexlist;
+		m_transformModel = data->transform;
 
 		m_hasAnimations = m_animFrames->size() > 0;
 		if (m_hasAnimations) {
@@ -88,6 +89,8 @@ namespace wolf
 				}
 			}
 		}
+
+		transform = m_transformModel;
 	}
 
 	void BMWModel::update(float delta)
@@ -142,7 +145,7 @@ namespace wolf
 	}
 
 	void BMWModel::setTransform(glm::mat4 transform) {
-		this->transform = transform;
+		this->transform = transform * m_transformModel;
 	}
 
 	void BMWModel::setAnim(std::string name) {

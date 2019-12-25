@@ -39,6 +39,7 @@ namespace wolf
 		std::vector<BMWAnim*> animlist;
 		std::map<std::string, BMWAnimSegment*> animations;
 		std::string defaultAnim;
+		glm::mat4 transform;
 	};
 
 	class BMWLoader

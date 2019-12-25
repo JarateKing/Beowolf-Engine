@@ -24,6 +24,7 @@ namespace wolf
 		std::vector<BMWAnim*> animlist;
 		std::map<std::string, BMWAnimSegment*> animations;
 		std::string defaultAnim;
+		glm::mat4 transformModel;
 		
 		std::ifstream in(file, std::ifstream::binary);
 		
@@ -41,6 +42,31 @@ namespace wolf
 			
 			std::string defaultAnimStr = jsonData["defaultAnim"];
 			defaultAnim = defaultAnimStr;
+
+			float rotation = 0.0f;
+			glm::vec3 rotationAngle = glm::vec3(0, 1, 0);
+			glm::vec3 translation;
+			glm::vec3 scale = glm::vec3(1, 1, 1);
+			if (jsonData.contains("rotation")) {
+				rotation = jsonData["rotation"];
+			}
+			if (jsonData.contains("rotationAngle")) {
+				std::string vector = jsonData["rotationAngle"];
+				std::stringstream vectorSS(vector);
+				vectorSS >> rotationAngle[0] >> rotationAngle[1] >> rotationAngle[2];
+			}
+			if (jsonData.contains("translation")) {
+				std::string vector = jsonData["translation"];
+				std::stringstream vectorSS(vector);
+				vectorSS >> translation[0] >> translation[1] >> translation[2];
+			}
+			if (jsonData.contains("scale")) {
+				std::string vector = jsonData["scale"];
+				std::stringstream vectorSS(vector);
+				vectorSS >> scale[0] >> scale[1] >> scale[2];
+			}
+
+			transformModel = glm::translate(translation) * glm::rotate(rotation, rotationAngle) * glm::scale(scale);
 
 			for (auto anim : jsonData["clips"]) {
 				BMWAnimSegment* clip = new BMWAnimSegment;
@@ -150,6 +176,7 @@ namespace wolf
 		m_stored[file].animlist = animlist;
 		m_stored[file].animations = animations;
 		m_stored[file].defaultAnim = defaultAnim;
+		m_stored[file].transform = transformModel;
 
 		return &m_stored[file];
 	}
