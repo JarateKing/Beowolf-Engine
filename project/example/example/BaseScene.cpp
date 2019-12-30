@@ -17,6 +17,7 @@
 #include "W_Time.h"
 #include "W_Math.h"
 #include "W_Input.h"
+#include "W_Input_Keys.h"
 #include "W_ResourceLoader.h"
 #include "camera/HexSelector.h"
 #include "ComponentHexPos.h"
@@ -50,16 +51,13 @@ void BaseScene::Init()
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable_uv");
-	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("myskeleton.bmw"), shaders.first, shaders.second);
-	test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 20.0f)));
+	//auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable_uv");
+	//test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("myskeleton.bmw"), shaders.first, shaders.second);
+	//test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 20.0f)));
 
-	test2 = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("myskeleton.bmw"), shaders.first, shaders.second);
-	test2->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 20.0f)));
-  
-	//auto shaders = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
-	//test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("Fir_Tree.bmw"), shaders.first, shaders.second);
-	//test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 0.0f)) * glm::rotate(180.0f, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.01, 0.01, 0.01)));
+	auto shaders2 = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
+	test2 = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("potion.bmw"), shaders2.first, shaders2.second);
+	test2->setTransform(glm::scale(glm::vec3(100.01, 100.01, 100.01)));
 
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
@@ -96,16 +94,8 @@ void BaseScene::Update()
 	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
 	testhud->Update(delta);
 
-	// TODO: skeletons updating / animating is a huge fps killer
 	//test->update(delta);
 	test2->update(delta);
-	
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_J))
-		test2->setAnim("attack");
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_K))
-		test2->setAnim("attack2");
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_L))
-		test2->setAnim("attack3");
 
 	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	std::vector<float> heights = grid->GetHeights();
@@ -119,7 +109,7 @@ void BaseScene::Update()
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
 	{
 		hexPos.Move(testMove, 20.0f);
-		test->setAnim("walk");
+		//test->setAnim("walk");
 	}
 
 	glm::vec3 old = hexPos.GetPos();
@@ -134,10 +124,10 @@ void BaseScene::Update()
 	}
 	else if (wasJustAnimated) {
 		wasJustAnimated = false;
-		test->setAnim("idle");
+		//test->setAnim("idle");
 	}
 
-	test->setTransform(glm::translate(hexPos.GetPos()) * glm::rotate(dir, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.025, 0.025, 0.025)));
+	//test->setTransform(glm::translate(hexPos.GetPos()) * glm::rotate(dir, glm::vec3(0, 1.0f, 0)) * glm::scale(glm::vec3(0.025, 0.025, 0.025)));
 }
 
 void BaseScene::Render()
@@ -146,9 +136,9 @@ void BaseScene::Render()
 	glDisable(GL_BLEND);
 
 	wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
-	grid->Render(cam->GetViewMatrix());
-	selector->Render(cam->GetViewMatrix());
-	test->render(cam->GetViewMatrix(), glm::mat4(), false);
+	//grid->Render(cam->GetViewMatrix());
+	//selector->Render(cam->GetViewMatrix());
+	//test->render(cam->GetViewMatrix(), glm::mat4(), false);
 	test2->render(cam->GetViewMatrix(), glm::mat4(), false);
 
 	glDepthMask(false);
