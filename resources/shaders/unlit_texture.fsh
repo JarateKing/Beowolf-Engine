@@ -7,5 +7,5 @@ out vec4 PixelColor;
 
 void main()
 {	
-    PixelColor = vec4(1,0,0,1);//texture(tex, v_uv1);
+    PixelColor = texture(tex, v_uv1);
 }
