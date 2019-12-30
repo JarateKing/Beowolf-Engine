@@ -56,8 +56,8 @@ void BaseScene::Init()
 	//test->setTransform(glm::translate(glm::vec3(0.0f, 20.0f, 20.0f)));
 
 	auto shaders2 = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
-	test2 = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("potion.bmw"), shaders2.first, shaders2.second);
-	test2->setTransform(glm::scale(glm::vec3(100.01, 100.01, 100.01)));
+	test2 = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("shield.bmw"), shaders2.first, shaders2.second);
+	//test2->setTransform(glm::scale(glm::vec3(0.01, 0.01, 0.01)));
 
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
