@@ -40,8 +40,11 @@ namespace wolf
 			std::string jsonFileData = jsonFileStream.str();
 			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
 			
-			std::string defaultAnimStr = jsonData["defaultAnim"];
-			defaultAnim = defaultAnimStr;
+			defaultAnim = "idle";
+			if (jsonData.contains("defaultAnim")) {
+				std::string defaultAnimStr = jsonData["defaultAnim"];
+				defaultAnim = defaultAnimStr;
+			}
 
 			float rotation = 0.0f;
 			glm::vec3 rotationAngle = glm::vec3(0, 1, 0);
