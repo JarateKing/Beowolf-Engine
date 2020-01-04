@@ -80,7 +80,7 @@ void BaseScene::Update()
 	float delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
 
-	test->update(delta);
+	test->update((delta > 0) ? delta : 0);
 
 	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
 	std::string fpsString = std::to_string(fpsValue);
