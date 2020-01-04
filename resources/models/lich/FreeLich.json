@@ -1,0 +1,11 @@
+{
+	"defaultAnim": "idle",
+	
+	"clips" : [
+		{
+			"file": "lich/Idle.bmw",
+			"name": "idle",
+			"loop": true
+		}
+	]
+}
