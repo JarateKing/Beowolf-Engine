@@ -61,5 +61,6 @@ namespace wolf
 		float m_animationFrame;
 		BMWNode* m_rootNode;
 		std::vector<NodeMesh> m_toRender;
+		int m_currentAnimNum = 0;
 	};
 }

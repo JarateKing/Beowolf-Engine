@@ -26,6 +26,7 @@ namespace wolf
 		if (m_hasAnimations) {
 			m_currentAnimation = (*m_animFrames)[*m_defaultAnimation];
 			m_animationFrame = m_currentAnimation->start;
+			m_currentAnimNum = m_currentAnimation->anim;
 		}
 
 		// set up m_meshes
@@ -97,7 +98,7 @@ namespace wolf
 	{
 		if (m_hasAnimations) {
 			int prev = m_animationFrame;
-			m_animationFrame += delta * (*m_anims)[0]->rate;
+			m_animationFrame += delta * (*m_anims)[m_currentAnimNum]->rate;
 			if (prev != (int)(m_animationFrame)) {
 
 				if (m_animationFrame >= m_currentAnimation->end && !m_currentAnimation->isLoop)
@@ -105,7 +106,7 @@ namespace wolf
 
 				m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
 
-				BMWAnim* curAnim = (*m_anims)[0];
+				BMWAnim* curAnim = (*m_anims)[m_currentAnimNum];
 				for (auto it : curAnim->transforms[m_animationFrame]) {
 					m_boneMatrix[it.first] = it.second;
 				}
@@ -152,6 +153,7 @@ namespace wolf
 		if (m_hasAnimations && m_animFrames->count(name)) {
 			m_currentAnimation = (*m_animFrames)[name];
 			m_animationFrame = m_currentAnimation->start;
+			m_currentAnimNum = m_currentAnimation->anim;
 		}
 		else if (m_hasAnimations) {
 			std::cout << "Attempted setting \"" << name << "\" animation, but does not exist!\n";
