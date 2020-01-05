@@ -49,14 +49,15 @@ void BaseScene::Init()
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable_uv");
+	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable");
+	float scale = 5.0;
 	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("lich/FreeLich.bmw"), shaders.first, shaders.second);
-	test->setTransform(glm::translate(glm::vec3(0, 0, 50)) * glm::scale(glm::vec3(5, 5, 5)));
+	test->setTransform(glm::translate(glm::vec3(0, 0, 50)) * glm::scale(glm::vec3(scale, scale, scale)));
 
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
-	//grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+	grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
 	selector = new HexSelector(5.0f);
 	hexPos.SetGrid(grid);
 	testMove.push_back(1);
@@ -70,8 +71,8 @@ void BaseScene::Init()
 	testMove.push_back(1);
 	testMove.push_back(2);
 
-	testhud = new wolf::Hud("resources/hud/hud.json");
-	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//testhud = new wolf::Hud("resources/hud/hud.json");
+	//hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void BaseScene::Update()
@@ -80,13 +81,13 @@ void BaseScene::Update()
 	float delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
 
-	test->update((delta > 0) ? delta : 0);
+	//test->update((delta > 0) ? delta : 0);
 
-	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
-	std::string fpsString = std::to_string(fpsValue);
-	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
-	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
-	testhud->Update(delta);
+	//double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
+	//std::string fpsString = std::to_string(fpsValue);
+	//testhud->SetVar("deltaMS", std::to_string(delta * 1000));
+	//testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
+	//testhud->Update(delta);
 
 	//int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	//std::vector<float> heights = grid->GetHeights();
@@ -125,13 +126,12 @@ void BaseScene::Render()
 	//wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
 	//grid->Render(cam->GetViewMatrix());
 	//selector->Render(cam->GetViewMatrix());
-	test->render(cam->GetViewMatrix(), glm::mat4(), false);
 	test->render(cam->GetViewMatrix(), glm::mat4(), true);
 
 	glDepthMask(false);
 	glEnable(GL_BLEND);
 
-	testhud->Render(hudProjMat);
+	//testhud->Render(hudProjMat);
 
 	glDepthMask(true);
 	glDisable(GL_BLEND);
