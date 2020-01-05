@@ -20,6 +20,9 @@ tools/font_converter/*.png
 !*.lib
 
 # ignore specific files
+resources/**/*.png
+resources/**/*.jpg
+resources/**/*.jpeg
 resources/objects/AIPathfindingDataTest.json
 
 # ignore all visual studio files

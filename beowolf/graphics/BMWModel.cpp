@@ -26,6 +26,7 @@ namespace wolf
 		if (m_hasAnimations) {
 			m_currentAnimation = (*m_animFrames)[*m_defaultAnimation];
 			m_animationFrame = m_currentAnimation->start;
+			m_currentAnimNum = m_currentAnimation->anim;
 		}
 
 		// set up m_meshes
@@ -97,7 +98,7 @@ namespace wolf
 	{
 		if (m_hasAnimations) {
 			int prev = m_animationFrame;
-			m_animationFrame += delta * (*m_anims)[0]->rate;
+			m_animationFrame += delta * (*m_anims)[m_currentAnimNum]->rate;
 			if (prev != (int)(m_animationFrame)) {
 
 				if (m_animationFrame >= m_currentAnimation->end && !m_currentAnimation->isLoop)
@@ -105,9 +106,9 @@ namespace wolf
 
 				m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
 
-				BMWAnim* curAnim = (*m_anims)[0];
-				for (auto it : curAnim->transforms[m_animationFrame]) {
-					m_boneMatrix[it.first] = it.second;
+				for (auto it : (*m_anims)[m_currentAnimNum]->transforms[m_animationFrame]) {
+					if (it.first < 128)
+						m_boneMatrix[it.first] = it.second;
 				}
 			}
 		}
@@ -135,7 +136,7 @@ namespace wolf
 		m_meshes[meshID].m_pProg->SetUniform("world", world);
 		m_meshes[meshID].m_pProg->SetUniform("tex", 0);
 		if (m_hasAnimations)
-			m_meshes[meshID].m_pProg->SetUniform("BoneMatrixArray", m_boneMatrix, 64);
+			m_meshes[meshID].m_pProg->SetUniform("BoneMatrixArray", m_boneMatrix, 128);
 
 		glDrawElements(GL_TRIANGLES, m_meshes[meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
 	}
@@ -152,6 +153,7 @@ namespace wolf
 		if (m_hasAnimations && m_animFrames->count(name)) {
 			m_currentAnimation = (*m_animFrames)[name];
 			m_animationFrame = m_currentAnimation->start;
+			m_currentAnimNum = m_currentAnimation->anim;
 		}
 		else if (m_hasAnimations) {
 			std::cout << "Attempted setting \"" << name << "\" animation, but does not exist!\n";

@@ -1,4 +1,5 @@
 #include "BMWLoader.h"
+#include "W_ResourceLoader.h"
 #include <iostream>
 #include <algorithm>
 #include <sstream>
@@ -32,6 +33,7 @@ namespace wolf
 		if (jsonFile.substr(jsonFile.size() - 4) == ".bmw")
 			jsonFile = jsonFile.substr(0, jsonFile.size() - 4) + ".json";
 
+		int animCountOffset = 0;
 		std::vector<std::string> texOverrides;
 		std::ifstream jsonIn(jsonFile);
 		if (jsonIn) {
@@ -40,8 +42,11 @@ namespace wolf
 			std::string jsonFileData = jsonFileStream.str();
 			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
 			
-			std::string defaultAnimStr = jsonData["defaultAnim"];
-			defaultAnim = defaultAnimStr;
+			defaultAnim = "idle";
+			if (jsonData.contains("defaultAnim")) {
+				std::string defaultAnimStr = jsonData["defaultAnim"];
+				defaultAnim = defaultAnimStr;
+			}
 
 			float rotation = 0.0f;
 			glm::vec3 rotationAngle = glm::vec3(0, 1, 0);
@@ -70,9 +75,21 @@ namespace wolf
 
 			for (auto anim : jsonData["clips"]) {
 				BMWAnimSegment* clip = new BMWAnimSegment;
-				clip->anim = 0;
-				clip->start = anim["start"];
-				clip->end = anim["end"];
+				clip->anim = animCountOffset;
+				if (anim.contains("file")) {
+					clip->start = 0;
+
+					std::string filename = anim["file"];
+					BMWModeLData* fileAnim = loadFile(ResourceLoader::Instance().getModel(filename));
+					animlist.push_back(fileAnim->animlist[0]);
+					
+					clip->end = fileAnim->animlist[0]->duration;
+					animCountOffset++;
+				}
+				else {
+					clip->start = anim["start"];
+					clip->end = anim["end"];
+				}
 				clip->isLoop = anim["loop"];
 				std::string clipName = anim["name"];
 

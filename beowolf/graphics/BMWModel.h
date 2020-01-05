@@ -56,10 +56,11 @@ namespace wolf
 		glm::mat4 m_transformModel;
 		BMWAnimSegment* m_currentAnimation;
 		std::string* m_defaultAnimation;
-		glm::mat4 m_boneMatrix[64];
+		glm::mat4 m_boneMatrix[128];
 		bool m_hasAnimations;
 		float m_animationFrame;
 		BMWNode* m_rootNode;
 		std::vector<NodeMesh> m_toRender;
+		int m_currentAnimNum = 0;
 	};
 }
