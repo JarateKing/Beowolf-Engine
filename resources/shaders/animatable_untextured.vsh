@@ -4,7 +4,7 @@ uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 world;
 //uniform mat3 WorldIT;
-uniform mat4 BoneMatrixArray[64];
+uniform mat4 BoneMatrixArray[128];
 //uniform mat3 BoneMatrixArrayIT[64];
 
 in vec4 a_position;
