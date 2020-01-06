@@ -36,11 +36,12 @@ namespace wolf
 		int animCountOffset = 0;
 		std::vector<std::string> texOverrides;
 		std::ifstream jsonIn(jsonFile);
+		nlohmann::json jsonData;
 		if (jsonIn) {
 			std::stringstream jsonFileStream;
 			jsonFileStream << jsonIn.rdbuf();
 			std::string jsonFileData = jsonFileStream.str();
-			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
+			jsonData = nlohmann::json::parse(jsonFileData);
 			
 			defaultAnim = "idle";
 			if (jsonData.contains("defaultAnim")) {
@@ -183,6 +184,21 @@ namespace wolf
 		}
 
 		BMWNode* root = readNode(&in, &nodeIDs);
+
+
+
+		if (jsonIn) {
+			for (auto anim : jsonData["clips"]) {
+				BMWAnimSegment* clip = new BMWAnimSegment;
+				clip->anim = animCountOffset;
+				if (anim.contains("file")) {
+		
+					std::cout << "ya!\n";
+
+					animCountOffset++;
+				}
+			}
+		}
 
 		m_stored[file].texlist = texlist;
 		m_stored[file].meshlist = meshlist;

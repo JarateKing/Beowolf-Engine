@@ -50,7 +50,7 @@ void BaseScene::Init()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable");
-	float scale = 5.0;
+	float scale = 15.0;
 	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("lich/FreeLich.bmw"), shaders.first, shaders.second);
 	test->setTransform(glm::translate(glm::vec3(0, 0, 50)) * glm::scale(glm::vec3(scale, scale, scale)));
 
@@ -81,7 +81,7 @@ void BaseScene::Update()
 	float delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
 
-	test->update((delta > 0) ? delta : 0);
+	test->update(delta);
 
 	//double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
 	//std::string fpsString = std::to_string(fpsValue);
