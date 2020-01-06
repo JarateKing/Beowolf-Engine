@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <vector>
-#include <BMWModel.h>
+#include "BMWModel.h"
 #include "W_Common.h"
 #include "W_BufferManager.h"
 #include "W_VertexDeclaration.h"
@@ -22,7 +22,9 @@ public:
 	void Render(glm::mat4 projView);
 	std::vector<float> GetHeights();
 	std::vector<glm::vec2> GetPos();
+	int GetSize();
 	void Update(int target, float delta);
+	std::vector<int> GetPathway(int startTarget, int endTarget);
 
 private:
 	void GenerateLoc(int width, int length, float tileWidth);

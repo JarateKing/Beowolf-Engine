@@ -242,6 +242,9 @@
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudImage.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudColorPanel.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudGradient.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CharacterUnits.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CharacterManager.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\characterUnits\EnemyManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\camera\Camera.h" />
@@ -566,5 +569,8 @@
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudImage.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudColorPanel.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudGradient.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CharacterUnits.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CharacterManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\characterUnits\EnemyManager.h" />
   </ItemGroup>
 </Project>

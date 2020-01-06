@@ -25,6 +25,7 @@
 #include <cmath>
 #include "W_Hud.h"
 #include "W_ProjectionMatrix.h"
+#include "characterUnits/CharacterManager.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -37,6 +38,7 @@ week2::ComponentHexPos hexPos;
 std::vector<int> testMove;
 wolf::Hud* testhud;
 glm::mat4 hudProjMat;
+static CharacterManager* cManager;
 
 wolf::BMWModel* test;
 
@@ -48,7 +50,6 @@ void BaseScene::Init()
 {
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable");
 	float scale = 5.0;
 	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("lich/FreeLich.bmw"), shaders.first, shaders.second);
@@ -59,17 +60,18 @@ void BaseScene::Init()
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
 	grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
 	selector = new HexSelector(5.0f);
+	cManager = new CharacterManager(grid);
 	hexPos.SetGrid(grid);
-	testMove.push_back(1);
-	testMove.push_back(2);
-	testMove.push_back(3);
-	testMove.push_back(100);
-	testMove.push_back(150);
-	testMove.push_back(200);
-	testMove.push_back(1);
-	testMove.push_back(2);
-	testMove.push_back(1);
-	testMove.push_back(2);
+	//testMove.push_back(1);
+	//testMove.push_back(2);
+	//testMove.push_back(3);
+	//testMove.push_back(100);
+	//testMove.push_back(150);
+	//testMove.push_back(200);
+	//testMove.push_back(1);
+	//testMove.push_back(2);
+	//testMove.push_back(1);
+	//testMove.push_back(2);
 
 	//testhud = new wolf::Hud("resources/hud/hud.json");
 	//hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -81,7 +83,7 @@ void BaseScene::Update()
 	float delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
 
-	test->update((delta > 0) ? delta : 0);
+	//test->update((delta > 0) ? delta : 0);
 
 	//double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
 	//std::string fpsString = std::to_string(fpsValue);
@@ -89,20 +91,21 @@ void BaseScene::Update()
 	//testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
 	//testhud->Update(delta);
 
-	//int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
-	//std::vector<float> heights = grid->GetHeights();
-	//std::vector<glm::vec2> positions = grid->GetPos();
-	//if (!(target < 0))
-	//{
-	//	selector->Update(target, positions.at(target), heights.at(target));
-	//	grid->Update(target, delta);
-	//}
-	//wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
+	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
+	std::vector<float> heights = grid->GetHeights();
+	std::vector<glm::vec2> positions = grid->GetPos();
+	if (!(target < 0))
+	{
+		selector->Update(target, positions.at(target), heights.at(target));
+		grid->Update(target, delta);
+	}
+	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
+	cManager->Update(target, delta);
 	//if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
 	//{
 	//	hexPos.Move(testMove, 20.0f);
 	//}
-	//
+	
 	//glm::vec3 old = hexPos.GetPos();
 	//hexPos.Update(delta);
 	//glm::vec3 dif = hexPos.GetPos() - old;
@@ -123,10 +126,11 @@ void BaseScene::Render()
 	glDepthMask(true);
 	glDisable(GL_BLEND);
 
-	//wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
-	//grid->Render(cam->GetViewMatrix());
-	//selector->Render(cam->GetViewMatrix());
-	test->render(cam->GetViewMatrix(), glm::mat4(), true);
+	wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
+	grid->Render(cam->GetViewMatrix());
+	selector->Render(cam->GetViewMatrix());
+	cManager->Render(cam->GetViewMatrix(), glm::mat4(), true);
+	//test->render(cam->GetViewMatrix(), glm::mat4(), true);
 
 	glDepthMask(false);
 	glEnable(GL_BLEND);

@@ -3,19 +3,24 @@
 
 #include <list>
 #include "W_Common.h"
-#include "BMWModel.h"
+#include "CharacterUnits.h"
+#include "hexGrid/HexGrid.h"
 
 class CharacterManager
 {
 	public:
-		CharacterManager();
+		CharacterManager(HexGrid* p_grid);
 		~CharacterManager();
-		void Update(float deltaT);
+		void Update(int target, float deltaT);
 		void Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas);
 
 	private:
-		std::list<wolf::BMWModel> characters;
-
+		std::list<CharacterUnits> characters;
+		float timeBetween = 1.0f;
+		bool targeting = false;
+		int currTarget, prevTarget;
+		std::string targetName;
+		HexGrid* grid;
 };
 
 #endif
