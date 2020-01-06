@@ -26,6 +26,7 @@ namespace wolf
 		std::map<std::string, BMWAnimSegment*> animations;
 		std::string defaultAnim;
 		glm::mat4 transformModel;
+		std::vector<std::pair<int, std::string>> boneNames;
 		
 		std::ifstream in(file, std::ifstream::binary);
 		
@@ -185,7 +186,12 @@ namespace wolf
 
 		BMWNode* root = readNode(&in, &nodeIDs);
 
-
+		int boneNameNum = readInt(&in);
+		std::cout << boneNameNum << '\n';
+		for (int i = 0; i < boneNameNum; i++) {
+			boneNames.push_back({ readInt(&in), readString(&in) });
+			std::cout << boneNames[boneNames.size() - 1].first << " " << boneNames[boneNames.size() - 1].second << '\n';
+		}
 
 		if (jsonIn) {
 			for (auto anim : jsonData["clips"]) {
@@ -210,6 +216,7 @@ namespace wolf
 		m_stored[file].animations = animations;
 		m_stored[file].defaultAnim = defaultAnim;
 		m_stored[file].transform = transformModel;
+		m_stored[file].boneNames = boneNames;
 
 		return &m_stored[file];
 	}
