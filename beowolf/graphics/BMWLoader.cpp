@@ -35,6 +35,7 @@ namespace wolf
 			jsonFile = jsonFile.substr(0, jsonFile.size() - 4) + ".json";
 
 		int animCountOffset = 0;
+		std::vector<std::string> subfilesLoaded;
 		std::vector<std::string> texOverrides;
 		std::ifstream jsonIn(jsonFile);
 		nlohmann::json jsonData;
@@ -87,6 +88,7 @@ namespace wolf
 					
 					clip->end = fileAnim->animlist[0]->duration;
 					animCountOffset++;
+					subfilesLoaded.push_back(ResourceLoader::Instance().getModel(filename));
 				}
 				else {
 					clip->start = anim["start"];
@@ -193,14 +195,29 @@ namespace wolf
 			std::cout << boneNames[boneNames.size() - 1].first << " " << boneNames[boneNames.size() - 1].second << '\n';
 		}
 
+		animCountOffset = 0;
 		if (jsonIn) {
 			for (auto anim : jsonData["clips"]) {
-				BMWAnimSegment* clip = new BMWAnimSegment;
-				clip->anim = animCountOffset;
 				if (anim.contains("file")) {
-		
-					std::cout << "ya!\n";
 
+					std::map<int, std::string> parentIDtoName;
+					std::map<int, std::string> childIDtoName;
+					std::map<std::string, int> parentNametoID;
+					std::map<std::string, int> childNametoID;
+
+					for (int i = 0; i < boneNames.size(); i++) {
+						parentIDtoName[boneNames[i].first] = boneNames[i].second;
+						parentNametoID[boneNames[i].second] = boneNames[i].first;
+					}
+
+					BMWModeLData* fileAnim = loadFile(subfilesLoaded[animCountOffset]);
+					for (int i = 0; i < fileAnim->boneNames.size(); i++) {
+						childIDtoName[fileAnim->boneNames[i].first] = fileAnim->boneNames[i].second;
+						childNametoID[fileAnim->boneNames[i].second] = fileAnim->boneNames[i].first;
+					}
+		
+					std::cout << animlist[animCountOffset]->transforms.size() << '\n';
+					
 					animCountOffset++;
 				}
 			}
