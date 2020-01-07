@@ -71,8 +71,8 @@ void BaseScene::Init()
 	testMove.push_back(1);
 	testMove.push_back(2);
 
-	//testhud = new wolf::Hud("resources/hud/hud.json");
-	//hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	testhud = new wolf::Hud("resources/hud/hud.json");
+	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void BaseScene::Update()
@@ -83,39 +83,39 @@ void BaseScene::Update()
 
 	test->update(delta);
 
-	//double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
-	//std::string fpsString = std::to_string(fpsValue);
-	//testhud->SetVar("deltaMS", std::to_string(delta * 1000));
-	//testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
-	//testhud->Update(delta);
+	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
+	std::string fpsString = std::to_string(fpsValue);
+	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
+	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
+	testhud->Update(delta);
 
-	//int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
-	//std::vector<float> heights = grid->GetHeights();
-	//std::vector<glm::vec2> positions = grid->GetPos();
-	//if (!(target < 0))
-	//{
-	//	selector->Update(target, positions.at(target), heights.at(target));
-	//	grid->Update(target, delta);
-	//}
-	//wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
-	//if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
-	//{
-	//	hexPos.Move(testMove, 20.0f);
-	//}
-	//
-	//glm::vec3 old = hexPos.GetPos();
-	//hexPos.Update(delta);
-	//glm::vec3 dif = hexPos.GetPos() - old;
-	//dif.y = 0;
-	//float dir = 180.0f;
-	//if (dif.x != 0 || dif.z != 0) {
-	//	dif = glm::normalize(dif);
-	//	dir = atan2(dif.x, dif.z) * RAD2DEG;
-	//	wasJustAnimated = true;
-	//}
-	//else if (wasJustAnimated) {
-	//	wasJustAnimated = false;
-	//}
+	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
+	std::vector<float> heights = grid->GetHeights();
+	std::vector<glm::vec2> positions = grid->GetPos();
+	if (!(target < 0))
+	{
+		selector->Update(target, positions.at(target), heights.at(target));
+		grid->Update(target, delta);
+	}
+	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
+	{
+		hexPos.Move(testMove, 20.0f);
+	}
+	
+	glm::vec3 old = hexPos.GetPos();
+	hexPos.Update(delta);
+	glm::vec3 dif = hexPos.GetPos() - old;
+	dif.y = 0;
+	float dir = 180.0f;
+	if (dif.x != 0 || dif.z != 0) {
+		dif = glm::normalize(dif);
+		dir = atan2(dif.x, dif.z) * RAD2DEG;
+		wasJustAnimated = true;
+	}
+	else if (wasJustAnimated) {
+		wasJustAnimated = false;
+	}
 }
 
 void BaseScene::Render()
@@ -123,15 +123,16 @@ void BaseScene::Render()
 	glDepthMask(true);
 	glDisable(GL_BLEND);
 
-	//wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
-	//grid->Render(cam->GetViewMatrix());
-	//selector->Render(cam->GetViewMatrix());
+	wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
+	grid->Render(cam->GetViewMatrix());
+	selector->Render(cam->GetViewMatrix());
+	test->render(cam->GetViewMatrix(), glm::mat4(), false);
 	test->render(cam->GetViewMatrix(), glm::mat4(), true);
 
 	glDepthMask(false);
 	glEnable(GL_BLEND);
 
-	//testhud->Render(hudProjMat);
+	testhud->Render(hudProjMat);
 
 	glDepthMask(true);
 	glDisable(GL_BLEND);
