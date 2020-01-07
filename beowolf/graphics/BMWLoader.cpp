@@ -189,11 +189,8 @@ namespace wolf
 		BMWNode* root = readNode(&in, &nodeIDs);
 
 		int boneNameNum = readInt(&in);
-		std::cout << boneNameNum << '\n';
-		for (int i = 0; i < boneNameNum; i++) {
+		for (int i = 0; i < boneNameNum; i++)
 			boneNames.push_back({ readInt(&in), readString(&in) });
-			std::cout << boneNames[boneNames.size() - 1].first << " " << boneNames[boneNames.size() - 1].second << '\n';
-		}
 
 		animCountOffset = 0;
 		if (jsonIn) {
@@ -212,23 +209,14 @@ namespace wolf
 
 					BMWModeLData* fileAnim = loadFile(subfilesLoaded[animCountOffset]);
 					for (int i = 0; i < fileAnim->boneNames.size(); i++) {
-						std::cout << "ADDING: " << fileAnim->boneNames[i].first << " as " << fileAnim->boneNames[i].second << "\n";
 						childIDtoName[fileAnim->boneNames[i].first] = fileAnim->boneNames[i].second;
 						childNametoID[fileAnim->boneNames[i].second] = fileAnim->boneNames[i].first;
 					}
 
-					std::cout << "BEGINS: " << animlist[animCountOffset]->transforms.size() << '\n';
-					std::cout << "TOTAL: " << animlist[animCountOffset]->transforms[0].size() << '\n';
-
 					for (int i = 0; i < animlist[animCountOffset]->transforms.size(); i++) {
 						std::map<int, glm::mat4> newmap;
 						for (auto it : animlist[animCountOffset]->transforms[i]) {
-							std::cout << "here: " << it.first << "\n";
-							if (childIDtoName.count(it.first)) {
-								std::cout << childIDtoName[it.first];
-							}
 							if (childIDtoName.count(it.first) && parentNametoID.count(childIDtoName[it.first])) {
-								std::cout << "found: " << childIDtoName[it.first] << ", " << it.first << " = " << parentNametoID[childIDtoName[it.first]] << "\n";
 								newmap[parentNametoID[childIDtoName[it.first]]] = it.second;
 							}
 							else {
