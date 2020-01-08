@@ -1,0 +1,8 @@
+{
+	"Item" : {
+		"Name" : "Shield",
+		"Stats": {
+			"Defense": 1.25
+		}
+	}
+}
