@@ -738,6 +738,11 @@ std::vector<glm::vec2> HexGrid::GetPos()
 	return positions;
 }
 
+int HexGrid::GetSize()
+{
+	return heights.size();
+}
+
 void HexGrid::GenerateHexJSON(int width, int length, float tileWidth)
 {
 	std::ofstream outputFile;
@@ -878,14 +883,14 @@ void HexGrid::Update(int target, float delta)
 		changed = true;
 	}
 
-	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == false && timeBetween >= 1.0f)
+	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == false && timeBetween >= 0.2f)
 	{
 		targeting = true;
 		targetingT = target;
 		timeBetween = 0.0f;
 	}
 
-	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == true && timeBetween >= 1.0f)
+	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == true && timeBetween >= 0.2f)
 	{
 		targeting = false;
 		targetingT = -1;
@@ -953,4 +958,29 @@ void HexGrid::Update(int target, float delta)
 bool HexGrid::cmpf(float a, float b)
 {
 	return (fabs(a - b) < EPSILON_VALUE);
+}
+
+std::vector<int> HexGrid::GetPathway(int startTarget, int endTarget)
+{
+	std::list<glm::vec3> path = pathFinder->Instance()->FindPath(glm::vec3(positions.at(startTarget).x, 0.0f, positions.at(startTarget).y), glm::vec3(positions.at(endTarget).x, 0.0f, positions.at(endTarget).y));
+	std::vector<glm::vec3> pathway;
+
+	for (auto node : path)
+	{
+		pathway.push_back(node);
+	}
+
+	std::vector<int> tiles;
+	for (int i = 0; i < pathway.size(); i++)
+	{
+		for (int j = 0; j < positions.size(); j++)
+		{
+			if (cmpf(positions.at(j).x, pathway.at(i).x) && cmpf(positions.at(j).y, pathway.at(i).z))
+			{
+				tiles.push_back(j);
+			}
+		}
+	}
+
+	return tiles;
 }

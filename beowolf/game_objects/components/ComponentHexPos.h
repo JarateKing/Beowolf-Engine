@@ -21,6 +21,7 @@ namespace week2
 		virtual void SetGrid(HexGrid* p_grid);
 
 		void Move(std::vector<int> p_path, float timeToComplete);
+		bool IsMoving();
 		glm::vec3 GetPos();
 
 	private:
