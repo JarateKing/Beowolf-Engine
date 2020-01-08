@@ -93,6 +93,9 @@
     <ClCompile Include="..\..\beowolf\game_objects\AIStateGrabbingCoin2.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\AIStateIdle.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\AIStateWander.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CharacterManager.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CharacterUnits.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\characterUnits\EnemyManager.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentAIController.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentAnimController.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\components\ComponentBobbing.cpp" />
@@ -338,6 +341,9 @@
     <ClInclude Include="..\..\beowolf\game_objects\AIStateGrabbingCoin2.h" />
     <ClInclude Include="..\..\beowolf\game_objects\AIStateIdle.h" />
     <ClInclude Include="..\..\beowolf\game_objects\AIStateWander.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CharacterManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CharacterUnits.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\characterUnits\EnemyManager.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentAIController.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentAnimController.h" />
     <ClInclude Include="..\..\beowolf\game_objects\components\ComponentBase.h" />

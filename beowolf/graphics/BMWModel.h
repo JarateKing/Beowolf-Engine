@@ -1,3 +1,6 @@
+#ifndef BMWMODEL_H
+#define BMWMODEL_H
+
 #include <W_Common.h>
 #include <BMWLoader.h>
 #include <vector>
@@ -64,3 +67,4 @@ namespace wolf
 		int m_currentAnimNum = 0;
 	};
 }
+#endif

@@ -1,0 +1,10 @@
+
+{"Enemy" : 
+	{"Name" : "Light Enemy",
+	"HP" : "75",
+	"MaxMovement" : "6",
+	"MaxAttack" : "50",
+	"MinAttack" : "25",
+	"Defense" : "75",
+	"BasicDescription" : "A light enemy scout searching for its foes."}
+}

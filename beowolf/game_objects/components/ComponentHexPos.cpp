@@ -22,7 +22,7 @@ void ComponentHexPos::Update(float p_fDelta)
 					std::cout << fmod(timeTaken, timePerTile) / timePerTile;
 
 					currentPos = wolf::Math::lerp(glm::vec3(m_grid->GetPos().at(pathway.at(i)).x, m_grid->GetHeights().at(pathway.at(i)) ,m_grid->GetPos().at(pathway.at(i)).y), glm::vec3(m_grid->GetPos().at(pathway.at(i + 1)).x, m_grid->GetHeights().at(pathway.at(i + 1)), m_grid->GetPos().at(pathway.at(i + 1)).y), (fmod(timeTaken, timePerTile) / timePerTile));
-					std::cout << "Current Pos: " << currentPos.x << ", " << currentPos.y << ", " << currentPos.z << std::endl;
+					//std::cout << "Current Pos: " << currentPos.x << ", " << currentPos.y << ", " << currentPos.z << std::endl;
 				}
 			}
 		}
@@ -51,4 +51,9 @@ glm::vec3 ComponentHexPos::GetPos()
 {
 	//return glm::vec3(m_grid->GetPos().at(currentHex).x, m_grid->GetHeights().at(currentHex), m_grid->GetPos().at(currentHex).y);
 	return currentPos;
+}
+
+bool ComponentHexPos::IsMoving()
+{
+	return moving;
 }

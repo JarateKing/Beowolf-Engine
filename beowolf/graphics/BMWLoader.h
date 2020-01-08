@@ -1,3 +1,6 @@
+#ifndef BMWLOADER_H
+#define BMWLOADER_H
+
 #include <W_Common.h>
 #include <vector>
 #include <map>
@@ -69,3 +72,4 @@ namespace wolf
 		void operator=(BMWLoader const&) = delete;
 	};
 }
+#endif
