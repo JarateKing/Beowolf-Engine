@@ -1,0 +1,10 @@
+
+{"Enemy" : 
+	{"Name" : "Heavy Enemy",
+	"HP" : "250",
+	"MaxMovement" : "4",
+	"MaxAttack" : "100",
+	"MinAttack" : "75",
+	"Defense" : "150",
+	"BasicDescription" : "A heavy enemy unit with heavy armor and damage."}
+}

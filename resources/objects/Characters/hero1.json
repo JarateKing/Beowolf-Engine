@@ -1,0 +1,10 @@
+
+{"Character" : 
+	{"Name" : "Winged Knight",
+	"HP" : "500",
+	"MaxMovement" : "6",
+	"MaxAttack" : "80",
+	"MinAttack" : "60",
+	"Defense" : "100",
+	"BasicDescription" : "A soldier with wings ready to fly into battle."}
+}

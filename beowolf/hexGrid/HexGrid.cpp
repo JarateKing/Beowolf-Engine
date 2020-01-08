@@ -883,14 +883,14 @@ void HexGrid::Update(int target, float delta)
 		changed = true;
 	}
 
-	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == false && timeBetween >= 1.0f)
+	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == false && timeBetween >= 0.2f)
 	{
 		targeting = true;
 		targetingT = target;
 		timeBetween = 0.0f;
 	}
 
-	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == true && timeBetween >= 1.0f)
+	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == true && timeBetween >= 0.2f)
 	{
 		targeting = false;
 		targetingT = -1;
