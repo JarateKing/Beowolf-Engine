@@ -42,4 +42,6 @@ void EnemyManager::Move()
 }
 
 std::list<int> EnemyManager::FindMaxPathToNearestHero()
-
+{
+	return std::list<int>();
+}

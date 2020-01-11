@@ -21,13 +21,13 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	currTarget = p_target;
 
 	//Update Enemies
-	for (it = enemies.begin(); it != enemies.end(); it++)
+	for (auto it = enemies.begin(); it != enemies.end(); it++)
 	{
 		it->Update(p_deltaT);
 	}
 
 	//Update Heroes and check for target
-	for (it = characters.begin(); it != characters.end(); it++)
+	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
 		it->Update(p_deltaT);
 		if (it->GetTile() == currTarget)
@@ -42,7 +42,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		targeting = true;
 		timeBetween = 0.0f;
 		prevTarget = currTarget;
-		for (it = characters.begin(); it != characters.end(); it++)
+		for (auto it = characters.begin(); it != characters.end(); it++)
 		{
 			it->Update(p_deltaT);
 			if (it->GetTile() == currTarget)
@@ -62,7 +62,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	{
 		targeting = false;
 		timeBetween = 0.0f;
-		for (it = characters.begin(); it != characters.end(); it++)
+		for (auto it = characters.begin(); it != characters.end(); it++)
 		{
 			if (it->GetName().compare(targetName) == 0)
 			{
@@ -75,7 +75,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 
 void CharacterManager::Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas)
 {
-	for (it = characters.begin(); it != characters.end(); it++)
+	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
 		it->Render(p_view, p_proj, p_renderAlphas);
 	}
@@ -98,9 +98,9 @@ void CharacterManager::SpawnEnemies(int numSpawn, std::string enemyFile)
 
 }
 
-void CharacterManager::MoveTowardsClosestHero(CharacterUnits enemy)
+std::vector<int> CharacterManager::PathTowardsClosestHero(int tile)
 {
-
+	return std::vector<int>();
 }
 
 std::string CharacterManager::GetCharacterSelected()

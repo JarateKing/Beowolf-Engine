@@ -16,6 +16,7 @@ class CharacterManager
 		void MoveEnemies();
 		void SpawnEnemies(int numSpawn, std::string enemyFile);
 		std::string GetCharacterSelected();
+		std::vector<int> PathTowardsClosestHero(int tile);
 
 	private:
 		std::list<CharacterUnits> characters;
@@ -27,8 +28,6 @@ class CharacterManager
 		HexGrid* grid;
 		float movementTime = 5.0f;
 		std::list<CharacterUnits>::iterator it;
-
-		std::vector<int> PathTowardsClosestHero(int tile);
 };
 
 #endif

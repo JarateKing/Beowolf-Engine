@@ -59,7 +59,7 @@ float ComponentItemStats::GetValue(std::string id)
 // FACTORY
 Common::ComponentBase* ComponentItemStats::CreateComponent(json p_node)
 {
-	int score = 0;
+	std::vector<std::pair<std::string, float>> values;
 
 	size_t it_h = 0;
 	auto& gameObjects = p_node["GameObject"];
@@ -69,9 +69,8 @@ Common::ComponentBase* ComponentItemStats::CreateComponent(json p_node)
 		if (gameObject[it_h]["Component Name"] == "GOC_Score")
 		{
 			std::string scores = gameObject[it_h]["Score value"];
-			score = std::stoi(scores);
 		}
 	}
 
-	return new ComponentItemStats(score);
+	return new ComponentItemStats(values);
 }
