@@ -25,8 +25,7 @@ class Item
 		int currTile;
 		std::string name;
 		week2::ComponentHexPos pos;
-		float scale = 1.5f;
-
+		float scale = 0.25f;
 };
 
 #endif
