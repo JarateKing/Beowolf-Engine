@@ -27,7 +27,7 @@ void Item::Update(float deltaT)
 	m_bobTime += deltaT;
 	pos.Update(deltaT);
 	
-	model->setTransform(glm::translate(glm::vec3(m_pos.x, m_pos.y + sin(m_bobTime) * 0.5f + 1.0f, m_pos.z)) * glm::scale(glm::vec3(scale, scale, scale)));
+	model->setTransform(glm::translate(glm::vec3(m_pos.x, m_pos.y + sin(m_bobTime) * 0.5f + 1.0f, m_pos.z)) * glm::rotate(m_bobTime * 30, glm::vec3(0, 1, 0)) * glm::scale(glm::vec3(scale, scale, scale)));
 }
 
 std::string Item::GetName()
