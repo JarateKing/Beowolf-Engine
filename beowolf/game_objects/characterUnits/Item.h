@@ -14,10 +14,6 @@ class Item
 		void Update(float deltaT);
 		std::string GetName();
 		int GetTile();
-		void SetTile(int tile);
-		void PlaySound(std::string soundName);
-		void SetAnim(std::string animName);
-		void Move(std::vector<int> p_path, float timeToComplete);
 
 	private:
 		std::vector<std::string> soundFiles;

@@ -39,23 +39,3 @@ int Item::GetTile()
 {
 	return currTile;
 }
-
-void Item::SetTile(int tile)
-{
-	currTile = tile;
-}
-
-void Item::PlaySound(std::string p_soundName)
-{
-	//TODO
-}
-
-void Item::SetAnim(std::string p_animName)
-{
-	model->setAnim(p_animName);
-}
-
-void Item::Move(std::vector<int> p_path, float p_timeToComplete)
-{
-	pos.Move(p_path, p_timeToComplete);
-}
