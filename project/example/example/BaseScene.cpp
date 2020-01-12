@@ -119,6 +119,8 @@ void BaseScene::Update()
 	else if (wasJustAnimated) {
 		wasJustAnimated = false;
 	}
+
+	cManager->Update(delta);
 }
 
 void BaseScene::Render()

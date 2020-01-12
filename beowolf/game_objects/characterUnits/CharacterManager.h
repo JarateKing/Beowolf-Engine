@@ -12,6 +12,7 @@ class CharacterManager
 	public:
 		CharacterManager(HexGrid* p_grid);
 		~CharacterManager();
+		void Update(float deltaT);
 		void Update(int target, float deltaT);
 		void Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas);
 		void MoveEnemies();

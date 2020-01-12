@@ -21,13 +21,16 @@ CharacterManager::~CharacterManager()
 
 }
 
+void CharacterManager::Update(float p_deltaT)
+{
+	for (int i = 0; i < items.size(); i++)
+		items[i].Update(p_deltaT);
+}
+
 void CharacterManager::Update(int p_target, float p_deltaT)
 {
 	timeBetween += p_deltaT;
 	currTarget = p_target;
-
-	for (int i = 0; i < items.size(); i++)
-		items[i].Update(p_deltaT);
 
 	//Update Enemies
 	for (auto it = enemies.begin(); it != enemies.end(); it++)
