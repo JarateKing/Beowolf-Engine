@@ -26,6 +26,9 @@ class Item
 		std::string name;
 		week2::ComponentHexPos pos;
 		float scale = 0.25f;
+
+		float m_bobTime = 0;
+		glm::vec3 m_pos;
 };
 
 #endif

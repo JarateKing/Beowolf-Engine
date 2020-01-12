@@ -5,7 +5,8 @@ Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std
 {
 	auto shaders = wolf::ResourceLoader::Instance().getShaders(p_shaderFile);
 	model = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(p_bmwFile), shaders.first, shaders.second);
-	model->setTransform(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y)) * glm::scale(glm::vec3(scale, scale, scale)));
+	m_pos = glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y);
+	model->setTransform(glm::translate(m_pos) * glm::scale(glm::vec3(scale, scale, scale)));
 	currTile = p_startTile;
 	name = p_name;
 	pos.SetGrid(p_grid);
@@ -23,11 +24,10 @@ void Item::Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas)
 
 void Item::Update(float deltaT)
 {
+	m_bobTime += deltaT;
 	pos.Update(deltaT);
-	if (pos.IsMoving())
-	{
-		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::scale(glm::vec3(scale, scale, scale)));
-	}
+	
+	model->setTransform(glm::translate(glm::vec3(m_pos.x, m_pos.y + sin(m_bobTime) * 0.5f + 1.0f, m_pos.z)) * glm::scale(glm::vec3(scale, scale, scale)));
 }
 
 std::string Item::GetName()
