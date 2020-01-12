@@ -5,8 +5,14 @@ CharacterManager::CharacterManager(HexGrid* p_grid)
 {
 	CharacterUnits lich("lich/FreeLich.bmw", "animatable", 1, "Lich", p_grid);
 	CharacterUnits lich2("lich/FreeLich.bmw", "animatable", 1, "Lich", p_grid);
+	Item potion("potion.bmw", "unlit_texture", 2, "Potion", p_grid);
+	Item sword("sword1.bmw", "unlit_texture", 3, "Sword", p_grid);
+	Item shield("shield.bmw", "unlit_texture", 4, "Shield", p_grid);
 	characters.push_back(lich);
 	characters.push_back(lich2);
+	items.push_back(potion);
+	items.push_back(sword);
+	items.push_back(shield);
 	grid = p_grid;
 }
 
@@ -19,6 +25,9 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 {
 	timeBetween += p_deltaT;
 	currTarget = p_target;
+
+	for (int i = 0; i < items.size(); i++)
+		items[i].Update(p_deltaT);
 
 	//Update Enemies
 	for (auto it = enemies.begin(); it != enemies.end(); it++)
@@ -83,6 +92,9 @@ void CharacterManager::Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderA
 	{
 		enemies.at(i).Render(p_view, p_proj, p_renderAlphas);
 	}
+
+	for (int i = 0; i < items.size(); i++)
+		items[i].Render(p_view, p_proj, p_renderAlphas);
 }
 
 void CharacterManager::MoveEnemies()
