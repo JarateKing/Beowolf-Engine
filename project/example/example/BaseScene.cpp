@@ -62,16 +62,9 @@ void BaseScene::Init()
 	selector = new HexSelector(5.0f);
 	cManager = new CharacterManager(grid);
 	hexPos.SetGrid(grid);
-	//testMove.push_back(1);
-	//testMove.push_back(2);
-	//testMove.push_back(3);
-	//testMove.push_back(100);
-	//testMove.push_back(150);
-	//testMove.push_back(200);
-	//testMove.push_back(1);
-	//testMove.push_back(2);
-	//testMove.push_back(1);
-	//testMove.push_back(2);
+
+	for (int i = 0; i < 102; i++)
+		cManager->SpawnItem(i);
 
 	testhud = new wolf::Hud("resources/hud/hud.json");
 	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));

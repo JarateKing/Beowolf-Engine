@@ -1,18 +1,13 @@
 #include "CharacterManager.h"
 #include "W_Input.h"
+#include "W_RNG.h"
 
 CharacterManager::CharacterManager(HexGrid* p_grid)
 {
 	CharacterUnits lich("lich/FreeLich.bmw", "animatable", 1, "Lich", p_grid);
 	CharacterUnits lich2("lich/FreeLich.bmw", "animatable", 1, "Lich", p_grid);
-	Item potion("potion.bmw", "unlit_texture", 2, "Potion", p_grid);
-	Item sword("sword1.bmw", "unlit_texture", 3, "Sword", p_grid);
-	Item shield("shield.bmw", "unlit_texture", 4, "Shield", p_grid);
 	characters.push_back(lich);
 	characters.push_back(lich2);
-	items.push_back(potion);
-	items.push_back(sword);
-	items.push_back(shield);
 	grid = p_grid;
 }
 
@@ -111,6 +106,18 @@ void CharacterManager::MoveEnemies()
 void CharacterManager::SpawnEnemies(int numSpawn, std::string enemyFile)
 {
 
+}
+
+void CharacterManager::SpawnItem(int pos)
+{
+	int itemType = wolf::RNG::GetRandom(1, 3);
+
+	if (itemType == 1)
+		items.push_back(Item("potion.bmw", "unlit_texture", pos, "Potion", grid));
+	else if (itemType == 2)
+		items.push_back(Item("sword1.bmw", "unlit_texture", pos, "Sword", grid));
+	else
+		items.push_back(Item("shield.bmw", "unlit_texture", pos, "Shield", grid));
 }
 
 std::vector<int> CharacterManager::PathTowardsClosestHero(int tile)

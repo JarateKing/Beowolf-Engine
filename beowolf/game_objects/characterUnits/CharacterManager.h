@@ -17,6 +17,7 @@ class CharacterManager
 		void Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas);
 		void MoveEnemies();
 		void SpawnEnemies(int numSpawn, std::string enemyFile);
+		void SpawnItem(int pos);
 		std::string GetCharacterSelected();
 		std::vector<int> PathTowardsClosestHero(int tile);
 
