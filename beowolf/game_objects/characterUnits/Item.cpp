@@ -1,5 +1,6 @@
 #include "Item.h"
 #include "W_ResourceLoader.h"
+#include "W_RNG.h"
 
 Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string p_name, HexGrid* p_grid)
 {
@@ -10,6 +11,7 @@ Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std
 	currTile = p_startTile;
 	name = p_name;
 	pos.SetGrid(p_grid);
+	m_bobTime = wolf::RNG::GetRandom(0.0f, 360.0f);
 }
 
 Item::~Item()

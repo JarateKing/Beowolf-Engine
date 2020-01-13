@@ -23,7 +23,7 @@ class Item
 		week2::ComponentHexPos pos;
 		float scale = 0.25f;
 
-		float m_bobTime = 0;
+		float m_bobTime;
 		glm::vec3 m_pos;
 };
 
