@@ -26,6 +26,7 @@
 #include "W_Hud.h"
 #include "W_ProjectionMatrix.h"
 #include "characterUnits/CharacterManager.h"
+#include "W_RNG.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -62,9 +63,6 @@ void BaseScene::Init()
 	selector = new HexSelector(5.0f);
 	cManager = new CharacterManager(grid);
 	hexPos.SetGrid(grid);
-
-	for (int i = 0; i < 102; i++)
-		cManager->SpawnItem(i);
 
 	testhud = new wolf::Hud("resources/hud/hud.json");
 	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -112,6 +110,9 @@ void BaseScene::Update()
 	else if (wasJustAnimated) {
 		wasJustAnimated = false;
 	}
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_P))
+		cManager->SpawnItem(wolf::RNG::GetRandom(0, 200));
 
 	cManager->Update(delta);
 }
