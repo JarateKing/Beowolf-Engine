@@ -1,8 +1,7 @@
 {
-	"Item" : {
-		"Name" : "Potion",
-		"Stats": {
-			"Health": 1.25
-		}
+	"Name" : "Potion",
+	
+	"Stats": {
+		"Health": 1.25
 	}
 }
