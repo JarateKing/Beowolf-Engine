@@ -10,13 +10,13 @@
 				"duration" : "-1",
 				"rate" : "0.4",
 				"texture" : "resources/textures/particles/glow.dds",
-				"additive" : "false",
+				"additive" : "true",
 				"lifespanMin" : "2.5",
 				"lifespanMax" : "4",
 				"affectors" : [
 					{"type" : "scale", "start" : "0.3", "end" : "5"},
-					{"type" : "recolor", "sR" : "1.0", "sG" : "1.0", "sB" : "0.9", "eR" : "0.90", "eG" : "0.95", "eB" : "0.1"},
-					{"type" : "fade", "start" : "0.5", "end" : "0"}
+					{"type" : "recolor", "sR" : "0.3", "sG" : "0.3", "sB" : "0.3", "eR" : "0.90", "eG" : "0.95", "eB" : "0.1"},
+					{"type" : "fade", "start" : "0.3", "end" : "0"}
 				]
 			}
 		]
