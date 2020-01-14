@@ -107,16 +107,19 @@ void Emitter::Update(float delta, glm::mat3 view)
 
 void Emitter::Render(glm::mat4 projview)
 {
-	if (m_isAdditive)
-	{
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-		glEnable(GL_BLEND);
-	}
-	else
-	{
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
-	}
+	// TODO: re-add additive functionality
+	// disabled because frequently recalling these is an fps concern
+
+	//if (m_isAdditive)
+	//{
+	//	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	//	glEnable(GL_BLEND);
+	//}
+	//else
+	//{
+	//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//	glEnable(GL_BLEND);
+	//}
 
 	g_pProgram->Bind();
 	glBindTexture(GL_TEXTURE_2D, g_pTexture);
