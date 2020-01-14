@@ -5,6 +5,7 @@
 #include <map>
 #include "BMWModel.h"
 #include "ComponentHexPos.h"
+#include "Effect.h"
 
 class Item
 {
@@ -27,6 +28,9 @@ class Item
 		float m_bobTime;
 		glm::vec3 m_pos;
 		std::map<std::string, float> m_statValues;
+		
+		Effect* m_particleGlow;
+		glm::mat3 m_storedProj;
 };
 
 #endif

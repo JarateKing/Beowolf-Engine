@@ -31,6 +31,9 @@ Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std
 					m_statValues[STAT_NAMES[i]] = jsonData["Stats"][STAT_NAMES[i]];
 		}
 	}
+
+	m_particleGlow = new Effect("resources/particles/item_glow.json");
+	m_particleGlow->SetPos(m_pos);
 }
 
 Item::~Item()
@@ -41,6 +44,11 @@ Item::~Item()
 void Item::Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas)
 {
 	model->render(p_view, p_proj, p_renderAlphas);
+
+	if (p_renderAlphas)
+		m_particleGlow->Render(p_proj * p_view);
+	else
+		m_storedProj = glm::mat3(p_proj * glm::rotate(90.0f, glm::vec3(1, 0, 0)));
 }
 
 void Item::Update(float deltaT)
@@ -49,6 +57,8 @@ void Item::Update(float deltaT)
 	pos.Update(deltaT);
 	
 	model->setTransform(glm::translate(glm::vec3(m_pos.x, m_pos.y + sin(m_bobTime) * 0.5f + 1.0f, m_pos.z)) * glm::rotate(m_bobTime * 30, glm::vec3(0, 1, 0)) * glm::scale(glm::vec3(scale, scale, scale)));
+
+	m_particleGlow->Update(deltaT, m_storedProj);
 }
 
 std::string Item::GetName()
