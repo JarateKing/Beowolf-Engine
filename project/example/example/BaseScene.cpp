@@ -126,7 +126,7 @@ void BaseScene::Render()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
-	//grid->Render(cam->GetViewMatrix());
+	grid->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
 	//selector->Render(cam->GetViewMatrix());
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
 
@@ -134,6 +134,7 @@ void BaseScene::Render()
 	glEnable(GL_BLEND);
 
 	testhud->Render(hudProjMat);
+	grid->Render(cam->GetViewMatrix(), wolf::RenderFilterTransparent);
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
 
 	// Depthless
