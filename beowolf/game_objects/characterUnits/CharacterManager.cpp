@@ -114,11 +114,11 @@ void CharacterManager::SpawnItem(int pos)
 	int itemType = wolf::RNG::GetRandom(1, 3);
 
 	if (itemType == 1)
-		items.push_back(Item("potion.bmw", "unlit_texture", pos, "Items/potion", "Potion", grid));
+		items.push_back(Item("potion.bmw", "unlit_texture", pos, "Items/potion.json", "Potion", grid));
 	else if (itemType == 2)
-		items.push_back(Item("sword1.bmw", "unlit_texture", pos, "Items/sword", "Sword", grid));
+		items.push_back(Item("sword1.bmw", "unlit_texture", pos, "Items/sword.json", "Sword", grid));
 	else
-		items.push_back(Item("shield.bmw", "unlit_texture", pos, "Items/shield", "Shield", grid));
+		items.push_back(Item("shield.bmw", "unlit_texture", pos, "Items/shield.json", "Shield", grid));
 }
 
 std::vector<int> CharacterManager::PathTowardsClosestHero(int tile)
