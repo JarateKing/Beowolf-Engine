@@ -1,6 +1,8 @@
 #include "Item.h"
 #include "W_ResourceLoader.h"
 #include "W_RNG.h"
+#include <sstream>
+#include "JSON/json.hpp"
 
 Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string jsonFile, std::string p_name, HexGrid* p_grid)
 {
@@ -13,7 +15,19 @@ Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std
 	pos.SetGrid(p_grid);
 	m_bobTime = wolf::RNG::GetRandom(0.0f, 360.0f);
 
+	std::ifstream jsonIn(wolf::ResourceLoader::Instance().getJSONObject(jsonFile));
+	nlohmann::json jsonData;
+	if (jsonIn) {
+		std::stringstream jsonFileStream;
+		jsonFileStream << jsonIn.rdbuf();
+		std::string jsonFileData = jsonFileStream.str();
+		jsonData = nlohmann::json::parse(jsonFileData);
 
+		if (jsonData.contains("Stats")) {
+			if (jsonData["Stats"].contains("Health"))
+				m_statValues["Health"] = jsonData["Stats"]["Health"];
+		}
+	}
 }
 
 Item::~Item()

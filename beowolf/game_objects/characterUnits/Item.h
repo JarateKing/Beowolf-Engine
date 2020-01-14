@@ -2,6 +2,7 @@
 #define ITEM_H
 
 #include <vector>
+#include <map>
 #include "BMWModel.h"
 #include "ComponentHexPos.h"
 
@@ -25,6 +26,7 @@ class Item
 
 		float m_bobTime;
 		glm::vec3 m_pos;
+		std::map<std::string, float> m_statValues;
 };
 
 #endif
