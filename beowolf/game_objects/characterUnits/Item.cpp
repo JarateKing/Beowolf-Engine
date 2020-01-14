@@ -45,10 +45,12 @@ void Item::Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas)
 {
 	model->render(p_view, p_proj, p_renderAlphas);
 
-	if (p_renderAlphas)
+	if (p_renderAlphas) {
+		glDepthMask(false);
 		m_particleGlow->Render(p_proj * p_view);
-	else
-		m_storedProj = glm::mat3(p_proj * glm::rotate(90.0f, glm::vec3(1, 0, 0)));
+	}
+	
+	m_storedProj = glm::mat3(p_proj * glm::rotate(90.0f, glm::vec3(1, 0, 0)));
 }
 
 void Item::Update(float deltaT)
