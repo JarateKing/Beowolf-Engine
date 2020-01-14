@@ -2,23 +2,24 @@
 	"Effect" :
 	{
 		"Emitters" : [
-		{
-			"max_particles" : "10",
-			"pX" : "0.0",
-			"pY" : "0.05",
-			"pZ" : "0.0",
-			"duration" : "-1",
-			"rate" : "0.4",
-			"texture" : "resources/textures/particles/glow.dds",
-			"additive" : "false",
-			"lifespanMin" : "6",
-			"lifespanMax" : "8",
-			"effectors" : [
-			{"type" : "scale", "start" : "0.3", "end" : "2"},
-			{"type" : "recolor", "sR" : "0.05", "sG" : "0.05", "sB" : "0.05", "eR" : "0.075", "eG" : "0.075", "eB" : "0.1"},
-			{"type" : "fade", "start" : "0.75", "end" : "0"},
-			{"type" : "velocity", "sX" : "0.0", "sY" : "0.2", "sZ" : "0.0", "eX" : "0.0", "eY" : "0.4", "eZ" : "0.0"}
-			]
-		}
+			{
+				"max_particles" : "10",
+				"pX" : "0.0",
+				"pY" : "0.05",
+				"pZ" : "0.0",
+				"duration" : "-1",
+				"rate" : "0.4",
+				"texture" : "resources/textures/particles/glow.dds",
+				"additive" : "false",
+				"lifespanMin" : "6",
+				"lifespanMax" : "8",
+				"effectors" : [
+					{"type" : "scale", "start" : "0.3", "end" : "2"},
+					{"type" : "recolor", "sR" : "0.05", "sG" : "0.05", "sB" : "0.05", "eR" : "0.075", "eG" : "0.075", "eB" : "0.1"},
+					{"type" : "fade", "start" : "0.75", "end" : "0"},
+					{"type" : "velocity", "sX" : "0.0", "sY" : "0.2", "sZ" : "0.0", "eX" : "0.0", "eY" : "0.4", "eZ" : "0.0"}
+				]
+			}
+		]
 	}
 }
