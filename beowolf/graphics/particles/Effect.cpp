@@ -141,7 +141,7 @@ Effect::Effect(std::string jsonPath)
 			}
 		}
 
-
+		m_emitters.push_back(emitter);
 	}
 	/*
 	// verify things exist
