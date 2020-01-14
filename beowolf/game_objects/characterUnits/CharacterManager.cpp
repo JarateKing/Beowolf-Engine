@@ -1,6 +1,7 @@
 #include "CharacterManager.h"
 #include "W_Input.h"
 #include "W_RNG.h"
+#include "W_ResourceLoader.h"
 
 CharacterManager::CharacterManager(HexGrid* p_grid)
 {
@@ -113,11 +114,11 @@ void CharacterManager::SpawnItem(int pos)
 	int itemType = wolf::RNG::GetRandom(1, 3);
 
 	if (itemType == 1)
-		items.push_back(Item("potion.bmw", "unlit_texture", pos, "Potion", grid));
+		items.push_back(Item("potion.bmw", "unlit_texture", pos, "Items/potion", "Potion", grid));
 	else if (itemType == 2)
-		items.push_back(Item("sword1.bmw", "unlit_texture", pos, "Sword", grid));
+		items.push_back(Item("sword1.bmw", "unlit_texture", pos, "Items/sword", "Sword", grid));
 	else
-		items.push_back(Item("shield.bmw", "unlit_texture", pos, "Shield", grid));
+		items.push_back(Item("shield.bmw", "unlit_texture", pos, "Items/shield", "Shield", grid));
 }
 
 std::vector<int> CharacterManager::PathTowardsClosestHero(int tile)

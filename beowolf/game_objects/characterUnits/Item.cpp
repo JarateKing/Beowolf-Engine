@@ -2,7 +2,7 @@
 #include "W_ResourceLoader.h"
 #include "W_RNG.h"
 
-Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string p_name, HexGrid* p_grid)
+Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string jsonFile, std::string p_name, HexGrid* p_grid)
 {
 	auto shaders = wolf::ResourceLoader::Instance().getShaders(p_shaderFile);
 	model = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(p_bmwFile), shaders.first, shaders.second);
@@ -12,6 +12,8 @@ Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std
 	name = p_name;
 	pos.SetGrid(p_grid);
 	m_bobTime = wolf::RNG::GetRandom(0.0f, 360.0f);
+
+
 }
 
 Item::~Item()
