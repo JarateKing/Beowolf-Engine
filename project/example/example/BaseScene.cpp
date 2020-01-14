@@ -121,27 +121,28 @@ void BaseScene::Render()
 {
 	// Opaque
 	glDepthMask(true);
+	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
-	grid->Render(cam->GetViewMatrix());
-	selector->Render(cam->GetViewMatrix());
+	//wolf::SceneRenderer::getInstance().Render(cam->GetViewMatrix());
+	//grid->Render(cam->GetViewMatrix());
+	//selector->Render(cam->GetViewMatrix());
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
 
 	// Transparent
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	testhud->Render(hudProjMat);
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
 
 	// Depthless
 	glDepthMask(false);
+
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterDepthless);
 
 	// Additive
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	glDepthMask(true);
 
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterAdditive);
 
