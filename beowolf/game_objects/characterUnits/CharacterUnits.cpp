@@ -16,9 +16,9 @@ CharacterUnits::~CharacterUnits()
 	//TODO
 }
 
-void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas)
+void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
 {
-	model->render(p_view, p_proj, p_renderAlphas);
+	model->render(p_view, p_proj, type);
 }
 
 void CharacterUnits::Update(float deltaT)

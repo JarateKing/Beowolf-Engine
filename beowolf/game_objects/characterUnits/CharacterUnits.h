@@ -10,7 +10,7 @@ class CharacterUnits
 	public:
 		CharacterUnits(std::string bmwFile, std::string shaderFile, int startTile, std::string name, HexGrid* grid);
 		~CharacterUnits();
-		void Render(glm::mat4 view, glm::mat4 proj, bool renderAlphas);
+		void Render(glm::mat4 view, glm::mat4 proj, wolf::RenderFilterType type);
 		void Update(float deltaT);
 		std::string GetName();
 		int GetTile();

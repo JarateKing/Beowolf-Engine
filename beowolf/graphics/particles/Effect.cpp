@@ -280,11 +280,11 @@ void Effect::Update(float delta, glm::mat3 view)
 	}
 }
 
-void Effect::Render(glm::mat4 projview)
+void Effect::Render(glm::mat4 projview, wolf::RenderFilterType type)
 {
 	for (int i = 0; i < m_emitters.size(); i++)
 	{
-		m_emitters[i]->Render(projview);
+		m_emitters[i]->Render(projview, type);
 	}
 }
 

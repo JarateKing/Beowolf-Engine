@@ -114,14 +114,17 @@ namespace wolf
 		}
 	}
 
-	void BMWModel::render(glm::mat4 view, glm::mat4 proj, bool renderAlphas)
+	void BMWModel::render(glm::mat4 view, glm::mat4 proj, RenderFilterType type)
 	{
-		for (int i = 0; i < m_toRender.size(); i++) {
-			if (renderAlphas == m_meshes[m_toRender[i].meshID].isTransparent) {
-				renderMesh(transform * m_toRender[i].transform, view, proj, i);
-			}
-		}
-		glDepthMask(true);
+		if (type == RenderFilterOpaque)
+			for (int i = 0; i < m_toRender.size(); i++)
+				if (!m_meshes[m_toRender[i].meshID].isTransparent)
+					renderMesh(transform * m_toRender[i].transform, view, proj, i);
+
+		if (type == RenderFilterTransparent)
+			for (int i = 0; i < m_toRender.size(); i++)
+				if (m_meshes[m_toRender[i].meshID].isTransparent)
+					renderMesh(transform * m_toRender[i].transform, view, proj, i);
 	}
 
 	void BMWModel::renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, unsigned int meshID) {

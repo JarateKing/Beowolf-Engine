@@ -41,14 +41,10 @@ Item::~Item()
 	//TODO
 }
 
-void Item::Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas)
+void Item::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
 {
-	model->render(p_view, p_proj, p_renderAlphas);
-
-	if (p_renderAlphas) {
-		glDepthMask(false);
-		m_particleGlow->Render(p_proj * p_view);
-	}
+	model->render(p_view, p_proj, type);
+	m_particleGlow->Render(p_proj * p_view, type);
 	
 	m_storedProj = glm::mat3(p_proj * glm::rotate(90.0f, glm::vec3(1, 0, 0)));
 }

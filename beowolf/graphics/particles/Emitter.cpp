@@ -105,34 +105,23 @@ void Emitter::Update(float delta, glm::mat3 view)
 	g_pDecl->End();
 }
 
-void Emitter::Render(glm::mat4 projview)
+void Emitter::Render(glm::mat4 projview, wolf::RenderFilterType type)
 {
-	// TODO: re-add additive functionality
-	// disabled because frequently recalling these is an fps concern
+	if ((m_isAdditive && type == wolf::RenderFilterAdditive) || (!m_isAdditive && type == wolf::RenderFilterTransparent))
+	{
+		g_pProgram->Bind();
+		glBindTexture(GL_TEXTURE_2D, g_pTexture);
 
-	//if (m_isAdditive)
-	//{
-	//	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	//	glEnable(GL_BLEND);
-	//}
-	//else
-	//{
-	//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//	glEnable(GL_BLEND);
-	//}
+		// Bind Uniforms
+		g_pProgram->SetUniform("projection", projview);
+		g_pProgram->SetUniform("tex", 0);
 
-	g_pProgram->Bind();
-	glBindTexture(GL_TEXTURE_2D, g_pTexture);
+		// Set up source data
+		g_pDecl->Bind();
 
-	// Bind Uniforms
-	g_pProgram->SetUniform("projection", projview);
-	g_pProgram->SetUniform("tex", 0);
-
-	// Set up source data
-	g_pDecl->Bind();
-
-	// Draw!
-	glDrawArrays(GL_TRIANGLES, 0, m_max * 6);
+		// Draw!
+		glDrawArrays(GL_TRIANGLES, 0, m_max * 6);
+	}
 }
 
 void Emitter::AddToQueue(int index, wolf::Vertex* ptr)

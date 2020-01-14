@@ -81,19 +81,16 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	}
 }
 
-void CharacterManager::Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas)
+void CharacterManager::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
 {
 	for (auto it = characters.begin(); it != characters.end(); it++)
-	{
-		it->Render(p_view, p_proj, p_renderAlphas);
-	}
+		it->Render(p_view, p_proj, type);
+
 	for (int i = 0; i < enemies.size(); i++)
-	{
-		enemies.at(i).Render(p_view, p_proj, p_renderAlphas);
-	}
+		enemies.at(i).Render(p_view, p_proj, type);
 
 	for (int i = 0; i < items.size(); i++)
-		items[i].Render(p_view, p_proj, p_renderAlphas);
+		items[i].Render(p_view, p_proj, type);
 }
 
 void CharacterManager::MoveEnemies()

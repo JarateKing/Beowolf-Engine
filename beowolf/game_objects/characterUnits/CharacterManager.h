@@ -14,7 +14,7 @@ class CharacterManager
 		~CharacterManager();
 		void Update(float deltaT);
 		void Update(int target, float deltaT);
-		void Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas);
+		void Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type);
 		void MoveEnemies();
 		void SpawnEnemies(int numSpawn, std::string enemyFile);
 		void SpawnItem(int pos);

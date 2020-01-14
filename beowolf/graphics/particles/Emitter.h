@@ -21,7 +21,7 @@ public:
 	Emitter(int max, float duration, float rate, std::string texture);
 	~Emitter();
 	virtual void Update(float delta, glm::mat3 view);
-	virtual void Render(glm::mat4 projview);
+	virtual void Render(glm::mat4 projview, wolf::RenderFilterType type);
 	void AddToQueue(int index, wolf::Vertex* ptr);
 	void AddAffector(Affector* affector);
 	bool RemoveAffector(Affector* affector);

@@ -19,6 +19,13 @@
 
 namespace wolf
 {
+	enum RenderFilterType {
+		RenderFilterOpaque,
+		RenderFilterTransparent,
+		RenderFilterDepthless,
+		RenderFilterAdditive,
+	};
+
 	typedef struct Vertex Vertex;
 	struct Vertex
 	{

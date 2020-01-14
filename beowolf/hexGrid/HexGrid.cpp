@@ -717,14 +717,14 @@ void HexGrid::Render(glm::mat4 projview)
 	{
 		glDepthMask(true);
 		glDisable(GL_BLEND);
-		trees.at(i)->render(projview, glm::mat4(), false);
+		trees.at(i)->render(projview, glm::mat4(), wolf::RenderFilterOpaque);
 	}
 
 	for (int i = 0; i < trees.size(); i++)
 	{
 		glDepthMask(false);
 		glEnable(GL_BLEND);
-		trees.at(i)->render(projview, glm::mat4(), true);
+		trees.at(i)->render(projview, glm::mat4(), wolf::RenderFilterTransparent);
 	}
 }
 

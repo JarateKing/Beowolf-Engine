@@ -12,7 +12,7 @@ public:
 	EnemyManager(HexGrid* p_grid);
 	~EnemyManager();
 	void Update(float deltaT);
-	void Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas);
+	void Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type);
 	void Move();
 
 private:
