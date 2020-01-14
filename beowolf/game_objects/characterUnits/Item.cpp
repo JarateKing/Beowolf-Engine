@@ -4,6 +4,8 @@
 #include <sstream>
 #include "JSON/json.hpp"
 
+const std::vector<std::string> STAT_NAMES = { "Health", "Damage", "Defense" };
+
 Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string jsonFile, std::string p_name, HexGrid* p_grid)
 {
 	auto shaders = wolf::ResourceLoader::Instance().getShaders(p_shaderFile);
@@ -24,8 +26,9 @@ Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std
 		jsonData = nlohmann::json::parse(jsonFileData);
 
 		if (jsonData.contains("Stats")) {
-			if (jsonData["Stats"].contains("Health"))
-				m_statValues["Health"] = jsonData["Stats"]["Health"];
+			for (int i = 0; i < STAT_NAMES.size(); i++)
+				if (jsonData["Stats"].contains(STAT_NAMES[i]))
+					m_statValues[STAT_NAMES[i]] = jsonData["Stats"][STAT_NAMES[i]];
 		}
 	}
 }
