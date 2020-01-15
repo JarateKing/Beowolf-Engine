@@ -45,6 +45,13 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
 		it->Update(p_deltaT);
+
+		// check for items
+		for (int i = 0; i < items.size(); i++) {
+			if (glm::length(it->GetPos() - items[i].GetPos()) < 0.25) {
+				std::cout << 'y';
+			}
+		}
 	}
 
 	//Check if mouse pressed on top of hero
