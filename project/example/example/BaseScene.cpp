@@ -101,25 +101,7 @@ void BaseScene::Update()
 		grid->Update(target, delta);
 	}
 	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
-
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
-	{
-		hexPos.Move(testMove, 20.0f);
-	}
-	
-	glm::vec3 old = hexPos.GetPos();
-	hexPos.Update(delta);
-	glm::vec3 dif = hexPos.GetPos() - old;
-	dif.y = 0;
-	float dir = 180.0f;
-	if (dif.x != 0 || dif.z != 0) {
-		dif = glm::normalize(dif);
-		dir = atan2(dif.x, dif.z) * RAD2DEG;
-		wasJustAnimated = true;
-	}
-	else if (wasJustAnimated) {
-		wasJustAnimated = false;
-	}
+	cManager->Update(target, delta);
 
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_P))
 		cManager->SpawnItem(wolf::RNG::GetRandom(0, 200));
