@@ -1,0 +1,7 @@
+{
+	"Name" : "Potion",
+	
+	"Stats": {
+		"Health": 1.25
+	}
+}

@@ -3,7 +3,7 @@
 	
 	"clips" : [
 		{
-			"file": "lich/Idle.bmw",
+			"file": "lich/Attack01.bmw",
 			"name": "idle",
 			"loop": true
 		}

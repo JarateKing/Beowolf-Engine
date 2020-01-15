@@ -141,7 +141,7 @@ Effect::Effect(std::string jsonPath)
 			}
 		}
 
-
+		m_emitters.push_back(emitter);
 	}
 	/*
 	// verify things exist
@@ -270,6 +270,7 @@ Effect::~Effect()
 	{
 		delete m_emitters[i];
 	}
+	m_emitters.clear();
 }
 
 void Effect::Update(float delta, glm::mat3 view)
@@ -280,11 +281,11 @@ void Effect::Update(float delta, glm::mat3 view)
 	}
 }
 
-void Effect::Render(glm::mat4 projview)
+void Effect::Render(glm::mat4 projview, wolf::RenderFilterType type)
 {
 	for (int i = 0; i < m_emitters.size(); i++)
 	{
-		m_emitters[i]->Render(projview);
+		m_emitters[i]->Render(projview, type);
 	}
 }
 

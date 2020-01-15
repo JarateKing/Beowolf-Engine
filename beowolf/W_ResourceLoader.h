@@ -29,6 +29,7 @@ namespace wolf
 		std::string getPixelShader(std::string name);
 		std::string getModel(std::string name);
 		std::string getFont(std::string name);
+		std::string getJSONObject(std::string name);
 
 	private:
 		//-------------------------------------------------------------------------

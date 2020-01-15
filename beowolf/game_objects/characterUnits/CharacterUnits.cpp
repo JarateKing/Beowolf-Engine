@@ -25,9 +25,9 @@ CharacterUnits::~CharacterUnits()
 	//TODO
 }
 
-void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas)
+void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
 {
-	model->render(p_view, p_proj, p_renderAlphas);
+	model->render(p_view, p_proj, type);
 }
 
 void CharacterUnits::Update(float deltaT)
@@ -52,6 +52,8 @@ void CharacterUnits::Update(float deltaT)
 	{
 		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::scale(glm::vec3(scale, scale, scale)));
 	}
+
+	model->update(deltaT);
 }
 
 std::string CharacterUnits::GetName()
@@ -82,4 +84,14 @@ void CharacterUnits::SetAnim(std::string p_animName)
 void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete)
 {
 	pos.Move(p_path, p_timeToComplete);
+}
+
+glm::vec3 CharacterUnits::GetPos()
+{
+	return pos.GetPos();
+}
+
+void CharacterUnits::ModifyStats(std::string id, float mult)
+{
+	// TODO: make actually modify stats
 }

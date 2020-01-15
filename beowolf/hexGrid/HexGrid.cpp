@@ -692,39 +692,33 @@ void HexGrid::SmoothFullHeights(int width, int numTimes)
 	}
 }
 
-void HexGrid::Render(glm::mat4 projview)
+void HexGrid::Render(glm::mat4 projview, wolf::RenderFilterType type)
 {
-	pTex->Bind();
-	g_dProgram->Bind();
+	if (type == wolf::RenderFilterOpaque) {
+		pTex->Bind();
+		g_dProgram->Bind();
 
-	// Bind Uniforms
-	g_dProgram->SetUniform("projection", projview);
-	g_dProgram->SetUniform("world", glm::mat4());
-	g_dProgram->SetUniform("view", glm::mat4());
-	g_dProgram->SetUniform("tex", 0);
+		// Bind Uniforms
+		g_dProgram->SetUniform("projection", projview);
+		g_dProgram->SetUniform("world", glm::mat4());
+		g_dProgram->SetUniform("view", glm::mat4());
+		g_dProgram->SetUniform("tex", 0);
 
-	// Set up source data
-	g_pDecl->Bind();
+		// Set up source data
+		g_pDecl->Bind();
 
-	// Draw!
-	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+		// Draw!
+		glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
-	for (int i = 0; i < selections.size(); i++)
-	{
-		selections.at(i)->Render(projview);
+		for (int i = 0; i < selections.size(); i++)
+		{
+			selections.at(i)->Render(projview);
+		}
 	}
+	
 	for (int i = 0; i < trees.size(); i++)
 	{
-		glDepthMask(true);
-		glDisable(GL_BLEND);
-		trees.at(i)->render(projview, glm::mat4(), false);
-	}
-
-	for (int i = 0; i < trees.size(); i++)
-	{
-		glDepthMask(false);
-		glEnable(GL_BLEND);
-		trees.at(i)->render(projview, glm::mat4(), true);
+		trees.at(i)->render(projview, glm::mat4(), type);
 	}
 }
 

@@ -1,0 +1,7 @@
+{
+	"Name" : "Sword",
+	
+	"Stats": {
+		"Damage": 1.5
+	}
+}

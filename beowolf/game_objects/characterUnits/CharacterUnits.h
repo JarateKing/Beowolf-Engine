@@ -10,7 +10,7 @@ class CharacterUnits
 	public:
 		CharacterUnits(std::string bmwFile, std::string shaderFile, int startTile, std::string name, HexGrid* grid, float scale, bool inverted);
 		~CharacterUnits();
-		void Render(glm::mat4 view, glm::mat4 proj, bool renderAlphas);
+		void Render(glm::mat4 view, glm::mat4 proj, wolf::RenderFilterType type);
 		void Update(float deltaT);
 		std::string GetName();
 		int GetTile();
@@ -18,6 +18,8 @@ class CharacterUnits
 		void PlaySound(std::string soundName);
 		void SetAnim(std::string animName);
 		void Move(std::vector<int> p_path, float timeToComplete);
+		glm::vec3 GetPos();
+		void ModifyStats(std::string id, float mult);
 
 	private:
 		std::vector<std::string> soundFiles;

@@ -43,6 +43,7 @@ namespace wolf
 		std::map<std::string, BMWAnimSegment*> animations;
 		std::string defaultAnim;
 		glm::mat4 transform;
+		std::vector<std::pair<int, std::string>> boneNames;
 	};
 
 	class BMWLoader

@@ -26,6 +26,7 @@ namespace wolf
 		std::map<std::string, BMWAnimSegment*> animations;
 		std::string defaultAnim;
 		glm::mat4 transformModel;
+		std::vector<std::pair<int, std::string>> boneNames;
 		
 		std::ifstream in(file, std::ifstream::binary);
 		
@@ -34,13 +35,15 @@ namespace wolf
 			jsonFile = jsonFile.substr(0, jsonFile.size() - 4) + ".json";
 
 		int animCountOffset = 0;
+		std::vector<std::string> subfilesLoaded;
 		std::vector<std::string> texOverrides;
 		std::ifstream jsonIn(jsonFile);
+		nlohmann::json jsonData;
 		if (jsonIn) {
 			std::stringstream jsonFileStream;
 			jsonFileStream << jsonIn.rdbuf();
 			std::string jsonFileData = jsonFileStream.str();
-			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
+			jsonData = nlohmann::json::parse(jsonFileData);
 			
 			defaultAnim = "idle";
 			if (jsonData.contains("defaultAnim")) {
@@ -85,6 +88,7 @@ namespace wolf
 					
 					clip->end = fileAnim->animlist[0]->duration;
 					animCountOffset++;
+					subfilesLoaded.push_back(ResourceLoader::Instance().getModel(filename));
 				}
 				else {
 					clip->start = anim["start"];
@@ -184,6 +188,49 @@ namespace wolf
 
 		BMWNode* root = readNode(&in, &nodeIDs);
 
+		int boneNameNum = readInt(&in);
+		for (int i = 0; i < boneNameNum; i++)
+			boneNames.push_back({ readInt(&in), readString(&in) });
+
+		animCountOffset = 0;
+		if (jsonIn) {
+			for (auto anim : jsonData["clips"]) {
+				if (anim.contains("file")) {
+
+					std::map<int, std::string> parentIDtoName;
+					std::map<int, std::string> childIDtoName;
+					std::map<std::string, int> parentNametoID;
+					std::map<std::string, int> childNametoID;
+
+					for (int i = 0; i < boneNames.size(); i++) {
+						parentIDtoName[boneNames[i].first] = boneNames[i].second;
+						parentNametoID[boneNames[i].second] = boneNames[i].first;
+					}
+
+					BMWModeLData* fileAnim = loadFile(subfilesLoaded[animCountOffset]);
+					for (int i = 0; i < fileAnim->boneNames.size(); i++) {
+						childIDtoName[fileAnim->boneNames[i].first] = fileAnim->boneNames[i].second;
+						childNametoID[fileAnim->boneNames[i].second] = fileAnim->boneNames[i].first;
+					}
+
+					for (int i = 0; i < animlist[animCountOffset]->transforms.size(); i++) {
+						std::map<int, glm::mat4> newmap;
+						for (auto it : animlist[animCountOffset]->transforms[i]) {
+							if (childIDtoName.count(it.first) && parentNametoID.count(childIDtoName[it.first])) {
+								newmap[parentNametoID[childIDtoName[it.first]]] = it.second;
+							}
+							else {
+								newmap[it.first] = it.second;
+							}
+						}
+						animlist[animCountOffset]->transforms[i] = newmap;
+					}
+					
+					animCountOffset++;
+				}
+			}
+		}
+
 		m_stored[file].texlist = texlist;
 		m_stored[file].meshlist = meshlist;
 		m_stored[file].indexlist = indexlist;
@@ -194,6 +241,7 @@ namespace wolf
 		m_stored[file].animations = animations;
 		m_stored[file].defaultAnim = defaultAnim;
 		m_stored[file].transform = transformModel;
+		m_stored[file].boneNames = boneNames;
 
 		return &m_stored[file];
 	}

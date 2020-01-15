@@ -12,7 +12,7 @@ public:
 	Effect(std::string jsonPath);
 	~Effect();
 	void Update(float delta, glm::mat3 view);
-	void Render(glm::mat4 projview);
+	void Render(glm::mat4 projview, wolf::RenderFilterType type);
 
 	glm::vec3 GetPos();
 	void SetPos(glm::vec3 pos);

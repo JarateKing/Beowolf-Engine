@@ -41,7 +41,6 @@ Emitter::Emitter(int max, float duration, float rate, std::string texture)
 
 Emitter::~Emitter()
 {
-	delete[] m_quads;
 	for (int i = 0; i < m_max; i++)
 	{
 		delete m_particles[i];
@@ -52,6 +51,7 @@ Emitter::~Emitter()
 	{
 		delete m_affectors[i];
 	}
+	delete[] m_quads;
 
 	wolf::BufferManager::DestroyBuffer(g_pVB);
 	delete g_pDecl;
@@ -105,31 +105,23 @@ void Emitter::Update(float delta, glm::mat3 view)
 	g_pDecl->End();
 }
 
-void Emitter::Render(glm::mat4 projview)
+void Emitter::Render(glm::mat4 projview, wolf::RenderFilterType type)
 {
-	if (m_isAdditive)
+	if ((m_isAdditive && type == wolf::RenderFilterAdditive) || (!m_isAdditive && type == wolf::RenderFilterTransparent))
 	{
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-		glEnable(GL_BLEND);
+		g_pProgram->Bind();
+		glBindTexture(GL_TEXTURE_2D, g_pTexture);
+
+		// Bind Uniforms
+		g_pProgram->SetUniform("projection", projview);
+		g_pProgram->SetUniform("tex", 0);
+
+		// Set up source data
+		g_pDecl->Bind();
+
+		// Draw!
+		glDrawArrays(GL_TRIANGLES, 0, m_max * 6);
 	}
-	else
-	{
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
-	}
-
-	g_pProgram->Bind();
-	glBindTexture(GL_TEXTURE_2D, g_pTexture);
-
-	// Bind Uniforms
-	g_pProgram->SetUniform("projection", projview);
-	g_pProgram->SetUniform("tex", 0);
-
-	// Set up source data
-	g_pDecl->Bind();
-
-	// Draw!
-	glDrawArrays(GL_TRIANGLES, 0, m_max * 6);
 }
 
 void Emitter::AddToQueue(int index, wolf::Vertex* ptr)

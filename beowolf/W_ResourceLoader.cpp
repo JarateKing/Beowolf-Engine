@@ -9,6 +9,7 @@
 #define FALLBACK_PIXELSHADER "resources/shaders/fallback.fsh"
 #define FALLBACK_MODEL "resources/models/teapot.bmw"
 #define FALLBACK_FONT "resources/fonts/opensans_semibold.fnt"
+#define FALLBACK_JSON "resources/objects/default.json"
 
 namespace wolf
 {
@@ -68,6 +69,15 @@ namespace wolf
 
 		std::cout << "Failed to find font " << name << "\n";
 		return FALLBACK_FONT;
+	}
+
+	std::string ResourceLoader::getJSONObject(std::string name) {
+		std::string filename = "resources/objects/" + name;
+		if (checkFileExists(filename))
+			return filename;
+
+		std::cout << "Failed to find object " << name << "\n";
+		return FALLBACK_JSON;
 	}
 
 	bool ResourceLoader::checkFileExists(std::string filename) {
