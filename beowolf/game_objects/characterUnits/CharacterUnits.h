@@ -8,7 +8,7 @@
 class CharacterUnits
 {
 	public:
-		CharacterUnits(std::string bmwFile, std::string shaderFile, int startTile, std::string name, HexGrid* grid);
+		CharacterUnits(std::string bmwFile, std::string shaderFile, int startTile, std::string name, HexGrid* grid, float scale, bool inverted);
 		~CharacterUnits();
 		void Render(glm::mat4 view, glm::mat4 proj, bool renderAlphas);
 		void Update(float deltaT);
@@ -25,8 +25,8 @@ class CharacterUnits
 		int currTile;
 		std::string name;
 		week2::ComponentHexPos pos;
-		float scale = 1.5f;
-
+		float scale = 0.0f;
+		bool inverted = false;
 };
 
 #endif
