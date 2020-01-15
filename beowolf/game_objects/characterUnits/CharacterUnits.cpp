@@ -52,6 +52,8 @@ void CharacterUnits::Update(float deltaT)
 	{
 		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::scale(glm::vec3(scale, scale, scale)));
 	}
+
+	model->update(deltaT);
 }
 
 std::string CharacterUnits::GetName()
