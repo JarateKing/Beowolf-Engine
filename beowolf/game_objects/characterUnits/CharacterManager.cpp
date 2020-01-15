@@ -23,27 +23,23 @@ CharacterManager::~CharacterManager()
 
 }
 
-void CharacterManager::Update(float p_deltaT)
+void CharacterManager::Update(int p_target, float p_deltaT)
 {
-	for (auto it = characters.begin(); it != characters.end(); it++)
-		it->Update(p_deltaT);
+	timeBetween += p_deltaT;
+	currTarget = p_target;
 
 	for (int i = 0; i < enemies.size(); i++)
 		enemies[i].Update(p_deltaT);
 
 	for (int i = 0; i < items.size(); i++)
 		items[i]->Update(p_deltaT);
-}
-
-void CharacterManager::Update(int p_target, float p_deltaT)
-{
-	timeBetween += p_deltaT;
-	currTarget = p_target;
 
 	std::list<CharacterUnits>::iterator it;
 	//Update Heroes and check for target
 	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
+		it->Update(p_deltaT);
+
 		// check for items
 		for (int i = 0; i < items.size(); i++) {
 			if (glm::length(it->GetPos() - items[i]->GetPos()) < 0.25) {

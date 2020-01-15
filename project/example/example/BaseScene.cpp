@@ -105,8 +105,6 @@ void BaseScene::Update()
 
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_P))
 		cManager->SpawnItem(wolf::RNG::GetRandom(0, 200));
-
-	cManager->Update(delta);
 }
 
 void BaseScene::Render()
