@@ -21,7 +21,7 @@ private:
 	HexGrid* grid;
 	float movementTime = 5.0f;
 
-	std::list<int> FindMaxPathToNearestHero();
+	//std::list<int> FindMaxPathToNearestHero();
 };
 
 #endif

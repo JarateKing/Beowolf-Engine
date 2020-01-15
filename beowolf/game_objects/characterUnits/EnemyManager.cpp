@@ -3,7 +3,7 @@
 
 EnemyManager::EnemyManager(HexGrid* p_grid)
 {
-	CharacterUnits lich("lich/FreeLich.bmw", "animatable", 1, "Lich", p_grid);
+	CharacterUnits lich("lich/FreeLich.bmw", "animatable", 1, "Lich", p_grid, 5.0f, false);
 	enemies.push_back(lich);
 	grid = p_grid;
 }
@@ -37,9 +37,4 @@ void EnemyManager::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilter
 void EnemyManager::Move()
 {
 	moving = true;
-}
-
-std::list<int> EnemyManager::FindMaxPathToNearestHero()
-{
-	return std::list<int>();
 }

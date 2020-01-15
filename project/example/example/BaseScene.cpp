@@ -42,6 +42,7 @@ glm::mat4 hudProjMat;
 static CharacterManager* cManager;
 
 wolf::BMWModel* test;
+wolf::BMWModel* test2;
 
 BaseScene::BaseScene()
 {
@@ -52,9 +53,13 @@ void BaseScene::Init()
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable");
-	float scale = 15.0;
-	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("lich/FreeLich.bmw"), shaders.first, shaders.second);
-	test->setTransform(glm::translate(glm::vec3(0, 0, 50)) * glm::scale(glm::vec3(scale, scale, scale)));
+
+	float scale = 5.0;
+	float scale2 = 0.05;
+	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("Knights/RedKnightAlternative.bmw"), shaders.first, shaders.second);
+	test2 = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("lich/FreeLich.bmw"), shaders.first, shaders.second);
+	test->setTransform(glm::translate(glm::vec3(0, -100, 50)) * glm::rotate(90.0f, 0.0f, 1.0f, 0.0f) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::scale(glm::vec3(scale2, scale2, scale2)));
+	test2->setTransform(glm::translate(glm::vec3(0, -100, 60)) * glm::scale(glm::vec3(scale, scale, scale)));
 
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
@@ -81,7 +86,12 @@ void BaseScene::Update()
 	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
 	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
 	testhud->Update(delta);
-
+	
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
+	{
+		cManager->MoveEnemies(2);
+	}
+	
 	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	std::vector<float> heights = grid->GetHeights();
 	std::vector<glm::vec2> positions = grid->GetPos();
@@ -128,12 +138,18 @@ void BaseScene::Render()
 	grid->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
 	selector->Render(cam->GetViewMatrix());
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
+	
+	test->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
+	test2->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
 
 	// Transparent
 	glEnable(GL_BLEND);
 
 	testhud->Render(hudProjMat);
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
+	
+	test->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
+	test2->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
 
 	// Additive
 	glDepthMask(false);

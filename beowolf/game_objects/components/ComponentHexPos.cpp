@@ -19,7 +19,7 @@ void ComponentHexPos::Update(float p_fDelta)
 			{
 				if (timeTaken >= (i * timePerTile) && timeTaken <= timePerTile + (i * timePerTile))
 				{
-					std::cout << fmod(timeTaken, timePerTile) / timePerTile;
+					//std::cout << fmod(timeTaken, timePerTile) / timePerTile;
 
 					currentPos = wolf::Math::lerp(glm::vec3(m_grid->GetPos().at(pathway.at(i)).x, m_grid->GetHeights().at(pathway.at(i)) ,m_grid->GetPos().at(pathway.at(i)).y), glm::vec3(m_grid->GetPos().at(pathway.at(i + 1)).x, m_grid->GetHeights().at(pathway.at(i + 1)), m_grid->GetPos().at(pathway.at(i + 1)).y), (fmod(timeTaken, timePerTile) / timePerTile));
 					//std::cout << "Current Pos: " << currentPos.x << ", " << currentPos.y << ", " << currentPos.z << std::endl;
@@ -42,9 +42,9 @@ void ComponentHexPos::Move(std::vector<int> p_path, float timeToComplete)
 {
 	moving = true;
 	pathway = p_path;
-	timeForPath = timeToComplete;
+	timeForPath = timeToComplete * p_path.size();
 	timeTaken = 0.0f;
-	timePerTile = timeForPath / (float)p_path.size();
+	timePerTile = timeToComplete;
 }
 
 glm::vec3 ComponentHexPos::GetPos()
