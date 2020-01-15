@@ -49,7 +49,9 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		// check for items
 		for (int i = 0; i < items.size(); i++) {
 			if (glm::length(it->GetPos() - items[i].GetPos()) < 0.25) {
-				std::cout << 'y';
+				
+				items.erase(items.begin() + i);
+				i--;
 			}
 		}
 	}
