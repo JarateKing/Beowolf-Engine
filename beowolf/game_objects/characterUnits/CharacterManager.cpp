@@ -49,7 +49,10 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		// check for items
 		for (int i = 0; i < items.size(); i++) {
 			if (glm::length(it->GetPos() - items[i].GetPos()) < 0.25) {
-				
+				auto statmap = items[i].GetStats();
+				for (auto jt = statmap.begin(); jt != statmap.end(); jt++)
+					it->ModifyStats(jt->first, jt->second);
+
 				items.erase(items.begin() + i);
 				i--;
 			}

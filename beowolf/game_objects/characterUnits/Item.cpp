@@ -73,3 +73,8 @@ glm::vec3 Item::GetPos()
 {
 	return m_pos;
 }
+
+std::map<std::string, float> Item::GetStats()
+{
+	return m_statValues;
+}

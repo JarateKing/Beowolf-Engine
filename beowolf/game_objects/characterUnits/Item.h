@@ -17,6 +17,7 @@ class Item
 		std::string GetName();
 		int GetTile();
 		glm::vec3 GetPos();
+		std::map<std::string, float> GetStats();
 
 	private:
 		std::vector<std::string> soundFiles;

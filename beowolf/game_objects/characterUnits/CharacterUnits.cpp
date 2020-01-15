@@ -88,3 +88,8 @@ glm::vec3 CharacterUnits::GetPos()
 {
 	return pos.GetPos();
 }
+
+void CharacterUnits::ModifyStats(std::string id, float mult)
+{
+	// TODO: make actually modify stats
+}
