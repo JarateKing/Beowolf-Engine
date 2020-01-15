@@ -16,6 +16,7 @@ class Item
 		void Update(float deltaT);
 		std::string GetName();
 		int GetTile();
+		glm::vec3 GetPos();
 
 	private:
 		std::vector<std::string> soundFiles;

@@ -68,3 +68,8 @@ int Item::GetTile()
 {
 	return currTile;
 }
+
+glm::vec3 Item::GetPos()
+{
+	return m_pos;
+}
