@@ -41,7 +41,6 @@ Emitter::Emitter(int max, float duration, float rate, std::string texture)
 
 Emitter::~Emitter()
 {
-	delete[] m_quads;
 	for (int i = 0; i < m_max; i++)
 	{
 		delete m_particles[i];
@@ -52,6 +51,7 @@ Emitter::~Emitter()
 	{
 		delete m_affectors[i];
 	}
+	delete[] m_quads;
 
 	wolf::BufferManager::DestroyBuffer(g_pVB);
 	delete g_pDecl;

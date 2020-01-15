@@ -26,7 +26,7 @@ CharacterManager::~CharacterManager()
 void CharacterManager::Update(float p_deltaT)
 {
 	for (int i = 0; i < items.size(); i++)
-		items[i].Update(p_deltaT);
+		items[i]->Update(p_deltaT);
 }
 
 void CharacterManager::Update(int p_target, float p_deltaT)
@@ -48,11 +48,12 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 
 		// check for items
 		for (int i = 0; i < items.size(); i++) {
-			if (glm::length(it->GetPos() - items[i].GetPos()) < 0.25) {
-				auto statmap = items[i].GetStats();
+			if (glm::length(it->GetPos() - items[i]->GetPos()) < 0.25) {
+				auto statmap = items[i]->GetStats();
 				for (auto jt = statmap.begin(); jt != statmap.end(); jt++)
 					it->ModifyStats(jt->first, jt->second);
 
+				delete items[i];
 				items.erase(items.begin() + i);
 				i--;
 			}
@@ -108,7 +109,7 @@ void CharacterManager::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFi
 		enemies.at(i).Render(p_view, p_proj, type);
 
 	for (int i = 0; i < items.size(); i++)
-		items[i].Render(p_view, p_proj, type);
+		items[i]->Render(p_view, p_proj, type);
 }
 
 void CharacterManager::MoveEnemies(int length)
@@ -129,11 +130,11 @@ void CharacterManager::SpawnItem(int pos)
 	int itemType = wolf::RNG::GetRandom(1, 3);
 
 	if (itemType == 1)
-		items.push_back(Item("potion.bmw", "unlit_texture", pos, "Items/potion.json", "Potion", grid));
+		items.push_back(new Item("potion.bmw", "unlit_texture", pos, "Items/potion.json", "Potion", grid));
 	else if (itemType == 2)
-		items.push_back(Item("sword1.bmw", "unlit_texture", pos, "Items/sword.json", "Sword", grid));
+		items.push_back(new Item("sword1.bmw", "unlit_texture", pos, "Items/sword.json", "Sword", grid));
 	else
-		items.push_back(Item("shield.bmw", "unlit_texture", pos, "Items/shield.json", "Shield", grid));
+		items.push_back(new Item("shield.bmw", "unlit_texture", pos, "Items/shield.json", "Shield", grid));
 }
 
 std::vector<int> CharacterManager::PathTowardsClosestHero(int enemyIndex, int length)

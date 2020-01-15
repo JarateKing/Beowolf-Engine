@@ -24,7 +24,7 @@ class CharacterManager
 	private:
 		std::list<CharacterUnits> characters;
 		std::vector<CharacterUnits> enemies;
-		std::vector<Item> items;
+		std::vector<Item*> items;
 		float timeBetween = 1.0f;
 		bool targeting = false;
 		int currTarget, prevTarget;

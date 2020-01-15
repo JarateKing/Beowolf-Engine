@@ -270,6 +270,7 @@ Effect::~Effect()
 	{
 		delete m_emitters[i];
 	}
+	m_emitters.clear();
 }
 
 void Effect::Update(float delta, glm::mat3 view)

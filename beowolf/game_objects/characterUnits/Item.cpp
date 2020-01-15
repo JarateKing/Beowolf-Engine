@@ -38,7 +38,7 @@ Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std
 
 Item::~Item()
 {
-	//TODO
+	delete m_particleGlow;
 }
 
 void Item::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
