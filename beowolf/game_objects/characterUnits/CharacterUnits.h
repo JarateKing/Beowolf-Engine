@@ -18,6 +18,7 @@ class CharacterUnits
 		void PlaySound(std::string soundName);
 		void SetAnim(std::string animName);
 		void Move(std::vector<int> p_path, float timeToComplete);
+		glm::vec3 GetPos();
 
 	private:
 		std::vector<std::string> soundFiles;

@@ -83,3 +83,8 @@ void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete)
 {
 	pos.Move(p_path, p_timeToComplete);
 }
+
+glm::vec3 CharacterUnits::GetPos()
+{
+	return pos.GetPos();
+}
