@@ -3,7 +3,7 @@
 
 EnemyManager::EnemyManager(HexGrid* p_grid)
 {
-	CharacterUnits lich("lich/FreeLich.bmw", "animatable", 1, "Lich", p_grid);
+	CharacterUnits lich("lich/FreeLich.bmw", "animatable", 1, "Lich", p_grid, 5.0f, false);
 	enemies.push_back(lich);
 	grid = p_grid;
 }
@@ -41,5 +41,8 @@ void EnemyManager::Move()
 	moving = true;
 }
 
-std::list<int> EnemyManager::FindMaxPathToNearestHero()
+/*std::list<int> EnemyManager::FindMaxPathToNearestHero(int enemyTile)
+{
+
+}*/
 

@@ -13,7 +13,7 @@ class CharacterManager
 		~CharacterManager();
 		void Update(int target, float deltaT);
 		void Render(glm::mat4 p_view, glm::mat4 p_proj, bool p_renderAlphas);
-		void MoveEnemies();
+		void MoveEnemies(int length);
 		void SpawnEnemies(int numSpawn, std::string enemyFile);
 		std::string GetCharacterSelected();
 
@@ -23,12 +23,12 @@ class CharacterManager
 		float timeBetween = 1.0f;
 		bool targeting = false;
 		int currTarget, prevTarget;
-		std::string targetName;
+		std::string targetName = "";
 		HexGrid* grid;
-		float movementTime = 5.0f;
-		std::list<CharacterUnits>::iterator it;
+		float movementTime = 0.5f;
+		std::vector<int> test;
 
-		std::vector<int> PathTowardsClosestHero(int tile);
+		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 };
 
 #endif
