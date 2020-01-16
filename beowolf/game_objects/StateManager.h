@@ -1,5 +1,6 @@
 #include "States.h"
 #include "characterUnits/CharacterManager.h"
+#include "W_Hud.h"
 
 class StateManager
 {
@@ -15,6 +16,7 @@ public:
 	State GetState();
 	void SetState(State state);
 	void SetCharacterManager(CharacterManager* charMan);
+	void SetHud(wolf::Hud* hud);
 
 private:
 	StateManager() {
@@ -28,4 +30,5 @@ public:
 private:
 	State m_currentState;
 	CharacterManager* m_charManager;
+	wolf::Hud* m_hud;
 };

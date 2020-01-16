@@ -48,6 +48,9 @@ void StateManager::SetState(State state) {
 			for (auto it = enemies->begin(); it != enemies->end(); it++) {
 				it->setHasMoved(true);
 			}
+
+			if (m_hud != nullptr)
+				m_hud->SetVar("whoseturn", "Player's");
 		}
 		else if (m_currentState == State::GamestateEnemyTurn) {
 			auto chars = m_charManager->getCharacters();
@@ -59,6 +62,9 @@ void StateManager::SetState(State state) {
 				it->setHasMoved(false);
 			}
 
+			if (m_hud != nullptr)
+				m_hud->SetVar("whoseturn", "Enemies'");
+
 			m_charManager->MoveEnemies(2);
 		}
 	}
@@ -69,4 +75,16 @@ void StateManager::SetCharacterManager(CharacterManager* charMan) {
 		std::cout << "Note: character manager already tracked by state manager\n";
 
 	m_charManager = charMan;
+}
+
+void StateManager::SetHud(wolf::Hud* hud) {
+	if (m_hud == hud)
+		std::cout << "Note: hud already tracked by state manager\n";
+
+	m_hud = hud;
+
+	if (m_currentState == State::GamestatePlayerTurn)
+		m_hud->SetVar("whoseturn", "Player's");
+	else if (m_currentState = State::GamestateEnemyTurn)
+		m_hud->SetVar("whoseturn", "Enemies'");
 }

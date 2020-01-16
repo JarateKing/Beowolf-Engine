@@ -3,7 +3,8 @@
 
 	"localization": [
 		{
-			"file": "resources/localization/engine.txt"
+			"file": "resources/localization/engine.txt",
+			"file": "resources/localization/game.txt"
 		}
 	],
 
@@ -18,18 +19,18 @@
 	"elements" : [
 		{
 			"type": "textbox",
-			"xpos": 20,
-			"ypos": 20,
+			"xpos": 12,
+			"ypos": 12,
 			"zpos": 2,
 			"wide": 1240,
 			"tall": 220,
 			
-			"label": "Engine_FPS",
+			"label": "Current_Turn",
 			"labelRaw": false,
 			"alignment": "left",
 			
 			"font": "OpenSans",
-			"fontSize": 16,
+			"fontSize": 24,
 			"color": "1.0 1.0 1.0 1.0"
 		},
 		{
