@@ -578,5 +578,6 @@
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\EnemyManager.h" />
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\Item.h" />
     <ClInclude Include="..\..\beowolf\game_objects\StateManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\States.h" />
   </ItemGroup>
 </Project>

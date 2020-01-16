@@ -381,6 +381,7 @@
     <ClInclude Include="..\..\beowolf\game_objects\StateBase.h" />
     <ClInclude Include="..\..\beowolf\game_objects\StateMachine.h" />
     <ClInclude Include="..\..\beowolf\game_objects\StateManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\States.h" />
     <ClInclude Include="..\..\beowolf\game_objects\Transform.h" />
     <ClInclude Include="..\..\beowolf\graphics\BMWLoader.h" />
     <ClInclude Include="..\..\beowolf\graphics\BMWModel.h" />

@@ -1,4 +1,5 @@
 #include "States.h"
+#include "characterUnits/CharacterManager.h"
 
 class StateManager
 {
@@ -11,6 +12,7 @@ public:
 
 	State GetState();
 	void SetState(State state);
+	void SetCharacterManager(CharacterManager* charMan);
 
 private:
 	StateManager() {
@@ -23,4 +25,5 @@ public:
 
 private:
 	State m_currentState;
+	CharacterManager* m_charManager;
 };
