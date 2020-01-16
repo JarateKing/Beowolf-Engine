@@ -159,3 +159,13 @@ std::string CharacterManager::GetCharacterSelected()
 {
 	return targetName;
 }
+
+std::list<CharacterUnits> CharacterManager::getCharacters()
+{
+	return characters;
+}
+
+std::vector<CharacterUnits> CharacterManager::getEnemies()
+{
+	return enemies;
+}
