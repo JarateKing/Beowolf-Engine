@@ -7,6 +7,8 @@ This is a font converter based off of multi-channel signed distance fields that 
 * msdfgen: https://github.com/Chlumsky/msdfgen
 * image magick: https://imagemagick.org/index.php
 * hiero: https://github.com/libgdx/libgdx/wiki/Hiero
+* Python 3: https://www.python.org/
+* Pillow: https://python-pillow.org/ `pip install Pillow`
 
 ## Usage
 
