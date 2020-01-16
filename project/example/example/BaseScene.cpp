@@ -90,11 +90,6 @@ void BaseScene::Update()
 	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
 	testhud->Update(delta);
 	
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
-	{
-		cManager->MoveEnemies(2);
-	}
-	
 	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	std::vector<float> heights = grid->GetHeights();
 	std::vector<glm::vec2> positions = grid->GetPos();
@@ -105,6 +100,7 @@ void BaseScene::Update()
 	}
 	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
 	cManager->Update(target, delta);
+	StateManager::getInstance().Update(delta);
 
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_P))
 		cManager->SpawnItem(wolf::RNG::GetRandom(0, 200));

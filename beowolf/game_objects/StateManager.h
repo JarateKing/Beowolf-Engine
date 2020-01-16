@@ -10,6 +10,8 @@ public:
 		return instance;
 	}
 
+	void Update(float delta);
+
 	State GetState();
 	void SetState(State state);
 	void SetCharacterManager(CharacterManager* charMan);
