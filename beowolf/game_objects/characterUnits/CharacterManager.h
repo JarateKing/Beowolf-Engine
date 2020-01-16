@@ -20,8 +20,8 @@ class CharacterManager
 		std::string GetCharacterSelected();
 		std::vector<int> PathTowardsClosestHero(int tile);
 
-		std::list<CharacterUnits> getCharacters();
-		std::vector<CharacterUnits> getEnemies();
+		std::list<CharacterUnits>* getCharacters();
+		std::vector<CharacterUnits>* getEnemies();
 
 	private:
 		std::list<CharacterUnits> characters;

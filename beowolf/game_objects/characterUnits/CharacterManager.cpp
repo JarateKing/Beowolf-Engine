@@ -160,12 +160,12 @@ std::string CharacterManager::GetCharacterSelected()
 	return targetName;
 }
 
-std::list<CharacterUnits> CharacterManager::getCharacters()
+std::list<CharacterUnits>* CharacterManager::getCharacters()
 {
-	return characters;
+	return &characters;
 }
 
-std::vector<CharacterUnits> CharacterManager::getEnemies()
+std::vector<CharacterUnits>* CharacterManager::getEnemies()
 {
-	return enemies;
+	return &enemies;
 }

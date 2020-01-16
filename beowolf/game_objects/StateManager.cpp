@@ -7,8 +7,8 @@ void StateManager::Update(float delta) {
 		if (m_currentState == State::GamestatePlayerTurn) {
 			bool hasAllMoved = true;
 			
-			std::list<CharacterUnits> chars = m_charManager->getCharacters();
-			for (auto it = chars.begin(); hasAllMoved && it != chars.end(); it++) {
+			auto chars = m_charManager->getCharacters();
+			for (auto it = chars->begin(); hasAllMoved && it != chars->end(); it++) {
 				if (!it->getHasMoved() || it->isMoving())
 					hasAllMoved = false;
 			}
@@ -19,7 +19,8 @@ void StateManager::Update(float delta) {
 		else if (m_currentState == State::GamestateEnemyTurn) {
 			bool hasAllMoved = true;
 
-			for (auto it = m_charManager->getEnemies().begin(); hasAllMoved && it != m_charManager->getEnemies().end(); it++) {
+			auto chars = m_charManager->getEnemies();
+			for (auto it = chars->begin(); hasAllMoved && it != chars->end(); it++) {
 				if (!it->getHasMoved() || it->isMoving())
 					hasAllMoved = false;
 			}
@@ -39,20 +40,22 @@ void StateManager::SetState(State state) {
 
 	if (m_charManager != nullptr) {
 		if (m_currentState == State::GamestatePlayerTurn) {
-			std::list<CharacterUnits> chars = m_charManager->getCharacters();
-			for (auto it = chars.begin(); it != chars.end(); it++) {
+			auto chars = m_charManager->getCharacters();
+			for (auto it = chars->begin(); it != chars->end(); it++) {
 				it->setHasMoved(false);
 			}
-			for (auto it = m_charManager->getEnemies().begin(); it != m_charManager->getEnemies().end(); it++) {
+			auto enemies = m_charManager->getEnemies();
+			for (auto it = enemies->begin(); it != enemies->end(); it++) {
 				it->setHasMoved(true);
 			}
 		}
 		else if (m_currentState == State::GamestateEnemyTurn) {
-			std::list<CharacterUnits> chars = m_charManager->getCharacters();
-			for (auto it = chars.begin(); it != chars.end(); it++) {
+			auto chars = m_charManager->getCharacters();
+			for (auto it = chars->begin(); it != chars->end(); it++) {
 				it->setHasMoved(true);
 			}
-			for (auto it = m_charManager->getEnemies().begin(); it != m_charManager->getEnemies().end(); it++) {
+			auto enemies = m_charManager->getEnemies();
+			for (auto it = enemies->begin(); it != enemies->end(); it++) {
 				it->setHasMoved(false);
 			}
 
