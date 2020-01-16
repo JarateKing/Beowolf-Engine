@@ -95,3 +95,15 @@ void CharacterUnits::ModifyStats(std::string id, float mult)
 {
 	// TODO: make actually modify stats
 }
+
+bool CharacterUnits::getHasMoved() {
+	return m_hasMoved;
+}
+
+void CharacterUnits::setHasMoved(bool moved) {
+	m_hasMoved = moved;
+}
+
+bool CharacterUnits::isMoving() {
+	return pos.IsMoving();
+}
