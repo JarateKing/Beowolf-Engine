@@ -1,3 +1,5 @@
+#include "States.h"
+
 class StateManager
 {
 public:
@@ -7,15 +9,18 @@ public:
 		return instance;
 	}
 
-	int GetState();
+	State GetState();
+	void SetState(State state);
 
 private:
-	StateManager() {}
+	StateManager() {
+		m_currentState = State::GamestatePlayerTurn;
+	}
 
 public:
 	StateManager(StateManager const&) = delete;
 	void operator=(StateManager const&) = delete;
 
 private:
-
+	State m_currentState;
 };

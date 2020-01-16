@@ -1,5 +1,9 @@
 #include "StateManager.h"
 
-int StateManager::GetState() {
-	return 1;
+State StateManager::GetState() {
+	return m_currentState;
+}
+
+void StateManager::SetState(State state) {
+	m_currentState = state;
 }
