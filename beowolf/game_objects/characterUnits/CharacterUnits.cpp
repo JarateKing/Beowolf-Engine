@@ -83,7 +83,9 @@ void CharacterUnits::SetAnim(std::string p_animName)
 
 void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete)
 {
-	m_hasMoved = true;
+	if (p_path.size() > 1)
+		m_hasMoved = true;
+
 	pos.Move(p_path, p_timeToComplete);
 }
 
