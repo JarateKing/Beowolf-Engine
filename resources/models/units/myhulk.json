@@ -1,0 +1,15 @@
+{
+	"rotation": 180.0,
+	"rotationAngle": "0.0 1.0 0.0",
+
+	"defaultAnim": "idle",
+	
+	"clips" : [
+		{
+			"name": "idle",
+			"start": 100,
+			"end": 1000,
+			"loop": true
+		}
+	]
+}
