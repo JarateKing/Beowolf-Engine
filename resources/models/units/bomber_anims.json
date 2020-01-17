@@ -1,0 +1,64 @@
+{
+    "clips" : [
+        {
+            "name": "idle",
+            "start": 1,
+            "end": 350
+        },
+        {
+            "name": "run",
+            "start": 353,
+            "end": 381
+        },
+        {
+            "name": "death_backward",
+            "start": 381,
+            "end": 405
+        },
+        {
+            "name": "death_forward",
+            "start": 409,
+            "end": 433
+        },
+        {
+            "name": "attack",
+            "start": 434,
+            "end": 552
+        },
+        {
+            "name": "victory",
+            "start": 553,
+            "end": 660
+        },
+        {
+            "name": "defeat",
+            "start": 662,
+            "end": 860
+        },
+        {
+            "name": "spawn",
+            "start": 861,
+            "end": 916
+        },
+        {
+            "name": "bomber_ascension",
+            "start": 917,
+            "end": 943
+        },
+        {
+            "name": "bomber_deployment",
+            "start": 944,
+            "end": 1004
+        },
+        {
+            "name": "bomber_flying_old",
+            "start": 1005,
+            "end": 1100
+        },
+        {
+            "name": "bomber_flying",
+            "start": 1005,
+            "end": 1100
+        }
+    ]
+}

@@ -1,0 +1,61 @@
+{
+    "clips" : [
+        {
+            "name": "idle",
+            "start": 1,
+            "end": 270
+        },
+        {
+            "name": "idle2",
+            "start": 1274,
+            "end": 1709
+        },
+        {
+            "name": "walk",
+            "start": 274,
+            "end": 338
+        },
+        {
+            "name": "run",
+            "start": 341,
+            "end": 389
+        },
+        {
+            "name": "attack",
+            "start": 392,
+            "end": 470,
+            "mode": "hold"
+        },
+        {
+            "name": "attack2",
+            "start": 473,
+            "end": 551
+        },
+        {
+            "name": "death_forward",
+            "start": 564,
+            "end": 630
+        },
+        {
+            "name": "death_backward",
+            "start": 634,
+            "end": 688
+        },
+        {
+            "name": "victory",
+            "start": 691,
+            "end": 788,
+            "mode": "hold"
+        },
+        {
+            "name": "defeat",
+            "start": 792,
+            "end": 900
+        },
+        {
+            "name": "spawn",
+            "start": 904,
+            "end": 960
+        }
+    ]
+}

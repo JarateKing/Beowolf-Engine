@@ -1,0 +1,39 @@
+{
+    "clips" : [
+        {
+            "name": "idle",
+            "start": 597,
+            "end": 905
+        },
+        {
+            "name": "attack",
+            "start": 1602,
+            "end": 1688
+        },
+        {
+            "name": "death",
+            "start": 235,
+            "end": 369
+        },
+        {
+            "name": "victory",
+            "start": 370,
+            "end": 427
+        },
+        {
+            "name": "defeat",
+            "start": 428,
+            "end": 528
+        },
+        {
+            "name": "spawn",
+            "start": 530,
+            "end": 596
+        },
+        {
+            "name": "death2",
+            "start": 906,
+            "end": 990
+        }
+    ]
+}
