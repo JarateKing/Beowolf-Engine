@@ -6,13 +6,6 @@
 	
 	"clips" : [
 		{
-			"name": "idle",
-			"start": 100,
-			"end": 500,
-			"loop": true
-		}
-		
-		{
             "name": "idle",
             "start": 1,
             "end": 227,
