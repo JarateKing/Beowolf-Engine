@@ -11,5 +11,60 @@
 			"end": 500,
 			"loop": true
 		}
+		
+		{
+            "name": "idle",
+            "start": 1,
+            "end": 227,
+			"loop": true
+        },
+        {
+            "name": "walk",
+            "start": 230,
+            "end": 310,
+			"loop": true
+        },
+        {
+            "name": "attack_begin",
+            "start": 316,
+            "end": 427,
+			"loop": false
+        },
+        {
+            "name": "attack_loop",
+            "start": 430,
+            "end": 535,
+			"loop": true
+        },
+        {
+            "name": "attack_end",
+            "start": 535,
+            "end": 628,
+			"loop": false
+        },
+        {
+            "name": "death",
+            "start": 1052,
+            "end": 1225,
+			"loop": false
+        },
+        {
+            "name": "victory",
+            "start": 698,
+            "end": 775,
+			"loop": true
+        },
+        {
+            "name": "defeat",
+            "start": 777,
+            "end": 940,
+			"loop": true
+        },
+        {
+            "name": "spawn",
+            "start": 968,
+            "end": 1050,
+			"loop": false
+        }
 	]
 }

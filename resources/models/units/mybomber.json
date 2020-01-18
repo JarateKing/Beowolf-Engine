@@ -1,4 +1,81 @@
 {
 	"rotation": 180.0,
-	"rotationAngle": "0.0 1.0 0.0"
+	"rotationAngle": "0.0 1.0 0.0",
+	
+	"defaultAnim": "idle",
+	
+	"clips" : [
+		{
+            "name": "idle",
+            "start": 1,
+            "end": 350,
+			"loop": true
+        },
+        {
+            "name": "run",
+            "start": 353,
+            "end": 381,
+			"loop": true
+        },
+        {
+            "name": "death_backward",
+            "start": 381,
+            "end": 405,
+			"loop": false
+        },
+        {
+            "name": "death_forward",
+            "start": 409,
+            "end": 433,
+			"loop": false
+        },
+        {
+            "name": "attack",
+            "start": 434,
+            "end": 552,
+			"loop": false
+        },
+        {
+            "name": "victory",
+            "start": 553,
+            "end": 660,
+			"loop": true
+        },
+        {
+            "name": "defeat",
+            "start": 662,
+            "end": 860,
+			"loop": true
+        },
+        {
+            "name": "spawn",
+            "start": 861,
+            "end": 916,
+			"loop": false
+        },
+        {
+            "name": "bomber_ascension",
+            "start": 917,
+            "end": 943,
+			"loop": true
+        },
+        {
+            "name": "bomber_deployment",
+            "start": 944,
+            "end": 1004,
+			"loop": true
+        },
+        {
+            "name": "bomber_flying_old",
+            "start": 1005,
+            "end": 1100,
+			"loop": true
+        },
+        {
+            "name": "bomber_flying",
+            "start": 1005,
+            "end": 1100,
+			"loop": true
+        }
+	]
 }

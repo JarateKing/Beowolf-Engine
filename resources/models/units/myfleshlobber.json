@@ -6,10 +6,46 @@
 	
 	"clips" : [
 		{
-			"name": "idle",
-			"start": 100,
-			"end": 500,
+            "name": "idle",
+            "start": 597,
+            "end": 905,
 			"loop": true
-		}
+        },
+        {
+            "name": "attack",
+            "start": 1602,
+            "end": 1688,
+			"loop": false
+        },
+        {
+            "name": "death",
+            "start": 235,
+            "end": 369,
+			"loop": false
+        },
+        {
+            "name": "victory",
+            "start": 370,
+            "end": 427,
+			"loop": true
+        },
+        {
+            "name": "defeat",
+            "start": 428,
+            "end": 528,
+			"loop": true
+        },
+        {
+            "name": "spawn",
+            "start": 530,
+            "end": 596,
+			"loop": false
+        },
+        {
+            "name": "death2",
+            "start": 906,
+            "end": 990,
+			"loop": true
+        }
 	]
 }
