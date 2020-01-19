@@ -23,6 +23,7 @@ namespace wolf
 		void render(glm::mat4 view, glm::mat4 proj, RenderFilterType type);
 
 		glm::mat4 getTransform();
+		void setModelColor(glm::vec3 color);
 		void setTransform(glm::mat4 transform);
 		void setAnim(std::string name);
 
@@ -65,6 +66,7 @@ namespace wolf
 		BMWNode* m_rootNode;
 		std::vector<NodeMesh> m_toRender;
 		int m_currentAnimNum = 0;
+		glm::vec3 m_modelColor = glm::vec3(1, 1, 1);
 	};
 }
 #endif

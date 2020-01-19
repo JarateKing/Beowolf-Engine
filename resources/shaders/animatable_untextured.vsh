@@ -14,8 +14,6 @@ in vec3 a_normal;
 in vec4 a_boneIndices;
 in vec4 a_boneWeights;
 
-out vec2 v_uv1;
-//out vec3 v_normal;
 out vec4 v_color;
 
 void main()
@@ -37,7 +35,5 @@ void main()
     //gl_Position = WorldViewProj * blendedPos;
 	//gl_Position = projection * view * world * a_position;
 	gl_Position = projection * view * world * blendedPos;
-	v_uv1 = a_uv1;
 	v_color = a_color;
-    //v_normal = WorldIT * blendedNormal;
 }

@@ -1,0 +1,75 @@
+{
+	"rotation": 180.0,
+	"rotationAngle": "0.0 1.0 0.0",
+
+	"defaultAnim": "idle",
+	
+	"clips" : [
+		{
+            "name": "idle",
+            "start": 1,
+            "end": 270,
+			"loop": true
+        },
+        {
+            "name": "idle2",
+            "start": 1274,
+            "end": 1709,
+			"loop": true
+        },
+        {
+            "name": "walk",
+            "start": 274,
+            "end": 338,
+			"loop": true
+        },
+        {
+            "name": "run",
+            "start": 341,
+            "end": 389,
+			"loop": true
+        },
+        {
+            "name": "attack",
+            "start": 392,
+            "end": 470,
+			"loop": false
+        },
+        {
+            "name": "attack2",
+            "start": 473,
+            "end": 551,
+			"loop": false
+        },
+        {
+            "name": "death_forward",
+            "start": 564,
+            "end": 630,
+			"loop": false
+        },
+        {
+            "name": "death_backward",
+            "start": 634,
+            "end": 688,
+			"loop": false
+        },
+        {
+            "name": "victory",
+            "start": 691,
+            "end": 788,
+			"loop": true
+        },
+        {
+            "name": "defeat",
+            "start": 792,
+            "end": 900,
+			"loop": true
+        },
+        {
+            "name": "spawn",
+            "start": 904,
+            "end": 960,
+			"loop": false
+        }
+	]
+}
