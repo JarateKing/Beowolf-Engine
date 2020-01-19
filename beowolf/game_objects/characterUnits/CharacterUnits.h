@@ -21,6 +21,10 @@ class CharacterUnits
 		glm::vec3 GetPos();
 		void ModifyStats(std::string id, float mult);
 
+		bool getHasMoved();
+		void setHasMoved(bool moved);
+		bool isMoving();
+
 	private:
 		std::vector<std::string> soundFiles;
 		wolf::BMWModel* model;
@@ -29,6 +33,8 @@ class CharacterUnits
 		week2::ComponentHexPos pos;
 		float scale = 0.0f;
 		bool inverted = false;
+
+		bool m_hasMoved = false;
 };
 
 #endif

@@ -27,6 +27,7 @@
 #include "W_ProjectionMatrix.h"
 #include "characterUnits/CharacterManager.h"
 #include "W_RNG.h"
+#include "StateManager.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -71,6 +72,9 @@ void BaseScene::Init()
 
 	testhud = new wolf::Hud("resources/hud/hud.json");
 	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	StateManager::getInstance().SetCharacterManager(cManager);
+	StateManager::getInstance().SetHud(testhud);
 }
 
 void BaseScene::Update()
@@ -80,17 +84,6 @@ void BaseScene::Update()
 	cam->Update(delta);
 
 	test->update(delta);
-
-	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
-	std::string fpsString = std::to_string(fpsValue);
-	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
-	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
-	testhud->Update(delta);
-	
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_M))
-	{
-		cManager->MoveEnemies(2);
-	}
 	
 	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	std::vector<float> heights = grid->GetHeights();
@@ -102,9 +95,17 @@ void BaseScene::Update()
 	}
 	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
 	cManager->Update(target, delta);
+	StateManager::getInstance().Update(delta);
 
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_P))
 		cManager->SpawnItem(wolf::RNG::GetRandom(0, 200));
+
+	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
+	std::string fpsString = std::to_string(fpsValue);
+	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
+	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
+	testhud->Update(delta);
+
 }
 
 void BaseScene::Render()
@@ -125,14 +126,17 @@ void BaseScene::Render()
 	// Transparent
 	glEnable(GL_BLEND);
 
-	testhud->Render(hudProjMat);
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
 	
 	test->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
 	test2->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
 
-	// Additive
+	// Depthless
 	glDepthMask(false);
+
+	testhud->Render(hudProjMat);
+
+	// Additive
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterAdditive);

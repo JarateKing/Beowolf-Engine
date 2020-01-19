@@ -83,6 +83,9 @@ void CharacterUnits::SetAnim(std::string p_animName)
 
 void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete)
 {
+	if (p_path.size() > 1)
+		m_hasMoved = true;
+
 	pos.Move(p_path, p_timeToComplete);
 }
 
@@ -94,4 +97,16 @@ glm::vec3 CharacterUnits::GetPos()
 void CharacterUnits::ModifyStats(std::string id, float mult)
 {
 	// TODO: make actually modify stats
+}
+
+bool CharacterUnits::getHasMoved() {
+	return m_hasMoved;
+}
+
+void CharacterUnits::setHasMoved(bool moved) {
+	m_hasMoved = moved;
+}
+
+bool CharacterUnits::isMoving() {
+	return pos.IsMoving();
 }

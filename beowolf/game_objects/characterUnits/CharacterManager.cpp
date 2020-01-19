@@ -60,7 +60,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		prevTarget = currTarget;
 		for (auto it = characters.begin(); it != characters.end(); it++)
 		{
-			if (it->GetTile() == currTarget)
+			if (it->GetTile() == currTarget && !it->getHasMoved())
 			{
 				targetName = it->GetName();
 				targeting = true;
@@ -158,4 +158,14 @@ std::vector<int> CharacterManager::PathTowardsClosestHero(int enemyIndex, int le
 std::string CharacterManager::GetCharacterSelected()
 {
 	return targetName;
+}
+
+std::list<CharacterUnits>* CharacterManager::getCharacters()
+{
+	return &characters;
+}
+
+std::vector<CharacterUnits>* CharacterManager::getEnemies()
+{
+	return &enemies;
 }
