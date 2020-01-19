@@ -5,11 +5,11 @@
 
 CharacterManager::CharacterManager(HexGrid* p_grid)
 {
-	CharacterUnits player1("units/mybomber.bmw", "animatable_uv", 1, "Knight1", p_grid, 0.03, false);
-	CharacterUnits player2("units/mychamp.bmw", "animatable_uv", 2, "Knight2", p_grid, 0.03, false);
-	CharacterUnits player3("units/myfleshlobber.bmw", "animatable_uv", 3, "Knight3", p_grid, 0.03, false);
-	CharacterUnits player4("units/mygiant.bmw", "animatable_uv", 4, "Knight4", p_grid, 0.03, false);
-	CharacterUnits player5("units/myhulk.bmw", "animatable_uv", 5, "Knight5", p_grid, 0.03, false);
+	CharacterUnits player1("units/mybomber.bmw", "animatable_uv", 1, "Knight1", p_grid, 5.0, false);
+	CharacterUnits player2("units/mychamp.bmw", "animatable_uv", 2, "Knight2", p_grid, 5.0, false);
+	CharacterUnits player3("units/myfleshlobber.bmw", "animatable_uv", 3, "Knight3", p_grid, 0.06, false);
+	CharacterUnits player4("units/mygiant.bmw", "animatable_uv", 4, "Knight4", p_grid, 0.05, false);
+	CharacterUnits player5("units/myhulk.bmw", "animatable_uv", 5, "Knight5", p_grid, 0.02, false);
 	CharacterUnits player6("units/mylich.bmw", "animatable_uv", 6, "Knight6", p_grid, 0.03, false);
 	CharacterUnits player7("units/myskeleton.bmw", "animatable_uv", 7, "Knight7", p_grid, 0.03, false);
 	characters.push_back(player1);
