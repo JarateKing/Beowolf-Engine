@@ -1,7 +1,7 @@
 #include "CharacterUnits.h"
 #include "W_ResourceLoader.h"
 
-CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string p_name, HexGrid* p_grid, float p_scale, bool p_inverted)
+CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string p_name, HexGrid* p_grid, float p_scale, bool p_inverted, glm::vec3 model_color)
 {
 	scale = p_scale;
 	auto shaders = wolf::ResourceLoader::Instance().getShaders(p_shaderFile);

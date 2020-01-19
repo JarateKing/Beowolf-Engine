@@ -8,7 +8,7 @@
 class CharacterUnits
 {
 	public:
-		CharacterUnits(std::string bmwFile, std::string shaderFile, int startTile, std::string name, HexGrid* grid, float scale, bool inverted);
+		CharacterUnits(std::string bmwFile, std::string shaderFile, int startTile, std::string name, HexGrid* grid, float scale = 1.0f, bool p_inverted = false, glm::vec3 model_color = glm::vec3(1.0, 1.0, 1.0));
 		~CharacterUnits();
 		void Render(glm::mat4 view, glm::mat4 proj, wolf::RenderFilterType type);
 		void Update(float deltaT);
