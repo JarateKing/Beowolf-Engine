@@ -5,15 +5,15 @@
 
 CharacterManager::CharacterManager(HexGrid* p_grid)
 {
-	CharacterUnits player1("units/mychamp.bmw", "animatable_uv", 2, "Knight2", p_grid, 5.0, false);
-	CharacterUnits player2("units/mygiant.bmw", "animatable_uv", 3, "Knight4", p_grid, 0.05, false);
-	CharacterUnits player3("units/mylich.bmw", "animatable_uv", 4, "Knight6", p_grid, 0.03, false);
+	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 2, "Knight2", p_grid, 5.0, false);
+	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 3, "Knight4", p_grid, 0.05, false);
+	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 4, "Knight6", p_grid, 0.03, false);
 	characters.push_back(player1);
 	characters.push_back(player2);
 	characters.push_back(player3);
 
-	CharacterUnits knight("units/myskeleton.bmw", "animatable_uv", 110, "Knight11", p_grid, 0.03, false);
-	CharacterUnits knight2("units/myfleshlobber.bmw", "animatable_uv", 120, "Knight12", p_grid, 0.06, false);
+	CharacterUnits knight("units/myskeleton.bmw", "animatable_untextured", 110, "Knight11", p_grid, 0.03, false);
+	CharacterUnits knight2("units/myfleshlobber.bmw", "animatable_untextured", 120, "Knight12", p_grid, 0.06, false);
 	enemies.push_back(knight);
 	enemies.push_back(knight2);
 
