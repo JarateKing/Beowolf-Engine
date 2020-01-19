@@ -138,6 +138,7 @@ namespace wolf
 		m_meshes[meshID].m_pProg->SetUniform("view", view);
 		m_meshes[meshID].m_pProg->SetUniform("world", world);
 		m_meshes[meshID].m_pProg->SetUniform("tex", 0);
+		m_meshes[meshID].m_pProg->SetUniform("modelColor", m_modelColor);
 		if (m_hasAnimations)
 			m_meshes[meshID].m_pProg->SetUniform("BoneMatrixArray", m_boneMatrix, 128);
 
@@ -164,5 +165,9 @@ namespace wolf
 		else {
 			std::cout << "Attempted setting \"" << name << "\" animation, but animations not supported on this model!\n";
 		}
+	}
+
+	void BMWModel::setModelColor(glm::vec3 color) {
+		m_modelColor = color;
 	}
 }

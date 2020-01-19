@@ -6,6 +6,7 @@ CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, 
 	scale = p_scale;
 	auto shaders = wolf::ResourceLoader::Instance().getShaders(p_shaderFile);
 	model = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(p_bmwFile), shaders.first, shaders.second);
+	model->setModelColor(model_color);
 	if (p_inverted)
 	{
 		model->setTransform(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y)) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::scale(glm::vec3(scale, scale, scale)));
