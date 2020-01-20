@@ -45,13 +45,17 @@ void CharacterUnits::Update(float deltaT)
 	}
 	dir += 90.0f;
 
-	if (pos.IsMoving() && inverted)
-	{
-		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+	if (pos.IsMoving()) {
+		if (inverted)
+			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+		else
+			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::scale(glm::vec3(scale, scale, scale)));
 	}
-	else if (pos.IsMoving())
-	{
-		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::scale(glm::vec3(scale, scale, scale)));
+	else {
+		if (m_justMoved)
+			SetAnim("idle");
+
+		m_justMoved = false;
 	}
 
 	model->update(deltaT);
@@ -84,8 +88,11 @@ void CharacterUnits::SetAnim(std::string p_animName)
 
 void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete)
 {
-	if (p_path.size() > 1)
+	if (p_path.size() > 1) {
 		m_hasMoved = true;
+		m_justMoved = true;
+		SetAnim("walk");
+	}
 
 	pos.Move(p_path, p_timeToComplete);
 }

@@ -35,6 +35,7 @@ class CharacterUnits
 		bool inverted = false;
 
 		bool m_hasMoved = false;
+		bool m_justMoved = false;
 };
 
 #endif
