@@ -45,7 +45,7 @@ void CharacterUnits::Update(float deltaT)
 	}
 	dir += 90.0f;
 
-	if (pos.IsMoving()) {
+	if (pos.IsMoving() && (dif.x != 0 || dif.z != 0)) {
 		if (inverted)
 			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 		else
