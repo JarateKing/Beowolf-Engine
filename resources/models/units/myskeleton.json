@@ -12,7 +12,7 @@
 			"loop": true
 		},
 		{
-			"name": "walk",
+			"name": "run",
 			"start": 408,
 			"end": 470,
 			"loop": true

@@ -93,9 +93,11 @@ void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete)
 	if (p_path.size() > 1) {
 		m_hasMoved = true;
 		m_justMoved = true;
-		SetAnim("walk");
-	}
 
+		// attempt to walk if run animation doesn't exist
+		SetAnim("walk");
+		SetAnim("run");
+	}
 	pos.Move(p_path, p_timeToComplete);
 }
 
