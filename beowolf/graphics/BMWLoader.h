@@ -29,7 +29,8 @@ namespace wolf
 		unsigned int anim;
 		unsigned int start;
 		unsigned int end;
-		bool isLoop;
+		bool isLoop = false;
+		bool isHold = false;
 	};
 
 	struct BMWModeLData {
