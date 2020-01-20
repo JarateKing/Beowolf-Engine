@@ -52,8 +52,10 @@ void CharacterUnits::Update(float deltaT)
 			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 	}
 	else {
-		if (m_justMoved)
+		if (m_justMoved) {
 			SetAnim("idle");
+			model->setModelFilter(glm::vec3(0.7, 0.7, 0.7));
+		}
 
 		m_justMoved = false;
 	}
@@ -113,6 +115,9 @@ bool CharacterUnits::getHasMoved() {
 
 void CharacterUnits::setHasMoved(bool moved) {
 	m_hasMoved = moved;
+
+	if (!moved)
+		model->setModelFilter(glm::vec3(1.0, 1.0, 1.0));
 }
 
 bool CharacterUnits::isMoving() {
