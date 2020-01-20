@@ -33,6 +33,12 @@ void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilt
 
 void CharacterUnits::Update(float deltaT)
 {
+	if (!isMoving() && changed)
+	{
+		SetAnim("idle");
+		changed = false;
+	}
+
 	glm::vec3 last = pos.GetPos();
 	pos.Update(deltaT);
 	glm::vec3 dif = pos.GetPos() - last;
@@ -41,9 +47,9 @@ void CharacterUnits::Update(float deltaT)
 	if (dif.x != 0 || dif.z != 0)
 	{
 		dif = glm::normalize(dif);
-		dir = atan2(dif.z, dif.x) * RAD2DEG;
+		dir = atan2(dif.x, dif.z) * RAD2DEG;
 	}
-	dir += 90.0f;
+	dir += 180.0f;
 
 	if (pos.IsMoving() && inverted)
 	{
@@ -51,7 +57,7 @@ void CharacterUnits::Update(float deltaT)
 	}
 	else if (pos.IsMoving())
 	{
-		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::scale(glm::vec3(scale, scale, scale)));
+		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 	}
 
 	model->update(deltaT);
@@ -84,9 +90,14 @@ void CharacterUnits::SetAnim(std::string p_animName)
 
 void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete)
 {
+	if (!changed)
+	{
+		SetAnim("run");
+		changed = true;
+	}
+
 	if (p_path.size() > 1)
 		m_hasMoved = true;
-
 	pos.Move(p_path, p_timeToComplete);
 }
 

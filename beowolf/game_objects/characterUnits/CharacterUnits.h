@@ -33,7 +33,7 @@ class CharacterUnits
 		week2::ComponentHexPos pos;
 		float scale = 0.0f;
 		bool inverted = false;
-
+		bool changed = false;
 		bool m_hasMoved = false;
 };
 

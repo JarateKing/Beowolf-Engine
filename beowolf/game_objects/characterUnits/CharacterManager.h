@@ -18,7 +18,6 @@ class CharacterManager
 		void SpawnEnemies(int numSpawn, std::string enemyFile);
 		void SpawnItem(int pos);
 		std::string GetCharacterSelected();
-		std::vector<int> PathTowardsClosestHero(int tile);
 
 		std::list<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
