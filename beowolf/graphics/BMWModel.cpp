@@ -139,6 +139,8 @@ namespace wolf
 		m_meshes[meshID].m_pProg->SetUniform("world", world);
 		m_meshes[meshID].m_pProg->SetUniform("tex", 0);
 		m_meshes[meshID].m_pProg->SetUniform("modelColor", m_modelColor);
+		m_meshes[meshID].m_pProg->SetUniform("modelAdditive", m_modelAdditive);
+		m_meshes[meshID].m_pProg->SetUniform("modelFilter", m_modelFilter);
 		if (m_hasAnimations)
 			m_meshes[meshID].m_pProg->SetUniform("BoneMatrixArray", m_boneMatrix, 128);
 
@@ -169,5 +171,13 @@ namespace wolf
 
 	void BMWModel::setModelColor(glm::vec3 color) {
 		m_modelColor = color;
+	}
+
+	void BMWModel::setModelAdditive(glm::vec3 color) {
+		m_modelAdditive = color;
+	}
+
+	void BMWModel::setModelFilter(glm::vec3 color) {
+		m_modelFilter = color;
 	}
 }
