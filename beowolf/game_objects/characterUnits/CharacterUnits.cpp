@@ -116,8 +116,7 @@ bool CharacterUnits::getHasMoved() {
 void CharacterUnits::setHasMoved(bool moved) {
 	m_hasMoved = moved;
 
-	if (!moved)
-		model->setModelFilter(glm::vec3(1.0, 1.0, 1.0));
+	model->setModelFilter(glm::vec3(1.0, 1.0, 1.0));
 }
 
 bool CharacterUnits::isMoving() {
