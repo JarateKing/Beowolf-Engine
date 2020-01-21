@@ -28,6 +28,7 @@ namespace wolf
 		void setModelFilter(glm::vec3 color);
 		void setTransform(glm::mat4 transform);
 		void setAnim(std::string name);
+		bool getIsAnimationRunning();
 
 	private:
 		struct Mesh
@@ -68,6 +69,7 @@ namespace wolf
 		BMWNode* m_rootNode;
 		std::vector<NodeMesh> m_toRender;
 		int m_currentAnimNum = 0;
+		bool m_isAnimationDone = false;
 
 		glm::vec3 m_modelColor = glm::vec3(1, 1, 1);
 		glm::vec3 m_modelAdditive = glm::vec3(0, 0, 0);
