@@ -66,6 +66,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				targetName = it->GetName();
 				targeting = true;
 				timeBetween = 0.0f;
+				it->setSelected(true);
 				it = characters.end();
 				it--;
 			}
@@ -86,6 +87,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		{
 			if (it->GetName().compare(targetName) == 0)
 			{
+				it->setSelected(false);
+
 				it->Move(grid->GetPathway(prevTarget, currTarget), movementTime);
 				it->SetTile(currTarget);
 				it = characters.end();

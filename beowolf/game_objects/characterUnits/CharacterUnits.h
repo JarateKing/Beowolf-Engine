@@ -24,6 +24,7 @@ class CharacterUnits
 		bool getHasMoved();
 		void setHasMoved(bool moved);
 		bool isMoving();
+		void setSelected(bool selected);
 
 	private:
 		std::vector<std::string> soundFiles;

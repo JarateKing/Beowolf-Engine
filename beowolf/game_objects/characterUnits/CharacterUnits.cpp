@@ -124,3 +124,10 @@ void CharacterUnits::setHasMoved(bool moved) {
 bool CharacterUnits::isMoving() {
 	return pos.IsMoving();
 }
+
+void CharacterUnits::setSelected(bool selected) {
+	if (selected)
+		model->setModelAdditive(glm::vec3(0.5, 0.5, 0.1));
+	else
+		model->setModelAdditive(glm::vec3(0, 0, 0));
+}
