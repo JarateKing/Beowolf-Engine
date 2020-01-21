@@ -37,6 +37,8 @@ class CharacterUnits
 
 		bool m_hasMoved = false;
 		bool m_justMoved = false;
+		bool m_isSelected = false;
+		double m_deltaSum = 0.0;
 };
 
 #endif
