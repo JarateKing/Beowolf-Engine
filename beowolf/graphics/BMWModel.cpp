@@ -98,10 +98,14 @@ namespace wolf
 	{
 		if (m_hasAnimations) {
 			int prev = m_animationFrame;
+
 			m_animationFrame += delta * (*m_anims)[m_currentAnimNum]->rate;
+			if (m_animationFrame >= m_currentAnimation->end && m_currentAnimation->isHold)
+				m_animationFrame = m_currentAnimation->end;
+
 			if (prev != (int)(m_animationFrame)) {
 
-				if (m_animationFrame >= m_currentAnimation->end && !m_currentAnimation->isLoop)
+				if (m_animationFrame > m_currentAnimation->end && !m_currentAnimation->isLoop)
 					setAnim(*m_defaultAnimation);
 
 				m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
