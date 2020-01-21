@@ -3,6 +3,7 @@ in vec2 v_uv1;
 
 uniform sampler2D tex;
 uniform vec4 color;
+uniform float fontsize;
 
 out vec4 PixelColor;
 
@@ -22,7 +23,11 @@ vec3 subpixel(float v, float a) {
 
 void main()
 {
-	float doffset = 1.0 / 2.0;
+	// approximate this value
+	float powmod = 0.33333;
+	float doffmod = pow(164, powmod) / pow(fontsize, powmod);
+	float doffset = 1.0 / (fontsize / 56 * 1920 / 1024 * 16 / 9 * doffmod);
+	
 	float hint_amount = 1.0;
 	float subpixel_amount = 1.0;
 	vec3 bg_color = vec3(0.5, 0.5, 0.5);
@@ -53,7 +58,7 @@ void main()
 	float alpha = smoothstep(0.5 - res_doffset, 0.5 + res_doffset, sdf);
 	float other_alpha = 1.0;
 	
-	if (alpha < 20.0 / 256.0) {
+	if (alpha < 10.0 / 256.0) {
 		other_alpha = 0.0;
 	}
 	
