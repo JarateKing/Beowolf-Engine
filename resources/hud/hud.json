@@ -30,7 +30,87 @@
 			"alignment": "left",
 			
 			"font": "OpenSans",
+			"fontSize": 16,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 52,
+			"zpos": 2,
+			"wide": 1240,
+			"tall": 220,
+			
+			"label": "Current_Turn",
+			"labelRaw": false,
+			"alignment": "left",
+			
+			"font": "OpenSans",
 			"fontSize": 24,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 102,
+			"zpos": 2,
+			"wide": 1240,
+			"tall": 220,
+			
+			"label": "Current_Turn",
+			"labelRaw": false,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 24,
+			"color": "1.0 1.0 0.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 152,
+			"zpos": 2,
+			"wide": 1240,
+			"tall": 220,
+			
+			"label": "Current_Turn",
+			"labelRaw": false,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 24,
+			"color": "0.0 0.0 0.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 212,
+			"zpos": 2,
+			"wide": 1240,
+			"tall": 220,
+			
+			"label": "Current_Turn",
+			"labelRaw": false,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 12,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 242,
+			"zpos": 2,
+			"wide": 1240,
+			"tall": 220,
+			
+			"label": "Current_Turn",
+			"labelRaw": false,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 164,
 			"color": "1.0 1.0 1.0 1.0"
 		},
 		{
