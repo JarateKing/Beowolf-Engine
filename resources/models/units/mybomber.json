@@ -21,13 +21,13 @@
             "name": "death_backward",
             "start": 381,
             "end": 405,
-			"loop": false
+			"hold": true
         },
         {
             "name": "death_forward",
             "start": 409,
             "end": 433,
-			"loop": false
+			"hold": true
         },
         {
             "name": "attack",

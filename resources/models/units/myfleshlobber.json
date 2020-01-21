@@ -21,7 +21,7 @@
             "name": "death",
             "start": 235,
             "end": 369,
-			"loop": false
+			"hold": true
         },
         {
             "name": "victory",
