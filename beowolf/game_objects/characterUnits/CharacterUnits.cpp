@@ -63,7 +63,6 @@ void CharacterUnits::Update(float deltaT)
 	if (m_isSelected) {
 		m_deltaSum += deltaT;
 		float additiveValue = (sin(m_deltaSum * 6) / 2.0 + 0.5) * 0.1;
-		std::cout << additiveValue << '\n';
 		model->setModelAdditive(glm::vec3(0.5 + additiveValue, 0.5 + additiveValue, 0.1 - additiveValue));
 	}
 	else {
