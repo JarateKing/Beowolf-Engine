@@ -46,15 +46,16 @@ void main()
 	vec2 grad = sgrad / vec2(sgrad_len);
 	float vgrad = abs(grad.y); // 0 = vertical, 1 = horizontal
 	
-	float horz_scale = 1.1;
-	float vert_scale = 0.6;
+	float horz_scale = 1.0; //1.1
+	float vert_scale = 1.0; //0.6
 	float hdoffset = mix(doffset * horz_scale, doffset * vert_scale, vgrad);
 	float res_doffset = mix(doffset, hdoffset, hint_amount);
 	
 	float alpha = smoothstep(0.5 - res_doffset, 0.5 + res_doffset, sdf);
 	float other_alpha = 1.0;
 	
-	if (alpha < 1.0 / 256.0) {
+	// remove some artifacting
+	if (alpha < 5.0 / 256.0) {
 		other_alpha = 0.0;
 	}
 	
