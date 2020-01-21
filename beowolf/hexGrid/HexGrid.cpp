@@ -956,6 +956,9 @@ bool HexGrid::cmpf(float a, float b)
 
 std::vector<int> HexGrid::GetPathway(int startTarget, int endTarget)
 {
+	if (startTarget == -1 || endTarget == -1)
+		return std::vector<int>();
+
 	std::list<glm::vec3> path = pathFinder->Instance()->FindPath(glm::vec3(positions.at(startTarget).x, 0.0f, positions.at(startTarget).y), glm::vec3(positions.at(endTarget).x, 0.0f, positions.at(endTarget).y));
 	std::vector<glm::vec3> pathway;
 
