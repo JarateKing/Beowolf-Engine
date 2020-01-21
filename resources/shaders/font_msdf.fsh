@@ -25,7 +25,7 @@ void main()
 {	
 	float hint_amount = 1.0;
 	float subpixel_amount = 1.0;
-	float doffset = 1.0 / (fontsize / 56.0 * 1920.0 / 512.0 * 16.0 / 9.0);
+	float doffset = 1.0 / (2.0 * fontsize / 56.0 * 1080.0 / 512.0 * 16.0 / 9.0);
 	vec3 bg_color = vec3(0.352, 0.352, 0.352);
 
 	// get samples
