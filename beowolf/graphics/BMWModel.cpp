@@ -191,4 +191,19 @@ namespace wolf
 	bool BMWModel::getIsAnimationRunning() {
 		return !m_isAnimationDone;
 	}
+
+	BMWAnimSegment* BMWModel::getAnim() {
+		return m_currentAnimation;
+	}
+
+	std::string BMWModel::getAnimName() {
+		for (auto it : (*m_animFrames))
+			if (it.second == m_currentAnimation)
+				return it.first;
+		return "";
+	}
+
+	bool BMWModel::isAnimDefault() {
+		return m_currentAnimation == (*m_animFrames)[*m_defaultAnimation];
+	}
 }

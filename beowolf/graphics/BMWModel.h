@@ -29,6 +29,9 @@ namespace wolf
 		void setTransform(glm::mat4 transform);
 		void setAnim(std::string name);
 		bool getIsAnimationRunning();
+		BMWAnimSegment* getAnim();
+		std::string getAnimName();
+		bool isAnimDefault();
 
 	private:
 		struct Mesh
