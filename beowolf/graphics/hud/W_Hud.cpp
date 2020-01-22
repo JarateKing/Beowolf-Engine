@@ -48,6 +48,12 @@ namespace wolf {
 
 			if (jsonData.contains("elements")) {
 				for (auto element : jsonData["elements"]) {
+					std::string elementName = "";
+					if (element.contains("name")) {
+						std::string tempName = element["name"];
+						elementName = tempName;
+					}
+
 					float x = 0, y = 0, z = 1, w = 0, h = 0;
 					bool rx = false, ry = false, rw = false, rh = false;
 					if (element.contains("xpos"))
@@ -105,6 +111,8 @@ namespace wolf {
 							current->SetString(textLabel);
 
 						m_elements.push_back(current);
+						if (elementName != "")
+							m_elementNames[elementName] = current;
 					}
 					else if (type == "image") {
 						std::string imageFile = element["image"];
@@ -116,6 +124,8 @@ namespace wolf {
 						current->SetH(h, rh);
 						current->SetZ(z);
 						m_elements.push_back(current);
+						if (elementName != "")
+							m_elementNames[elementName] = current;
 					}
 					else if (type == "fillcolor") {
 						std::string textColor = element["color"];
@@ -130,6 +140,8 @@ namespace wolf {
 						current->SetH(h, rh);
 						current->SetZ(z);
 						m_elements.push_back(current);
+						if (elementName != "")
+							m_elementNames[elementName] = current;
 					}
 					else if (type == "gradient") {
 						std::string textColor1 = element["topLeft"];
@@ -159,6 +171,8 @@ namespace wolf {
 						current->SetH(h, rh);
 						current->SetZ(z);
 						m_elements.push_back(current);
+						if (elementName != "")
+							m_elementNames[elementName] = current;
 					}
 				}
 			}
@@ -185,5 +199,14 @@ namespace wolf {
 
 	void Hud::SetVar(std::string id, std::string val) {
 		m_localization->SetVar(id, val);
+	}
+
+	HudElement* Hud::GetElement(std::string name) {
+		if (m_elementNames.count(name))
+			return m_elementNames[name];
+
+		std::cout << "Hud element \"" << name << "\" not found!\n";
+
+		return nullptr;
 	}
 }
