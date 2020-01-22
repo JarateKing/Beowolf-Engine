@@ -88,6 +88,152 @@
 			"font": "OpenSans",
 			"fontSize": 14,
 			"color": "0.0 0.0 0.0 1.0"
+		},
+		
+		{
+			"type": "image",
+			"xpos": 4,
+			"ypos": 70,
+			"zpos": 5,
+			"wide": 16,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg_left.tga"
+		},
+		{
+			"type": "image",
+			"xpos": 20,
+			"ypos": 70,
+			"zpos": 5,
+			"wide": 300,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg.tga"
+		},
+		{
+			"type": "image",
+			"xpos": 320,
+			"ypos": 70,
+			"zpos": 5,
+			"wide": 16,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg_right.tga"
+		},
+		{
+			"type": "image",
+			"xpos": 13,
+			"ypos": 73,
+			"zpos": 4,
+			"wide": 314,
+			"tall": 46,
+			
+			"image": "hud/healthbar.tga"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 80,
+			"zpos": 2,
+			"wide": 305,
+			"tall": 46,
+			
+			"label": "UnitHP_2",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 14,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 81,
+			"zpos": 3,
+			"wide": 305,
+			"tall": 46,
+			
+			"label": "UnitHP_2",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 14,
+			"color": "0.0 0.0 0.0 1.0"
+		},
+		
+		{
+			"type": "image",
+			"xpos": 4,
+			"ypos": 130,
+			"zpos": 5,
+			"wide": 16,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg_left.tga"
+		},
+		{
+			"type": "image",
+			"xpos": 20,
+			"ypos": 130,
+			"zpos": 5,
+			"wide": 300,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg.tga"
+		},
+		{
+			"type": "image",
+			"xpos": 320,
+			"ypos": 130,
+			"zpos": 5,
+			"wide": 16,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg_right.tga"
+		},
+		{
+			"type": "image",
+			"xpos": 13,
+			"ypos": 133,
+			"zpos": 4,
+			"wide": 314,
+			"tall": 46,
+			
+			"image": "hud/healthbar.tga"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 140,
+			"zpos": 2,
+			"wide": 305,
+			"tall": 46,
+			
+			"label": "UnitHP_3",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 14,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 141,
+			"zpos": 3,
+			"wide": 305,
+			"tall": 46,
+			
+			"label": "UnitHP_3",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 14,
+			"color": "0.0 0.0 0.0 1.0"
 		}
 	]
 }
