@@ -90,6 +90,17 @@
 			"fontSize": 14,
 			"color": "0.0 0.0 0.0 1.0"
 		},
+		{
+			"name": "Unit_1_Indicator",
+			"type": "image",
+			"xpos": 330,
+			"ypos": 10,
+			"zpos": 5,
+			"wide": 90,
+			"tall": 100,
+			
+			"image": "hud/unit_hover.tga"
+		},
 		
 		{
 			"type": "image",
@@ -164,6 +175,17 @@
 			"fontSize": 14,
 			"color": "0.0 0.0 0.0 1.0"
 		},
+		{
+			"name": "Unit_2_Indicator",
+			"type": "image",
+			"xpos": 330,
+			"ypos": 70,
+			"zpos": 5,
+			"wide": 90,
+			"tall": 100,
+			
+			"image": "hud/unit_hover.tga"
+		},
 		
 		{
 			"type": "image",
@@ -237,6 +259,17 @@
 			"font": "OpenSans",
 			"fontSize": 14,
 			"color": "0.0 0.0 0.0 1.0"
+		},
+		{
+			"name": "Unit_3_Indicator",
+			"type": "image",
+			"xpos": 330,
+			"ypos": 130,
+			"zpos": 5,
+			"wide": 90,
+			"tall": 100,
+			
+			"image": "hud/unit_hover.tga"
 		}
 	]
 }
