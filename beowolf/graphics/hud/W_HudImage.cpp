@@ -1,12 +1,12 @@
 #include "W_HudImage.h"
 #include "W_ResourceLoader.h"
 
-const wolf::Vertex square[] = { wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 0}),
-								wolf::Vertex({ 0, 1, 1.0f, 1, 1, 1, 1, 0, 1}),
-								wolf::Vertex({ 1, 1, 1.0f, 1, 1, 1, 1, 1, 1}),
-								wolf::Vertex({ 1, 1, 1.0f, 1, 1, 1, 1, 1, 1}),
-								wolf::Vertex({ 1, 0, 1.0f, 1, 1, 1, 1, 1, 0}),
-								wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 0})};
+const wolf::Vertex square[] = { wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 1}),
+								wolf::Vertex({ 0, 1, 1.0f, 1, 1, 1, 1, 0, 0}),
+								wolf::Vertex({ 1, 1, 1.0f, 1, 1, 1, 1, 1, 0}),
+								wolf::Vertex({ 1, 1, 1.0f, 1, 1, 1, 1, 1, 0}),
+								wolf::Vertex({ 1, 0, 1.0f, 1, 1, 1, 1, 1, 1}),
+								wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 1})};
 
 namespace wolf {
 	HudImage::HudImage(std::string image) {
