@@ -48,6 +48,7 @@
 			"image": "hud/healthbar_bg_right.tga"
 		},
 		{
+			"name": "healthbar_unit_1",
 			"type": "image",
 			"xpos": 13,
 			"ypos": 13,
@@ -121,11 +122,12 @@
 			"image": "hud/healthbar_bg_right.tga"
 		},
 		{
+			"name": "healthbar_unit_2",
 			"type": "image",
 			"xpos": 13,
 			"ypos": 73,
 			"zpos": 4,
-			"wide": 157,
+			"wide": 314,
 			"tall": 46,
 			
 			"image": "hud/healthbar.tga"
@@ -194,6 +196,7 @@
 			"image": "hud/healthbar_bg_right.tga"
 		},
 		{
+			"name": "healthbar_unit_3",
 			"type": "image",
 			"xpos": 13,
 			"ypos": 133,

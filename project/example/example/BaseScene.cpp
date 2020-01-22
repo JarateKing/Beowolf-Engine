@@ -107,14 +107,20 @@ void BaseScene::Update()
 	testhud->Update(delta);
 
 	// HEALTH TEST STUFF
-	testhud->SetVar("UnitHealth1", std::to_string(100));
-	testhud->SetVar("UnitHealthMax1", std::to_string(100));
+	int health[] = { 100, 50, 180 };
+	int maxhealth[] = { 100, 100, 180 };
 
-	testhud->SetVar("UnitHealth2", std::to_string(100));
-	testhud->SetVar("UnitHealthMax2", std::to_string(100));
+	testhud->SetVar("UnitHealth1", std::to_string(health[0]));
+	testhud->SetVar("UnitHealthMax1", std::to_string(maxhealth[0]));
+	testhud->GetElement("healthbar_unit_1")->SetW(314.0 * health[0] / maxhealth[0]);
 
-	testhud->SetVar("UnitHealth3", std::to_string(180));
-	testhud->SetVar("UnitHealthMax3", std::to_string(180));
+	testhud->SetVar("UnitHealth2", std::to_string(health[1]));
+	testhud->SetVar("UnitHealthMax2", std::to_string(maxhealth[1]));
+	testhud->GetElement("healthbar_unit_2")->SetW(314.0 * health[1] / maxhealth[1]);
+
+	testhud->SetVar("UnitHealth3", std::to_string(health[2]));
+	testhud->SetVar("UnitHealthMax3", std::to_string(maxhealth[2]));
+	testhud->GetElement("healthbar_unit_3")->SetW(314.0 * health[2] / maxhealth[2]);
 }
 
 void BaseScene::Render()
