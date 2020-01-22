@@ -59,6 +59,17 @@
 			"image": "hud/healthbar.tga"
 		},
 		{
+			"name": "healthbar_unit_1_highlight",
+			"type": "fillcolor",
+			"xpos": 13,
+			"ypos": 13,
+			"zpos": 4,
+			"wide": 314,
+			"tall": 46,
+			
+			"color": "0.7 0.0 0.0 1.0"
+		},
+		{
 			"type": "textbox",
 			"xpos": 12,
 			"ypos": 20,
@@ -144,6 +155,17 @@
 			"image": "hud/healthbar.tga"
 		},
 		{
+			"name": "healthbar_unit_2_highlight",
+			"type": "fillcolor",
+			"xpos": 13,
+			"ypos": 73,
+			"zpos": 4,
+			"wide": 314,
+			"tall": 46,
+			
+			"color": "0.7 0.0 0.0 1.0"
+		},
+		{
 			"type": "textbox",
 			"xpos": 12,
 			"ypos": 80,
@@ -227,6 +249,17 @@
 			"tall": 46,
 			
 			"image": "hud/healthbar.tga"
+		},
+		{
+			"name": "healthbar_unit_3_highlight",
+			"type": "fillcolor",
+			"xpos": 13,
+			"ypos": 133,
+			"zpos": 4,
+			"wide": 314,
+			"tall": 46,
+			
+			"color": "0.7 0.0 0.0 1.0"
 		},
 		{
 			"type": "textbox",
