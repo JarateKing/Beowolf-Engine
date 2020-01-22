@@ -106,6 +106,15 @@ void BaseScene::Update()
 	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
 	testhud->Update(delta);
 
+	// HEALTH TEST STUFF
+	testhud->SetVar("UnitHealth1", std::to_string(100));
+	testhud->SetVar("UnitHealthMax1", std::to_string(100));
+
+	testhud->SetVar("UnitHealth2", std::to_string(100));
+	testhud->SetVar("UnitHealthMax2", std::to_string(100));
+
+	testhud->SetVar("UnitHealth3", std::to_string(180));
+	testhud->SetVar("UnitHealthMax3", std::to_string(180));
 }
 
 void BaseScene::Render()
