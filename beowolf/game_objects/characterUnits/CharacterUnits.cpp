@@ -1,5 +1,6 @@
 #include "CharacterUnits.h"
 #include "W_ResourceLoader.h"
+#include "W_Math.h"
 
 CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string p_name, HexGrid* p_grid, float p_scale, bool p_inverted, glm::vec3 model_color)
 {
@@ -37,6 +38,7 @@ void CharacterUnits::Update(float deltaT)
 	{
 		SetAnim("idle");
 		changed = false;
+		InitDeath();
 	}
 
 	glm::vec3 last = pos.GetPos();
@@ -51,11 +53,25 @@ void CharacterUnits::Update(float deltaT)
 	}
 	dir += 180.0f;
 
-	if (pos.IsMoving() && inverted)
+	if (dying)
+	{
+		if (deathTimer == 0.0f)
+		{
+			SetAnim("death");
+		}
+		deathTimer += deltaT;
+		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, wolf::Math::lerp(pos.GetPos().y, pos.GetPos().y - 6.0f, deathTimer / 3.0f), pos.GetPos().z)) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+		if (deathTimer / 3.0f >= 1.0f)
+		{
+			dying = false;
+		}
+	}
+
+	if (pos.IsMoving() && inverted && !dying)
 	{
 		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 	}
-	else if (pos.IsMoving())
+	else if (pos.IsMoving() && !dying)
 	{
 		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 	}
@@ -121,4 +137,14 @@ void CharacterUnits::setHasMoved(bool moved) {
 
 bool CharacterUnits::isMoving() {
 	return pos.IsMoving();
+}
+
+void CharacterUnits::InitDeath()
+{
+	dying = true;
+}
+
+void CharacterUnits::TakeDamage()
+{
+
 }
