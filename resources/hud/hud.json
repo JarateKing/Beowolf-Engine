@@ -303,6 +303,36 @@
 			"tall": 100,
 			
 			"image": "hud/unit_hover.tga"
+		},
+		
+		{
+			"type": "textbox",
+			"xpos": 1600,
+			"ypos": 10,
+			"zpos": 3,
+			"wide": 310,
+			"tall": 100,
+			
+			"label": "Current_Turn",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 24,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"type": "gradient",
+			"xpos": 1600,
+			"ypos": 0,
+			"zpos": 10,
+			"wide": 320,
+			"tall": 75,
+			
+			"topLeft": "0.0 0.0 0.0 0.0",
+			"topRight": "0.0 0.0 0.0 0.4",
+			"bottomLeft": "0.0 0.0 0.0 0.0",
+			"bottomRight": "0.0 0.0 0.0 0.4"
 		}
 	]
 }
