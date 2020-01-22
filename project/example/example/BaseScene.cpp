@@ -107,8 +107,15 @@ void BaseScene::Update()
 	testhud->Update(delta);
 
 	// HEALTH TEST STUFF
-	int health[] = { 100, 50, 180 };
-	int maxhealth[] = { 100, 100, 180 };
+	static int health[] = { 100, 50, 180 };
+	static int maxhealth[] = { 100, 100, 180 };
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_1))
+		health[0] = std::max(0, health[0] - 10);
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_2))
+		health[1] = std::max(0, health[1] - 10);
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_3))
+		health[2] = std::max(0, health[2] - 10);
 
 	testhud->SetVar("UnitHealth1", std::to_string(health[0]));
 	testhud->SetVar("UnitHealthMax1", std::to_string(maxhealth[0]));
