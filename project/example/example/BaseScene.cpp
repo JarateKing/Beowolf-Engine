@@ -122,25 +122,19 @@ void BaseScene::Update()
 		health[2] = std::max(0, health[2] - 10);
 	}
 
-	testhud->SetVar("UnitHealth1", std::to_string(health[0]));
-	testhud->SetVar("UnitHealthMax1", std::to_string(maxhealth[0]));
-	testhud->GetElement("healthbar_unit_1")->SetW(314.0 * health[0] / maxhealth[0]);
-	if (startpos[0] != health[0]) {
-		animtime[0] += delta * 1.5;
-		testhud->GetElement("healthbar_unit_1_highlight")->SetW(314.0 * wolf::Math::lerp((double)startpos[0], (double)health[0], wolf::Math::easeIn(std::min(1.0, animtime[0]))) / maxhealth[0]);
-		if (animtime[0] >= 1.0) {
-			startpos[0] = health[0];
-			animtime[0] = 0.0;
+	for (int i = 0; i < 3; i++) {
+		testhud->SetVar("UnitHealth" + std::to_string(i+1), std::to_string(health[i]));
+		testhud->SetVar("UnitHealthMax" + std::to_string(i + 1), std::to_string(maxhealth[i]));
+		testhud->GetElement("healthbar_unit_" + std::to_string(i + 1))->SetW(314.0 * health[i] / maxhealth[i]);
+		if (startpos[i] != health[i]) {
+			animtime[i] += delta * 1.5;
+			testhud->GetElement("healthbar_unit_" + std::to_string(i + 1) + "_highlight")->SetW(314.0 * wolf::Math::lerp((double)startpos[i], (double)health[i], wolf::Math::easeIn(std::min(1.0, animtime[i]))) / maxhealth[i]);
+			if (animtime[i] >= 1.0) {
+				startpos[i] = health[i];
+				animtime[i] = 0.0;
+			}
 		}
 	}
-
-	testhud->SetVar("UnitHealth2", std::to_string(health[1]));
-	testhud->SetVar("UnitHealthMax2", std::to_string(maxhealth[1]));
-	testhud->GetElement("healthbar_unit_2")->SetW(314.0 * health[1] / maxhealth[1]);
-
-	testhud->SetVar("UnitHealth3", std::to_string(health[2]));
-	testhud->SetVar("UnitHealthMax3", std::to_string(maxhealth[2]));
-	testhud->GetElement("healthbar_unit_3")->SetW(314.0 * health[2] / maxhealth[2]);
 }
 
 void BaseScene::Render()
