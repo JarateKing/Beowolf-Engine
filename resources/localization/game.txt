@@ -1,2 +1,5 @@
 STRING	ENGLISH	FRENCH
 Current_Turn	$whoseturn$ go	$whoseturn$ go
+UnitHP_1	100 / 100	100 / 100
+UnitHP_2	50 / 100	50 / 100
+UnitHP_3	180 / 180	180 / 180
