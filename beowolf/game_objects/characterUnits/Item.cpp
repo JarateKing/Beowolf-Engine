@@ -4,7 +4,7 @@
 #include <sstream>
 #include "JSON/json.hpp"
 
-const std::vector<std::string> STAT_NAMES = { "Health", "Damage", "Defense" };
+const std::vector<std::string> STAT_NAMES = { "HP", "MaxAttack", "MinAttack", "Defense"};
 
 Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string jsonFile, std::string p_name, HexGrid* p_grid)
 {

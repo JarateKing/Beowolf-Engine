@@ -107,10 +107,13 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			{
 				it->setSelected(false);
 
-				it->Move(grid->GetPathway(prevTarget, currTarget), movementTime);
-				it->SetTile(currTarget);
-				it = characters.end();
-				it--;
+				std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
+				if (path.size() > 0) {
+					it->Move(path, movementTime);
+					it->SetTile(currTarget);
+					it = characters.end();
+					it--;
+				}
 			}
 		}
 	}

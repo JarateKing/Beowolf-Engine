@@ -25,16 +25,20 @@ class CharacterUnits
 		void setHasMoved(bool moved);
 		bool isMoving();
 		void setSelected(bool selected);
+		void InitDeath();
+		void TakeDamage();
 
 	private:
 		std::vector<std::string> soundFiles;
 		wolf::BMWModel* model;
 		int currTile;
+		float deathTimer = 0.0f;
 		std::string name;
 		week2::ComponentHexPos pos;
 		float scale = 0.0f;
 		bool inverted = false;
-
+		bool changed = false;
+		bool dying = false;
 		bool m_hasMoved = false;
 		bool m_justMoved = false;
 		bool m_isSelected = false;

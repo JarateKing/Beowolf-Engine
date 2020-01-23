@@ -1,7 +1,7 @@
 {
 	"Name" : "Potion",
-	
+	"BasicDescription" : "A Potion to Help You Through the Day",
 	"Stats": {
-		"Health": 1.25
+		"HP": 100.0
 	}
 }

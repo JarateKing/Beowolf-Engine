@@ -1,10 +1,10 @@
 
 {"Enemy" : 
 	{"Name" : "Medium Enemy",
-	"HP" : "150",
-	"MaxMovement" : "5",
-	"MaxAttack" : "75",
-	"MinAttack" : "50",
-	"Defense" : "100",
+	"HP" : 150.0,
+	"MaxMovement" : 5.0,
+	"MaxAttack" : 75.0,
+	"MinAttack" : 50.0,
+	"Defense" : 100.0,
 	"BasicDescription" : "A basic soldier on the enemy side"}
 }
