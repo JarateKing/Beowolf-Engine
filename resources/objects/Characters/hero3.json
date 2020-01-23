@@ -1,10 +1,10 @@
 
 {"Character" : 
 	{"Name" : "Heavy Knight",
-	"HP" : "800",
-	"MaxMovement" : "4",
-	"MaxAttack" : "115",
-	"MinAttack" : "85",
-	"Defense" : "250",
+	"HP" : 800.0,
+	"MaxMovement" : 4.0,
+	"MaxAttack" : 115.0,
+	"MinAttack" : 85.0,
+	"Defense" : 250.0,
 	"BasicDescription" : "A knight lumbering in to battle."}
 }

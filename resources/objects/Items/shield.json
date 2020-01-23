@@ -1,7 +1,7 @@
 {
 	"Name" : "Shield",
-		
+	"BasicDescription" : "A Basic Shield to Protect Thyself With",
 	"Stats": {
-		"Defense": 1.25
+		"Defense": 25.0
 	}
 }
