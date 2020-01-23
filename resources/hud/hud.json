@@ -319,14 +319,26 @@
 			
 			"font": "OpenSans",
 			"fontSize": 24,
-			"color": "1.0 1.0 1.0 1.0"
+			"color": "1.0 1.0 1.0 1.0",
+			"subpixel": true,
+			"subpixelBG": "0.3 0.3 0.3"
+		},
+		{
+			"type": "fillcolor",
+			"xpos": 1670,
+			"ypos": 0,
+			"zpos": 10,
+			"wide": 250,
+			"tall": 75,
+			
+			"color": "0.0 0.0 0.0 0.4"
 		},
 		{
 			"type": "gradient",
 			"xpos": 1600,
 			"ypos": 0,
 			"zpos": 10,
-			"wide": 320,
+			"wide": 70,
 			"tall": 75,
 			
 			"topLeft": "0.0 0.0 0.0 0.0",
