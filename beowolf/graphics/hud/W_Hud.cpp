@@ -83,6 +83,10 @@ namespace wolf {
 						bool isTextLabelRaw = element["labelRaw"];
 						float fontSize = element["fontSize"];
 
+						bool isSubpixel = false;
+						if (element.contains("subpixel"))
+							isSubpixel = element["subpixel"];
+
 						std::string textAlignment = element["alignment"];
 						float alignment = AL_Center;
 						if (textAlignment == "left")
@@ -95,7 +99,7 @@ namespace wolf {
 						std::stringstream colorSS(textColor);
 						colorSS >> actualColor[0] >> actualColor[1] >> actualColor[2] >> actualColor[3];
 
-						TextBox* current = new TextBox(m_fontlist[fontName], m_localization);
+						TextBox* current = new TextBox(m_fontlist[fontName], m_localization, isSubpixel);
 						current->SetTextAlignment(alignment);
 						current->SetTextColor(actualColor);
 						current->SetSize(fontSize);
@@ -104,6 +108,15 @@ namespace wolf {
 						current->SetW(w, rw);
 						current->SetH(h, rh);
 						current->SetZ(z);
+
+						if (element.contains("subpixelBG")) {
+							std::string subpixelbgText = element["subpixelBG"];
+							glm::vec3 subpixelbgColor = glm::vec3(1, 1, 1);
+							std::stringstream subpixelbgSS(subpixelbgText);
+							subpixelbgSS >> subpixelbgColor[0] >> subpixelbgColor[1] >> subpixelbgColor[2];
+
+							current->SetSubpixelBG(subpixelbgColor);
+						}
 
 						if (isTextLabelRaw)
 							current->SetStringRaw(textLabel);
