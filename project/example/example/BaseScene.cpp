@@ -28,6 +28,7 @@
 #include "characterUnits/CharacterManager.h"
 #include "W_RNG.h"
 #include "StateManager.h"
+#include "characterUnits/CharacterInfoHub.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -41,6 +42,7 @@ std::vector<int> testMove;
 wolf::Hud* testhud;
 glm::mat4 hudProjMat;
 static CharacterManager* cManager;
+CharacterInfoHub cHub;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -55,12 +57,20 @@ void BaseScene::Init()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable");
 
+	//Hub Testing
+	//cHub.AddCharacter("Characters/hero1.json", "WingedKnight");
+	//cHub.AddEnemyType("Characters/enemyLight.json", "Enemy1");
+	//cHub.AddItemType("Items/potion.json");
+	//cHub.DamageCharacter("WingedKnight", 50);
+	//cHub.DamageEnemy("Enemy1", 50);
+	//cHub.GivePlayerItem("WingedKnight", "Potion");
+
 	float scale = 5.0;
 	float scale2 = 0.05;
-	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("Knights/RedKnightAlternative.bmw"), shaders.first, shaders.second);
-	test2 = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("lich/FreeLich.bmw"), shaders.first, shaders.second);
-	test->setTransform(glm::translate(glm::vec3(0, -100, 50)) * glm::rotate(90.0f, 0.0f, 1.0f, 0.0f) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::scale(glm::vec3(scale2, scale2, scale2)));
-	test2->setTransform(glm::translate(glm::vec3(0, -100, 60)) * glm::scale(glm::vec3(scale, scale, scale)));
+	//test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("Knights/RedKnightAlternative.bmw"), shaders.first, shaders.second);
+	//test2 = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("lich/FreeLich.bmw"), shaders.first, shaders.second);
+	//test->setTransform(glm::translate(glm::vec3(0, -100, 50)) * glm::rotate(90.0f, 0.0f, 1.0f, 0.0f) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::scale(glm::vec3(scale2, scale2, scale2)));
+	//test2->setTransform(glm::translate(glm::vec3(0, -100, 60)) * glm::scale(glm::vec3(scale, scale, scale)));
 
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
@@ -83,7 +93,7 @@ void BaseScene::Update()
 	float delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
 
-	test->update(delta);
+	//test->update(delta);
 	
 	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	std::vector<float> heights = grid->GetHeights();
@@ -120,16 +130,16 @@ void BaseScene::Render()
 	selector->Render(cam->GetViewMatrix());
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
 	
-	test->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
-	test2->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
+	//test->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
+	//test2->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
 
 	// Transparent
 	glEnable(GL_BLEND);
 
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
 	
-	test->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
-	test2->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
+	//test->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
+	//test2->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
 
 	// Depthless
 	glDepthMask(false);
