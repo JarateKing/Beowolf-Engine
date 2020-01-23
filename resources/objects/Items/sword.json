@@ -1,7 +1,8 @@
 {
 	"Name" : "Sword",
-	
+	"BasicDescription" : "A Basic Sword to Wreak Havoc With",
 	"Stats": {
-		"Damage": 1.5
+		"MaxAttack": 15.0,
+		"MinAttack": 15.0
 	}
 }

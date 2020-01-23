@@ -28,6 +28,7 @@
 #include "characterUnits/CharacterManager.h"
 #include "W_RNG.h"
 #include "StateManager.h"
+#include "characterUnits/CharacterInfoHub.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -41,6 +42,7 @@ std::vector<int> testMove;
 wolf::Hud* testhud;
 glm::mat4 hudProjMat;
 static CharacterManager* cManager;
+CharacterInfoHub cHub;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -54,6 +56,14 @@ void BaseScene::Init()
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable");
+
+	//Hub Testing
+	//cHub.AddCharacter("Characters/hero1.json", "WingedKnight");
+	//cHub.AddEnemyType("Characters/enemyLight.json", "Enemy1");
+	//cHub.AddItemType("Items/potion.json");
+	//cHub.DamageCharacter("WingedKnight", 50);
+	//cHub.DamageEnemy("Enemy1", 50);
+	//cHub.GivePlayerItem("WingedKnight", "Potion");
 
 	float scale = 5.0;
 	float scale2 = 0.05;

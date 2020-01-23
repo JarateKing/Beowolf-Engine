@@ -1,10 +1,10 @@
 
 {"Character" : 
 	{"Name" : "Classic Knight",
-	"HP" : "650",
-	"MaxMovement" : "5",
-	"MaxAttack" : "60",
-	"MinAttack" : "50",
-	"Defense" : "175",
+	"HP" : 650.0,
+	"MaxMovement" : 5.0,
+	"MaxAttack" : 60.0,
+	"MinAttack" : 50.0,
+	"Defense" : 175.0,
 	"BasicDescription" : "A basic soldier called to battle."}
 }
