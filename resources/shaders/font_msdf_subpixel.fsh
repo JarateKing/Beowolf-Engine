@@ -3,6 +3,7 @@ in vec2 v_uv1;
 
 uniform sampler2D tex;
 uniform vec4 color;
+uniform vec3 bgcolor;
 uniform float fontsize;
 
 out vec4 PixelColor;
@@ -26,7 +27,6 @@ void main()
 	float hint_amount = 1.0;
 	float subpixel_amount = 1.0;
 	float doffset = 1.0 / (2.0 * fontsize / 56.0 * 1080.0 / 512.0 * 16.0 / 9.0);
-	vec3 bg_color = vec3(0.352, 0.352, 0.352);
 
 	// get samples
 	vec2 v_uv1_north = vec2(v_uv1.x, v_uv1.y + 1.0 / 512.0);
@@ -60,7 +60,7 @@ void main()
 	}
 	
 	vec3 channels = subpixel(grad.x * 0.5 * subpixel_amount, alpha);
-	vec3 res = mix(bg_color, color.rgb, channels);
+	vec3 res = mix(bgcolor, color.rgb, channels);
 	
     PixelColor = vec4(res.r, res.g, res.b, other_alpha * color.a);
 }
