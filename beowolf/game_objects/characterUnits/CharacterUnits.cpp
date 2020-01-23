@@ -82,6 +82,15 @@ void CharacterUnits::Update(float deltaT)
 		m_justMoved = false;
 	}
 
+	if (m_isSelected) {
+		m_deltaSum += deltaT;
+		float additiveValue = (sin(m_deltaSum * 6) / 2.0 + 0.5) * 0.1;
+		model->setModelAdditive(glm::vec3(0.5 + additiveValue, 0.5 + additiveValue, 0.1 - additiveValue));
+	}
+	else {
+		m_deltaSum = 0;
+	}
+
 	model->update(deltaT);
 }
 
@@ -145,6 +154,15 @@ void CharacterUnits::setHasMoved(bool moved) {
 
 bool CharacterUnits::isMoving() {
 	return pos.IsMoving();
+}
+
+void CharacterUnits::setSelected(bool selected) {
+	m_isSelected = selected;
+
+	if (selected)
+		model->setModelAdditive(glm::vec3(0.5, 0.5, 0.1));
+	else
+		model->setModelAdditive(glm::vec3(0, 0, 0));
 }
 
 void CharacterUnits::InitDeath()

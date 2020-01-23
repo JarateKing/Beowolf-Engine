@@ -24,6 +24,7 @@ class CharacterUnits
 		bool getHasMoved();
 		void setHasMoved(bool moved);
 		bool isMoving();
+		void setSelected(bool selected);
 		void InitDeath();
 		void TakeDamage();
 
@@ -40,6 +41,8 @@ class CharacterUnits
 		bool dying = false;
 		bool m_hasMoved = false;
 		bool m_justMoved = false;
+		bool m_isSelected = false;
+		double m_deltaSum = 0.0;
 };
 
 #endif

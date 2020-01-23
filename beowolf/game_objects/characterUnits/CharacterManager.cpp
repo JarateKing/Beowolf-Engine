@@ -36,7 +36,6 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	for (int i = 0; i < items.size(); i++)
 		items[i]->Update(p_deltaT);
 
-	std::list<CharacterUnits>::iterator it;
 	//Update Heroes and check for target
 	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
@@ -67,6 +66,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				targetName = it->GetName();
 				targeting = true;
 				timeBetween = 0.0f;
+				it->setSelected(true);
 				it = characters.end();
 				it--;
 			}
@@ -87,6 +87,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		{
 			if (it->GetName().compare(targetName) == 0)
 			{
+				it->setSelected(false);
+
 				std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 				if (path.size() > 0) {
 					it->Move(path, movementTime);
@@ -143,8 +145,8 @@ std::vector<int> CharacterManager::PathTowardsClosestHero(int enemyIndex, int le
 	int closest = -1;
 	int distance = 10000;
 	int current = 0;
-	std::list<CharacterUnits>::iterator it;
-	for (it = characters.begin(); it != characters.end(); it++)
+
+	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
 		path = grid->GetPathway(enemies.at(enemyIndex).GetTile(), it->GetTile());
 		if (path.size() < distance)

@@ -51,7 +51,7 @@
             "name": "death_backward",
             "start": 634,
             "end": 688,
-			"loop": false
+			"hold": true
         },
         {
             "name": "victory",

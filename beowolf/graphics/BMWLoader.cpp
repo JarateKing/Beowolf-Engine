@@ -94,7 +94,13 @@ namespace wolf
 					clip->start = anim["start"];
 					clip->end = anim["end"];
 				}
-				clip->isLoop = anim["loop"];
+
+				if (anim.contains("loop"))
+					clip->isLoop = anim["loop"];
+
+				if (anim.contains("hold"))
+					clip->isHold = anim["hold"];
+
 				std::string clipName = anim["name"];
 
 				(animations)[clipName] = clip;

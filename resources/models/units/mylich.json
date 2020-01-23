@@ -39,7 +39,7 @@
             "name": "death",
             "start": 1052,
             "end": 1225,
-			"loop": false
+			"hold": true
         },
         {
             "name": "victory",

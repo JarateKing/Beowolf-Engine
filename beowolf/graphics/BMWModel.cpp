@@ -98,10 +98,16 @@ namespace wolf
 	{
 		if (m_hasAnimations) {
 			int prev = m_animationFrame;
+
 			m_animationFrame += delta * (*m_anims)[m_currentAnimNum]->rate;
+			if (m_animationFrame >= m_currentAnimation->end && m_currentAnimation->isHold) {
+				m_animationFrame = m_currentAnimation->end;
+				m_isAnimationDone = true;
+			}
+
 			if (prev != (int)(m_animationFrame)) {
 
-				if (m_animationFrame >= m_currentAnimation->end && !m_currentAnimation->isLoop)
+				if (m_animationFrame > m_currentAnimation->end && !m_currentAnimation->isLoop)
 					setAnim(*m_defaultAnimation);
 
 				m_animationFrame = wolf::Math::wrap(m_animationFrame, m_currentAnimation->start, m_currentAnimation->end);
@@ -160,6 +166,7 @@ namespace wolf
 			m_currentAnimation = (*m_animFrames)[name];
 			m_animationFrame = m_currentAnimation->start;
 			m_currentAnimNum = m_currentAnimation->anim;
+			m_isAnimationDone = false;
 		}
 		else if (m_hasAnimations) {
 			std::cout << "Attempted setting \"" << name << "\" animation, but does not exist!\n";
@@ -179,5 +186,24 @@ namespace wolf
 
 	void BMWModel::setModelFilter(glm::vec3 color) {
 		m_modelFilter = color;
+	}
+
+	bool BMWModel::getIsAnimationRunning() {
+		return !m_isAnimationDone;
+	}
+
+	BMWAnimSegment* BMWModel::getAnim() {
+		return m_currentAnimation;
+	}
+
+	std::string BMWModel::getAnimName() {
+		for (auto it : (*m_animFrames))
+			if (it.second == m_currentAnimation)
+				return it.first;
+		return "";
+	}
+
+	bool BMWModel::isAnimDefault() {
+		return m_currentAnimation == (*m_animFrames)[*m_defaultAnimation];
 	}
 }
