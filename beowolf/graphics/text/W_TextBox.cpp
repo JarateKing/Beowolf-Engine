@@ -253,6 +253,7 @@ namespace wolf
 			g_pProgram[i]->SetUniform("view", glm::mat4());
 			g_pProgram[i]->SetUniform("world", m_world);
 			g_pProgram[i]->SetUniform("color", m_textcolor);
+			g_pProgram[i]->SetUniform("fontsize", m_fontSize);
 			g_pProgram[i]->SetUniform("tex", 0);
 	
 			// Set up source data
