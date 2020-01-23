@@ -39,6 +39,7 @@ class CharacterUnits
 		bool changed = false;
 		bool dying = false;
 		bool m_hasMoved = false;
+		bool m_justMoved = false;
 };
 
 #endif

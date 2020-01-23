@@ -34,13 +34,6 @@ void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilt
 
 void CharacterUnits::Update(float deltaT)
 {
-	if (!isMoving() && changed)
-	{
-		SetAnim("idle");
-		changed = false;
-		InitDeath();
-	}
-
 	glm::vec3 last = pos.GetPos();
 	pos.Update(deltaT);
 	glm::vec3 dif = pos.GetPos() - last;
@@ -49,11 +42,11 @@ void CharacterUnits::Update(float deltaT)
 	if (dif.x != 0 || dif.z != 0)
 	{
 		dif = glm::normalize(dif);
-		dir = atan2(dif.x, dif.z) * RAD2DEG;
+		dir = atan2(dif.z, dif.x) * RAD2DEG;
 	}
-	dir += 180.0f;
+	dir += 90.0f;
 
-	if (dying)
+	/*if (dying)
 	{
 		if (deathTimer == 0.0f)
 		{
@@ -73,7 +66,20 @@ void CharacterUnits::Update(float deltaT)
 	}
 	else if (pos.IsMoving() && !dying)
 	{
-		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));*/
+	if (pos.IsMoving() && (dif.x != 0 || dif.z != 0)) {
+		if (inverted)
+			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+		else
+			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+	}
+	else {
+		if (m_justMoved) {
+			SetAnim("idle");
+			model->setModelFilter(glm::vec3(0.7, 0.7, 0.7));
+		}
+
+		m_justMoved = false;
 	}
 
 	model->update(deltaT);
@@ -106,14 +112,14 @@ void CharacterUnits::SetAnim(std::string p_animName)
 
 void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete)
 {
-	if (!changed)
-	{
-		SetAnim("run");
-		changed = true;
-	}
-
-	if (p_path.size() > 1)
+	if (p_path.size() > 1) {
 		m_hasMoved = true;
+		m_justMoved = true;
+
+		// attempt to walk if run animation doesn't exist
+		SetAnim("walk");
+		SetAnim("run");
+	}
 	pos.Move(p_path, p_timeToComplete);
 }
 
@@ -133,6 +139,8 @@ bool CharacterUnits::getHasMoved() {
 
 void CharacterUnits::setHasMoved(bool moved) {
 	m_hasMoved = moved;
+
+	model->setModelFilter(glm::vec3(1.0, 1.0, 1.0));
 }
 
 bool CharacterUnits::isMoving() {
