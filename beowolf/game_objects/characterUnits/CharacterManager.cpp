@@ -2,6 +2,8 @@
 #include "W_Input.h"
 #include "W_RNG.h"
 #include "W_ResourceLoader.h"
+#include "W_Math.h"
+#include <cmath>
 
 CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 {
@@ -28,6 +30,23 @@ CharacterManager::~CharacterManager()
 
 void CharacterManager::Update(int p_target, float p_deltaT)
 {
+	// TODO - remove this
+	static int health[] = { 100, 100, 180 };
+	static int maxhealth[] = { 100, 100, 180 };
+	static int startpos[] = { 100, 100, 180 };
+	static double animtime[] = { 0.0, 0.0, 0.0 };
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_1)) {
+		health[0] = std::max(0, health[0] - 10);
+	}
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_2)) {
+		health[1] = std::max(0, health[1] - 10);
+	}
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_3)) {
+		health[2] = std::max(0, health[2] - 10);
+	}
+	// ====
+
 	timeBetween += p_deltaT;
 	currTarget = p_target;
 
@@ -42,6 +61,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	m_hud->GetElement("Unit_3_Indicator")->SetVisible(false);
 
 	//Update Heroes and check for target
+	int characterCount = 0;
 	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
 		it->Update(p_deltaT);
@@ -71,6 +91,24 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				i--;
 			}
 		}
+
+		// apply health to hud
+		if (characterCount < 3) {
+			m_hud->SetVar("UnitHealth" + std::to_string(characterCount + 1), std::to_string(health[characterCount]));
+			m_hud->SetVar("UnitHealthMax" + std::to_string(characterCount + 1), std::to_string(maxhealth[characterCount]));
+			m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1))->SetW(314.0 * health[characterCount] / maxhealth[characterCount]);
+			if (startpos[characterCount] != health[characterCount]) {
+				animtime[characterCount] += p_deltaT * 1.5;
+
+				m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1) + "_highlight")->SetW(314.0 * wolf::Math::lerp((double)startpos[characterCount], (double)health[characterCount], wolf::Math::easeIn(std::min(1.0, animtime[characterCount]))) / maxhealth[characterCount]);
+				if (animtime[characterCount] >= 1.0) {
+					startpos[characterCount] = health[characterCount];
+					animtime[characterCount] = 0.0;
+				}
+			}
+		}
+
+		characterCount++;
 	}
 
 	//Check if mouse pressed on top of hero

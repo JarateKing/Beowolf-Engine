@@ -115,36 +115,6 @@ void BaseScene::Update()
 	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
 	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
 	testhud->Update(delta);
-
-	// HEALTH TEST STUFF
-	static int health[] = { 100, 50, 180 };
-	static int maxhealth[] = { 100, 100, 180 };
-	static int startpos[] = { 100, 100, 180 };
-	static double animtime[] = { 0.0, 0.0, 0.0 };
-
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_1)) {
-		health[0] = std::max(0, health[0] - 10);
-	}
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_2)) {
-		health[1] = std::max(0, health[1] - 10);
-	}
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_3)) {
-		health[2] = std::max(0, health[2] - 10);
-	}
-
-	for (int i = 0; i < 3; i++) {
-		testhud->SetVar("UnitHealth" + std::to_string(i+1), std::to_string(health[i]));
-		testhud->SetVar("UnitHealthMax" + std::to_string(i + 1), std::to_string(maxhealth[i]));
-		testhud->GetElement("healthbar_unit_" + std::to_string(i + 1))->SetW(314.0 * health[i] / maxhealth[i]);
-		if (startpos[i] != health[i]) {
-			animtime[i] += delta * 1.5;
-			testhud->GetElement("healthbar_unit_" + std::to_string(i + 1) + "_highlight")->SetW(314.0 * wolf::Math::lerp((double)startpos[i], (double)health[i], wolf::Math::easeIn(std::min(1.0, animtime[i]))) / maxhealth[i]);
-			if (animtime[i] >= 1.0) {
-				startpos[i] = health[i];
-				animtime[i] = 0.0;
-			}
-		}
-	}
 }
 
 void BaseScene::Render()
