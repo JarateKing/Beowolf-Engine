@@ -29,6 +29,7 @@
 #include "W_RNG.h"
 #include "StateManager.h"
 #include "characterUnits/CharacterInfoHub.h"
+#include "characterUnits/ScoreTracker.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -43,6 +44,7 @@ wolf::Hud* testhud;
 glm::mat4 hudProjMat;
 static CharacterManager* cManager;
 CharacterInfoHub cHub;
+ScoreTracker* scoreTracker;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -85,6 +87,8 @@ void BaseScene::Init()
 
 	StateManager::getInstance().SetCharacterManager(cManager);
 	StateManager::getInstance().SetHud(testhud);
+
+	scoreTracker = new ScoreTracker(testhud);
 }
 
 void BaseScene::Update()
@@ -115,6 +119,10 @@ void BaseScene::Update()
 	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
 	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
 	testhud->Update(delta);
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_O)) {
+		scoreTracker->AddScore(1);
+	}
 }
 
 void BaseScene::Render()
