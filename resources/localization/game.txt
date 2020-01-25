@@ -1,2 +1,5 @@
 STRING	ENGLISH	FRENCH
 Current_Turn	$whoseturn$ go	$whoseturn$ go
+UnitHP_1	$UnitHealth1$ / $UnitHealthMax1$	$UnitHealth1$ / $UnitHealthMax1$
+UnitHP_2	$UnitHealth2$ / $UnitHealthMax2$	$UnitHealth2$ / $UnitHealthMax2$
+UnitHP_3	$UnitHealth3$ / $UnitHealthMax3$	$UnitHealth3$ / $UnitHealthMax3$

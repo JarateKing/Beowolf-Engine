@@ -18,55 +18,333 @@
 
 	"elements" : [
 		{
-			"type": "textbox",
-			"xpos": 12,
-			"ypos": 12,
-			"zpos": 2,
-			"wide": 1240,
-			"tall": 220,
+			"type": "image",
+			"xpos": 4,
+			"ypos": 10,
+			"zpos": 5,
+			"wide": 16,
+			"tall": 100,
 			
-			"label": "Current_Turn",
-			"labelRaw": false,
-			"alignment": "left",
-			
-			"font": "OpenSans",
-			"fontSize": 22,
-			"color": "1.0 1.0 1.0 1.0"
+			"image": "hud/healthbar_bg_left.tga"
 		},
 		{
 			"type": "image",
-			"xpos": 1840,
-			"ypos": 0,
+			"xpos": 20,
+			"ypos": 10,
 			"zpos": 5,
-			"wide": 80,
-			"tall": 80,
+			"wide": 300,
+			"tall": 100,
 			
-			"image": "particles/particle.dds"
+			"image": "hud/healthbar_bg.tga"
+		},
+		{
+			"type": "image",
+			"xpos": 320,
+			"ypos": 10,
+			"zpos": 5,
+			"wide": 16,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg_right.tga"
+		},
+		{
+			"name": "healthbar_unit_1",
+			"type": "image",
+			"xpos": 13,
+			"ypos": 13,
+			"zpos": 4,
+			"wide": 314,
+			"tall": 46,
+			
+			"image": "hud/healthbar.tga"
+		},
+		{
+			"name": "healthbar_unit_1_highlight",
+			"type": "fillcolor",
+			"xpos": 13,
+			"ypos": 13,
+			"zpos": 4,
+			"wide": 314,
+			"tall": 46,
+			
+			"color": "0.7 0.0 0.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 20,
+			"zpos": 2,
+			"wide": 305,
+			"tall": 46,
+			
+			"label": "UnitHP_1",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 14,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 21,
+			"zpos": 3,
+			"wide": 305,
+			"tall": 46,
+			
+			"label": "UnitHP_1",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 14,
+			"color": "0.0 0.0 0.0 1.0"
+		},
+		{
+			"name": "Unit_1_Indicator",
+			"type": "image",
+			"xpos": 330,
+			"ypos": 10,
+			"zpos": 5,
+			"wide": 90,
+			"tall": 100,
+			
+			"image": "hud/unit_hover.tga"
+		},
+		
+		{
+			"type": "image",
+			"xpos": 4,
+			"ypos": 70,
+			"zpos": 5,
+			"wide": 16,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg_left.tga"
+		},
+		{
+			"type": "image",
+			"xpos": 20,
+			"ypos": 70,
+			"zpos": 5,
+			"wide": 300,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg.tga"
+		},
+		{
+			"type": "image",
+			"xpos": 320,
+			"ypos": 70,
+			"zpos": 5,
+			"wide": 16,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg_right.tga"
+		},
+		{
+			"name": "healthbar_unit_2",
+			"type": "image",
+			"xpos": 13,
+			"ypos": 73,
+			"zpos": 4,
+			"wide": 314,
+			"tall": 46,
+			
+			"image": "hud/healthbar.tga"
+		},
+		{
+			"name": "healthbar_unit_2_highlight",
+			"type": "fillcolor",
+			"xpos": 13,
+			"ypos": 73,
+			"zpos": 4,
+			"wide": 314,
+			"tall": 46,
+			
+			"color": "0.7 0.0 0.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 80,
+			"zpos": 2,
+			"wide": 305,
+			"tall": 46,
+			
+			"label": "UnitHP_2",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 14,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 81,
+			"zpos": 3,
+			"wide": 305,
+			"tall": 46,
+			
+			"label": "UnitHP_2",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 14,
+			"color": "0.0 0.0 0.0 1.0"
+		},
+		{
+			"name": "Unit_2_Indicator",
+			"type": "image",
+			"xpos": 330,
+			"ypos": 70,
+			"zpos": 5,
+			"wide": 90,
+			"tall": 100,
+			
+			"image": "hud/unit_hover.tga"
+		},
+		
+		{
+			"type": "image",
+			"xpos": 4,
+			"ypos": 130,
+			"zpos": 5,
+			"wide": 16,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg_left.tga"
+		},
+		{
+			"type": "image",
+			"xpos": 20,
+			"ypos": 130,
+			"zpos": 5,
+			"wide": 300,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg.tga"
+		},
+		{
+			"type": "image",
+			"xpos": 320,
+			"ypos": 130,
+			"zpos": 5,
+			"wide": 16,
+			"tall": 100,
+			
+			"image": "hud/healthbar_bg_right.tga"
+		},
+		{
+			"name": "healthbar_unit_3",
+			"type": "image",
+			"xpos": 13,
+			"ypos": 133,
+			"zpos": 4,
+			"wide": 314,
+			"tall": 46,
+			
+			"image": "hud/healthbar.tga"
+		},
+		{
+			"name": "healthbar_unit_3_highlight",
+			"type": "fillcolor",
+			"xpos": 13,
+			"ypos": 133,
+			"zpos": 4,
+			"wide": 314,
+			"tall": 46,
+			
+			"color": "0.7 0.0 0.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 140,
+			"zpos": 2,
+			"wide": 305,
+			"tall": 46,
+			
+			"label": "UnitHP_3",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 14,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": 12,
+			"ypos": 141,
+			"zpos": 3,
+			"wide": 305,
+			"tall": 46,
+			
+			"label": "UnitHP_3",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 14,
+			"color": "0.0 0.0 0.0 1.0"
+		},
+		{
+			"name": "Unit_3_Indicator",
+			"type": "image",
+			"xpos": 330,
+			"ypos": 130,
+			"zpos": 5,
+			"wide": 90,
+			"tall": 100,
+			
+			"image": "hud/unit_hover.tga"
+		},
+		
+		{
+			"type": "textbox",
+			"xpos": 1600,
+			"ypos": 10,
+			"zpos": 3,
+			"wide": 310,
+			"tall": 100,
+			
+			"label": "Current_Turn",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 24,
+			"color": "1.0 1.0 1.0 1.0",
+			"subpixel": true,
+			"subpixelBG": "0.3 0.3 0.3"
 		},
 		{
 			"type": "fillcolor",
-			"xpos": 0,
+			"xpos": 1670,
 			"ypos": 0,
 			"zpos": 10,
-			"wide": 1,
-			"wideRelative": true,
-			"tall": 65,
+			"wide": 250,
+			"tall": 75,
 			
-			"color": "0.0 0.0 0.0 0.3"
+			"color": "0.0 0.0 0.0 0.4"
 		},
 		{
 			"type": "gradient",
-			"xpos": 0,
-			"ypos": 65,
+			"xpos": 1600,
+			"ypos": 0,
 			"zpos": 10,
-			"wide": 1,
-			"wideRelative": true,
-			"tall": 30,
+			"wide": 70,
+			"tall": 75,
 			
-			"topLeft": "0.0 0.0 0.0 0.3",
-			"topRight": "0.0 0.0 0.0 0.3",
+			"topLeft": "0.0 0.0 0.0 0.0",
+			"topRight": "0.0 0.0 0.0 0.4",
 			"bottomLeft": "0.0 0.0 0.0 0.0",
-			"bottomRight": "0.0 0.0 0.0 0.0"
+			"bottomRight": "0.0 0.0 0.0 0.4"
 		}
 	]
 }

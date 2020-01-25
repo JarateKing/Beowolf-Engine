@@ -25,7 +25,7 @@ namespace wolf
 			{ 0.0f, 0.0f, 1.0f,	1, 1, 1, 1, 0.0f, 0.0f },
 	};
 	
-	TextBox::TextBox(Font* pFont, TextTable* localization)
+	TextBox::TextBox(Font* pFont, TextTable* localization, bool isSubpixel)
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -34,10 +34,12 @@ namespace wolf
 		m_font = pFont;
 		m_localization = localization;
 		m_alignmentFactor = AL_Left;
+		m_bgColor = glm::vec3(0.5, 0.5, 0.5);
 	
 		for (int i = 0; i < m_font->GetTotalTextures(); i++)
 		{
-			g_pProgram.push_back(wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("font_msdf")));
+			auto shaderpair = wolf::ResourceLoader::Instance().getShaders((isSubpixel) ? "font_msdf_subpixel" : "font_msdf");
+			g_pProgram.push_back(wolf::ProgramManager::CreateProgram(shaderpair));
 			g_pVB.push_back(wolf::BufferManager::CreateVertexBuffer(squareVertices, sizeof(Vertex) * 6));
 	
 			g_pDecl.push_back(new wolf::VertexDeclaration());
@@ -215,6 +217,11 @@ namespace wolf
 		m_alignmentFactor = alignment;
 	}
 
+	void TextBox::SetSubpixelBG(const glm::vec3& bgcolor)
+	{
+		m_bgColor = bgcolor;
+	}
+
 	std::string TextBox::ReplaceTextVars(const std::string& text) {
 		std::string toret = text;
 		int pos = 0;
@@ -254,6 +261,7 @@ namespace wolf
 			g_pProgram[i]->SetUniform("world", m_world);
 			g_pProgram[i]->SetUniform("color", m_textcolor);
 			g_pProgram[i]->SetUniform("fontsize", m_fontSize);
+			g_pProgram[i]->SetUniform("bgcolor", m_bgColor);
 			g_pProgram[i]->SetUniform("tex", 0);
 	
 			// Set up source data

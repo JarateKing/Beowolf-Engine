@@ -20,13 +20,14 @@ namespace wolf
 	class TextBox: public HudElement
 	{
 	public:
-		TextBox(Font* pFont, TextTable* localization);
+		TextBox(Font* pFont, TextTable* localization, bool isSubpixel = false);
 		~TextBox();
 		void SetSize(float size);
 		void SetString(const std::string& id);
 		void SetStringRaw(const std::string& text);
 		void SetTextColor(const glm::vec4& color);
 		void SetTextAlignment(const float& alignment);
+		void SetSubpixelBG(const glm::vec3& bgcolor);
 
 		void Update(float p_fDelta);
 		void Render(glm::mat4 proj);
@@ -44,6 +45,7 @@ namespace wolf
 		std::string m_str;
 		std::string m_prevText;
 		bool m_hasVars = false;
+		glm::vec3 m_bgColor;
 	
 		std::vector<wolf::VertexBuffer*> g_pVB;
 		std::vector<wolf::VertexDeclaration*> g_pDecl;
