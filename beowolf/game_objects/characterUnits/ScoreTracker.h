@@ -15,6 +15,8 @@ public:
 	void AddScore(int score);
 	int GetScore(int score);
 private:
+	void ApplyToHud();
+
 	int m_score = 0;
 	wolf::Hud* m_hud;
 };
