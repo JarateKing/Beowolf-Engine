@@ -324,6 +324,24 @@
 			"subpixelBG": "0.3 0.3 0.3"
 		},
 		{
+			"type": "textbox",
+			"xpos": 1600,
+			"ypos": 70,
+			"zpos": 3,
+			"wide": 310,
+			"tall": 100,
+			
+			"label": "Current_Score",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 24,
+			"color": "1.0 1.0 1.0 1.0",
+			"subpixel": true,
+			"subpixelBG": "0.3 0.3 0.3"
+		},
+		{
 			"type": "fillcolor",
 			"xpos": 1670,
 			"ypos": 0,
