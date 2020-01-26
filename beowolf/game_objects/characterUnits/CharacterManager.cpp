@@ -14,13 +14,24 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 	characters.push_back(player2);
 	characters.push_back(player3);
 
-	CharacterUnits knight("units/myskeleton.bmw", "animatable_untextured", 110, "Knight11", p_grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
-	CharacterUnits knight2("units/myfleshlobber.bmw", "animatable_untextured", 120, "Knight12", p_grid, 0.06, false, glm::vec3(0.7, 0.1, 0));
-	enemies.push_back(knight);
-	enemies.push_back(knight2);
+	CharacterUnits enemy1("units/myskeleton.bmw", "animatable_untextured", 110, "Knight11", p_grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
+	CharacterUnits enemy2("units/myfleshlobber.bmw", "animatable_untextured", 120, "Knight12", p_grid, 0.06, false, glm::vec3(0.7, 0.1, 0));
+	enemies.push_back(enemy1);
+	enemies.push_back(enemy2);
 
 	grid = p_grid;
 	m_hud = p_hud;
+
+	m_chub = new CharacterInfoHub();
+	m_chub->AddCharacter("Characters/hero2.json", player1.GetName());
+	m_chub->AddCharacter("Characters/hero3.json", player2.GetName());
+	m_chub->AddCharacter("Characters/hero1.json", player3.GetName());
+	m_chub->AddEnemyType("Characters/enemyMedium.json", enemy1.GetName());
+	m_chub->AddEnemyType("Characters/enemyLight.json", enemy2.GetName());
+
+	m_chub->AddItemType("item_sword.json");
+	m_chub->AddItemType("item_shield.json");
+	m_chub->AddItemType("item_potion.json");
 }
 
 CharacterManager::~CharacterManager()
