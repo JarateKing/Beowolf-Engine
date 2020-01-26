@@ -42,6 +42,9 @@ void CharacterInfoHub::AddCharacter(std::string p_characterJson, std::string p_c
 				if (jsonData["Character"].contains(INFO_NAMES[i]))
 				{
 					temp.m_info[INFO_NAMES[i]] = jsonData["Character"][INFO_NAMES[i]];
+
+					if (INFO_NAMES[i] == "HP")
+						temp.m_info["Health"] = temp.m_info["HP"];
 				}
 			}
 		}
