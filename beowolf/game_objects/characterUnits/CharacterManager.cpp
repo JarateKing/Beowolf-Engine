@@ -29,9 +29,9 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 	m_chub->AddEnemyType("Characters/enemyMedium.json", enemy1.GetName());
 	m_chub->AddEnemyType("Characters/enemyLight.json", enemy2.GetName());
 
-	m_chub->AddItemType("item_sword.json");
-	m_chub->AddItemType("item_shield.json");
-	m_chub->AddItemType("item_potion.json");
+	m_chub->AddItemType("Items/sword.json");
+	m_chub->AddItemType("Items/shield.json");
+	m_chub->AddItemType("Items/potion.json");
 }
 
 CharacterManager::~CharacterManager()
@@ -93,9 +93,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		// check for items
 		for (int i = 0; i < items.size(); i++) {
 			if (glm::length(it->GetPos() - items[i]->GetPos()) < 0.25) {
-				auto statmap = items[i]->GetStats();
-				for (auto jt = statmap.begin(); jt != statmap.end(); jt++)
-					it->ModifyStats(jt->first, jt->second);
+
+				m_chub->GivePlayerItem(it->GetName(), items[i]->GetName());
 
 				delete items[i];
 				items.erase(items.begin() + i);
