@@ -46,13 +46,13 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	static double animtime[] = { 0.0, 0.0, 0.0 };
 
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_1)) {
-		m_chub->DamageCharacter("Player1", 50);
+		m_chub->DamageCharacter("Player1", 150);
 	}
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_2)) {
-		m_chub->DamageCharacter("Player2", 50);
+		m_chub->DamageCharacter("Player2", 150);
 	}
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_3)) {
-		m_chub->DamageCharacter("Player3", 50);
+		m_chub->DamageCharacter("Player3", 150);
 	}
 	// ====
 
@@ -105,8 +105,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			float health, maxhealth;
 			health = m_chub->GetStat("Player" + std::to_string(characterCount + 1), "HP");
 			maxhealth = m_chub->GetStat("Player" + std::to_string(characterCount + 1), "Health");
-			m_hud->SetVar("UnitHealth" + std::to_string(characterCount + 1), std::to_string(health));
-			m_hud->SetVar("UnitHealthMax" + std::to_string(characterCount + 1), std::to_string(maxhealth));
+			m_hud->SetVar("UnitHealth" + std::to_string(characterCount + 1), std::to_string((int)std::ceil(health)));
+			m_hud->SetVar("UnitHealthMax" + std::to_string(characterCount + 1), std::to_string((int)std::ceil(maxhealth)));
 			m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1))->SetW(314.0 * health / maxhealth);
 			if (startpos[characterCount] != health) {
 				animtime[characterCount] += p_deltaT * 1.5;
