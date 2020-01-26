@@ -154,6 +154,19 @@ void CharacterInfoHub::GivePlayerItem(std::string p_characterName, std::string p
 	}
 }
 
+float CharacterInfoHub::GetStat(std::string p_characterName, std::string p_statID)
+{
+	for (int i = 0; i < m_infoBits.size(); i++)
+	{
+		if (m_infoBits.at(i).m_name.compare(p_characterName) == 0)
+		{
+			if (m_infoBits.at(i).m_info.count(p_statID))
+				return m_infoBits.at(i).m_info[p_statID];
+		}
+	}
+	return -1;
+}
+
 void CharacterInfoHub::PrintOutInfo()
 {
 	std::cout << "Test Info Character" << std::endl << "====================" << std::endl;
