@@ -27,6 +27,7 @@ class CharacterUnits
 		void setSelected(bool selected);
 		void InitDeath();
 		void TakeDamage();
+		void SetHealthbarVisible(bool isVisible);
 
 	private:
 		std::vector<std::string> soundFiles;
@@ -43,6 +44,7 @@ class CharacterUnits
 		bool m_justMoved = false;
 		bool m_isSelected = false;
 		double m_deltaSum = 0.0;
+		bool m_isHealthbarVisible = true;
 };
 
 #endif

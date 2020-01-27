@@ -10,6 +10,9 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 2, "Player1", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
 	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 3, "Player2", p_grid, 0.05, false, glm::vec3(0.1, 0.8, 0.7));
 	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 4, "Player3", p_grid, 0.03, false, glm::vec3(0.1, 0.8, 0.7));
+	player1.SetHealthbarVisible(false);
+	player2.SetHealthbarVisible(false);
+	player3.SetHealthbarVisible(false);
 	characters.push_back(player1);
 	characters.push_back(player2);
 	characters.push_back(player3);

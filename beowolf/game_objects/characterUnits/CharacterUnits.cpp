@@ -174,3 +174,8 @@ void CharacterUnits::TakeDamage()
 {
 
 }
+
+void CharacterUnits::SetHealthbarVisible(bool isVisible)
+{
+	m_isHealthbarVisible = isVisible;
+}
