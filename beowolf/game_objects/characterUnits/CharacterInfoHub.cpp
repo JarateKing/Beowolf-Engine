@@ -77,6 +77,9 @@ void CharacterInfoHub::AddEnemyType(std::string p_enemyJson, std::string p_enemy
 				if (jsonData["Enemy"].contains(INFO_NAMES[i]))
 				{
 					temp.m_info[INFO_NAMES[i]] = jsonData["Enemy"][INFO_NAMES[i]];
+
+					if (INFO_NAMES[i] == "HP")
+						temp.m_info["Health"] = temp.m_info["HP"];
 				}
 			}
 		}
