@@ -1,12 +1,12 @@
 #include "Healthbar.h"
 #include "W_ResourceLoader.h"
 
-const wolf::Vertex square[] = { wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 0}),
-								wolf::Vertex({ 0, 1, 1.0f, 1, 1, 1, 1, 0, 1}),
-								wolf::Vertex({ 1, 1, 1.0f, 0, 0, 0, 1, 1, 1}),
-								wolf::Vertex({ 1, 1, 1.0f, 0, 0, 0, 1, 1, 1}),
-								wolf::Vertex({ 1, 0, 1.0f, 0, 0, 0, 1, 1, 0}),
-								wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 0})};
+const wolf::Vertex square[] = { wolf::Vertex({ 0, 0, 1.0f, 255, 255, 255, 255, 0, 0}),
+								wolf::Vertex({ 0, 1, 1.0f, 255, 255, 255, 255, 0, 1}),
+								wolf::Vertex({ 1, 1, 1.0f, 0, 0, 0, 255, 1, 1}),
+								wolf::Vertex({ 1, 1, 1.0f, 0, 0, 0, 255, 1, 1}),
+								wolf::Vertex({ 1, 0, 1.0f, 0, 0, 0, 255, 1, 0}),
+								wolf::Vertex({ 0, 0, 1.0f, 255, 255, 255, 255, 0, 0})};
 
 
 Healthbar::Healthbar() {
@@ -33,6 +33,7 @@ void Healthbar::Render(glm::mat4 view, glm::mat4 proj) {
 	// Bind Uniforms
 	g_pProgram->SetUniform("projection", proj);
 	g_pProgram->SetUniform("view", view);
+	g_pProgram->SetUniform("world", m_pos);
 	g_pProgram->SetUniform("threshold", 0.5f);
 
 	// Set up source data
@@ -40,4 +41,8 @@ void Healthbar::Render(glm::mat4 view, glm::mat4 proj) {
 
 	// Draw!
 	glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+void Healthbar::SetPos(glm::mat4 translation) {
+	m_pos = translation;
 }

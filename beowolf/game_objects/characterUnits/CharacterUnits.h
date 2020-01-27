@@ -4,6 +4,7 @@
 #include <vector>
 #include "BMWModel.h"
 #include "ComponentHexPos.h"
+#include "Healthbar.h"
 
 class CharacterUnits
 {
@@ -45,6 +46,7 @@ class CharacterUnits
 		bool m_isSelected = false;
 		double m_deltaSum = 0.0;
 		bool m_isHealthbarVisible = true;
+		Healthbar* m_healthbar;
 };
 
 #endif

@@ -2,6 +2,8 @@
 #include "W_ResourceLoader.h"
 #include "W_Math.h"
 
+
+
 CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string p_name, HexGrid* p_grid, float p_scale, bool p_inverted, glm::vec3 model_color)
 {
 	scale = p_scale;
@@ -20,6 +22,9 @@ CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, 
 	currTile = p_startTile;
 	name = p_name;
 	pos.SetGrid(p_grid);
+
+	m_healthbar = new Healthbar();
+	m_healthbar->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 2.0f, p_grid->GetPos().at(p_startTile).y)));
 }
 
 CharacterUnits::~CharacterUnits()
@@ -30,6 +35,10 @@ CharacterUnits::~CharacterUnits()
 void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
 {
 	model->render(p_view, p_proj, type);
+
+	if (m_isHealthbarVisible && type == wolf::RenderFilterOpaque) {
+		m_healthbar->Render(p_view, p_proj);
+	}
 }
 
 void CharacterUnits::Update(float deltaT)
@@ -72,6 +81,8 @@ void CharacterUnits::Update(float deltaT)
 			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 		else
 			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+
+		m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 2.0f, pos.GetPos().z)));
 	}
 	else {
 		if (m_justMoved) {
