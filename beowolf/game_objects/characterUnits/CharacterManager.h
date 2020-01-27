@@ -7,6 +7,7 @@
 #include "hexGrid/HexGrid.h"
 #include "Item.h"
 #include "W_Hud.h"
+#include "CharacterInfoHub.h"
 
 class CharacterManager
 {
@@ -35,6 +36,7 @@ class CharacterManager
 		float movementTime = 0.5f;
 		std::vector<int> test;
 		wolf::Hud* m_hud;
+		CharacterInfoHub* m_chub;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 };

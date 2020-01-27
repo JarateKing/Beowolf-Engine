@@ -324,12 +324,30 @@
 			"subpixelBG": "0.3 0.3 0.3"
 		},
 		{
+			"type": "textbox",
+			"xpos": 1600,
+			"ypos": 70,
+			"zpos": 3,
+			"wide": 310,
+			"tall": 100,
+			
+			"label": "Current_Score",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 24,
+			"color": "1.0 1.0 1.0 1.0",
+			"subpixel": true,
+			"subpixelBG": "0.3 0.3 0.3"
+		},
+		{
 			"type": "fillcolor",
 			"xpos": 1670,
 			"ypos": 0,
 			"zpos": 10,
 			"wide": 250,
-			"tall": 75,
+			"tall": 130,
 			
 			"color": "0.0 0.0 0.0 0.4"
 		},
@@ -339,7 +357,7 @@
 			"ypos": 0,
 			"zpos": 10,
 			"wide": 70,
-			"tall": 75,
+			"tall": 130,
 			
 			"topLeft": "0.0 0.0 0.0 0.0",
 			"topRight": "0.0 0.0 0.0 0.4",

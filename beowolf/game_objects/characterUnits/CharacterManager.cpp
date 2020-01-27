@@ -14,13 +14,24 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 	characters.push_back(player2);
 	characters.push_back(player3);
 
-	CharacterUnits knight("units/myskeleton.bmw", "animatable_untextured", 110, "Knight11", p_grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
-	CharacterUnits knight2("units/myfleshlobber.bmw", "animatable_untextured", 120, "Knight12", p_grid, 0.06, false, glm::vec3(0.7, 0.1, 0));
-	enemies.push_back(knight);
-	enemies.push_back(knight2);
+	CharacterUnits enemy1("units/myskeleton.bmw", "animatable_untextured", 110, "Knight11", p_grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
+	CharacterUnits enemy2("units/myfleshlobber.bmw", "animatable_untextured", 120, "Knight12", p_grid, 0.06, false, glm::vec3(0.7, 0.1, 0));
+	enemies.push_back(enemy1);
+	enemies.push_back(enemy2);
 
 	grid = p_grid;
 	m_hud = p_hud;
+
+	m_chub = new CharacterInfoHub();
+	m_chub->AddCharacter("Characters/hero2.json", player1.GetName());
+	m_chub->AddCharacter("Characters/hero3.json", player2.GetName());
+	m_chub->AddCharacter("Characters/hero1.json", player3.GetName());
+	m_chub->AddEnemyType("Characters/enemyMedium.json", enemy1.GetName());
+	m_chub->AddEnemyType("Characters/enemyLight.json", enemy2.GetName());
+
+	m_chub->AddItemType("Items/sword.json");
+	m_chub->AddItemType("Items/shield.json");
+	m_chub->AddItemType("Items/potion.json");
 }
 
 CharacterManager::~CharacterManager()
@@ -31,19 +42,17 @@ CharacterManager::~CharacterManager()
 void CharacterManager::Update(int p_target, float p_deltaT)
 {
 	// TODO - remove this
-	static int health[] = { 100, 100, 180 };
-	static int maxhealth[] = { 100, 100, 180 };
 	static int startpos[] = { 100, 100, 180 };
 	static double animtime[] = { 0.0, 0.0, 0.0 };
 
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_1)) {
-		health[0] = std::max(0, health[0] - 10);
+		m_chub->DamageCharacter("Player1", 150);
 	}
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_2)) {
-		health[1] = std::max(0, health[1] - 10);
+		m_chub->DamageCharacter("Player2", 150);
 	}
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_3)) {
-		health[2] = std::max(0, health[2] - 10);
+		m_chub->DamageCharacter("Player3", 150);
 	}
 	// ====
 
@@ -82,9 +91,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		// check for items
 		for (int i = 0; i < items.size(); i++) {
 			if (glm::length(it->GetPos() - items[i]->GetPos()) < 0.25) {
-				auto statmap = items[i]->GetStats();
-				for (auto jt = statmap.begin(); jt != statmap.end(); jt++)
-					it->ModifyStats(jt->first, jt->second);
+
+				m_chub->GivePlayerItem(it->GetName(), items[i]->GetName());
 
 				delete items[i];
 				items.erase(items.begin() + i);
@@ -94,15 +102,18 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 
 		// apply health to hud
 		if (characterCount < 3) {
-			m_hud->SetVar("UnitHealth" + std::to_string(characterCount + 1), std::to_string(health[characterCount]));
-			m_hud->SetVar("UnitHealthMax" + std::to_string(characterCount + 1), std::to_string(maxhealth[characterCount]));
-			m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1))->SetW(314.0 * health[characterCount] / maxhealth[characterCount]);
-			if (startpos[characterCount] != health[characterCount]) {
+			float health, maxhealth;
+			health = m_chub->GetStat("Player" + std::to_string(characterCount + 1), "HP");
+			maxhealth = m_chub->GetStat("Player" + std::to_string(characterCount + 1), "Health");
+			m_hud->SetVar("UnitHealth" + std::to_string(characterCount + 1), std::to_string((int)std::ceil(health)));
+			m_hud->SetVar("UnitHealthMax" + std::to_string(characterCount + 1), std::to_string((int)std::ceil(maxhealth)));
+			m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1))->SetW(314.0 * health / maxhealth);
+			if (startpos[characterCount] != health) {
 				animtime[characterCount] += p_deltaT * 1.5;
 
-				m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1) + "_highlight")->SetW(314.0 * wolf::Math::lerp((double)startpos[characterCount], (double)health[characterCount], wolf::Math::easeIn(std::min(1.0, animtime[characterCount]))) / maxhealth[characterCount]);
+				m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1) + "_highlight")->SetW(314.0 * wolf::Math::lerp(startpos[characterCount], health, wolf::Math::easeIn(std::min(1.0, animtime[characterCount]))) / maxhealth);
 				if (animtime[characterCount] >= 1.0) {
-					startpos[characterCount] = health[characterCount];
+					startpos[characterCount] = health;
 					animtime[characterCount] = 0.0;
 				}
 			}
