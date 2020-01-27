@@ -30,12 +30,14 @@ void Healthbar::Update(float p_fDelta) {
 }
 
 void Healthbar::Render(glm::mat4 view, glm::mat4 proj) {
+	glm::mat4 rot = glm::mat4(glm::transpose(glm::mat3(view)));
+
 	g_pProgram->Bind();
 
 	// Bind Uniforms
 	g_pProgram->SetUniform("projection", proj);
 	g_pProgram->SetUniform("view", view);
-	g_pProgram->SetUniform("world", m_pos * glm::scale(scale));
+	g_pProgram->SetUniform("world", m_pos * rot * glm::scale(scale));
 	g_pProgram->SetUniform("threshold", 0.5f);
 
 	// Set up source data
