@@ -8,6 +8,8 @@ const wolf::Vertex square[] = { wolf::Vertex({ 0, 0, 1.0f, 255, 255, 255, 255, 0
 								wolf::Vertex({ 1, 0, 1.0f, 0, 0, 0, 255, 1, 0}),
 								wolf::Vertex({ 0, 0, 1.0f, 255, 255, 255, 255, 0, 0})};
 
+const glm::vec3 scale = glm::vec3(2.5, 0.3, 1.0);
+
 
 Healthbar::Healthbar() {
 	g_pProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("healthbar"));
@@ -33,7 +35,7 @@ void Healthbar::Render(glm::mat4 view, glm::mat4 proj) {
 	// Bind Uniforms
 	g_pProgram->SetUniform("projection", proj);
 	g_pProgram->SetUniform("view", view);
-	g_pProgram->SetUniform("world", m_pos);
+	g_pProgram->SetUniform("world", m_pos * glm::scale(scale));
 	g_pProgram->SetUniform("threshold", 0.5f);
 
 	// Set up source data
