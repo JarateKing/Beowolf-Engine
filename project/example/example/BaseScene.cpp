@@ -29,6 +29,7 @@
 #include "W_RNG.h"
 #include "StateManager.h"
 #include "characterUnits/CharacterInfoHub.h"
+#include "characterUnits/ScoreTracker.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine SE;
@@ -43,6 +44,7 @@ wolf::Hud* testhud;
 glm::mat4 hudProjMat;
 static CharacterManager* cManager;
 CharacterInfoHub cHub;
+ScoreTracker* scoreTracker;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -72,19 +74,21 @@ void BaseScene::Init()
 	//test->setTransform(glm::translate(glm::vec3(0, -100, 50)) * glm::rotate(90.0f, 0.0f, 1.0f, 0.0f) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::scale(glm::vec3(scale2, scale2, scale2)));
 	//test2->setTransform(glm::translate(glm::vec3(0, -100, 60)) * glm::scale(glm::vec3(scale, scale, scale)));
 
+	testhud = new wolf::Hud("resources/hud/hud.json");
+	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
 	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
 	grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
 	selector = new HexSelector(5.0f);
-	cManager = new CharacterManager(grid);
+	cManager = new CharacterManager(grid, testhud);
 	hexPos.SetGrid(grid);
-
-	testhud = new wolf::Hud("resources/hud/hud.json");
-	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	StateManager::getInstance().SetCharacterManager(cManager);
 	StateManager::getInstance().SetHud(testhud);
+
+	scoreTracker = new ScoreTracker(testhud);
 }
 
 void BaseScene::Update()
@@ -116,6 +120,9 @@ void BaseScene::Update()
 	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
 	testhud->Update(delta);
 
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_O)) {
+		scoreTracker->AddScore(1);
+	}
 }
 
 void BaseScene::Render()

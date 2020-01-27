@@ -2,8 +2,10 @@
 #include "W_Input.h"
 #include "W_RNG.h"
 #include "W_ResourceLoader.h"
+#include "W_Math.h"
+#include <cmath>
 
-CharacterManager::CharacterManager(HexGrid* p_grid)
+CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 {
 	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 2, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
 	characterIHub.AddCharacter("Characters/hero1.json", "myChamp");
@@ -25,6 +27,18 @@ CharacterManager::CharacterManager(HexGrid* p_grid)
 	enemies.push_back(Enemy2);
 
 	grid = p_grid;
+	m_hud = p_hud;
+
+	m_chub = new CharacterInfoHub();
+	m_chub->AddCharacter("Characters/hero2.json", player1.GetName());
+	m_chub->AddCharacter("Characters/hero3.json", player2.GetName());
+	m_chub->AddCharacter("Characters/hero1.json", player3.GetName());
+	m_chub->AddEnemyType("Characters/enemyMedium.json", enemy1.GetName());
+	m_chub->AddEnemyType("Characters/enemyLight.json", enemy2.GetName());
+
+	m_chub->AddItemType("Items/sword.json");
+	m_chub->AddItemType("Items/shield.json");
+	m_chub->AddItemType("Items/potion.json");
 }
 
 CharacterManager::~CharacterManager()
@@ -85,6 +99,22 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		if(enemyAttacks.size() == 0)
 			enemiesAttacking = false;
 	}
+  
+	// TODO - remove this
+	static int startpos[] = { 100, 100, 180 };
+	static double animtime[] = { 0.0, 0.0, 0.0 };
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_1)) {
+		m_chub->DamageCharacter("Player1", 150);
+	}
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_2)) {
+		m_chub->DamageCharacter("Player2", 150);
+	}
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_3)) {
+		m_chub->DamageCharacter("Player3", 150);
+	}
+	// ====
+
 	timeBetween += p_deltaT;
 	currTarget = p_target;
 
@@ -94,23 +124,61 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	for (int i = 0; i < items.size(); i++)
 		items[i]->Update(p_deltaT);
 
+	m_hud->GetElement("Unit_1_Indicator")->SetVisible(false);
+	m_hud->GetElement("Unit_2_Indicator")->SetVisible(false);
+	m_hud->GetElement("Unit_3_Indicator")->SetVisible(false);
+
 	//Update Heroes and check for target
+	int characterCount = 0;
 	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
 		it->Update(p_deltaT);
 
+		// check if unit is hovered over for hud indicator
+		if (p_target == it->GetTile()) {
+			if (it->GetName() == "Player1") {
+				m_hud->GetElement("Unit_1_Indicator")->SetVisible(true);
+			}
+			else if (it->GetName() == "Player2") {
+				m_hud->GetElement("Unit_2_Indicator")->SetVisible(true);
+			}
+			else if (it->GetName() == "Player3") {
+				m_hud->GetElement("Unit_3_Indicator")->SetVisible(true);
+			}
+		}
+
 		// check for items
 		for (int i = 0; i < items.size(); i++) {
 			if (glm::length(it->GetPos() - items[i]->GetPos()) < 0.25) {
-				auto statmap = items[i]->GetStats();
-				for (auto jt = statmap.begin(); jt != statmap.end(); jt++)
-					it->ModifyStats(jt->first, jt->second);
+
+				m_chub->GivePlayerItem(it->GetName(), items[i]->GetName());
 
 				delete items[i];
 				items.erase(items.begin() + i);
 				i--;
 			}
 		}
+
+		// apply health to hud
+		if (characterCount < 3) {
+			float health, maxhealth;
+			health = m_chub->GetStat("Player" + std::to_string(characterCount + 1), "HP");
+			maxhealth = m_chub->GetStat("Player" + std::to_string(characterCount + 1), "Health");
+			m_hud->SetVar("UnitHealth" + std::to_string(characterCount + 1), std::to_string((int)std::ceil(health)));
+			m_hud->SetVar("UnitHealthMax" + std::to_string(characterCount + 1), std::to_string((int)std::ceil(maxhealth)));
+			m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1))->SetW(314.0 * health / maxhealth);
+			if (startpos[characterCount] != health) {
+				animtime[characterCount] += p_deltaT * 1.5;
+
+				m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1) + "_highlight")->SetW(314.0 * wolf::Math::lerp(startpos[characterCount], health, wolf::Math::easeIn(std::min(1.0, animtime[characterCount]))) / maxhealth);
+				if (animtime[characterCount] >= 1.0) {
+					startpos[characterCount] = health;
+					animtime[characterCount] = 0.0;
+				}
+			}
+		}
+
+		characterCount++;
 	}
 
 	//Check if mouse pressed on top of hero

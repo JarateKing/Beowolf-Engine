@@ -28,6 +28,8 @@ class CharacterInfoHub
 
 		void GivePlayerItem(std::string p_characterName, std::string p_itemName);
 
+		float GetStat(std::string p_characterName, std::string p_statID);
+
 
 	private:
 		std::vector<InfoBit> m_infoBits;

@@ -7,12 +7,13 @@
 #include "CharacterUnits.h"
 #include "hexGrid/HexGrid.h"
 #include "Item.h"
+#include "W_Hud.h"
 #include "CharacterInfoHub.h"
 
 class CharacterManager
 {
 	public:
-		CharacterManager(HexGrid* p_grid);
+		CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud);
 		~CharacterManager();
 		void Update(int target, float deltaT);
 		void Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type);
@@ -43,6 +44,8 @@ class CharacterManager
 		float movementTime = 0.5f;
 		std::vector<int> test;
 		std::map<std::string, std::string> enemyAttacks;
+		wolf::Hud* m_hud;
+		CharacterInfoHub* m_chub;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 };

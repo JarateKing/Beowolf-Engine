@@ -42,6 +42,9 @@ void CharacterInfoHub::AddCharacter(std::string p_characterJson, std::string p_c
 				if (jsonData["Character"].contains(INFO_NAMES[i]))
 				{
 					temp.m_info[INFO_NAMES[i]] = jsonData["Character"][INFO_NAMES[i]];
+
+					if (INFO_NAMES[i] == "HP")
+						temp.m_info["Health"] = temp.m_info["HP"];
 				}
 			}
 		}
@@ -168,6 +171,19 @@ void CharacterInfoHub::GivePlayerItem(std::string p_characterName, std::string p
 			}
 		}
 	}
+}
+
+float CharacterInfoHub::GetStat(std::string p_characterName, std::string p_statID)
+{
+	for (int i = 0; i < m_infoBits.size(); i++)
+	{
+		if (m_infoBits.at(i).m_name.compare(p_characterName) == 0)
+		{
+			if (m_infoBits.at(i).m_info.count(p_statID))
+				return m_infoBits.at(i).m_info[p_statID];
+		}
+	}
+	return -1;
 }
 
 void CharacterInfoHub::PrintOutInfo()

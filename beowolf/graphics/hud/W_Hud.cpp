@@ -48,6 +48,12 @@ namespace wolf {
 
 			if (jsonData.contains("elements")) {
 				for (auto element : jsonData["elements"]) {
+					std::string elementName = "";
+					if (element.contains("name")) {
+						std::string tempName = element["name"];
+						elementName = tempName;
+					}
+
 					float x = 0, y = 0, z = 1, w = 0, h = 0;
 					bool rx = false, ry = false, rw = false, rh = false;
 					if (element.contains("xpos"))
@@ -77,6 +83,10 @@ namespace wolf {
 						bool isTextLabelRaw = element["labelRaw"];
 						float fontSize = element["fontSize"];
 
+						bool isSubpixel = false;
+						if (element.contains("subpixel"))
+							isSubpixel = element["subpixel"];
+
 						std::string textAlignment = element["alignment"];
 						float alignment = AL_Center;
 						if (textAlignment == "left")
@@ -89,7 +99,7 @@ namespace wolf {
 						std::stringstream colorSS(textColor);
 						colorSS >> actualColor[0] >> actualColor[1] >> actualColor[2] >> actualColor[3];
 
-						TextBox* current = new TextBox(m_fontlist[fontName], m_localization);
+						TextBox* current = new TextBox(m_fontlist[fontName], m_localization, isSubpixel);
 						current->SetTextAlignment(alignment);
 						current->SetTextColor(actualColor);
 						current->SetSize(fontSize);
@@ -99,12 +109,23 @@ namespace wolf {
 						current->SetH(h, rh);
 						current->SetZ(z);
 
+						if (element.contains("subpixelBG")) {
+							std::string subpixelbgText = element["subpixelBG"];
+							glm::vec3 subpixelbgColor = glm::vec3(1, 1, 1);
+							std::stringstream subpixelbgSS(subpixelbgText);
+							subpixelbgSS >> subpixelbgColor[0] >> subpixelbgColor[1] >> subpixelbgColor[2];
+
+							current->SetSubpixelBG(subpixelbgColor);
+						}
+
 						if (isTextLabelRaw)
 							current->SetStringRaw(textLabel);
 						else
 							current->SetString(textLabel);
 
 						m_elements.push_back(current);
+						if (elementName != "")
+							m_elementNames[elementName] = current;
 					}
 					else if (type == "image") {
 						std::string imageFile = element["image"];
@@ -116,6 +137,8 @@ namespace wolf {
 						current->SetH(h, rh);
 						current->SetZ(z);
 						m_elements.push_back(current);
+						if (elementName != "")
+							m_elementNames[elementName] = current;
 					}
 					else if (type == "fillcolor") {
 						std::string textColor = element["color"];
@@ -130,6 +153,8 @@ namespace wolf {
 						current->SetH(h, rh);
 						current->SetZ(z);
 						m_elements.push_back(current);
+						if (elementName != "")
+							m_elementNames[elementName] = current;
 					}
 					else if (type == "gradient") {
 						std::string textColor1 = element["topLeft"];
@@ -159,6 +184,8 @@ namespace wolf {
 						current->SetH(h, rh);
 						current->SetZ(z);
 						m_elements.push_back(current);
+						if (elementName != "")
+							m_elementNames[elementName] = current;
 					}
 				}
 			}
@@ -185,5 +212,14 @@ namespace wolf {
 
 	void Hud::SetVar(std::string id, std::string val) {
 		m_localization->SetVar(id, val);
+	}
+
+	HudElement* Hud::GetElement(std::string name) {
+		if (m_elementNames.count(name))
+			return m_elementNames[name];
+
+		std::cout << "Hud element \"" << name << "\" not found!\n";
+
+		return nullptr;
 	}
 }

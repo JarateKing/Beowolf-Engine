@@ -1,12 +1,12 @@
 #include "W_HudImage.h"
 #include "W_ResourceLoader.h"
 
-const wolf::Vertex square[] = { wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 0}),
-								wolf::Vertex({ 0, 1, 1.0f, 1, 1, 1, 1, 0, 1}),
-								wolf::Vertex({ 1, 1, 1.0f, 1, 1, 1, 1, 1, 1}),
-								wolf::Vertex({ 1, 1, 1.0f, 1, 1, 1, 1, 1, 1}),
-								wolf::Vertex({ 1, 0, 1.0f, 1, 1, 1, 1, 1, 0}),
-								wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 0})};
+const wolf::Vertex square[] = { wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 1}),
+								wolf::Vertex({ 0, 1, 1.0f, 1, 1, 1, 1, 0, 0}),
+								wolf::Vertex({ 1, 1, 1.0f, 1, 1, 1, 1, 1, 0}),
+								wolf::Vertex({ 1, 1, 1.0f, 1, 1, 1, 1, 1, 0}),
+								wolf::Vertex({ 1, 0, 1.0f, 1, 1, 1, 1, 1, 1}),
+								wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 1})};
 
 namespace wolf {
 	HudImage::HudImage(std::string image) {
@@ -30,18 +30,20 @@ namespace wolf {
 	}
 
 	void HudImage::Render(glm::mat4 proj) {
-		g_pProgram->Bind();
-		m_tex->Bind();
+		if (m_isVisible) {
+			g_pProgram->Bind();
+			m_tex->Bind();
 
-		// Bind Uniforms
-		g_pProgram->SetUniform("projection", proj);
-		g_pProgram->SetUniform("world", m_world);
-		g_pProgram->SetUniform("tex", 0);
+			// Bind Uniforms
+			g_pProgram->SetUniform("projection", proj);
+			g_pProgram->SetUniform("world", m_world);
+			g_pProgram->SetUniform("tex", 0);
 
-		// Set up source data
-		g_pDecl->Bind();
+			// Set up source data
+			g_pDecl->Bind();
 
-		// Draw!
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+			// Draw!
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+		}
 	}
 }

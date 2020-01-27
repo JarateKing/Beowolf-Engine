@@ -28,17 +28,19 @@ namespace wolf {
 	}
 
 	void HudGradient::Render(glm::mat4 proj) {
-		g_pProgram->Bind();
+		if (m_isVisible) {
+			g_pProgram->Bind();
 
-		// Bind Uniforms
-		g_pProgram->SetUniform("projection", proj);
-		g_pProgram->SetUniform("world", m_world);
-		g_pProgram->SetUniform("tex", 0);
+			// Bind Uniforms
+			g_pProgram->SetUniform("projection", proj);
+			g_pProgram->SetUniform("world", m_world);
+			g_pProgram->SetUniform("tex", 0);
 
-		// Set up source data
-		g_pDecl->Bind();
+			// Set up source data
+			g_pDecl->Bind();
 
-		// Draw!
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+			// Draw!
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+		}
 	}
 }
