@@ -57,13 +57,20 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_3)) {
 		m_chub->DamageCharacter("Player3", 150);
 	}
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_4)) {
+		m_chub->DamageCharacter("Knight11", 10);
+	}
 	// ====
 
 	timeBetween += p_deltaT;
 	currTarget = p_target;
 
-	for (int i = 0; i < enemies.size(); i++)
+	for (int i = 0; i < enemies.size(); i++) {
 		enemies[i].Update(p_deltaT);
+
+		float healthPercent = m_chub->GetStat(enemies[i].GetName(), "HP") / m_chub->GetStat(enemies[i].GetName(), "Health");
+		enemies[i].SetHealthbarPercent(healthPercent);
+	}
 
 	for (int i = 0; i < items.size(); i++)
 		items[i]->Update(p_deltaT);
