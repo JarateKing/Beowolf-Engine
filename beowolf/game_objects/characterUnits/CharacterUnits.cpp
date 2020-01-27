@@ -190,3 +190,8 @@ void CharacterUnits::SetHealthbarVisible(bool isVisible)
 {
 	m_isHealthbarVisible = isVisible;
 }
+
+void CharacterUnits::SetHealthbarPercent(float percent)
+{
+	m_healthbar->SetThreshold(1.0 - percent);
+}

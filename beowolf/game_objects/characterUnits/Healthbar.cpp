@@ -38,7 +38,7 @@ void Healthbar::Render(glm::mat4 view, glm::mat4 proj) {
 	g_pProgram->SetUniform("projection", proj);
 	g_pProgram->SetUniform("view", view);
 	g_pProgram->SetUniform("world", m_pos * rot * glm::scale(scale));
-	g_pProgram->SetUniform("threshold", 0.5f);
+	g_pProgram->SetUniform("threshold", m_threshold);
 
 	// Set up source data
 	g_pDecl->Bind();
@@ -49,4 +49,8 @@ void Healthbar::Render(glm::mat4 view, glm::mat4 proj) {
 
 void Healthbar::SetPos(glm::mat4 translation) {
 	m_pos = translation;
+}
+
+void Healthbar::SetThreshold(float threshold) {
+	m_threshold = threshold;
 }

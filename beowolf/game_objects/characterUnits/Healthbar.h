@@ -16,12 +16,14 @@ public:
 	void Update(float p_fDelta);
 	void Render(glm::mat4 view, glm::mat4 proj);
 	void SetPos(glm::mat4 translation);
+	void SetThreshold(float threshold);
 
 private:
 	wolf::VertexBuffer* g_pVB;
 	wolf::VertexDeclaration* g_pDecl;
 	wolf::Program* g_pProgram;
 	glm::mat4 m_pos;
+	float m_threshold = 0.0f;
 };
 
 

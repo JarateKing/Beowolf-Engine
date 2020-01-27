@@ -28,7 +28,9 @@ class CharacterUnits
 		void setSelected(bool selected);
 		void InitDeath();
 		void TakeDamage();
+
 		void SetHealthbarVisible(bool isVisible);
+		void SetHealthbarPercent(float percent);
 
 	private:
 		std::vector<std::string> soundFiles;
