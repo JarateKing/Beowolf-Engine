@@ -24,7 +24,7 @@ CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, 
 	pos.SetGrid(p_grid);
 
 	m_healthbar = new Healthbar();
-	m_healthbar->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 2.0f, p_grid->GetPos().at(p_startTile).y)));
+	m_healthbar->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 4.0f, p_grid->GetPos().at(p_startTile).y)));
 }
 
 CharacterUnits::~CharacterUnits()
@@ -82,7 +82,7 @@ void CharacterUnits::Update(float deltaT)
 		else
 			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 
-		m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 2.0f, pos.GetPos().z)));
+		m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 4.0f, pos.GetPos().z)));
 	}
 	else {
 		if (m_justMoved) {
