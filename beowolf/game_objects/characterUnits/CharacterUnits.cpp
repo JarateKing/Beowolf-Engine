@@ -36,7 +36,7 @@ void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilt
 {
 	model->render(p_view, p_proj, type);
 
-	if (m_isHealthbarVisible && type == wolf::RenderFilterOpaque) {
+	if (m_isHealthbarVisible && type == wolf::RenderFilterTransparent) {
 		m_healthbar->Render(p_view, p_proj);
 	}
 }

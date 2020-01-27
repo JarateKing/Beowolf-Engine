@@ -11,5 +11,5 @@ void main()
 	if (v_color.r >= threshold)
 		PixelColor = vec4(0.95, 0.1, 0.05, 1.0);
 	else
-		PixelColor = vec4(0.1, 0.1, 0.1, 1.0);
+		PixelColor = vec4(0.1, 0.1, 0.1, 0.75);
 }

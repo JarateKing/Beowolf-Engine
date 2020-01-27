@@ -8,7 +8,7 @@ const wolf::Vertex square[] = { wolf::Vertex({ -0.5, -0.5, 0.0f, 255, 255, 255, 
 								wolf::Vertex({ 0.5, -0.5, 0.0f, 0, 0, 0, 255, 1, 0}),
 								wolf::Vertex({ -0.5, -0.5, 0.0f, 255, 255, 255, 255, 0, 0})};
 
-const glm::vec3 scale = glm::vec3(2.5, 0.3, 1.0);
+const glm::vec3 scale = glm::vec3(2.5, 0.15, 1.0);
 
 
 Healthbar::Healthbar() {
