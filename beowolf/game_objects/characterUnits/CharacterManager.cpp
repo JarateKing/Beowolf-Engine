@@ -366,7 +366,7 @@ std::string CharacterManager::GetCharacterSelected()
 	return targetName;
 }
 
-std::list<CharacterUnits>* CharacterManager::getCharacters()
+std::vector<CharacterUnits>* CharacterManager::getCharacters()
 {
 	return &characters;
 }
