@@ -131,6 +131,9 @@ void CharacterInfoHub::DamageEnemy(std::string p_enemyName, std::string p_charac
 				if (m_infoBits.at(j).m_name.compare(p_characterName) == 0)
 				{
 					m_infoBits.at(i).m_info["HP"] -= m_infoBits.at(j).m_info["MaxAttack"] * (100 / m_infoBits.at(i).m_info["Defense"]);
+
+					if (m_infoBits.at(i).m_info["HP"] < 0)
+						m_infoBits.at(i).m_info["HP"] = 0;
 				}
 			}
 		}
@@ -148,6 +151,9 @@ void CharacterInfoHub::DamageCharacter(std::string p_characterName, std::string 
 				if (m_infoBits.at(j).m_name.compare(p_enemyName) == 0)
 				{
 					m_infoBits.at(i).m_info["HP"] -= m_infoBits.at(j).m_info["MaxAttack"] * (100 / m_infoBits.at(i).m_info["Defense"]);
+
+					if (m_infoBits.at(i).m_info["HP"] < 0)
+						m_infoBits.at(i).m_info["HP"] = 0;
 				}
 			}
 		}
