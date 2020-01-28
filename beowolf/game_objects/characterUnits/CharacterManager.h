@@ -22,12 +22,12 @@ class CharacterManager
 		void SpawnItem(int pos);
 		std::string GetCharacterSelected();
 
-		std::list<CharacterUnits>* getCharacters();
+		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
 
 	private:
 		CharacterInfoHub characterIHub;
-		std::list<CharacterUnits> characters;
+		std::vector<CharacterUnits> characters;
 		std::vector<CharacterUnits> enemies;
 		std::vector<Item*> items;
 		float timeBetween = 1.0f;
@@ -45,7 +45,6 @@ class CharacterManager
 		std::vector<int> test;
 		std::map<std::string, std::string> enemyAttacks;
 		wolf::Hud* m_hud;
-		CharacterInfoHub* m_chub;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 };

@@ -250,6 +250,7 @@
     <ClCompile Include="..\..\beowolf\game_objects\StateManager.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CharacterInfoHub.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\ScoreTracker.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\characterUnits\Healthbar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\camera\Camera.h" />
@@ -583,5 +584,6 @@
     <ClInclude Include="..\..\beowolf\game_objects\States.h" />
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CharacterInfoHub.h" />
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\ScoreTracker.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\characterUnits\Healthbar.h" />
   </ItemGroup>
 </Project>

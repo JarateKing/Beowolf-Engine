@@ -4,6 +4,7 @@
 #include <vector>
 #include "BMWModel.h"
 #include "ComponentHexPos.h"
+#include "Healthbar.h"
 
 class CharacterUnits
 {
@@ -29,6 +30,9 @@ class CharacterUnits
 		void InitDeath();
 		void TakeDamage(std::string p_characterFrom);
 
+		void SetHealthbarVisible(bool isVisible);
+		void SetHealthbarPercent(float percent);
+
 	private:
 		std::map<std::string, float> animTimes;
 		std::vector<std::string> soundFiles;
@@ -51,6 +55,8 @@ class CharacterUnits
 		bool m_isSelected = false;
 		bool m_startedAttack = false;
 		double m_deltaSum = 0.0;
+		bool m_isHealthbarVisible = true;
+		Healthbar* m_healthbar;
 };
 
 #endif

@@ -2,6 +2,8 @@
 #include "W_ResourceLoader.h"
 #include "W_Math.h"
 
+
+
 CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string p_name, HexGrid* p_grid, float p_scale, bool p_inverted, glm::vec3 model_color)
 {
 	animTimes.insert(std::pair<std::string, int>("myLich", 1.0));
@@ -23,6 +25,9 @@ CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, 
 	currTile = p_startTile;
 	name = p_name;
 	pos.SetGrid(p_grid);
+
+	m_healthbar = new Healthbar();
+	m_healthbar->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 4.0f, p_grid->GetPos().at(p_startTile).y)));
 }
 
 CharacterUnits::~CharacterUnits()
@@ -33,6 +38,10 @@ CharacterUnits::~CharacterUnits()
 void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
 {
 	model->render(p_view, p_proj, type);
+
+	if (m_isHealthbarVisible && type == wolf::RenderFilterTransparent) {
+		m_healthbar->Render(p_view, p_proj);
+	}
 }
 
 void CharacterUnits::Update(float deltaT)
@@ -65,6 +74,7 @@ void CharacterUnits::Update(float deltaT)
 		if (pos.IsMoving() && (dif.x != 0 || dif.z != 0))
 		{
 			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+			m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 4.0f, pos.GetPos().z)));
 		}
 		else {
 			if (m_attacking)
@@ -93,15 +103,6 @@ void CharacterUnits::Update(float deltaT)
 			}
 
 			m_justMoved = false;
-		}
-
-		if (m_isSelected) {
-			m_deltaSum += deltaT;
-			float additiveValue = (sin(m_deltaSum * 6) / 2.0 + 0.5) * 0.1;
-			model->setModelAdditive(glm::vec3(0.5 + additiveValue, 0.5 + additiveValue, 0.1 - additiveValue));
-		}
-		else {
-			m_deltaSum = 0;
 		}
 
 		if (damaged)
@@ -234,4 +235,14 @@ void CharacterUnits::TakeDamage(std::string p_characterFrom)
 	characterAttacking = p_characterFrom;
 	timeDamaged = 0.0f;
 	damaged = true;
+}
+
+void CharacterUnits::SetHealthbarVisible(bool isVisible)
+{
+	m_isHealthbarVisible = isVisible;
+}
+
+void CharacterUnits::SetHealthbarPercent(float percent)
+{
+	m_healthbar->SetThreshold(1.0 - percent);
 }

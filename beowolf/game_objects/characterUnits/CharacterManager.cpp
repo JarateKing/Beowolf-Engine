@@ -7,12 +7,17 @@
 
 CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 {
+
 	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 2, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
 	characterIHub.AddCharacter("Characters/hero1.json", "myChamp");
 	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 3, "myGiant", p_grid, 0.05, false, glm::vec3(0.1, 0.8, 0.7));
 	characterIHub.AddCharacter("Characters/hero2.json", "myGiant");
 	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 4, "myLich", p_grid, 0.03, false, glm::vec3(0.1, 0.8, 0.7));
 	characterIHub.AddCharacter("Characters/hero3.json", "myLich");
+	
+	player1.SetHealthbarVisible(false);
+	player2.SetHealthbarVisible(false);
+	player3.SetHealthbarVisible(false);
 
 	characters.push_back(player1);
 	characters.push_back(player2);
@@ -25,20 +30,13 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 
 	enemies.push_back(Enemy1);
 	enemies.push_back(Enemy2);
+	
+	characterIHub.AddItemType("Items/sword.json");
+	characterIHub.AddItemType("Items/shield.json");
+	characterIHub.AddItemType("Items/potion.json");
 
 	grid = p_grid;
 	m_hud = p_hud;
-
-	m_chub = new CharacterInfoHub();
-	m_chub->AddCharacter("Characters/hero2.json", player1.GetName());
-	m_chub->AddCharacter("Characters/hero3.json", player2.GetName());
-	m_chub->AddCharacter("Characters/hero1.json", player3.GetName());
-	m_chub->AddEnemyType("Characters/enemyMedium.json", enemy1.GetName());
-	m_chub->AddEnemyType("Characters/enemyLight.json", enemy2.GetName());
-
-	m_chub->AddItemType("Items/sword.json");
-	m_chub->AddItemType("Items/shield.json");
-	m_chub->AddItemType("Items/potion.json");
 }
 
 CharacterManager::~CharacterManager()
@@ -103,23 +101,17 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	// TODO - remove this
 	static int startpos[] = { 100, 100, 180 };
 	static double animtime[] = { 0.0, 0.0, 0.0 };
-
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_1)) {
-		m_chub->DamageCharacter("Player1", 150);
-	}
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_2)) {
-		m_chub->DamageCharacter("Player2", 150);
-	}
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_3)) {
-		m_chub->DamageCharacter("Player3", 150);
-	}
 	// ====
 
 	timeBetween += p_deltaT;
 	currTarget = p_target;
 
-	for (int i = 0; i < enemies.size(); i++)
+	for (int i = 0; i < enemies.size(); i++) {
 		enemies[i].Update(p_deltaT);
+
+		float healthPercent = characterIHub.GetStat(enemies[i].GetName(), "HP") / characterIHub.GetStat(enemies[i].GetName(), "Health");
+		enemies[i].SetHealthbarPercent(healthPercent);
+	}
 
 	for (int i = 0; i < items.size(); i++)
 		items[i]->Update(p_deltaT);
@@ -151,7 +143,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		for (int i = 0; i < items.size(); i++) {
 			if (glm::length(it->GetPos() - items[i]->GetPos()) < 0.25) {
 
-				m_chub->GivePlayerItem(it->GetName(), items[i]->GetName());
+				characterIHub.GivePlayerItem(it->GetName(), items[i]->GetName());
 
 				delete items[i];
 				items.erase(items.begin() + i);
@@ -162,8 +154,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		// apply health to hud
 		if (characterCount < 3) {
 			float health, maxhealth;
-			health = m_chub->GetStat("Player" + std::to_string(characterCount + 1), "HP");
-			maxhealth = m_chub->GetStat("Player" + std::to_string(characterCount + 1), "Health");
+			health = characterIHub.GetStat(characters[characterCount].GetName(), "HP");
+			maxhealth = characterIHub.GetStat(characters[characterCount].GetName(), "Health");
 			m_hud->SetVar("UnitHealth" + std::to_string(characterCount + 1), std::to_string((int)std::ceil(health)));
 			m_hud->SetVar("UnitHealthMax" + std::to_string(characterCount + 1), std::to_string((int)std::ceil(maxhealth)));
 			m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1))->SetW(314.0 * health / maxhealth);
@@ -374,7 +366,7 @@ std::string CharacterManager::GetCharacterSelected()
 	return targetName;
 }
 
-std::list<CharacterUnits>* CharacterManager::getCharacters()
+std::vector<CharacterUnits>* CharacterManager::getCharacters()
 {
 	return &characters;
 }
