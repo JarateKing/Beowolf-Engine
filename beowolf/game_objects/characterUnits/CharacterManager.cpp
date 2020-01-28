@@ -154,8 +154,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		// apply health to hud
 		if (characterCount < 3) {
 			float health, maxhealth;
-			health = characterIHub.GetStat("Player" + std::to_string(characterCount + 1), "HP");
-			maxhealth = characterIHub.GetStat("Player" + std::to_string(characterCount + 1), "Health");
+			health = characterIHub.GetStat(characters[characterCount].GetName(), "HP");
+			maxhealth = characterIHub.GetStat(characters[characterCount].GetName(), "Health");
 			m_hud->SetVar("UnitHealth" + std::to_string(characterCount + 1), std::to_string((int)std::ceil(health)));
 			m_hud->SetVar("UnitHealthMax" + std::to_string(characterCount + 1), std::to_string((int)std::ceil(maxhealth)));
 			m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1))->SetW(314.0 * health / maxhealth);
