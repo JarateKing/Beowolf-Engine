@@ -174,6 +174,10 @@ void CharacterInfoHub::GivePlayerItem(std::string p_characterName, std::string p
 					while (it != m_infoBits.at(i).m_info.end())
 					{
 						m_infoBits.at(j).m_info[it->first] += it->second;
+
+						if (it->first == "HP" && m_infoBits.at(j).m_info["HP"] > m_infoBits.at(j).m_info["Health"])
+							m_infoBits.at(j).m_info["HP"] = m_infoBits.at(j).m_info["Health"];
+
 						it++;
 					}
 				}
