@@ -6,6 +6,9 @@
 
 CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string p_name, HexGrid* p_grid, float p_scale, bool p_inverted, glm::vec3 model_color)
 {
+	animTimes.insert(std::pair<std::string, int>("myLich", 1.0));
+	animTimes.insert(std::pair<std::string, int>("myChamp", 1.75));
+	animTimes.insert(std::pair<std::string, int>("mySkeleton", 0.5));
 	scale = p_scale;
 	auto shaders = wolf::ResourceLoader::Instance().getShaders(p_shaderFile);
 	model = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(p_bmwFile), shaders.first, shaders.second);
@@ -47,61 +50,93 @@ void CharacterUnits::Update(float deltaT)
 	pos.Update(deltaT);
 	glm::vec3 dif = pos.GetPos() - last;
 
-	float dir = 180.0f;
+	float dir = pos.GetDirection();
 	if (dif.x != 0 || dif.z != 0)
 	{
 		dif = glm::normalize(dif);
-		dir = atan2(dif.z, dif.x) * RAD2DEG;
-	}
-	dir += 90.0f;
-
-	/*if (dying)
-	{
-		if (deathTimer == 0.0f)
-		{
-			SetAnim("death");
-		}
-		deathTimer += deltaT;
-		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, wolf::Math::lerp(pos.GetPos().y, pos.GetPos().y - 6.0f, deathTimer / 3.0f), pos.GetPos().z)) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
-		if (deathTimer / 3.0f >= 1.0f)
-		{
-			dying = false;
-		}
 	}
 
-	if (pos.IsMoving() && inverted && !dying)
-	{
-		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
-	}
-	else if (pos.IsMoving() && !dying)
-	{
-		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));*/
-	if (pos.IsMoving() && (dif.x != 0 || dif.z != 0)) {
-		if (inverted)
-			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
-		else
+	//if (dying)
+	//{
+	//	if (deathTimer == 0.0f)
+	//	{
+	//		SetAnim("death");
+	//	}
+	//	deathTimer += deltaT;
+	//	model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, wolf::Math::lerp(pos.GetPos().y, pos.GetPos().y - 5.0f, deathTimer / 3.0f), pos.GetPos().z)) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+	//	if (deathTimer / 3.0f >= 1.0f)
+	//	{
+	//		dying = false;
+	//	}
+	//}
+	//else
+	//{
+		if (pos.IsMoving() && (dif.x != 0 || dif.z != 0))
+		{
 			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+			m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 4.0f, pos.GetPos().z)));
+		}
+		else {
+			if (m_attacking)
+			{
+				if (timeAttacking == 0.0f)
+				{
+					m_startedAttack = true;
+					dir = pos.GetDirection(prevTile, endTile);
+					model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+					SetAnim("attack");
+					SetAnim("attack_begin");
+				}
+				timeAttacking += deltaT;
+				if (timeAttacking >= 1.5f)
+				{
+					m_attacking = false;
+					m_startedAttack = false;
+					timeAttacking = 0.0f;
+				}
+			}
+			else if (m_justMoved)
+			{
+				model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+				SetAnim("idle");
+				model->setModelFilter(glm::vec3(0.7, 0.7, 0.7));
+			}
 
-		m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 4.0f, pos.GetPos().z)));
-	}
-	else {
-		if (m_justMoved) {
-			SetAnim("idle");
-			model->setModelFilter(glm::vec3(0.7, 0.7, 0.7));
+			m_justMoved = false;
 		}
 
-		m_justMoved = false;
-	}
-
-	if (m_isSelected) {
-		m_deltaSum += deltaT;
-		float additiveValue = (sin(m_deltaSum * 6) / 2.0 + 0.5) * 0.1;
-		model->setModelAdditive(glm::vec3(0.5 + additiveValue, 0.5 + additiveValue, 0.1 - additiveValue));
-	}
-	else {
-		m_deltaSum = 0;
-	}
-
+		if (damaged)
+		{
+			std::map<std::string, float>::iterator itm;
+			itm = animTimes.find(characterAttacking);
+			if (itm != animTimes.end())
+			{
+				if (timeDamaged >= (itm->second + 0.5))
+				{
+					damaged = false;
+					model->setModelAdditive(glm::vec3(0, 0, 0));
+				}
+				else if (timeDamaged >= itm->second)
+				{
+					model->setModelAdditive(wolf::Math::lerp(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), (timeDamaged - itm->second) / 0.5));
+				}
+				timeDamaged += deltaT;
+			}
+			else
+			{
+				if (timeDamaged >= 1.0)
+				{
+					damaged = false;
+					model->setModelAdditive(glm::vec3(0, 0, 0));
+				}
+				else if (timeDamaged >= 0.5)
+				{
+					model->setModelAdditive(wolf::Math::lerp(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), (timeDamaged - 0.5) / 0.5));
+				}
+				timeDamaged += deltaT;
+			}
+		}
+	//}
 	model->update(deltaT);
 }
 
@@ -130,8 +165,17 @@ void CharacterUnits::SetAnim(std::string p_animName)
 	model->setAnim(p_animName);
 }
 
-void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete)
+void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete, bool p_attacking)
 {
+	if (p_attacking)
+	{
+		m_attacking = true;
+		if (p_path.size() > 1)
+		{
+			endTile = p_path.at(p_path.size() - 1);
+			prevTile = p_path.at(p_path.size() - 2);
+		}
+	}
 	if (p_path.size() > 1) {
 		m_hasMoved = true;
 		m_justMoved = true;
@@ -140,7 +184,7 @@ void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete)
 		SetAnim("walk");
 		SetAnim("run");
 	}
-	pos.Move(p_path, p_timeToComplete);
+	pos.Move(p_path, p_timeToComplete, p_attacking);
 }
 
 glm::vec3 CharacterUnits::GetPos()
@@ -167,6 +211,11 @@ bool CharacterUnits::isMoving() {
 	return pos.IsMoving();
 }
 
+bool CharacterUnits::isAttacking()
+{
+	return m_startedAttack;
+}
+
 void CharacterUnits::setSelected(bool selected) {
 	m_isSelected = selected;
 
@@ -181,9 +230,11 @@ void CharacterUnits::InitDeath()
 	dying = true;
 }
 
-void CharacterUnits::TakeDamage()
+void CharacterUnits::TakeDamage(std::string p_characterFrom)
 {
-
+	characterAttacking = p_characterFrom;
+	timeDamaged = 0.0f;
+	damaged = true;
 }
 
 void CharacterUnits::SetHealthbarVisible(bool isVisible)

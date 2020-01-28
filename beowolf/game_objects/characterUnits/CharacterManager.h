@@ -2,6 +2,7 @@
 #define CHARACTERMANAGER_H
 
 #include <list>
+//#include <map>
 #include "W_Common.h"
 #include "CharacterUnits.h"
 #include "hexGrid/HexGrid.h"
@@ -25,18 +26,25 @@ class CharacterManager
 		std::vector<CharacterUnits>* getEnemies();
 
 	private:
+		CharacterInfoHub characterIHub;
 		std::list<CharacterUnits> characters;
 		std::vector<CharacterUnits> enemies;
 		std::vector<Item*> items;
 		float timeBetween = 1.0f;
 		bool targeting = false;
+		bool clickedOnEnemy = false;
+		bool enemiesAttacking = false;
+		std::string characterMoving;
+		std::string targetedEnemy;
+		std::string targetedHero;
+		std::string enemyMoving;
 		int currTarget, prevTarget;
 		std::string targetName = "";
 		HexGrid* grid;
 		float movementTime = 0.5f;
 		std::vector<int> test;
+		std::map<std::string, std::string> enemyAttacks;
 		wolf::Hud* m_hud;
-		CharacterInfoHub* m_chub;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 };
