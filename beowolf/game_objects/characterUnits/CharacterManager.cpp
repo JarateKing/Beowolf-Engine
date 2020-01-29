@@ -115,9 +115,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				characters.at(i).InitDeath();
 				if (characters.at(i).GetDeathTimer() >= 99.0f)
 				{
-					std::cout << "Character Size: " << characters.size() << std::endl;
 					characters.erase(characters.begin() + i);
-					std::cout << "Character Size: " << characters.size() << std::endl;
 				}
 			}
 		}
@@ -137,9 +135,10 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				enemies.at(i).InitDeath();
 				if (enemies.at(i).GetDeathTimer() >= 99.0f)
 				{
-					std::cout << "Character Size: " << enemies.size() << std::endl;
 					enemies.erase(enemies.begin() + i);
-					std::cout << "Character Size: " << enemies.size() << std::endl;
+					
+					if (m_scoreTracker != nullptr)
+						m_scoreTracker->AddScore(1);
 				}
 			}
 		}
@@ -416,4 +415,9 @@ std::vector<CharacterUnits>* CharacterManager::getCharacters()
 std::vector<CharacterUnits>* CharacterManager::getEnemies()
 {
 	return &enemies;
+}
+
+void CharacterManager::SetScoreTracker(ScoreTracker* tracker)
+{
+	m_scoreTracker = tracker;
 }

@@ -89,6 +89,7 @@ void BaseScene::Init()
 	StateManager::getInstance().SetHud(testhud);
 
 	scoreTracker = new ScoreTracker(testhud);
+	cManager->SetScoreTracker(scoreTracker);
 }
 
 void BaseScene::Update()
@@ -119,10 +120,6 @@ void BaseScene::Update()
 	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
 	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
 	testhud->Update(delta);
-
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_O)) {
-		scoreTracker->AddScore(1);
-	}
 }
 
 void BaseScene::Render()
