@@ -1,7 +1,7 @@
 #include "CharacterUnits.h"
 #include "W_ResourceLoader.h"
 #include "W_Math.h"
-
+#define EPSILON_VALUE 0.01
 
 
 CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string p_name, HexGrid* p_grid, float p_scale, bool p_inverted, glm::vec3 model_color)
@@ -56,21 +56,22 @@ void CharacterUnits::Update(float deltaT)
 		dif = glm::normalize(dif);
 	}
 
-	//if (dying)
-	//{
-	//	if (deathTimer == 0.0f)
-	//	{
-	//		SetAnim("death");
-	//	}
-	//	deathTimer += deltaT;
-	//	model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, wolf::Math::lerp(pos.GetPos().y, pos.GetPos().y - 5.0f, deathTimer / 3.0f), pos.GetPos().z)) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
-	//	if (deathTimer / 3.0f >= 1.0f)
-	//	{
-	//		dying = false;
-	//	}
-	//}
-	//else
-	//{
+	if (dying && deathTimer <= 100.0f)
+	{
+		if (cmpf(deathTimer, 0.0f))
+		{
+			SetAnim("death_forward");
+			SetAnim("death");
+		}
+		deathTimer += deltaT;
+		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, wolf::Math::lerp(pos.GetPos().y, pos.GetPos().y - 10.0f, deathTimer / 10.0f), pos.GetPos().z)) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+		if (model->getIsAnimationRunning() == false)
+		{
+			deathTimer = 100.0f;
+		}
+	}
+	else
+	{
 		if (pos.IsMoving() && (dif.x != 0 || dif.z != 0))
 		{
 			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
@@ -119,6 +120,11 @@ void CharacterUnits::Update(float deltaT)
 				else if (timeDamaged >= itm->second)
 				{
 					model->setModelAdditive(wolf::Math::lerp(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), (timeDamaged - itm->second) / 0.5));
+					if (canTakeDamage)
+					{
+						initiatingDamage = true;
+						canTakeDamage = false;
+					}
 				}
 				timeDamaged += deltaT;
 			}
@@ -132,12 +138,22 @@ void CharacterUnits::Update(float deltaT)
 				else if (timeDamaged >= 0.5)
 				{
 					model->setModelAdditive(wolf::Math::lerp(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), (timeDamaged - 0.5) / 0.5));
+					if (canTakeDamage)
+					{
+						initiatingDamage = true;
+						canTakeDamage = false;
+					}
 				}
 				timeDamaged += deltaT;
 			}
 		}
-	//}
+	}
 	model->update(deltaT);
+}
+
+bool CharacterUnits::cmpf(float a, float b)
+{
+	return (fabs(a - b) < EPSILON_VALUE);
 }
 
 std::string CharacterUnits::GetName()
@@ -216,6 +232,11 @@ bool CharacterUnits::isAttacking()
 	return m_startedAttack;
 }
 
+bool CharacterUnits::isDying()
+{
+	return dying;
+}
+
 void CharacterUnits::setSelected(bool selected) {
 	m_isSelected = selected;
 
@@ -232,6 +253,7 @@ void CharacterUnits::InitDeath()
 
 void CharacterUnits::TakeDamage(std::string p_characterFrom)
 {
+	canTakeDamage = true;
 	characterAttacking = p_characterFrom;
 	timeDamaged = 0.0f;
 	damaged = true;
@@ -246,3 +268,26 @@ void CharacterUnits::SetHealthbarPercent(float percent)
 {
 	m_healthbar->SetThreshold(1.0 - percent);
 }
+
+float CharacterUnits::GetDeathTimer()
+{
+	return deathTimer;
+}
+
+bool CharacterUnits::InitDamage()
+{
+	if (initiatingDamage)
+	{
+		initiatingDamage = false;
+		return true;
+	}
+	else
+		return initiatingDamage;
+}
+
+std::string CharacterUnits::GetAttacker()
+{
+	return characterAttacking;
+}
+
+

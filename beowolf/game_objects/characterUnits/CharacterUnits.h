@@ -26,12 +26,16 @@ class CharacterUnits
 		void setHasMoved(bool moved);
 		bool isMoving();
 		bool isAttacking();
+		bool isDying();
 		void setSelected(bool selected);
 		void InitDeath();
 		void TakeDamage(std::string p_characterFrom);
-
+		bool cmpf(float a, float b);
 		void SetHealthbarVisible(bool isVisible);
 		void SetHealthbarPercent(float percent);
+		float GetDeathTimer();
+		bool InitDamage();
+		std::string GetAttacker();
 
 	private:
 		std::map<std::string, float> animTimes;
@@ -45,6 +49,8 @@ class CharacterUnits
 		std::string characterAttacking;
 		week2::ComponentHexPos pos;
 		float scale = 0.0f;
+		bool canTakeDamage = false;
+		bool initiatingDamage = false;
 		bool inverted = false;
 		bool changed = false;
 		bool dying = false;

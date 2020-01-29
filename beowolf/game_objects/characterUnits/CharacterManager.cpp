@@ -55,12 +55,11 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				if (it->isAttacking() == true)
 				{
 					clickedOnEnemy = false;
-					characterIHub.DamageEnemy(targetedEnemy, characterMoving);
+					//characterIHub.DamageEnemy(targetedEnemy, characterMoving);
 					for (int i = 0; i < enemies.size(); i++)
 					{
 						if (enemies.at(i).GetName().compare(targetedEnemy) == 0)
 						{
-							std::cout << it->GetName() << " is attacking" << std::endl;
 							enemies.at(i).TakeDamage(it->GetName());
 						}
 					}
@@ -79,13 +78,12 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			{
 				if (enemies.at(i).isAttacking() == true && enemies.at(i).GetName().compare(it->first) == 0)
 				{
-					characterIHub.DamageCharacter(it->second, it->first);
+					//characterIHub.DamageCharacter(it->second, it->first);
 					deletions.push_back(it->first);
 					for (auto itc = characters.begin(); itc != characters.end(); itc++)
 					{
 						if (itc->GetName().compare(it->second) == 0)
 						{
-							std::cout << it->second << " is attacking" << std::endl;
 							itc->TakeDamage(it->first);
 						}
 					}
@@ -102,6 +100,50 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	static int startpos[] = { 100, 100, 180 };
 	static double animtime[] = { 0.0, 0.0, 0.0 };
 	// ====
+
+	for (int i = 0; i < characters.size(); i++)
+	{
+		if (i < characters.size())
+		{
+			if (characters.at(i).InitDamage())
+			{
+				characterIHub.DamageCharacter(characters.at(i).GetName(), characters.at(i).GetAttacker());
+			}
+
+			if (characterIHub.GetStat(characters.at(i).GetName(), "HP") <= 0.0f)
+			{
+				characters.at(i).InitDeath();
+				if (characters.at(i).GetDeathTimer() >= 99.0f)
+				{
+					std::cout << "Character Size: " << characters.size() << std::endl;
+					characters.erase(characters.begin() + i);
+					std::cout << "Character Size: " << characters.size() << std::endl;
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		if (i < enemies.size())
+		{
+			if (enemies.at(i).InitDamage())
+			{
+				characterIHub.DamageEnemy(enemies.at(i).GetName(), enemies.at(i).GetAttacker());
+			}
+
+			if (characterIHub.GetStat(enemies.at(i).GetName(), "HP") <= 0.0f)
+			{
+				enemies.at(i).InitDeath();
+				if (enemies.at(i).GetDeathTimer() >= 99.0f)
+				{
+					std::cout << "Character Size: " << enemies.size() << std::endl;
+					enemies.erase(enemies.begin() + i);
+					std::cout << "Character Size: " << enemies.size() << std::endl;
+				}
+			}
+		}
+	}
 
 	timeBetween += p_deltaT;
 	currTarget = p_target;
