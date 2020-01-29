@@ -135,6 +135,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				enemies.at(i).InitDeath();
 				if (enemies.at(i).GetDeathTimer() >= 99.0f)
 				{
+					SpawnItem(enemies.at(i).GetTile());
+
 					enemies.erase(enemies.begin() + i);
 					
 					if (m_scoreTracker != nullptr)
