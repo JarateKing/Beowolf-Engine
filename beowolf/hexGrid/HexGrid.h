@@ -25,6 +25,7 @@ public:
 	int GetSize();
 	void Update(int target, float delta);
 	std::vector<int> GetPathway(int startTarget, int endTarget);
+	bool cmpf(float a, float b);
 
 private:
 	void GenerateLoc(int width, int length, float tileWidth);
@@ -36,7 +37,6 @@ private:
 	bool WithinSameLine(int tile1, int tile2, int width);
 	bool WithinLineBelow(int tile1, int tile2, int width);
 	bool WithinBounds(int tile);
-	bool cmpf(float a, float b);
 
 	float minH, maxH;
 

@@ -31,6 +31,7 @@ class CharacterManager
 		std::vector<CharacterUnits> enemies;
 		std::vector<Item*> items;
 		float timeBetween = 1.0f;
+		float timeDamaging = 0.0f;
 		bool targeting = false;
 		bool clickedOnEnemy = false;
 		bool enemiesAttacking = false;
