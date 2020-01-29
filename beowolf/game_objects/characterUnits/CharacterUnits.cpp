@@ -290,4 +290,7 @@ std::string CharacterUnits::GetAttacker()
 	return characterAttacking;
 }
 
-
+wolf::BMWModel* CharacterUnits::GetModel()
+{
+	return model;
+}
