@@ -14,7 +14,10 @@ namespace wolf
 		void Update(float p_fDelta);
 		void Render(glm::mat4 proj);
 
+		bool IsClicked();
+
 	private:
+
 	};
 }
 
