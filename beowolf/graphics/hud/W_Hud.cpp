@@ -4,6 +4,7 @@
 #include "W_HudImage.h"
 #include "W_HudColorPanel.h"
 #include "W_HudGradient.h"
+#include "W_HudButton.h"
 #include <algorithm>
 #include "JSON/json.hpp"
 #include <sstream>
@@ -178,6 +179,17 @@ namespace wolf {
 						bottomleftSS >> bottomleftColor[0] >> bottomleftColor[1] >> bottomleftColor[2] >> bottomleftColor[3];
 
 						HudGradient* current = new HudGradient(topleftColor, toprightColor, bottomleftColor, bottomrightColor);
+						current->SetX(x, rx);
+						current->SetY(y, ry);
+						current->SetW(w, rw);
+						current->SetH(h, rh);
+						current->SetZ(z);
+						m_elements.push_back(current);
+						if (elementName != "")
+							m_elementNames[elementName] = current;
+					}
+					else if (type == "button") {
+						HudButton* current = new HudButton();
 						current->SetX(x, rx);
 						current->SetY(y, ry);
 						current->SetW(w, rw);

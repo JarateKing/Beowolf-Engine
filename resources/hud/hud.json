@@ -363,6 +363,15 @@
 			"topRight": "0.0 0.0 0.0 0.4",
 			"bottomLeft": "0.0 0.0 0.0 0.0",
 			"bottomRight": "0.0 0.0 0.0 0.4"
+		},
+		
+		{
+			"type": "button",
+			"xpos": 13,
+			"ypos": 133,
+			"zpos": 4,
+			"wide": 314,
+			"tall": 46
 		}
 	]
 }
