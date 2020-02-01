@@ -4,11 +4,10 @@
 #include "W_HudButton.h"
 
 void StateManager::Update(float delta) {
-	std::cout << m_currentState;
 	if (m_hud != nullptr) {
 		if (m_currentState == State::GamestateMainMenu) {
 			if (((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked()) {
-				m_currentState = State::GamestatePlayerTurn;
+				SetState(State::GamestatePlayerTurn);
 
 				m_hud->GetElement("MM_Start_Button")->SetVisible(false);
 				m_hud->GetElement("MM_button_bg")->SetVisible(false);
