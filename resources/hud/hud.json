@@ -366,12 +366,69 @@
 		},
 		
 		{
+			"name": "MM_Start_Button",
 			"type": "button",
-			"xpos": 13,
-			"ypos": 133,
-			"zpos": 4,
-			"wide": 314,
-			"tall": 46
+			"xpos": 0,
+			"ypos": 600,
+			"zpos": 1,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 200
+		},
+		{
+			"name": "MM_button_bg",
+			"type": "gradient",
+			"xpos": 0,
+			"ypos": 600,
+			"zpos": 10,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 200,
+			
+			"topLeft": "0.1 0.1 0.1 1.0",
+			"topRight": "0.1 0.1 0.1 1.0",
+			"bottomLeft": "0.05 0.05 0.05 1.0",
+			"bottomRight": "0.05 0.05 0.05 1.0"
+		},
+		{
+			"name": "MM_Unit_1",
+			"type": "image",
+			"xpos": 150,
+			"ypos": 400,
+			"zpos": 9,
+			"wide": 500,
+			"tall": 500,
+			
+			"image": "hud/mm_hammerguy.tga"
+		},
+		{
+			"name": "MM_Unit_2",
+			"type": "image",
+			"xpos": 1310,
+			"ypos": 400,
+			"zpos": 9,
+			"wide": 500,
+			"tall": 500,
+			
+			"image": "hud/mm_lich.tga"
+		},
+		{
+			"name": "MM_Startlabel",
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 630,
+			"zpos": 0,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 200,
+			
+			"label": "MM_Start",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 64,
+			"color": "1.0 1.0 1.0 1.0"
 		}
 	]
 }
