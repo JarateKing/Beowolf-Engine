@@ -413,6 +413,17 @@
 			"image": "hud/mm_lich.tga"
 		},
 		{
+			"name": "MM_Titlecard",
+			"type": "image",
+			"xpos": 460,
+			"ypos": 120,
+			"zpos": 9,
+			"wide": 1000,
+			"tall": 500,
+			
+			"image": "hud/mm_title.tga"
+		},
+		{
 			"name": "MM_Startlabel",
 			"type": "textbox",
 			"xpos": 0,

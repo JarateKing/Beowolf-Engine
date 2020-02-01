@@ -13,6 +13,7 @@ void StateManager::Update(float delta) {
 				m_hud->GetElement("MM_button_bg")->SetVisible(false);
 				m_hud->GetElement("MM_Unit_1")->SetVisible(false);
 				m_hud->GetElement("MM_Unit_2")->SetVisible(false);
+				m_hud->GetElement("MM_Titlecard")->SetVisible(false);
 				m_hud->GetElement("MM_Startlabel")->SetVisible(false);
 			}
 		}
