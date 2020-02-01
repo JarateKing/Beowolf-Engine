@@ -1,8 +1,23 @@
 #include "StateManager.h"
 #include <iostream>
 #include <list>
+#include "W_HudButton.h"
 
 void StateManager::Update(float delta) {
+	std::cout << m_currentState;
+	if (m_hud != nullptr) {
+		if (m_currentState == State::GamestateMainMenu) {
+			if (((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked()) {
+				m_currentState = State::GamestatePlayerTurn;
+
+				m_hud->GetElement("MM_Start_Button")->SetVisible(false);
+				m_hud->GetElement("MM_button_bg")->SetVisible(false);
+				m_hud->GetElement("MM_Unit_1")->SetVisible(false);
+				m_hud->GetElement("MM_Unit_2")->SetVisible(false);
+				m_hud->GetElement("MM_Startlabel")->SetVisible(false);
+			}
+		}
+	}
 	if (m_charManager != nullptr) {
 		if (m_currentState == State::GamestatePlayerTurn) {
 			bool hasAllMoved = true;
@@ -85,6 +100,6 @@ void StateManager::SetHud(wolf::Hud* hud) {
 
 	if (m_currentState == State::GamestatePlayerTurn)
 		m_hud->SetVar("whoseturn", "Player's");
-	else if (m_currentState = State::GamestateEnemyTurn)
+	else if (m_currentState == State::GamestateEnemyTurn)
 		m_hud->SetVar("whoseturn", "Enemies'");
 }
