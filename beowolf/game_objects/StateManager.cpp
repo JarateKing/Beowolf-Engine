@@ -2,8 +2,23 @@
 #include <iostream>
 #include <list>
 #include "W_HudButton.h"
+#include "W_Math.h"
 
 void StateManager::Update(float delta) {
+	static float time = 0;
+	static bool movingcamera = false;
+	if (movingcamera) {
+		time += delta;
+
+		if (time >= 1) {
+			time = 1;
+			movingcamera = false;
+		}
+
+		m_cam->SetVerticleAngle(wolf::Math::lerp(0, 5.5, time));
+		m_cam->ForceAngleUpdate();
+	}
+
 	if (m_hud != nullptr) {
 		if (m_currentState == State::GamestateMainMenu) {
 			if (((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked()) {
@@ -14,6 +29,9 @@ void StateManager::Update(float delta) {
 
 				for (auto element : m_hud->GetElementsByTag("ingame"))
 					element->SetVisible(true);
+
+				if (m_cam != nullptr)
+					movingcamera = true;
 			}
 		}
 	}
