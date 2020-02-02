@@ -5,6 +5,7 @@ uniform sampler2D tex;
 uniform vec4 color;
 uniform vec3 bgcolor;
 uniform float fontsize;
+uniform float alpha;
 
 out vec4 PixelColor;
 
@@ -51,16 +52,16 @@ void main()
 	float hdoffset = mix(doffset * horz_scale, doffset * vert_scale, vgrad);
 	float res_doffset = mix(doffset, hdoffset, hint_amount);
 	
-	float alpha = smoothstep(0.5 - res_doffset, 0.5 + res_doffset, sdf);
+	float alpha2 = smoothstep(0.5 - res_doffset, 0.5 + res_doffset, sdf);
 	float other_alpha = 1.0;
 	
 	// remove some artifacting
-	if (alpha < 5.0 / 256.0) {
+	if (alpha2 < 5.0 / 256.0) {
 		other_alpha = 0.0;
 	}
 	
-	vec3 channels = subpixel(grad.x * 0.5 * subpixel_amount, alpha);
+	vec3 channels = subpixel(grad.x * 0.5 * subpixel_amount, alpha2);
 	vec3 res = mix(bgcolor, color.rgb, channels);
 	
-    PixelColor = vec4(res.r, res.g, res.b, other_alpha * color.a);
+    PixelColor = vec4(res.r, res.g, res.b, other_alpha * color.a * alpha);
 }
