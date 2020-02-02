@@ -30,7 +30,7 @@ namespace wolf
 		float m_yBound;
 		glm::mat4 m_world;
 		bool m_isVisible = true;
-		float m_alpha = 0.5;
+		float m_alpha = 1.0;
 	};
 }
 
