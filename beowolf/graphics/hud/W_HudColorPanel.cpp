@@ -38,6 +38,7 @@ namespace wolf {
 			g_pProgram->SetUniform("world", m_world);
 			g_pProgram->SetUniform("color", m_color);
 			g_pProgram->SetUniform("tex", 0);
+			g_pProgram->SetUniform("alpha", m_alpha);
 
 			// Set up source data
 			g_pDecl->Bind();

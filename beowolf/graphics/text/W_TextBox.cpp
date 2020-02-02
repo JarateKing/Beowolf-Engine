@@ -264,6 +264,7 @@ namespace wolf
 				g_pProgram[i]->SetUniform("fontsize", m_fontSize);
 				g_pProgram[i]->SetUniform("bgcolor", m_bgColor);
 				g_pProgram[i]->SetUniform("tex", 0);
+				g_pProgram[i]->SetUniform("alpha", m_alpha);
 
 				// Set up source data
 				g_pDecl[i]->Bind();
