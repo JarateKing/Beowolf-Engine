@@ -15,7 +15,7 @@ void StateManager::Update(float delta) {
 			movingcamera = false;
 		}
 
-		m_cam->SetVerticleAngle(wolf::Math::lerp(0.5, -0.7831, time));
+		m_cam->SetVerticleAngle(wolf::Math::lerp(0.5, -0.7831, wolf::Math::easeOut(time)));
 		m_cam->ForceAngleUpdate();
 	}
 
