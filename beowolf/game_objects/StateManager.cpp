@@ -118,3 +118,12 @@ void StateManager::SetHud(wolf::Hud* hud) {
 	else if (m_currentState == State::GamestateEnemyTurn)
 		m_hud->SetVar("whoseturn", "Enemies'");
 }
+
+void StateManager::SetCamera(Camera* cam) {
+	m_cam = cam;
+
+	if (m_currentState == State::GamestateMainMenu) {
+		m_cam->SetVerticleAngle(0);
+		m_cam->ForceAngleUpdate();
+	}
+}

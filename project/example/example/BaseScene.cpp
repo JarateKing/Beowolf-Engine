@@ -87,6 +87,7 @@ void BaseScene::Init()
 
 	StateManager::getInstance().SetCharacterManager(cManager);
 	StateManager::getInstance().SetHud(testhud);
+	StateManager::getInstance().SetCamera(cam);
 
 	scoreTracker = new ScoreTracker(testhud);
 	cManager->SetScoreTracker(scoreTracker);
