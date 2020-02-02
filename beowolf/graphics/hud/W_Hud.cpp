@@ -77,6 +77,12 @@ namespace wolf {
 					if (element.contains("tallRelative"))
 						rh = element["tallRelative"];
 
+					std::vector<std::string> tags;
+					if (element.contains("tags")) {
+						for (auto tag : element["tags"])
+							tags.push_back(tag);
+					}
+
 					std::string type = element["type"];
 					if (type == "textbox") {
 						std::string fontName = element["font"];
@@ -127,6 +133,9 @@ namespace wolf {
 						m_elements.push_back(current);
 						if (elementName != "")
 							m_elementNames[elementName] = current;
+
+						for (int i = 0; i < tags.size(); i++)
+							m_elementsByTag[tags[i]].push_back(current);
 					}
 					else if (type == "image") {
 						std::string imageFile = element["image"];
@@ -140,6 +149,9 @@ namespace wolf {
 						m_elements.push_back(current);
 						if (elementName != "")
 							m_elementNames[elementName] = current;
+
+						for (int i = 0; i < tags.size(); i++)
+							m_elementsByTag[tags[i]].push_back(current);
 					}
 					else if (type == "fillcolor") {
 						std::string textColor = element["color"];
@@ -156,6 +168,9 @@ namespace wolf {
 						m_elements.push_back(current);
 						if (elementName != "")
 							m_elementNames[elementName] = current;
+
+						for (int i = 0; i < tags.size(); i++)
+							m_elementsByTag[tags[i]].push_back(current);
 					}
 					else if (type == "gradient") {
 						std::string textColor1 = element["topLeft"];
@@ -187,6 +202,9 @@ namespace wolf {
 						m_elements.push_back(current);
 						if (elementName != "")
 							m_elementNames[elementName] = current;
+
+						for (int i = 0; i < tags.size(); i++)
+							m_elementsByTag[tags[i]].push_back(current);
 					}
 					else if (type == "button") {
 						HudButton* current = new HudButton();
@@ -198,6 +216,9 @@ namespace wolf {
 						m_elements.push_back(current);
 						if (elementName != "")
 							m_elementNames[elementName] = current;
+
+						for (int i = 0; i < tags.size(); i++)
+							m_elementsByTag[tags[i]].push_back(current);
 					}
 				}
 			}
@@ -233,5 +254,9 @@ namespace wolf {
 		std::cout << "Hud element \"" << name << "\" not found!\n";
 
 		return nullptr;
+	}
+
+	std::vector<HudElement*> Hud::GetElementsByTag(std::string tag) {
+		return m_elementsByTag[tag];
 	}
 }
