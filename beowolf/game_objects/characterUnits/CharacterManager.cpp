@@ -7,12 +7,14 @@
 
 CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 {
+	grid = p_grid;
+	m_hud = p_hud;
 
-	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 2, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
+	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 107, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
 	characterIHub.AddCharacter("Characters/hero1.json", "myChamp");
-	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 3, "myGiant", p_grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
+	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 108, "myGiant", p_grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
 	characterIHub.AddCharacter("Characters/hero2.json", "myGiant");
-	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 4, "myLich", p_grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
+	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 109, "myLich", p_grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
 	characterIHub.AddCharacter("Characters/hero3.json", "myLich");
 	
 	player1.SetHealthbarVisible(false);
@@ -23,20 +25,16 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 	characters.push_back(player2);
 	characters.push_back(player3);
 
-	CharacterUnits Enemy1("units/myskeleton.bmw", "animatable_untextured", 110, "mySkeleton", p_grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
 	characterIHub.AddEnemyType("Characters/enemyLight.json", "mySkeleton");
-	CharacterUnits Enemy2("units/myfleshlobber.bmw", "animatable_untextured", 120, "myFleshLobber", p_grid, 0.06, false, glm::vec3(0.7, 0.1, 0));
 	characterIHub.AddEnemyType("Characters/enemyMedium.json", "myFleshLobber");
 
-	enemies.push_back(Enemy1);
-	enemies.push_back(Enemy2);
+	SpawnEnemy(0);
+	SpawnEnemy(1);
+	SpawnEnemy(2);
 	
 	characterIHub.AddItemType("Items/sword.json");
 	characterIHub.AddItemType("Items/shield.json");
 	characterIHub.AddItemType("Items/potion.json");
-
-	grid = p_grid;
-	m_hud = p_hud;
 }
 
 CharacterManager::~CharacterManager()
@@ -362,9 +360,14 @@ void CharacterManager::MoveEnemies(int length)
 	}
 }
 
-void CharacterManager::SpawnEnemies(int numSpawn, std::string enemyFile)
+void CharacterManager::SpawnEnemy(int pos)
 {
+	enemyCount++;
+	int unitType = wolf::RNG::GetRandom(0, 1);
 
+	CharacterUnits Enemy((unitType)?"units/myskeleton.bmw":"units/myfleshlobber.bmw", "animatable_untextured", pos, (unitType)?"mySkeleton":"myFleshLobber", grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
+
+	enemies.push_back(Enemy);
 }
 
 void CharacterManager::SpawnItem(int pos)

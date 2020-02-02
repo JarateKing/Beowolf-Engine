@@ -19,7 +19,7 @@ class CharacterManager
 		void Update(int target, float deltaT);
 		void Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type);
 		void MoveEnemies(int length);
-		void SpawnEnemies(int numSpawn, std::string enemyFile);
+		void SpawnEnemy(int pos);
 		void SpawnItem(int pos);
 		std::string GetCharacterSelected();
 
@@ -50,6 +50,7 @@ class CharacterManager
 		std::map<std::string, std::string> enemyAttacks;
 		wolf::Hud* m_hud;
 		ScoreTracker* m_scoreTracker;
+		int enemyCount = 0;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 };
