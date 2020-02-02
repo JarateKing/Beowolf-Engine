@@ -15,7 +15,7 @@ void StateManager::Update(float delta) {
 			movingcamera = false;
 		}
 
-		m_cam->SetVerticleAngle(wolf::Math::lerp(0, -0.7831, time));
+		m_cam->SetVerticleAngle(wolf::Math::lerp(0.5, -0.7831, time));
 		m_cam->ForceAngleUpdate();
 	}
 
@@ -141,7 +141,7 @@ void StateManager::SetCamera(Camera* cam) {
 	m_cam = cam;
 
 	if (m_currentState == State::GamestateMainMenu) {
-		m_cam->SetVerticleAngle(0);
+		m_cam->SetVerticleAngle(0.5);
 		m_cam->ForceAngleUpdate();
 	}
 }
