@@ -9,15 +9,16 @@ void StateManager::Update(float delta) {
 			if (((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked()) {
 				SetState(State::GamestatePlayerTurn);
 
-				m_hud->GetElement("MM_Start_Button")->SetVisible(false);
-				m_hud->GetElement("MM_button_bg")->SetVisible(false);
-				m_hud->GetElement("MM_Unit_1")->SetVisible(false);
-				m_hud->GetElement("MM_Unit_2")->SetVisible(false);
-				m_hud->GetElement("MM_Titlecard")->SetVisible(false);
-				m_hud->GetElement("MM_Startlabel")->SetVisible(false);
+				auto list = m_hud->GetElementsByTag("mainmenu");
+				for (auto element : m_hud->GetElementsByTag("mainmenu"))
+					element->SetVisible(false);
+
+				for (auto element : m_hud->GetElementsByTag("ingame"))
+					element->SetVisible(true);
 			}
 		}
 	}
+
 	if (m_charManager != nullptr) {
 		if (m_currentState == State::GamestatePlayerTurn) {
 			bool hasAllMoved = true;
@@ -54,7 +55,14 @@ void StateManager::SetState(State state) {
 	m_currentState = state;
 
 	if (m_charManager != nullptr) {
-		if (m_currentState == State::GamestatePlayerTurn) {
+		if (m_currentState == State::GamestateMainMenu) {
+			for (auto element : m_hud->GetElementsByTag("mainmenu"))
+				element->SetVisible(true);
+
+			for (auto element : m_hud->GetElementsByTag("ingame"))
+				element->SetVisible(false);
+		}
+		else if (m_currentState == State::GamestatePlayerTurn) {
 			auto chars = m_charManager->getCharacters();
 			for (auto it = chars->begin(); it != chars->end(); it++) {
 				it->setHasMoved(false);

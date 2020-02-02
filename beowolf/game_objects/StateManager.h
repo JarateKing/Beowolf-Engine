@@ -20,7 +20,7 @@ public:
 
 private:
 	StateManager() {
-		m_currentState = State::GamestateMainMenu;
+		SetState(State::GamestateMainMenu);
 	}
 
 public:
