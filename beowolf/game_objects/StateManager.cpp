@@ -9,7 +9,6 @@ void StateManager::Update(float delta) {
 			if (((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked()) {
 				SetState(State::GamestatePlayerTurn);
 
-				auto list = m_hud->GetElementsByTag("mainmenu");
 				for (auto element : m_hud->GetElementsByTag("mainmenu"))
 					element->SetVisible(false);
 
@@ -105,6 +104,14 @@ void StateManager::SetHud(wolf::Hud* hud) {
 		std::cout << "Note: hud already tracked by state manager\n";
 
 	m_hud = hud;
+
+	if (m_currentState == State::GamestateMainMenu) {
+		for (auto element : m_hud->GetElementsByTag("mainmenu"))
+			element->SetVisible(true);
+
+		for (auto element : m_hud->GetElementsByTag("ingame"))
+			element->SetVisible(false);
+	}
 
 	if (m_currentState == State::GamestatePlayerTurn)
 		m_hud->SetVar("whoseturn", "Player's");
