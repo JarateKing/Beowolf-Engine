@@ -10,13 +10,17 @@ void StateManager::Update(float delta) {
 	if (movingcamera) {
 		time += delta;
 
-		if (time >= 1) {
-			time = 1;
+		if (time >= 1.5) {
+			time = 1.5;
 			movingcamera = false;
 		}
 
-		m_cam->SetVerticleAngle(wolf::Math::lerp(0.5, -0.7831, wolf::Math::easeOut(time)));
+		m_cam->SetVerticleAngle(wolf::Math::lerp(0.5, -0.7831, wolf::Math::easeOut(time / 1.5)));
 		m_cam->ForceAngleUpdate();
+
+		if (m_hud != nullptr)
+			for (auto element : m_hud->GetElementsByTag("ingame"))
+				element->SetAlpha(wolf::Math::easeOut(time / 1.5));
 	}
 
 	if (m_hud != nullptr) {
@@ -27,8 +31,10 @@ void StateManager::Update(float delta) {
 				for (auto element : m_hud->GetElementsByTag("mainmenu"))
 					element->SetVisible(false);
 
-				for (auto element : m_hud->GetElementsByTag("ingame"))
+				for (auto element : m_hud->GetElementsByTag("ingame")) {
 					element->SetVisible(true);
+					element->SetAlpha(0);
+				}
 
 				if (m_cam != nullptr)
 					movingcamera = true;
