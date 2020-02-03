@@ -46,6 +46,8 @@ CharacterManager::~CharacterManager()
 
 void CharacterManager::Update(int p_target, float p_deltaT)
 {
+	grid->ClearBlocks();
+
 	if (clickedOnEnemy)
 	{
 		for (auto it = characters.begin(); it != characters.end(); it++)
@@ -274,6 +276,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 					{
 						it->setSelected(false);
 
+						//BlockEnemies();
+
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 						if (path.size() > 0)
 						{
@@ -298,6 +302,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 					if (it->GetName().compare(targetName) == 0)
 					{
 						it->setSelected(false);
+
+						//BlockEnemies();
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 						if (path.size() > 0)
@@ -388,6 +394,14 @@ std::vector<int> CharacterManager::PathTowardsClosestHero(int enemyIndex, int le
 
 	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
+		//grid->ClearBlocks();
+		//for (int i = 0; i < enemies.size(); i++)
+		//{
+		//	if (i != enemyIndex)
+		//	{
+		//		grid->BlockNodePositions(glm::vec3(enemies.at(i).GetPos().x, 0.0f, enemies.at(i).GetPos().z));
+		//	}
+		//}
 		path = grid->GetPathway(enemies.at(enemyIndex).GetTile(), it->GetTile());
 		if (path.size() < distance)
 		{
@@ -399,7 +413,6 @@ std::vector<int> CharacterManager::PathTowardsClosestHero(int enemyIndex, int le
 	}
 	if(endPath.size() > length + 1)
 		endPath.resize(length + 1);
-	//enemies.at(enemyIndex).SetTile(endPath.at(endPath.size() - 1));
 	return endPath;
 }
 
@@ -416,4 +429,22 @@ std::vector<CharacterUnits>* CharacterManager::getCharacters()
 std::vector<CharacterUnits>* CharacterManager::getEnemies()
 {
 	return &enemies;
+}
+
+void CharacterManager::BlockEnemies()
+{
+	grid->ClearBlocks();
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		grid->BlockNodePositions(glm::vec3(enemies.at(i).GetPos().x, 0.0f, enemies.at(i).GetPos().z));
+	}
+}
+
+void CharacterManager::BlockCharacters()
+{
+	grid->ClearBlocks();
+	for (int i = 0; i < characters.size(); i++)
+	{
+		grid->BlockNodePositions(glm::vec3(characters.at(i).GetPos().x, 0.0f, characters.at(i).GetPos().z));
+	}
 }

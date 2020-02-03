@@ -25,6 +25,9 @@ class CharacterManager
 		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
 
+		void BlockCharacters();
+		void BlockEnemies();
+
 	private:
 		CharacterInfoHub characterIHub;
 		std::vector<CharacterUnits> characters;

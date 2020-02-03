@@ -26,6 +26,8 @@ public:
 	void Update(int target, float delta);
 	std::vector<int> GetPathway(int startTarget, int endTarget);
 	bool cmpf(float a, float b);
+	void BlockNodePositions(glm::vec3 p_nodePos);
+	void ClearBlocks();
 
 private:
 	void GenerateLoc(int width, int length, float tileWidth);
