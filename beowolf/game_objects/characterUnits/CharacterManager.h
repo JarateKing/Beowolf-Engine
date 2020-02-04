@@ -55,6 +55,7 @@ class CharacterManager
 		int m_enemyCap = 3;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
+		void PreloadCharacterModels();
 };
 
 #endif

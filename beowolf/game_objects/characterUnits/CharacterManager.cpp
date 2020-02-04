@@ -9,6 +9,7 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 {
 	grid = p_grid;
 	m_hud = p_hud;
+	PreloadCharacterModels();
 
 	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 107, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
 	characterIHub.AddCharacter("Characters/hero1.json", "myChamp");
@@ -428,4 +429,13 @@ std::vector<CharacterUnits>* CharacterManager::getEnemies()
 void CharacterManager::SetScoreTracker(ScoreTracker* tracker)
 {
 	m_scoreTracker = tracker;
+}
+
+void CharacterManager::PreloadCharacterModels()
+{
+	CharacterUnits preload1("units/mychamp.bmw", "animatable_untextured", 0, "myChamp", grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
+	CharacterUnits preload2("units/mygiant.bmw", "animatable_untextured", 1, "myGiant", grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
+	CharacterUnits preload3("units/mylich.bmw", "animatable_untextured", 2, "myLich", grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
+	CharacterUnits preload4("units/myskeleton.bmw", "animatable_untextured", 3, "mySkeleton", grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
+	CharacterUnits preload5("units/myfleshlobber.bmw", "animatable_untextured", 4, "myFleshLobber", grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
 }
