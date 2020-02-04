@@ -99,6 +99,8 @@ void StateManager::SetState(State state) {
 				m_hud->SetVar("whoseturn", "Player's");
 		}
 		else if (m_currentState == State::GamestateEnemyTurn) {
+			m_charManager->SpawnEnemies();
+
 			auto chars = m_charManager->getCharacters();
 			for (auto it = chars->begin(); it != chars->end(); it++) {
 				it->setHasMoved(true);

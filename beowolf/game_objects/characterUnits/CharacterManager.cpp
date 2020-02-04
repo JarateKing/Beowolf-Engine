@@ -27,10 +27,6 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 
 	characterIHub.AddEnemyType("Characters/enemyLight.json", "mySkeleton");
 	characterIHub.AddEnemyType("Characters/enemyMedium.json", "myFleshLobber");
-
-	SpawnEnemy(0);
-	SpawnEnemy(1);
-	SpawnEnemy(2);
 	
 	characterIHub.AddItemType("Items/sword.json");
 	characterIHub.AddItemType("Items/shield.json");
@@ -362,12 +358,19 @@ void CharacterManager::MoveEnemies(int length)
 
 void CharacterManager::SpawnEnemy(int pos)
 {
-	enemyCount++;
+	m_enemyCount++;
 	int unitType = wolf::RNG::GetRandom(0, 1);
 
 	CharacterUnits Enemy((unitType)?"units/myskeleton.bmw":"units/myfleshlobber.bmw", "animatable_untextured", pos, (unitType)?"mySkeleton":"myFleshLobber", grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
 
 	enemies.push_back(Enemy);
+}
+
+void CharacterManager::SpawnEnemies()
+{
+	while (enemies.size() < m_enemyCap) {
+		SpawnEnemy(wolf::RNG::GetRandom(0, 100));
+	}
 }
 
 void CharacterManager::SpawnItem(int pos)
