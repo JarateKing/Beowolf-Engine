@@ -57,6 +57,7 @@ class CharacterManager
 		int m_itemCap = 5;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
+		bool IsCharOnTile(int pos);
 		void PreloadCharacterModels();
 };
 

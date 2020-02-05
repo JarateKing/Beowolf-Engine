@@ -376,7 +376,7 @@ void CharacterManager::SpawnEnemies()
 {
 	while (enemies.size() < m_enemyCap) {
 		int pos = grid->GetRandomBorder();
-		while (grid->isMountain(pos))
+		while (grid->isMountain(pos) || IsCharOnTile(pos))
 			pos = grid->GetRandomBorder();
 
 		SpawnEnemy(pos);
@@ -438,6 +438,18 @@ std::vector<CharacterUnits>* CharacterManager::getEnemies()
 void CharacterManager::SetScoreTracker(ScoreTracker* tracker)
 {
 	m_scoreTracker = tracker;
+}
+
+bool CharacterManager::IsCharOnTile(int pos) {
+	for (int i = 0; i < characters.size(); i++)
+		if (characters[i].GetTile() == pos)
+			return true;
+
+	for (int i = 0; i < enemies.size(); i++)
+		if (enemies[i].GetTile() == pos)
+			return true;
+
+	return false;
 }
 
 void CharacterManager::PreloadCharacterModels()
