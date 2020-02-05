@@ -27,6 +27,7 @@ class CharacterManager
 
 		void BlockCharacters();
 		void BlockEnemies();
+		void BlockTiles(std::vector<int> tiles);
 
 	private:
 		CharacterInfoHub characterIHub;
@@ -49,6 +50,7 @@ class CharacterManager
 		std::vector<int> test;
 		std::map<std::string, std::string> enemyAttacks;
 		wolf::Hud* m_hud;
+		std::vector<glm::vec3> blocked;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 };
