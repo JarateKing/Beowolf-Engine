@@ -45,7 +45,7 @@
             "name": "death_forward",
             "start": 565,
             "end": 629,
-			"loop": false
+			"hold": true
         },
         {
             "name": "death_backward",
