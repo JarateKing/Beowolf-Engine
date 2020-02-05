@@ -116,9 +116,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				characters.at(i).InitDeath();
 				if (characters.at(i).GetDeathTimer() >= 99.0f)
 				{
-					std::cout << "Character Size: " << characters.size() << std::endl;
 					characters.erase(characters.begin() + i);
-					std::cout << "Character Size: " << characters.size() << std::endl;
 				}
 			}
 		}
@@ -138,9 +136,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				enemies.at(i).InitDeath();
 				if (enemies.at(i).GetDeathTimer() >= 99.0f)
 				{
-					std::cout << "Character Size: " << enemies.size() << std::endl;
 					enemies.erase(enemies.begin() + i);
-					std::cout << "Character Size: " << enemies.size() << std::endl;
 				}
 			}
 		}
@@ -269,8 +265,6 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			//Check if targeting an Enemy
 			if (targetingEnemy)
 			{
-				targeting = false;
-				timeBetween = 0.0f;
 				for (auto it = characters.begin(); it != characters.end(); it++)
 				{
 					if (it->GetName().compare(targetName) == 0)
@@ -292,16 +286,28 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 						BlockTiles(tilesBlocked);
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
-						if (path.size() > 0 && path.size() <= characterIHub.GetStat(it->GetName(), "MaxMovement"))
+
+						int pSize = path.size();
+						pSize--;
+						int mMove = (int)characterIHub.GetStat(it->GetName(), "MaxMovement");
+
+						std::cout << "MaxMovement: " << mMove << std::endl;
+
+						if ((path.size() > 0) && (pSize <= mMove))
 						{
-							it->setSelected(false);
-							it->Move(path, movementTime, true);
-							it->SetTile(path.at(path.size() - 2));
-							clickedOnEnemy = true;
-							characterMoving = it->GetName();
-							targetedEnemy = targetEnemy;
-							it = characters.end();
-							it--;
+							if (pSize <= mMove)
+							{
+								targeting = false;
+								timeBetween = 0.0f;
+								it->setSelected(false);
+								it->Move(path, movementTime, true);
+								it->SetTile(path.at(path.size() - 2));
+								clickedOnEnemy = true;
+								characterMoving = it->GetName();
+								targetedEnemy = targetEnemy;
+								it = characters.end();
+								it--;
+							}
 						}
 					}
 				}
@@ -309,8 +315,6 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			else
 			//If not targeting enemy
 			{
-				targeting = false;
-				timeBetween = 0.0f;
 				for (auto it = characters.begin(); it != characters.end(); it++)
 				{
 					if (it->GetName().compare(targetName) == 0)
@@ -332,13 +336,24 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 
-						if (path.size() > 0 && path.size() <= characterIHub.GetStat(it->GetName(), "MaxMovement"));
+						int pSize = path.size();
+						pSize--;
+						int mMove = (int)characterIHub.GetStat(it->GetName(), "MaxMovement");
+
+						std::cout << "MaxMovement: " << mMove << std::endl;
+
+						if ((path.size() > 0) && (pSize <= mMove));
 						{
-							it->setSelected(false);
-							it->Move(path, movementTime, false);
-							it->SetTile(path.at(path.size() - 1));
-							it = characters.end();
-							it--;
+							if (pSize <= mMove)
+							{
+								targeting = false;
+								timeBetween = 0.0f;
+								it->setSelected(false);
+								it->Move(path, movementTime, false);
+								it->SetTile(path.at(path.size() - 1));
+								it = characters.end();
+								it--;
+							}
 						}
 					}
 				}
