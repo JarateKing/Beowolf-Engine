@@ -70,7 +70,7 @@ void StateManager::Update(float delta) {
 			}
 			auto enemies = m_charManager->getCharacters();
 			for (auto it = enemies->begin(); hasAllMoved && it != enemies->end(); it++) {
-				if (it->isDying())
+				if (it->isDying() && !it->GetDeathTimer() != 100.0f)
 					hasAllMoved = false;
 			}
 
