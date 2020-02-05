@@ -243,12 +243,14 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == true && timeBetween >= 0.2f)
 	{
 		bool heroPositionedOnTile = false;
+		//bool withinTarget = false;
+
 		for (int i = 0; i < characters.size(); i++)
 		{
 			for (auto it = characters.begin(); it != characters.end(); it++)
 			{
 				if (it->GetTile() == currTarget)
-					heroPositionedOnTile = true;
+					heroPositionedOnTile = true;					
 			}
 		}
 		//Check if not clicking on hero position or double clicking on hero
@@ -273,8 +275,6 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				{
 					if (it->GetName().compare(targetName) == 0)
 					{
-						it->setSelected(false);
-
 						grid->ClearBlocks();
 
 						std::vector<int> tilesBlocked;
@@ -292,8 +292,9 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 						BlockTiles(tilesBlocked);
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
-						if (path.size() > 0)
+						if (path.size() > 0 && path.size() <= characterIHub.GetStat(it->GetName(), "MaxMovement"))
 						{
+							it->setSelected(false);
 							it->Move(path, movementTime, true);
 							it->SetTile(path.at(path.size() - 2));
 							clickedOnEnemy = true;
@@ -314,8 +315,6 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				{
 					if (it->GetName().compare(targetName) == 0)
 					{
-						it->setSelected(false);
-
 						grid->ClearBlocks();
 
 						std::vector<int> tilesBlocked;
@@ -332,8 +331,10 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 						BlockTiles(tilesBlocked);
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
-						if (path.size() > 0)
+
+						if (path.size() > 0 && path.size() <= characterIHub.GetStat(it->GetName(), "MaxMovement"));
 						{
+							it->setSelected(false);
 							it->Move(path, movementTime, false);
 							it->SetTile(path.at(path.size() - 1));
 							it = characters.end();
