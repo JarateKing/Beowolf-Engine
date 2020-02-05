@@ -10,9 +10,9 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 
 	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 2, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
 	characterIHub.AddCharacter("Characters/hero1.json", "myChamp");
-	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 3, "myGiant", p_grid, 0.05, false, glm::vec3(0.1, 0.8, 0.7));
+	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 3, "myGiant", p_grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
 	characterIHub.AddCharacter("Characters/hero2.json", "myGiant");
-	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 4, "myLich", p_grid, 0.03, false, glm::vec3(0.1, 0.8, 0.7));
+	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 4, "myLich", p_grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
 	characterIHub.AddCharacter("Characters/hero3.json", "myLich");
 	
 	player1.SetHealthbarVisible(false);
@@ -115,9 +115,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				characters.at(i).InitDeath();
 				if (characters.at(i).GetDeathTimer() >= 99.0f)
 				{
-					std::cout << "Character Size: " << characters.size() << std::endl;
 					characters.erase(characters.begin() + i);
-					std::cout << "Character Size: " << characters.size() << std::endl;
 				}
 			}
 		}
@@ -137,9 +135,12 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				enemies.at(i).InitDeath();
 				if (enemies.at(i).GetDeathTimer() >= 99.0f)
 				{
-					std::cout << "Character Size: " << enemies.size() << std::endl;
+					SpawnItem(enemies.at(i).GetTile());
+
 					enemies.erase(enemies.begin() + i);
-					std::cout << "Character Size: " << enemies.size() << std::endl;
+					
+					if (m_scoreTracker != nullptr)
+						m_scoreTracker->AddScore(1);
 				}
 			}
 		}
@@ -416,4 +417,9 @@ std::vector<CharacterUnits>* CharacterManager::getCharacters()
 std::vector<CharacterUnits>* CharacterManager::getEnemies()
 {
 	return &enemies;
+}
+
+void CharacterManager::SetScoreTracker(ScoreTracker* tracker)
+{
+	m_scoreTracker = tracker;
 }

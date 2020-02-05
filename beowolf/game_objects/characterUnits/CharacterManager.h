@@ -9,6 +9,7 @@
 #include "Item.h"
 #include "W_Hud.h"
 #include "CharacterInfoHub.h"
+#include "ScoreTracker.h"
 
 class CharacterManager
 {
@@ -21,6 +22,8 @@ class CharacterManager
 		void SpawnEnemies(int numSpawn, std::string enemyFile);
 		void SpawnItem(int pos);
 		std::string GetCharacterSelected();
+
+		void SetScoreTracker(ScoreTracker* tracker);
 
 		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
@@ -46,6 +49,7 @@ class CharacterManager
 		std::vector<int> test;
 		std::map<std::string, std::string> enemyAttacks;
 		wolf::Hud* m_hud;
+		ScoreTracker* m_scoreTracker;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 };

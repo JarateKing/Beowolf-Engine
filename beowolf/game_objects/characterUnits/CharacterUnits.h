@@ -36,6 +36,7 @@ class CharacterUnits
 		float GetDeathTimer();
 		bool InitDamage();
 		std::string GetAttacker();
+		wolf::BMWModel* GetModel();
 
 	private:
 		std::map<std::string, float> animTimes;
