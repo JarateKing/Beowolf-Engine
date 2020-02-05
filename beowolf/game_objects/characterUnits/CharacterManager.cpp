@@ -362,7 +362,7 @@ void CharacterManager::SpawnEnemy(int pos)
 	m_enemyCount++;
 	int unitType = wolf::RNG::GetRandom(0, 1);
 
-	CharacterUnits Enemy((unitType)?"units/myskeleton.bmw":"units/myfleshlobber.bmw", "animatable_untextured", pos, ((unitType)?"mySkeleton":"myFleshLobber")+std::to_string(m_enemyCount), grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
+	CharacterUnits Enemy((unitType)?"units/myskeleton.bmw":"units/myfleshlobber.bmw", "animatable_untextured", pos, ((unitType)?"mySkeleton":"myFleshLobber")+std::to_string(m_enemyCount), grid, (unitType)?0.03:0.07, false, glm::vec3(0.7, 0.1, 0));
 	characterIHub.AddEnemyType((unitType)?"Characters/enemyLight.json":"Characters/enemyMedium.json", Enemy.GetName());
 
 	enemies.push_back(Enemy);
