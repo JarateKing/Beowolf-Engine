@@ -360,6 +360,9 @@ void CharacterManager::MoveEnemies(int length)
 void CharacterManager::SpawnEnemy(int pos)
 {
 	m_enemyCount++;
+	if (m_enemyCount > m_enemyCap * m_enemyCap * 0.5)
+		m_enemyCap++;
+
 	int unitType = wolf::RNG::GetRandom(0, 1);
 
 	CharacterUnits Enemy((unitType)?"units/myskeleton.bmw":"units/myfleshlobber.bmw", "animatable_untextured", pos, ((unitType)?"mySkeleton":"myFleshLobber")+std::to_string(m_enemyCount), grid, (unitType)?0.03:0.07, false, glm::vec3(0.7, 0.1, 0));

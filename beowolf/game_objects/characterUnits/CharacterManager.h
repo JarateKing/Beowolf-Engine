@@ -53,6 +53,7 @@ class CharacterManager
 		ScoreTracker* m_scoreTracker;
 		int m_enemyCount = 0;
 		int m_enemyCap = 3;
+		int m_score = 0;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 		void PreloadCharacterModels();
