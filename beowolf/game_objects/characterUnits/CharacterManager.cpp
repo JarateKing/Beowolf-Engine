@@ -345,13 +345,17 @@ void CharacterManager::MoveEnemies(int length)
 
 		if (attacking)
 		{
-			enemies.at(i).Move(pathToHero, movementTime, true);
-			enemies.at(i).SetTile(pathToHero.at(pathToHero.size() - 2));
+			if (pathToHero.size() >= 2) {
+				enemies.at(i).Move(pathToHero, movementTime, true);
+				enemies.at(i).SetTile(pathToHero.at(pathToHero.size() - 2));
+			}
 		}
 		else
 		{
-			enemies.at(i).Move(pathToHero, movementTime, false);
-			enemies.at(i).SetTile(pathToHero.at(pathToHero.size() - 1));
+			if (pathToHero.size() >= 1) {
+				enemies.at(i).Move(pathToHero, movementTime, false);
+				enemies.at(i).SetTile(pathToHero.at(pathToHero.size() - 1));
+			}
 		}
 
 		attacking = false;
