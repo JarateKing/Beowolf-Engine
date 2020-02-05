@@ -371,7 +371,7 @@ void CharacterManager::SpawnEnemy(int pos)
 void CharacterManager::SpawnEnemies()
 {
 	while (enemies.size() < m_enemyCap) {
-		SpawnEnemy(wolf::RNG::GetRandom(0, 100));
+		SpawnEnemy(grid->GetRandomBorder());
 	}
 }
 
