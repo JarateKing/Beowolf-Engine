@@ -111,16 +111,16 @@ void HexGrid::GenerateHeights(int width, int length, float minHeight, float maxH
 }
 
 int HexGrid::GetRandomBorder() {
-	int side = wolf::RNG::GetRandom(0, 4);
+	int side = wolf::RNG::GetRandom(0, 3);
 
 	if (side == 0) {
-		return wolf::RNG::GetRandom(0, m_width);
+		return wolf::RNG::GetRandom(0, m_width - 1);
 	}
 	else if (side == 1) {
-		return positions.size() - wolf::RNG::GetRandom(1, m_width + 1);
+		return positions.size() - wolf::RNG::GetRandom(1, m_width);
 	}
 	else if (side == 2) {
-		int zpos = wolf::RNG::GetRandom(1, m_height - 1);
+		int zpos = wolf::RNG::GetRandom(1, m_height - 2);
 
 		int sum = 0;
 		for (int i = 0; i < zpos; i++) {
@@ -129,7 +129,7 @@ int HexGrid::GetRandomBorder() {
 		return sum;
 	}
 	else if (side == 3) {
-		int zpos = wolf::RNG::GetRandom(2, m_height);
+		int zpos = wolf::RNG::GetRandom(2, m_height - 1);
 
 		int sum = 0;
 		for (int i = 0; i < zpos; i++) {
