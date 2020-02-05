@@ -27,6 +27,7 @@ public:
 	std::vector<int> GetPathway(int startTarget, int endTarget);
 	bool cmpf(float a, float b);
 	int GetRandomBorder();
+	bool isMountain(int pos);
 
 private:
 	void GenerateLoc(int width, int length, float tileWidth);

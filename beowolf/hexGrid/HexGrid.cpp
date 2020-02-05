@@ -1013,3 +1013,12 @@ std::vector<int> HexGrid::GetPathway(int startTarget, int endTarget)
 
 	return tiles;
 }
+
+bool HexGrid::isMountain(int pos)
+{
+	for (int i = 0; i < mountains.size(); i++)
+		if (mountains[i] == pos)
+			return true;
+
+	return false;
+}

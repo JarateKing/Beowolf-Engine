@@ -375,7 +375,11 @@ void CharacterManager::SpawnEnemy(int pos)
 void CharacterManager::SpawnEnemies()
 {
 	while (enemies.size() < m_enemyCap) {
-		SpawnEnemy(grid->GetRandomBorder());
+		int pos = grid->GetRandomBorder();
+		while (grid->isMountain(pos))
+			pos = grid->GetRandomBorder();
+
+		SpawnEnemy(pos);
 	}
 }
 
