@@ -4,6 +4,7 @@
 #include "W_ResourceLoader.h"
 #include "W_Math.h"
 #include <cmath>
+#include "camera/HexSelector.h"
 
 CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 {
@@ -275,6 +276,22 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 					{
 						it->setSelected(false);
 
+						grid->ClearBlocks();
+
+						std::vector<int> tilesBlocked;
+
+						for (int i = 0; i < enemies.size(); i++)
+						{
+							if (enemies.at(i).GetName().compare(targetEnemy) != 0)
+								tilesBlocked.push_back(enemies.at(i).GetTile());
+						}
+						for (int i = 0; i < characters.size(); i++)
+						{
+							if (characters.at(i).GetName().compare(targetName) != 0)
+								tilesBlocked.push_back(characters.at(i).GetTile());
+						}
+						BlockTiles(tilesBlocked);
+
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 						if (path.size() > 0)
 						{
@@ -299,6 +316,21 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 					if (it->GetName().compare(targetName) == 0)
 					{
 						it->setSelected(false);
+
+						grid->ClearBlocks();
+
+						std::vector<int> tilesBlocked;
+
+						for (int i = 0; i < enemies.size(); i++)
+						{
+							tilesBlocked.push_back(enemies.at(i).GetTile());
+						}
+						for (int i = 0; i < characters.size(); i++)
+						{
+							if(characters.at(i).GetName().compare(targetName) != 0)
+								tilesBlocked.push_back(characters.at(i).GetTile());
+						}
+						BlockTiles(tilesBlocked);
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 						if (path.size() > 0)
@@ -347,15 +379,18 @@ void CharacterManager::MoveEnemies(int length)
 
 		}
 
-		if (attacking)
+		if (pathToHero.size() > 0)
 		{
-			enemies.at(i).Move(pathToHero, movementTime, true);
-			enemies.at(i).SetTile(pathToHero.at(pathToHero.size() - 2));
-		}
-		else
-		{
-			enemies.at(i).Move(pathToHero, movementTime, false);
-			enemies.at(i).SetTile(pathToHero.at(pathToHero.size() - 1));
+			if (attacking)
+			{
+				enemies.at(i).Move(pathToHero, movementTime, true);
+				enemies.at(i).SetTile(pathToHero.at(pathToHero.size() - 2));
+			}
+			else
+			{
+				enemies.at(i).Move(pathToHero, movementTime, false);
+				enemies.at(i).SetTile(pathToHero.at(pathToHero.size() - 1));
+			}
 		}
 
 		attacking = false;
@@ -387,10 +422,21 @@ std::vector<int> CharacterManager::PathTowardsClosestHero(int enemyIndex, int le
 	int distance = 10000;
 	int current = 0;
 
+	grid->ClearBlocks();
+	std::vector<int> tilesBlocked;
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		if (enemies.at(i).GetName().compare(enemies.at(enemyIndex).GetName()) != 0)
+			tilesBlocked.push_back(enemies.at(i).GetTile());
+	}
+
+	BlockTiles(tilesBlocked);
+
 	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
 		path = grid->GetPathway(enemies.at(enemyIndex).GetTile(), it->GetTile());
-		if (path.size() < distance)
+		if (path.size() < distance && path.size() != 0)
 		{
 			distance = path.size();
 			closest = current;
@@ -400,7 +446,6 @@ std::vector<int> CharacterManager::PathTowardsClosestHero(int enemyIndex, int le
 	}
 	if(endPath.size() > length + 1)
 		endPath.resize(length + 1);
-	//enemies.at(enemyIndex).SetTile(endPath.at(endPath.size() - 1));
 	return endPath;
 }
 
@@ -419,7 +464,33 @@ std::vector<CharacterUnits>* CharacterManager::getEnemies()
 	return &enemies;
 }
 
+void CharacterManager::BlockEnemies()
+{
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		blocked.push_back(glm::vec3(enemies.at(i).GetPos().x, 0.0f, enemies.at(i).GetPos().z));
+		grid->BlockNodePositions(glm::vec3(enemies.at(i).GetPos().x, 0.0f, enemies.at(i).GetPos().z));
+	}
+}
+
+void CharacterManager::BlockCharacters()
+{
+	for (int i = 0; i < characters.size(); i++)
+	{
+		blocked.push_back(glm::vec3(characters.at(i).GetPos().x, 0.0f, characters.at(i).GetPos().z));
+		grid->BlockNodePositions(glm::vec3(characters.at(i).GetPos().x, 0.0f, characters.at(i).GetPos().z));
+	}
+}
+
+void CharacterManager::BlockTiles(std::vector<int> tiles)
+{
+	for (int i = 0; i < tiles.size(); i++)
+	{
+		grid->BlockNodePositions(glm::vec3(grid->GetPos().at(tiles.at(i)).x, 0.0f, grid->GetPos().at(tiles.at(i)).y));
+	}
+}
 void CharacterManager::SetScoreTracker(ScoreTracker* tracker)
 {
 	m_scoreTracker = tracker;
 }
+

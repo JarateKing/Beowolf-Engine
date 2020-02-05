@@ -981,3 +981,13 @@ std::vector<int> HexGrid::GetPathway(int startTarget, int endTarget)
 
 	return tiles;
 }
+
+void HexGrid::BlockNodePositions(glm::vec3 p_nodePos)
+{
+	pathFinder->Instance()->BlockNode(p_nodePos);
+}
+
+void HexGrid::ClearBlocks()
+{
+	pathFinder->Instance()->ClearBlockedNodes();
+}

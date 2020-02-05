@@ -28,6 +28,10 @@ class CharacterManager
 		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
 
+		void BlockCharacters();
+		void BlockEnemies();
+		void BlockTiles(std::vector<int> tiles);
+
 	private:
 		CharacterInfoHub characterIHub;
 		std::vector<CharacterUnits> characters;
@@ -49,6 +53,7 @@ class CharacterManager
 		std::vector<int> test;
 		std::map<std::string, std::string> enemyAttacks;
 		wolf::Hud* m_hud;
+		std::vector<glm::vec3> blocked;
 		ScoreTracker* m_scoreTracker;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
