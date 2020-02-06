@@ -40,6 +40,17 @@ void StateManager::Update(float delta) {
 					movingcamera = true;
 			}
 		}
+		else if (m_currentState == State::GamestatePlayerLost) {
+			if (((wolf::HudButton*)m_hud->GetElement("LS_Restart_Button"))->IsClicked()) {
+				SetState(State::GamestatePlayerTurn);
+
+				for (auto element : m_hud->GetElementsByTag("losescreen"))
+					element->SetVisible(false);
+
+				for (auto element : m_hud->GetElementsByTag("ingame"))
+					element->SetVisible(true);
+			}
+		}
 	}
 
 	if (m_charManager != nullptr) {
@@ -96,9 +107,6 @@ void StateManager::SetState(State state) {
 		if (m_currentState == State::GamestateMainMenu) {
 			for (auto element : m_hud->GetElementsByTag("mainmenu"))
 				element->SetVisible(true);
-
-			for (auto element : m_hud->GetElementsByTag("losescreen"))
-				element->SetVisible(false);
 
 			for (auto element : m_hud->GetElementsByTag("ingame"))
 				element->SetVisible(false);
@@ -158,10 +166,10 @@ void StateManager::SetHud(wolf::Hud* hud) {
 
 	if (m_currentState == State::GamestateMainMenu) {
 		for (auto element : m_hud->GetElementsByTag("mainmenu"))
-			element->SetVisible(false);
+			element->SetVisible(true);
 
 		for (auto element : m_hud->GetElementsByTag("losescreen"))
-			element->SetVisible(true);
+			element->SetVisible(false);
 
 		for (auto element : m_hud->GetElementsByTag("ingame"))
 			element->SetVisible(false);

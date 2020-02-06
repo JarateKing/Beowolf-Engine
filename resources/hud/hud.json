@@ -544,7 +544,7 @@
 			"tags": [
 				"losescreen"
 			],
-			"name": "LS_Start_Button",
+			"name": "LS_Restart_Button",
 			"type": "button",
 			"xpos": 0,
 			"ypos": 600,
