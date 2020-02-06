@@ -1022,3 +1022,13 @@ bool HexGrid::isMountain(int pos)
 
 	return false;
 }
+
+void HexGrid::BlockNodePositions(glm::vec3 p_nodePos)
+{
+	pathFinder->Instance()->BlockNode(p_nodePos);
+}
+
+void HexGrid::ClearBlocks()
+{
+	pathFinder->Instance()->ClearBlockedNodes();
+}

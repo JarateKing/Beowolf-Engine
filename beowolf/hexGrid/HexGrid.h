@@ -28,6 +28,8 @@ public:
 	bool cmpf(float a, float b);
 	int GetRandomBorder();
 	bool isMountain(int pos);
+	void BlockNodePositions(glm::vec3 p_nodePos);
+	void ClearBlocks();
 
 private:
 	void GenerateLoc(int width, int length, float tileWidth);
