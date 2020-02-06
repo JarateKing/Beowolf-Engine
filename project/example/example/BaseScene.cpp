@@ -113,9 +113,6 @@ void BaseScene::Update()
 	cManager->Update(target, delta);
 	StateManager::getInstance().Update(delta);
 
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_P))
-		cManager->SpawnItem(wolf::RNG::GetRandom(0, 200));
-
 	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
 	std::string fpsString = std::to_string(fpsValue);
 	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
