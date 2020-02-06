@@ -45,12 +45,9 @@ void StateManager::Update(float delta) {
 	if (m_charManager != nullptr) {
 		if (m_currentState == State::GamestatePlayerTurn) {
 			bool hasAllMoved = true;
-			bool isAllDead = true;
 			
 			auto chars = m_charManager->getCharacters();
 			for (auto it = chars->begin(); hasAllMoved && it != chars->end(); it++) {
-				if (!it->GetDeathTimer() != 100.0f)
-					isAllDead = false;
 				if (!it->getHasMoved() || it->isMoving() || it->isDying() || it->isAttacking())
 					hasAllMoved = false;
 				
@@ -60,9 +57,6 @@ void StateManager::Update(float delta) {
 				if (it->isDying())
 					hasAllMoved = false;
 			}
-
-			if (isAllDead)
-				SetState(State::GamestatePlayerLost);
 
 			if (hasAllMoved)
 				SetState(State::GamestateEnemyTurn);
@@ -81,8 +75,12 @@ void StateManager::Update(float delta) {
 					hasAllMoved = false;
 			}
 
-			if (hasAllMoved)
-				SetState(State::GamestatePlayerTurn);
+			if (hasAllMoved) {
+				if (enemies->size() == 0)
+					SetState(State::GamestatePlayerLost);
+				else
+					SetState(State::GamestatePlayerTurn);
+			}
 		}
 	}
 }
