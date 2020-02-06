@@ -7,68 +7,68 @@
 	"clips" : [
 		{
             "name": "idle",
-            "start": 1,
-            "end": 270,
+            "start": 2,
+            "end": 269,
 			"loop": true
         },
         {
             "name": "idle2",
-            "start": 1274,
-            "end": 1709,
+            "start": 1275,
+            "end": 1708,
 			"loop": true
         },
         {
             "name": "walk",
-            "start": 274,
-            "end": 338,
+            "start": 275,
+            "end": 337,
 			"loop": true
         },
         {
             "name": "run",
-            "start": 341,
-            "end": 389,
+            "start": 343,
+            "end": 388,
 			"loop": true
         },
         {
             "name": "attack",
-            "start": 392,
-            "end": 470,
+            "start": 393,
+            "end": 469,
 			"loop": false
         },
         {
             "name": "attack2",
-            "start": 473,
-            "end": 551,
+            "start": 474,
+            "end": 550,
 			"loop": false
         },
         {
             "name": "death_forward",
-            "start": 564,
-            "end": 630,
+            "start": 565,
+            "end": 629,
 			"loop": false
         },
         {
             "name": "death_backward",
-            "start": 634,
-            "end": 688,
+            "start": 635,
+            "end": 687,
 			"hold": true
         },
         {
             "name": "victory",
-            "start": 691,
-            "end": 788,
+            "start": 692,
+            "end": 787,
 			"loop": true
         },
         {
             "name": "defeat",
-            "start": 792,
-            "end": 900,
+            "start": 793,
+            "end": 899,
 			"loop": true
         },
         {
             "name": "spawn",
-            "start": 904,
-            "end": 960,
+            "start": 905,
+            "end": 959,
 			"loop": false
         }
 	]

@@ -56,7 +56,7 @@
 			"wide": 314,
 			"tall": 46,
 			
-			"image": "hud/healthbar.tga"
+			"image": "hud/healthbar_blue.tga"
 		},
 		{
 			"name": "healthbar_unit_1_highlight",
@@ -152,7 +152,7 @@
 			"wide": 314,
 			"tall": 46,
 			
-			"image": "hud/healthbar.tga"
+			"image": "hud/healthbar_green.tga"
 		},
 		{
 			"name": "healthbar_unit_2_highlight",
@@ -248,7 +248,7 @@
 			"wide": 314,
 			"tall": 46,
 			
-			"image": "hud/healthbar.tga"
+			"image": "hud/healthbar_yellow.tga"
 		},
 		{
 			"name": "healthbar_unit_3_highlight",

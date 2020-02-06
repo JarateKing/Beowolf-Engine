@@ -94,6 +94,7 @@ void CharacterUnits::Update(float deltaT)
 					m_attacking = false;
 					m_startedAttack = false;
 					timeAttacking = 0.0f;
+					model->setModelFilter(glm::vec3(0.7, 0.7, 0.7));
 				}
 			}
 			else if (m_justMoved)
@@ -290,4 +291,7 @@ std::string CharacterUnits::GetAttacker()
 	return characterAttacking;
 }
 
-
+wolf::BMWModel* CharacterUnits::GetModel()
+{
+	return model;
+}

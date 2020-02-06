@@ -10,7 +10,7 @@ void StateManager::Update(float delta) {
 			
 			auto chars = m_charManager->getCharacters();
 			for (auto it = chars->begin(); hasAllMoved && it != chars->end(); it++) {
-				if (!it->getHasMoved() || it->isMoving())
+				if (!it->getHasMoved() || it->isMoving() || !it->GetModel()->isAnimDefault() || it->isAttacking())
 					hasAllMoved = false;
 			}
 
@@ -22,7 +22,7 @@ void StateManager::Update(float delta) {
 
 			auto chars = m_charManager->getEnemies();
 			for (auto it = chars->begin(); hasAllMoved && it != chars->end(); it++) {
-				if (!it->getHasMoved() || it->isMoving())
+				if (!it->getHasMoved() || it->isMoving() || !it->GetModel()->isAnimDefault() || it->isAttacking())
 					hasAllMoved = false;
 			}
 
