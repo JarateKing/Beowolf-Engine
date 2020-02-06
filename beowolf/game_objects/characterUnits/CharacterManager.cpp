@@ -291,8 +291,6 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 						pSize--;
 						int mMove = (int)characterIHub.GetStat(it->GetName(), "MaxMovement");
 
-						std::cout << "MaxMovement: " << mMove << std::endl;
-
 						if ((path.size() > 0) && (pSize <= mMove))
 						{
 							if (pSize <= mMove)
@@ -340,8 +338,6 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 						pSize--;
 						int mMove = (int)characterIHub.GetStat(it->GetName(), "MaxMovement");
 
-						std::cout << "MaxMovement: " << mMove << std::endl;
-
 						if ((path.size() > 0) && (pSize <= mMove));
 						{
 							if (pSize <= mMove)
@@ -374,12 +370,13 @@ void CharacterManager::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFi
 		items[i]->Render(p_view, p_proj, type);
 }
 
-void CharacterManager::MoveEnemies(int length)
+void CharacterManager::MoveEnemies()
 {
 	bool attacking = false;
 	for (int i = 0; i < enemies.size(); i++)
 	{
-		std::vector<int> pathToHero = PathTowardsClosestHero(i, length);
+		int enemyMovement = (int)characterIHub.GetStat(enemies.at(i).GetName(), "MaxMovement");
+		std::vector<int> pathToHero = PathTowardsClosestHero(i, enemyMovement);
 		for (auto it = characters.begin(); it != characters.end(); it++)
 		{
 			for (int j = 0; j < pathToHero.size(); j++)
