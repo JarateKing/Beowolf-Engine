@@ -559,11 +559,11 @@
 			],
 			"type": "gradient",
 			"xpos": 0,
-			"ypos": 600,
+			"ypos": 700,
 			"zpos": 10,
 			"wide": 1,
 			"wideRelative": true,
-			"tall": 200,
+			"tall": 100,
 			
 			"topLeft": "0.1 0.1 0.1 1.0",
 			"topRight": "0.1 0.1 0.1 1.0",
@@ -576,19 +576,34 @@
 			],
 			"type": "textbox",
 			"xpos": 0,
-			"ypos": 630,
+			"ypos": 715,
 			"zpos": 0,
 			"wide": 1,
 			"wideRelative": true,
-			"tall": 200,
+			"tall": 100,
 			
 			"label": "MM_Replay",
 			"labelRaw": false,
 			"alignment": "center",
 			
 			"font": "OpenSans",
-			"fontSize": 64,
+			"fontSize": 32,
 			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"losescreen"
+			],
+			"type": "fillcolor",
+			"xpos": 0,
+			"ypos": 0,
+			"zpos": 20,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 1,
+			"tallRelative": true,
+			
+			"color": "0.1 0.0 0.0 0.5"
 		}
 	]
 }
