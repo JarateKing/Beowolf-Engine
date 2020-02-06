@@ -604,6 +604,26 @@
 			"tallRelative": true,
 			
 			"color": "0.1 0.0 0.0 0.5"
+		},
+		{
+			"tags": [
+				"losescreen"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 400,
+			"zpos": 0,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 200,
+			
+			"label": "End_Score",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 64,
+			"color": "1.0 1.0 1.0 1.0"
 		}
 	]
 }
