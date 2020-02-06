@@ -7,6 +7,7 @@
 void StateManager::Update(float delta) {
 	static float time = 0;
 	static bool movingcamera = false;
+
 	if (movingcamera) {
 		time += delta;
 
@@ -23,7 +24,7 @@ void StateManager::Update(float delta) {
 				element->SetAlpha(wolf::Math::easeOut(time / 1.5));
 	}
 
-	if (m_hud != nullptr) {
+	if (m_charManager != nullptr && m_hud != nullptr) {
 		if (m_currentState == State::GamestateMainMenu) {
 			if (((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked()) {
 				SetState(State::GamestatePlayerTurn);
@@ -51,10 +52,7 @@ void StateManager::Update(float delta) {
 					element->SetVisible(true);
 			}
 		}
-	}
-
-	if (m_charManager != nullptr) {
-		if (m_currentState == State::GamestatePlayerTurn) {
+		else if (m_currentState == State::GamestatePlayerTurn) {
 			bool hasAllMoved = true;
 			
 			auto chars = m_charManager->getCharacters();
