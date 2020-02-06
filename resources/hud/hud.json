@@ -538,6 +538,57 @@
 			"font": "OpenSans",
 			"fontSize": 64,
 			"color": "1.0 1.0 1.0 1.0"
+		},
+		
+		{
+			"tags": [
+				"losescreen"
+			],
+			"name": "LS_Start_Button",
+			"type": "button",
+			"xpos": 0,
+			"ypos": 600,
+			"zpos": 1,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 200
+		},
+		{
+			"tags": [
+				"losescreen"
+			],
+			"type": "gradient",
+			"xpos": 0,
+			"ypos": 600,
+			"zpos": 10,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 200,
+			
+			"topLeft": "0.1 0.1 0.1 1.0",
+			"topRight": "0.1 0.1 0.1 1.0",
+			"bottomLeft": "0.05 0.05 0.05 1.0",
+			"bottomRight": "0.05 0.05 0.05 1.0"
+		},
+		{
+			"tags": [
+				"losescreen"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 630,
+			"zpos": 0,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 200,
+			
+			"label": "MM_Replay",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 64,
+			"color": "1.0 1.0 1.0 1.0"
 		}
 	]
 }

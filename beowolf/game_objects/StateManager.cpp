@@ -95,7 +95,7 @@ void StateManager::SetState(State state) {
 	if (m_charManager != nullptr) {
 		if (m_currentState == State::GamestateMainMenu) {
 			for (auto element : m_hud->GetElementsByTag("mainmenu"))
-				element->SetVisible(true);
+				element->SetVisible(false);
 
 			for (auto element : m_hud->GetElementsByTag("ingame"))
 				element->SetVisible(false);
@@ -152,6 +152,9 @@ void StateManager::SetHud(wolf::Hud* hud) {
 
 	if (m_currentState == State::GamestateMainMenu) {
 		for (auto element : m_hud->GetElementsByTag("mainmenu"))
+			element->SetVisible(false);
+
+		for (auto element : m_hud->GetElementsByTag("losescreen"))
 			element->SetVisible(true);
 
 		for (auto element : m_hud->GetElementsByTag("ingame"))
