@@ -95,6 +95,9 @@ void StateManager::SetState(State state) {
 	if (m_charManager != nullptr) {
 		if (m_currentState == State::GamestateMainMenu) {
 			for (auto element : m_hud->GetElementsByTag("mainmenu"))
+				element->SetVisible(true);
+
+			for (auto element : m_hud->GetElementsByTag("losescreen"))
 				element->SetVisible(false);
 
 			for (auto element : m_hud->GetElementsByTag("ingame"))
@@ -131,8 +134,11 @@ void StateManager::SetState(State state) {
 			m_charManager->MoveEnemies(2);
 		}
 		else if (m_currentState == State::GamestatePlayerLost) {
-			if (m_hud != nullptr)
-				m_hud->SetVar("whoseturn", "ALL DEAD !!!!");
+			for (auto element : m_hud->GetElementsByTag("losescreen"))
+				element->SetVisible(true);
+
+			for (auto element : m_hud->GetElementsByTag("ingame"))
+				element->SetVisible(false);
 		}
 	}
 }
