@@ -1,6 +1,7 @@
 #include "StateManager.h"
 #include <iostream>
 #include <list>
+#include <vector>
 
 void StateManager::Update(float delta) {
 	if (m_charManager != nullptr) {
@@ -64,8 +65,8 @@ void StateManager::SetState(State state) {
 
 			if (m_hud != nullptr)
 				m_hud->SetVar("whoseturn", "Enemies'");
-
-			m_charManager->MoveEnemies(2);
+		
+			m_charManager->MoveEnemies();
 		}
 	}
 }

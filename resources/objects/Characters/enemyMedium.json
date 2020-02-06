@@ -2,7 +2,7 @@
 {"Enemy" : 
 	{"Name" : "Medium Enemy",
 	"HP" : 150.0,
-	"MaxMovement" : 5.0,
+	"MaxMovement" : 2.0,
 	"MaxAttack" : 75.0,
 	"MinAttack" : 50.0,
 	"Defense" : 100.0,
