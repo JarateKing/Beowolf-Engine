@@ -122,6 +122,21 @@ void BaseScene::Update()
 
 	if (shouldSwap) {
 		std::cout << "YEAH!!!\n";
+
+		cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, -40.0));
+		cull = cam->GetViewMatrix();
+		wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
+		grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+		selector = new HexSelector(5.0f);
+		cManager = new CharacterManager(grid, testhud);
+		hexPos.SetGrid(grid);
+
+		StateManager::getInstance().SetCharacterManager(cManager);
+		StateManager::getInstance().SetHud(testhud);
+		StateManager::getInstance().SetCamera(cam);
+
+		scoreTracker = new ScoreTracker(testhud);
+		cManager->SetScoreTracker(scoreTracker);
 	}
 
 	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;

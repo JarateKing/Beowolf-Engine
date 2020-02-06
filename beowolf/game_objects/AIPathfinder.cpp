@@ -31,7 +31,7 @@ AIPathfinder* AIPathfinder::s_pPathfindingInstance = NULL;
 //------------------------------------------------------------------------------
 void AIPathfinder::CreateInstance()
 {
-	assert(s_pPathfindingInstance == NULL);
+	//assert(s_pPathfindingInstance == NULL);
 	s_pPathfindingInstance = new AIPathfinder();
 }
 
