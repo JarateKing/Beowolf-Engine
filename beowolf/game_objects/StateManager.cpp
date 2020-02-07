@@ -3,6 +3,7 @@
 #include <list>
 #include "W_HudButton.h"
 #include "W_Math.h"
+#include <vector>
 
 void StateManager::Update(float delta) {
 	static float time = 0;
@@ -136,8 +137,8 @@ void StateManager::SetState(State state) {
 
 			if (m_hud != nullptr)
 				m_hud->SetVar("whoseturn", "Enemies'");
-
-			m_charManager->MoveEnemies(2);
+		
+			m_charManager->MoveEnemies();
 		}
 		else if (m_currentState == State::GamestatePlayerLost) {
 			for (auto element : m_hud->GetElementsByTag("losescreen"))
