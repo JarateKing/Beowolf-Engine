@@ -339,18 +339,15 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 						pSize--;
 						int mMove = (int)characterIHub.GetStat(it->GetName(), "MaxMovement");
 
-						if ((path.size() > 0) && (pSize <= mMove));
+						if ((path.size() > 0) && (pSize <= mMove))
 						{
-							if (pSize <= mMove)
-							{
-								targeting = false;
-								timeBetween = 0.0f;
-								it->setSelected(false);
-								it->Move(path, movementTime, false);
-								it->SetTile(path.at(path.size() - 1));
-								it = characters.end();
-								it--;
-							}
+							targeting = false;
+							timeBetween = 0.0f;
+							it->setSelected(false);
+							it->Move(path, movementTime, false);
+							it->SetTile(path.at(path.size() - 1));
+							it = characters.end();
+							it--;
 						}
 					}
 				}
