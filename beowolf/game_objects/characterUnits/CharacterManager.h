@@ -18,8 +18,9 @@ class CharacterManager
 		~CharacterManager();
 		void Update(int target, float deltaT);
 		void Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type);
+		void SpawnEnemy(int pos);
+		void SpawnEnemies();
 		void MoveEnemies();
-		void SpawnEnemies(int numSpawn, std::string enemyFile);
 		void SpawnItem(int pos);
 		std::string GetCharacterSelected();
 
@@ -55,8 +56,14 @@ class CharacterManager
 		wolf::Hud* m_hud;
 		std::vector<glm::vec3> blocked;
 		ScoreTracker* m_scoreTracker;
+		int m_enemyCount = 0;
+		int m_enemyCap = 3;
+		int m_score = 0;
+		int m_itemCap = 5;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
+		bool IsCharOnTile(int pos);
+		void PreloadCharacterModels();
 };
 
 #endif

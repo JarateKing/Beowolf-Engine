@@ -26,6 +26,8 @@ public:
 	void Update(int target, float delta);
 	std::vector<int> GetPathway(int startTarget, int endTarget);
 	bool cmpf(float a, float b);
+	int GetRandomBorder();
+	bool isMountain(int pos);
 	void BlockNodePositions(glm::vec3 p_nodePos);
 	void ClearBlocks();
 
@@ -74,6 +76,9 @@ private:
 	int abstractTarget = -1;
 	int lastFrame = -1;
 	float timeBetween = 1.0f;
+
+	int m_width;
+	int m_height;
 };
 
 #endif

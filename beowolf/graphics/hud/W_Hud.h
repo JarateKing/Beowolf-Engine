@@ -19,10 +19,12 @@ namespace wolf
 		void Render(glm::mat4 projection);
 		void SetVar(std::string id, std::string val);
 		HudElement* GetElement(std::string name);
+		std::vector<HudElement*> GetElementsByTag(std::string tag);
 
 	private:
 		std::map<std::string, Font*> m_fontlist;
 		std::map<std::string, HudElement*> m_elementNames;
+		std::map<std::string, std::vector<HudElement*>> m_elementsByTag;
 		std::vector<HudElement*> m_elements;
 		TextTable* m_localization;
 		int m_prevElementsSize = 0;

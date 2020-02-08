@@ -77,7 +77,7 @@ void BaseScene::Init()
 	testhud = new wolf::Hud("resources/hud/hud.json");
 	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, 0));
+	cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, -40.0));
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
 	grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
@@ -87,6 +87,7 @@ void BaseScene::Init()
 
 	StateManager::getInstance().SetCharacterManager(cManager);
 	StateManager::getInstance().SetHud(testhud);
+	StateManager::getInstance().SetCamera(cam);
 
 	scoreTracker = new ScoreTracker(testhud);
 	cManager->SetScoreTracker(scoreTracker);
@@ -110,10 +111,38 @@ void BaseScene::Update()
 	}
 	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
 	cManager->Update(target, delta);
-	StateManager::getInstance().Update(delta);
 
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_P))
-		cManager->SpawnItem(wolf::RNG::GetRandom(0, 200));
+	bool shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerLost;
+	StateManager::getInstance().Update(delta);
+	if (shouldSwap)
+		shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerTurn;
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_Y))
+		shouldSwap = true;
+
+	if (shouldSwap) {
+
+		delete cam;
+		cam = new Camera(0, 5.5, glm::vec3(0, 50.0f, -40.0));
+		cull = cam->GetViewMatrix();
+
+		delete grid;
+		grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+
+		delete selector;
+		selector = new HexSelector(5.0f);
+
+		delete cManager;
+		cManager = new CharacterManager(grid, testhud);
+		hexPos.SetGrid(grid);
+
+		StateManager::getInstance().SetCharacterManager(cManager);
+		StateManager::getInstance().SetHud(testhud);
+		StateManager::getInstance().SetCamera(cam);
+
+		scoreTracker->SetScore(0);
+		cManager->SetScoreTracker(scoreTracker);
+	}
 
 	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
 	std::string fpsString = std::to_string(fpsValue);
@@ -160,5 +189,3 @@ void BaseScene::Render()
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
 }
-
-

@@ -249,26 +249,29 @@ namespace wolf
 	
 	void TextBox::Render(glm::mat4 proj)
 	{
-		for (int i = 0; i < m_font->GetTotalTextures(); i++)
-		{
-			// Use shader program.
-			g_pProgram[i]->Bind();
-			g_pTexture[i]->Bind();
-	
-			// Bind Uniforms
-			g_pProgram[i]->SetUniform("projection", proj);
-			g_pProgram[i]->SetUniform("view", glm::mat4());
-			g_pProgram[i]->SetUniform("world", m_world);
-			g_pProgram[i]->SetUniform("color", m_textcolor);
-			g_pProgram[i]->SetUniform("fontsize", m_fontSize);
-			g_pProgram[i]->SetUniform("bgcolor", m_bgColor);
-			g_pProgram[i]->SetUniform("tex", 0);
-	
-			// Set up source data
-			g_pDecl[i]->Bind();
-	
-			// Draw!
-			glDrawArrays(GL_TRIANGLES, 0, m_glyphs[i].size());
+		if (m_isVisible) {
+			for (int i = 0; i < m_font->GetTotalTextures(); i++)
+			{
+				// Use shader program.
+				g_pProgram[i]->Bind();
+				g_pTexture[i]->Bind();
+
+				// Bind Uniforms
+				g_pProgram[i]->SetUniform("projection", proj);
+				g_pProgram[i]->SetUniform("view", glm::mat4());
+				g_pProgram[i]->SetUniform("world", m_world);
+				g_pProgram[i]->SetUniform("color", m_textcolor);
+				g_pProgram[i]->SetUniform("fontsize", m_fontSize);
+				g_pProgram[i]->SetUniform("bgcolor", m_bgColor);
+				g_pProgram[i]->SetUniform("tex", 0);
+				g_pProgram[i]->SetUniform("alpha", m_alpha);
+
+				// Set up source data
+				g_pDecl[i]->Bind();
+
+				// Draw!
+				glDrawArrays(GL_TRIANGLES, 0, m_glyphs[i].size());
+			}
 		}
 	}
 }

@@ -46,6 +46,10 @@ namespace wolf {
 		m_isVisible = visible;
 	}
 
+	void HudElement::SetAlpha(const float& alpha) {
+		m_alpha = alpha;
+	}
+
 	float HudElement::GetZ() {
 		return m_zPos;
 	}

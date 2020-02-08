@@ -128,3 +128,11 @@ int Camera::CalculateIntersection(std::vector<float> heights, std::vector<glm::v
 		target = -1;
 	return target;
 }
+
+void Camera::SetVerticleAngle(float verti) {
+	m_verti = verti;
+}
+
+void Camera::ForceAngleUpdate() {
+	ApplyAngleVectors();
+}

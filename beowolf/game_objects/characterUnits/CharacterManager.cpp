@@ -8,12 +8,15 @@
 
 CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 {
+	grid = p_grid;
+	m_hud = p_hud;
+	PreloadCharacterModels();
 
-	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 2, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
+	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 107, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
 	characterIHub.AddCharacter("Characters/hero1.json", "myChamp");
-	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 3, "myGiant", p_grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
+	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 108, "myGiant", p_grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
 	characterIHub.AddCharacter("Characters/hero2.json", "myGiant");
-	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 4, "myLich", p_grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
+	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 109, "myLich", p_grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
 	characterIHub.AddCharacter("Characters/hero3.json", "myLich");
 	
 	player1.SetHealthbarVisible(false);
@@ -24,20 +27,12 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 	characters.push_back(player2);
 	characters.push_back(player3);
 
-	CharacterUnits Enemy1("units/myskeleton.bmw", "animatable_untextured", 110, "mySkeleton", p_grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
 	characterIHub.AddEnemyType("Characters/enemyLight.json", "mySkeleton");
-	CharacterUnits Enemy2("units/myfleshlobber.bmw", "animatable_untextured", 120, "myFleshLobber", p_grid, 0.06, false, glm::vec3(0.7, 0.1, 0));
 	characterIHub.AddEnemyType("Characters/enemyMedium.json", "myFleshLobber");
-
-	enemies.push_back(Enemy1);
-	enemies.push_back(Enemy2);
 	
 	characterIHub.AddItemType("Items/sword.json");
 	characterIHub.AddItemType("Items/shield.json");
 	characterIHub.AddItemType("Items/potion.json");
-
-	grid = p_grid;
-	m_hud = p_hud;
 }
 
 CharacterManager::~CharacterManager()
@@ -136,7 +131,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				enemies.at(i).InitDeath();
 				if (enemies.at(i).GetDeathTimer() >= 99.0f)
 				{
-					SpawnItem(enemies.at(i).GetTile());
+					if (items.size() < m_itemCap)
+						SpawnItem(enemies.at(i).GetTile());
 
 					enemies.erase(enemies.begin() + i);
 					
@@ -343,18 +339,15 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 						pSize--;
 						int mMove = (int)characterIHub.GetStat(it->GetName(), "MaxMovement");
 
-						if ((path.size() > 0) && (pSize <= mMove));
+						if ((path.size() > 0) && (pSize <= mMove))
 						{
-							if (pSize <= mMove)
-							{
-								targeting = false;
-								timeBetween = 0.0f;
-								it->setSelected(false);
-								it->Move(path, movementTime, false);
-								it->SetTile(path.at(path.size() - 1));
-								it = characters.end();
-								it--;
-							}
+							targeting = false;
+							timeBetween = 0.0f;
+							it->setSelected(false);
+							it->Move(path, movementTime, false);
+							it->SetTile(path.at(path.size() - 1));
+							it = characters.end();
+							it--;
 						}
 					}
 				}
@@ -396,6 +389,7 @@ void CharacterManager::MoveEnemies()
 
 		}
 
+
 		if (pathToHero.size() > 0)
 		{
 			if (attacking)
@@ -414,9 +408,33 @@ void CharacterManager::MoveEnemies()
 	}
 }
 
-void CharacterManager::SpawnEnemies(int numSpawn, std::string enemyFile)
+void CharacterManager::SpawnEnemy(int pos)
 {
+	m_enemyCount++;
+	if (m_enemyCount > m_enemyCap * m_enemyCap * 0.5)
+		m_enemyCap++;
 
+	int unitType = wolf::RNG::GetRandom(0, 1);
+
+	CharacterUnits Enemy((unitType)?"units/myskeleton.bmw":"units/myfleshlobber.bmw", "animatable_untextured", pos, ((unitType)?"mySkeleton":"myFleshLobber")+std::to_string(m_enemyCount), grid, (unitType)?0.03:0.07, false, glm::vec3(0.7, 0.1, 0));
+	characterIHub.AddEnemyType((unitType)?"Characters/enemyLight.json":"Characters/enemyMedium.json", Enemy.GetName());
+
+	enemies.push_back(Enemy);
+}
+
+void CharacterManager::SpawnEnemies()
+{
+	while (enemies.size() < m_enemyCap) {
+		int iters = 0;
+		int pos = grid->GetRandomBorder();
+		while (iters++ < 100 && (grid->isMountain(pos) || IsCharOnTile(pos)))
+			pos = grid->GetRandomBorder();
+
+		if (iters >= 100)
+			return;
+
+		SpawnEnemy(pos);
+	}
 }
 
 void CharacterManager::SpawnItem(int pos)
@@ -511,3 +529,27 @@ void CharacterManager::SetScoreTracker(ScoreTracker* tracker)
 	m_scoreTracker = tracker;
 }
 
+bool CharacterManager::IsCharOnTile(int pos) {
+	for (int i = 0; i < characters.size(); i++)
+		if (characters[i].GetTile() == pos)
+			return true;
+
+	for (int i = 0; i < enemies.size(); i++)
+		if (enemies[i].GetTile() == pos)
+			return true;
+
+	return false;
+}
+
+void CharacterManager::PreloadCharacterModels()
+{
+	CharacterUnits("units/mychamp.bmw", "animatable_untextured", 0, "myChamp", grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
+	CharacterUnits("units/mygiant.bmw", "animatable_untextured", 1, "myGiant", grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
+	CharacterUnits("units/mylich.bmw", "animatable_untextured", 2, "myLich", grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
+	CharacterUnits("units/myskeleton.bmw", "animatable_untextured", 3, "mySkeleton", grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
+	CharacterUnits("units/myfleshlobber.bmw", "animatable_untextured", 4, "myFleshLobber", grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
+
+	Item("potion.bmw", "unlit_texture", 5, "Items/potion.json", "Potion", grid);
+	Item("sword1.bmw", "unlit_texture", 6, "Items/sword.json", "Sword", grid);
+	Item("shield.bmw", "unlit_texture", 7, "Items/shield.json", "Shield", grid);
+}

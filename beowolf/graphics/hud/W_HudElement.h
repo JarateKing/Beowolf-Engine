@@ -19,6 +19,7 @@ namespace wolf
 		void SetY(const float& ypos, const bool& isRelative = false);
 		void SetZ(const float& zpos);
 		void SetVisible(const bool& visible);
+		void SetAlpha(const float& alpha);
 		float GetZ();
 
 	protected:
@@ -29,6 +30,7 @@ namespace wolf
 		float m_yBound;
 		glm::mat4 m_world;
 		bool m_isVisible = true;
+		float m_alpha = 1.0;
 	};
 }
 

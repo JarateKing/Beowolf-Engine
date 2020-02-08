@@ -9,6 +9,9 @@
 
 HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile)
 {
+	m_width = width;
+	m_height = length;
+
 	pathFinder->CreateInstance();
 	minH = minHeight;
 	maxH = maxHeight;
@@ -104,6 +107,35 @@ void HexGrid::GenerateHeights(int width, int length, float minHeight, float maxH
 	for (int i = 0; i < numPos; i++)
 	{
 		heights.push_back(wolf::RNG::GetRandom(minHeight, maxHeight));
+	}
+}
+
+int HexGrid::GetRandomBorder() {
+	int side = wolf::RNG::GetRandom(0, 3);
+
+	if (side == 0) {
+		return wolf::RNG::GetRandom(0, m_width - 1);
+	}
+	else if (side == 1) {
+		return positions.size() - wolf::RNG::GetRandom(1, m_width);
+	}
+	else if (side == 2) {
+		int zpos = wolf::RNG::GetRandom(1, m_height - 2);
+
+		int sum = 0;
+		for (int i = 0; i < zpos; i++) {
+			sum += m_width - (i % 2);
+		}
+		return sum;
+	}
+	else if (side == 3) {
+		int zpos = wolf::RNG::GetRandom(2, m_height - 1);
+
+		int sum = 0;
+		for (int i = 0; i < zpos; i++) {
+			sum += m_width - (i % 2);
+		}
+		return sum - 1;
 	}
 }
 
@@ -980,6 +1012,15 @@ std::vector<int> HexGrid::GetPathway(int startTarget, int endTarget)
 	}
 
 	return tiles;
+}
+
+bool HexGrid::isMountain(int pos)
+{
+	for (int i = 0; i < mountains.size(); i++)
+		if (mountains[i] == pos)
+			return true;
+
+	return false;
 }
 
 void HexGrid::BlockNodePositions(glm::vec3 p_nodePos)

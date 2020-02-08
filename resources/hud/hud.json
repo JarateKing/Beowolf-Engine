@@ -18,6 +18,9 @@
 
 	"elements" : [
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "image",
 			"xpos": 4,
 			"ypos": 10,
@@ -28,6 +31,9 @@
 			"image": "hud/healthbar_bg_left.tga"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "image",
 			"xpos": 20,
 			"ypos": 10,
@@ -38,6 +44,10 @@
 			"image": "hud/healthbar_bg.tga"
 		},
 		{
+			
+			"tags": [
+				"ingame"
+			],
 			"type": "image",
 			"xpos": 320,
 			"ypos": 10,
@@ -48,6 +58,9 @@
 			"image": "hud/healthbar_bg_right.tga"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"name": "healthbar_unit_1",
 			"type": "image",
 			"xpos": 13,
@@ -59,6 +72,9 @@
 			"image": "hud/healthbar_blue.tga"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"name": "healthbar_unit_1_highlight",
 			"type": "fillcolor",
 			"xpos": 13,
@@ -70,6 +86,9 @@
 			"color": "0.7 0.0 0.0 1.0"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "textbox",
 			"xpos": 12,
 			"ypos": 20,
@@ -86,6 +105,9 @@
 			"color": "1.0 1.0 1.0 1.0"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "textbox",
 			"xpos": 12,
 			"ypos": 21,
@@ -102,6 +124,9 @@
 			"color": "0.0 0.0 0.0 1.0"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"name": "Unit_1_Indicator",
 			"type": "image",
 			"xpos": 330,
@@ -114,6 +139,9 @@
 		},
 		
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "image",
 			"xpos": 4,
 			"ypos": 70,
@@ -124,6 +152,9 @@
 			"image": "hud/healthbar_bg_left.tga"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "image",
 			"xpos": 20,
 			"ypos": 70,
@@ -134,6 +165,9 @@
 			"image": "hud/healthbar_bg.tga"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "image",
 			"xpos": 320,
 			"ypos": 70,
@@ -144,6 +178,9 @@
 			"image": "hud/healthbar_bg_right.tga"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"name": "healthbar_unit_2",
 			"type": "image",
 			"xpos": 13,
@@ -155,6 +192,9 @@
 			"image": "hud/healthbar_green.tga"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"name": "healthbar_unit_2_highlight",
 			"type": "fillcolor",
 			"xpos": 13,
@@ -166,6 +206,9 @@
 			"color": "0.7 0.0 0.0 1.0"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "textbox",
 			"xpos": 12,
 			"ypos": 80,
@@ -182,6 +225,9 @@
 			"color": "1.0 1.0 1.0 1.0"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "textbox",
 			"xpos": 12,
 			"ypos": 81,
@@ -198,6 +244,9 @@
 			"color": "0.0 0.0 0.0 1.0"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"name": "Unit_2_Indicator",
 			"type": "image",
 			"xpos": 330,
@@ -210,6 +259,9 @@
 		},
 		
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "image",
 			"xpos": 4,
 			"ypos": 130,
@@ -220,6 +272,9 @@
 			"image": "hud/healthbar_bg_left.tga"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "image",
 			"xpos": 20,
 			"ypos": 130,
@@ -230,6 +285,9 @@
 			"image": "hud/healthbar_bg.tga"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "image",
 			"xpos": 320,
 			"ypos": 130,
@@ -240,6 +298,9 @@
 			"image": "hud/healthbar_bg_right.tga"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"name": "healthbar_unit_3",
 			"type": "image",
 			"xpos": 13,
@@ -251,6 +312,9 @@
 			"image": "hud/healthbar_yellow.tga"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"name": "healthbar_unit_3_highlight",
 			"type": "fillcolor",
 			"xpos": 13,
@@ -262,6 +326,9 @@
 			"color": "0.7 0.0 0.0 1.0"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "textbox",
 			"xpos": 12,
 			"ypos": 140,
@@ -278,6 +345,9 @@
 			"color": "1.0 1.0 1.0 1.0"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "textbox",
 			"xpos": 12,
 			"ypos": 141,
@@ -294,6 +364,9 @@
 			"color": "0.0 0.0 0.0 1.0"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"name": "Unit_3_Indicator",
 			"type": "image",
 			"xpos": 330,
@@ -306,6 +379,9 @@
 		},
 		
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "textbox",
 			"xpos": 1600,
 			"ypos": 10,
@@ -324,6 +400,9 @@
 			"subpixelBG": "0.3 0.3 0.3"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "textbox",
 			"xpos": 1600,
 			"ypos": 70,
@@ -342,6 +421,9 @@
 			"subpixelBG": "0.3 0.3 0.3"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "fillcolor",
 			"xpos": 1670,
 			"ypos": 0,
@@ -352,6 +434,9 @@
 			"color": "0.0 0.0 0.0 0.4"
 		},
 		{
+			"tags": [
+				"ingame"
+			],
 			"type": "gradient",
 			"xpos": 1600,
 			"ypos": 0,
@@ -363,6 +448,182 @@
 			"topRight": "0.0 0.0 0.0 0.4",
 			"bottomLeft": "0.0 0.0 0.0 0.0",
 			"bottomRight": "0.0 0.0 0.0 0.4"
+		},
+		
+		{
+			"tags": [
+				"mainmenu"
+			],
+			"name": "MM_Start_Button",
+			"type": "button",
+			"xpos": 0,
+			"ypos": 600,
+			"zpos": 1,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 200
+		},
+		{
+			"tags": [
+				"mainmenu"
+			],
+			"type": "gradient",
+			"xpos": 0,
+			"ypos": 600,
+			"zpos": 10,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 200,
+			
+			"topLeft": "0.1 0.1 0.1 1.0",
+			"topRight": "0.1 0.1 0.1 1.0",
+			"bottomLeft": "0.05 0.05 0.05 1.0",
+			"bottomRight": "0.05 0.05 0.05 1.0"
+		},
+		{
+			"tags": [
+				"mainmenu"
+			],
+			"type": "image",
+			"xpos": 170,
+			"ypos": 400,
+			"zpos": 9,
+			"wide": 500,
+			"tall": 500,
+			
+			"image": "hud/mm_hammerguy.tga"
+		},
+		{
+			"tags": [
+				"mainmenu"
+			],
+			"type": "image",
+			"xpos": 1310,
+			"ypos": 400,
+			"zpos": 9,
+			"wide": 500,
+			"tall": 500,
+			
+			"image": "hud/mm_lich.tga"
+		},
+		{
+			"tags": [
+				"mainmenu"
+			],
+			"type": "image",
+			"xpos": 460,
+			"ypos": 120,
+			"zpos": 9,
+			"wide": 1000,
+			"tall": 500,
+			
+			"image": "hud/mm_title.tga"
+		},
+		{
+			"tags": [
+				"mainmenu"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 630,
+			"zpos": 0,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 200,
+			
+			"label": "MM_Start",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 64,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		
+		{
+			"tags": [
+				"losescreen"
+			],
+			"name": "LS_Restart_Button",
+			"type": "button",
+			"xpos": 0,
+			"ypos": 600,
+			"zpos": 1,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 200
+		},
+		{
+			"tags": [
+				"losescreen"
+			],
+			"type": "gradient",
+			"xpos": 0,
+			"ypos": 700,
+			"zpos": 10,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 100,
+			
+			"topLeft": "0.1 0.1 0.1 1.0",
+			"topRight": "0.1 0.1 0.1 1.0",
+			"bottomLeft": "0.05 0.05 0.05 1.0",
+			"bottomRight": "0.05 0.05 0.05 1.0"
+		},
+		{
+			"tags": [
+				"losescreen"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 715,
+			"zpos": 0,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 100,
+			
+			"label": "MM_Replay",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 32,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"losescreen"
+			],
+			"type": "fillcolor",
+			"xpos": 0,
+			"ypos": 0,
+			"zpos": 20,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 1,
+			"tallRelative": true,
+			
+			"color": "0.1 0.0 0.0 0.5"
+		},
+		{
+			"tags": [
+				"losescreen"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 400,
+			"zpos": 0,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 200,
+			
+			"label": "End_Score",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 64,
+			"color": "1.0 1.0 1.0 1.0"
 		}
 	]
 }

@@ -3,6 +3,7 @@ in vec2 v_uv1;
 
 uniform sampler2D tex;
 uniform vec4 color;
+uniform float alpha;
 
 out vec4 PixelColor;
 
@@ -17,7 +18,7 @@ void main()
 
 	vec4 sample = texture(tex, v_uv1);
 	float signDist = median(sample.r, sample.g, sample.b) - 0.5;
-	float alpha = clamp(signDist / fwidth(signDist) + 0.5, 0.0, 1.0);
+	float alpha2 = clamp(signDist / fwidth(signDist) + 0.5, 0.0, 1.0);
 
-    PixelColor = color * vec4(1,1,1,alpha);
+    PixelColor = color * vec4(1,1,1,alpha2 * alpha);
 }
