@@ -199,6 +199,18 @@ float CharacterInfoHub::GetStat(std::string p_characterName, std::string p_statI
 	return -1;
 }
 
+void CharacterInfoHub::UpdateStat(std::string p_characterName, std::string p_statID, float p_updatedValue)
+{
+	for (int i = 0; i < m_infoBits.size(); i++)
+	{
+		if (m_infoBits.at(i).m_name.compare(p_characterName) == 0)
+		{
+			if (m_infoBits.at(i).m_info.count(p_statID))
+				m_infoBits.at(i).m_info[p_statID] = p_updatedValue;
+		}
+	}
+}
+
 void CharacterInfoHub::PrintOutInfo()
 {
 	std::cout << "Test Info Character" << std::endl << "====================" << std::endl;

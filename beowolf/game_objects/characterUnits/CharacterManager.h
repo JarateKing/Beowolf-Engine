@@ -18,7 +18,7 @@ class CharacterManager
 		~CharacterManager();
 		void Update(int target, float deltaT);
 		void Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type);
-		void SpawnEnemy(int pos);
+		void SpawnEnemy(int pos, float multiplier);
 		void SpawnEnemies();
 		void MoveEnemies();
 		void SpawnItem(int pos);
@@ -60,6 +60,8 @@ class CharacterManager
 		int m_enemyCap = 3;
 		int m_score = 0;
 		int m_itemCap = 5;
+		int m_enemiesSpawnedTotal = 0;
+
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 		bool IsCharOnTile(int pos);
