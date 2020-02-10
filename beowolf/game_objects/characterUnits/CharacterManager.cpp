@@ -166,7 +166,6 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	m_hud->GetElement("Unit_3_Indicator")->SetVisible(false);
 
 	//Update Heroes and check for target
-	int characterCount = 0;
 	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
 		it->Update(p_deltaT);
@@ -188,38 +187,59 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			if (p_target == it->GetTile())
 				m_hud->GetElement("Unit_1_Indicator")->SetVisible(true);
 
+			float health = characterIHub.GetStat(it->GetName(), "HP");
+			float maxhealth = characterIHub.GetStat(it->GetName(), "Health");
+			m_hud->SetVar("UnitHealth1", std::to_string((int)std::ceil(health)));
+			m_hud->SetVar("UnitHealthMax1", std::to_string((int)std::ceil(maxhealth)));
+			m_hud->GetElement("healthbar_unit_1")->SetW(314.0 * health / maxhealth);
+			if (startpos[0] != health) {
+				animtime[0] += p_deltaT * 1.5;
+
+				m_hud->GetElement("healthbar_unit_1_highlight")->SetW(314.0 * wolf::Math::lerp(startpos[0], health, wolf::Math::easeIn(std::min(1.0, animtime[0]))) / maxhealth);
+				if (animtime[0] >= 1.0) {
+					startpos[0] = health;
+					animtime[0] = 0.0;
+				}
+			}
 		}
 		else if (it->GetName() == "myGiant") {
 			if (p_target == it->GetTile())
 				m_hud->GetElement("Unit_2_Indicator")->SetVisible(true);
 
+			float health = characterIHub.GetStat(it->GetName(), "HP");
+			float maxhealth = characterIHub.GetStat(it->GetName(), "Health");
+			m_hud->SetVar("UnitHealth2", std::to_string((int)std::ceil(health)));
+			m_hud->SetVar("UnitHealthMax2", std::to_string((int)std::ceil(maxhealth)));
+			m_hud->GetElement("healthbar_unit_2")->SetW(314.0 * health / maxhealth);
+			if (startpos[1] != health) {
+				animtime[1] += p_deltaT * 1.5;
+
+				m_hud->GetElement("healthbar_unit_2_highlight")->SetW(314.0 * wolf::Math::lerp(startpos[1], health, wolf::Math::easeIn(std::min(1.0, animtime[1]))) / maxhealth);
+				if (animtime[1] >= 1.0) {
+					startpos[1] = health;
+					animtime[1] = 0.0;
+				}
+			}
 		}
 		else if (it->GetName() == "myLich") {
 			if (p_target == it->GetTile())
 				m_hud->GetElement("Unit_3_Indicator")->SetVisible(true);
 
-		}
+			float health = characterIHub.GetStat(it->GetName(), "HP");
+			float maxhealth = characterIHub.GetStat(it->GetName(), "Health");
+			m_hud->SetVar("UnitHealth3", std::to_string((int)std::ceil(health)));
+			m_hud->SetVar("UnitHealthMax3", std::to_string((int)std::ceil(maxhealth)));
+			m_hud->GetElement("healthbar_unit_3")->SetW(314.0 * health / maxhealth);
+			if (startpos[2] != health) {
+				animtime[2] += p_deltaT * 1.5;
 
-		// apply health to hud
-		if (characterCount < 3) {
-			float health, maxhealth;
-			health = characterIHub.GetStat(characters[characterCount].GetName(), "HP");
-			maxhealth = characterIHub.GetStat(characters[characterCount].GetName(), "Health");
-			m_hud->SetVar("UnitHealth" + std::to_string(characterCount + 1), std::to_string((int)std::ceil(health)));
-			m_hud->SetVar("UnitHealthMax" + std::to_string(characterCount + 1), std::to_string((int)std::ceil(maxhealth)));
-			m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1))->SetW(314.0 * health / maxhealth);
-			if (startpos[characterCount] != health) {
-				animtime[characterCount] += p_deltaT * 1.5;
-
-				m_hud->GetElement("healthbar_unit_" + std::to_string(characterCount + 1) + "_highlight")->SetW(314.0 * wolf::Math::lerp(startpos[characterCount], health, wolf::Math::easeIn(std::min(1.0, animtime[characterCount]))) / maxhealth);
-				if (animtime[characterCount] >= 1.0) {
-					startpos[characterCount] = health;
-					animtime[characterCount] = 0.0;
+				m_hud->GetElement("healthbar_unit_3_highlight")->SetW(314.0 * wolf::Math::lerp(startpos[2], health, wolf::Math::easeIn(std::min(1.0, animtime[2]))) / maxhealth);
+				if (animtime[2] >= 1.0) {
+					startpos[2] = health;
+					animtime[2] = 0.0;
 				}
 			}
 		}
-
-		characterCount++;
 	}
 
 	//Check if mouse pressed on top of hero
