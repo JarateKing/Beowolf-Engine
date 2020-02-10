@@ -157,8 +157,41 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		items[i]->Update(p_deltaT);
 
 	// potentially push up healthbars
+	static bool charsAlive[] = { true, true, true };
 	if (m_charCount != characters.size()) {
 		m_charCount = characters.size();
+		bool charsAliveNow[] = { false, false, false };
+
+		for (int i = 0; i < m_charCount; i++) {
+			if (characters[i].GetName() == "myChamp")
+				charsAliveNow[0] = true;
+			if (characters[i].GetName() == "myGiant")
+				charsAliveNow[1] = true;
+			if (characters[i].GetName() == "myLich")
+				charsAliveNow[2] = true;
+		}
+
+		if (charsAlive[0] && !charsAliveNow[0]) {
+			for (auto element : m_hud->GetElementsByTag("hpbar1"))
+				element->SetVisible(0);
+			for (auto element : m_hud->GetElementsByTag("hpbar2"))
+				element->SetY(element->GetY() - 60);
+			for (auto element : m_hud->GetElementsByTag("hpbar3"))
+				element->SetY(element->GetY() - 60);
+		}
+		if (charsAlive[1] && !charsAliveNow[1]) {
+			for (auto element : m_hud->GetElementsByTag("hpbar2"))
+				element->SetVisible(0);
+			for (auto element : m_hud->GetElementsByTag("hpbar3"))
+				element->SetY(element->GetY() - 60);
+		}
+		if (charsAlive[2] && !charsAliveNow[2]) {
+			for (auto element : m_hud->GetElementsByTag("hpbar3"))
+				element->SetVisible(0);
+		}
+
+		for (int i = 0; i < 3; i++)
+			charsAlive[i] = charsAliveNow[i];
 	}
 
 	m_hud->GetElement("Unit_1_Indicator")->SetVisible(false);
