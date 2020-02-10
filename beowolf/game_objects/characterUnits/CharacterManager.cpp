@@ -156,6 +156,11 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	for (int i = 0; i < items.size(); i++)
 		items[i]->Update(p_deltaT);
 
+	// potentially push up healthbars
+	if (m_charCount != characters.size()) {
+		m_charCount = characters.size();
+	}
+
 	m_hud->GetElement("Unit_1_Indicator")->SetVisible(false);
 	m_hud->GetElement("Unit_2_Indicator")->SetVisible(false);
 	m_hud->GetElement("Unit_3_Indicator")->SetVisible(false);
@@ -165,19 +170,6 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
 		it->Update(p_deltaT);
-
-		// check if unit is hovered over for hud indicator
-		if (p_target == it->GetTile()) {
-			if (it->GetName() == "Player1") {
-				m_hud->GetElement("Unit_1_Indicator")->SetVisible(true);
-			}
-			else if (it->GetName() == "Player2") {
-				m_hud->GetElement("Unit_2_Indicator")->SetVisible(true);
-			}
-			else if (it->GetName() == "Player3") {
-				m_hud->GetElement("Unit_3_Indicator")->SetVisible(true);
-			}
-		}
 
 		// check for items
 		for (int i = 0; i < items.size(); i++) {
@@ -189,6 +181,23 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				items.erase(items.begin() + i);
 				i--;
 			}
+		}
+
+		// do hud specific stuff
+		if (it->GetName() == "myChamp") {
+			if (p_target == it->GetTile())
+				m_hud->GetElement("Unit_1_Indicator")->SetVisible(true);
+
+		}
+		else if (it->GetName() == "myGiant") {
+			if (p_target == it->GetTile())
+				m_hud->GetElement("Unit_2_Indicator")->SetVisible(true);
+
+		}
+		else if (it->GetName() == "myLich") {
+			if (p_target == it->GetTile())
+				m_hud->GetElement("Unit_3_Indicator")->SetVisible(true);
+
 		}
 
 		// apply health to hud

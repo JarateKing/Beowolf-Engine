@@ -60,6 +60,7 @@ class CharacterManager
 		int m_enemyCap = 3;
 		int m_score = 0;
 		int m_itemCap = 5;
+		int m_charCount = 3;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 		bool IsCharOnTile(int pos);
