@@ -146,6 +146,12 @@ void StateManager::SetState(State state) {
 
 			for (auto element : m_hud->GetElementsByTag("ingame"))
 				element->SetVisible(false);
+
+			// reset healthbar positions
+			for (auto element : m_hud->GetElementsByTag("hpbar2"))
+				element->SetY(element->GetY() + 60);
+			for (auto element : m_hud->GetElementsByTag("hpbar3"))
+				element->SetY(element->GetY() + 120);
 		}
 	}
 }
