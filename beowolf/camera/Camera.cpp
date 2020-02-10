@@ -136,3 +136,16 @@ void Camera::SetVerticleAngle(float verti) {
 void Camera::ForceAngleUpdate() {
 	ApplyAngleVectors();
 }
+
+void Camera::MoveToView(glm::vec3 position, float time) {
+	if (time == 0) {
+		m_pos = position;
+	}
+	else {
+		m_startPos = m_pos;
+		m_endPos = position;
+
+		m_moveTime = 0.0f;
+		m_moveTimeLimit = time;
+	}
+}

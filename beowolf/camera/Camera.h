@@ -16,6 +16,7 @@ public:
 	int CalculateIntersection(std::vector<float> heights, std::vector<glm::vec2> positions, float tileWidth);
 	void SetVerticleAngle(float verti);
 	void ForceAngleUpdate();
+	void MoveToView(glm::vec3 position, float time);
 
 private:
 	void ApplyAngleVectors();
@@ -32,6 +33,11 @@ private:
 
 	glm::mat4 m_proj;
 	glm::mat4 m_view;
+
+	float m_moveTime = 0.0f;
+	float m_moveTimeLimit = 0.0f;
+	glm::vec3 m_startPos;
+	glm::vec3 m_endPos;
 };
 
 #endif
