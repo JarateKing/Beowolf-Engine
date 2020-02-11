@@ -900,10 +900,11 @@ bool HexGrid::WithinBounds(int tile)
 	return false;
 }
 
-void HexGrid::StartTargeting(int target)
+void HexGrid::StartTargeting(int target, int max)
 {
 	targeting = true;
 	targetingT = target;
+	targetingMax = max;
 }
 
 void HexGrid::StopTargeting()
@@ -934,7 +935,7 @@ void HexGrid::Update(int target, float delta)
 			}
 
 			std::vector<int> tiles;
-			for (int i = 0; i < pathway.size(); i++)
+			for (int i = 0; i < pathway.size() && i < targetingMax; i++)
 			{
 				for (int j = 0; j < positions.size(); j++)
 				{
