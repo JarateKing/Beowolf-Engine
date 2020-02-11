@@ -484,8 +484,10 @@ void CharacterManager::MoveEnemies()
 	}
 }
 
-void CharacterManager::SpawnEnemy(int pos)
+void CharacterManager::SpawnEnemy(int pos, float multiplier)
 {
+	m_enemiesSpawnedTotal++;
+
 	m_enemyCount++;
 	if (m_enemyCount > m_enemyCap * m_enemyCap * 0.5)
 		m_enemyCap++;
@@ -494,6 +496,11 @@ void CharacterManager::SpawnEnemy(int pos)
 
 	CharacterUnits Enemy((unitType)?"units/myskeleton.bmw":"units/myfleshlobber.bmw", "animatable_untextured", pos, ((unitType)?"mySkeleton":"myFleshLobber")+std::to_string(m_enemyCount), grid, (unitType)?0.03:0.07, false, glm::vec3(0.7, 0.1, 0));
 	characterIHub.AddEnemyType((unitType)?"Characters/enemyLight.json":"Characters/enemyMedium.json", Enemy.GetName());
+
+	characterIHub.UpdateStat(Enemy.GetName(), "HP", characterIHub.GetStat(Enemy.GetName(), "HP") * multiplier);
+	characterIHub.UpdateStat(Enemy.GetName(), "Health", characterIHub.GetStat(Enemy.GetName(), "Health") * multiplier);
+	characterIHub.UpdateStat(Enemy.GetName(), "MaxAttack", characterIHub.GetStat(Enemy.GetName(), "MaxAttack") * multiplier);
+	characterIHub.UpdateStat(Enemy.GetName(), "Defense", characterIHub.GetStat(Enemy.GetName(), "Defense") * multiplier);
 
 	enemies.push_back(Enemy);
 }
@@ -508,8 +515,10 @@ void CharacterManager::SpawnEnemies()
 
 		if (iters >= 100)
 			return;
+		
+		float multiply = m_enemiesSpawnedTotal / 100.0f + 1.0f;
 
-		SpawnEnemy(pos);
+		SpawnEnemy(pos, multiply);
 	}
 }
 
