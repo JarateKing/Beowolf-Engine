@@ -28,6 +28,7 @@ namespace wolf
 		bool PlayLoopSound(const char* soundName);
 		void Change3DSoundPos(const char* soundName, glm::vec3 newPos, glm::vec3 newVelo);
 		void SetListenerAttr(glm::vec3 lisPos, glm::vec3 lisVel, glm::vec3 lisForward, glm::vec3 lisUp);
+		void PauseSound(const char* soundName);
 		FMOD_VECTOR GetListenerPos();
 		FMOD_VECTOR GetSoundPos(const char* soundName);
 		FMOD_VECTOR GetSoundVel(const char* soundName);

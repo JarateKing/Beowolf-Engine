@@ -136,3 +136,18 @@ void Camera::SetVerticleAngle(float verti) {
 void Camera::ForceAngleUpdate() {
 	ApplyAngleVectors();
 }
+
+glm::vec3 Camera::GetPos()
+{
+	return m_pos;
+}
+
+glm::vec3 Camera::GetUp()
+{
+	return m_up;
+}
+
+glm::vec3 Camera::GetAim()
+{
+	return m_aim;
+}
