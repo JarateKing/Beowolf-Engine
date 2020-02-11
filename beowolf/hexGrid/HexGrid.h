@@ -30,6 +30,8 @@ public:
 	bool isMountain(int pos);
 	void BlockNodePositions(glm::vec3 p_nodePos);
 	void ClearBlocks();
+	void StartTargeting(int target);
+	void StopTargeting();
 
 private:
 	void GenerateLoc(int width, int length, float tileWidth);
@@ -75,7 +77,6 @@ private:
 	int targetingT = -1;
 	int abstractTarget = -1;
 	int lastFrame = -1;
-	float timeBetween = 1.0f;
 
 	int m_width;
 	int m_height;
