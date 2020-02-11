@@ -50,7 +50,31 @@ namespace wolf {
 		m_alpha = alpha;
 	}
 
+	float HudElement::GetW() {
+		return m_xBound;
+	}
+
+	float HudElement::GetH() {
+		return m_yBound;
+	}
+
+	float HudElement::GetX() {
+		return m_xPos;
+	}
+
+	float HudElement::GetY() {
+		return m_yPos;
+	}
+
 	float HudElement::GetZ() {
 		return m_zPos;
+	}
+
+	bool HudElement::GetVisible() {
+		return m_isVisible;
+	}
+
+	float HudElement::GetAlpha() {
+		return m_alpha;
 	}
 }

@@ -83,6 +83,7 @@ void BaseScene::Init()
 	grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
 	selector = new HexSelector(5.0f);
 	cManager = new CharacterManager(grid, testhud);
+	cManager->SetCamera(cam);
 	hexPos.SetGrid(grid);
 
 	StateManager::getInstance().SetCharacterManager(cManager);
