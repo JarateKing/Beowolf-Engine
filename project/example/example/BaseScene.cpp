@@ -107,7 +107,7 @@ void BaseScene::Update()
 	std::vector<glm::vec2> positions = grid->GetPos();
 	if (!(target < 0))
 	{
-		selector->Update(target, positions.at(target), heights.at(target));
+		//selector->Update(target, positions.at(target), heights.at(target));
 		grid->Update(target, delta);
 	}
 	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
@@ -161,7 +161,7 @@ void BaseScene::Render()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	grid->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
-	selector->Render(cam->GetViewMatrix());
+	//selector->Render(cam->GetViewMatrix());
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
 	
 	//test->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
