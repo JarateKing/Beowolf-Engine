@@ -298,7 +298,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			if (it->GetTile() == currTarget && !it->getHasMoved())
 			{
 				targetName = it->GetName();
-				grid->StartTargeting(currTarget, 3);
+				grid->StartTargeting(currTarget, characterIHub.GetStat(it->GetName(), "MaxMovement") + 1);
 				targeting = true;
 				timeBetween = 0.0f;
 				it->setSelected(true);
