@@ -64,6 +64,8 @@ class CharacterManager
 		int m_itemCap = 5;
 		int m_charCount = 3;
 		Camera* m_cam;
+		float m_cameraTime = 0.0f;
+		int m_cameraUnit = 0;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 		bool IsCharOnTile(int pos);

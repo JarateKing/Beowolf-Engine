@@ -42,6 +42,20 @@ CharacterManager::~CharacterManager()
 
 void CharacterManager::Update(int p_target, float p_deltaT)
 {
+	m_cameraTime += p_deltaT;
+	m_cameraUnit %= characters.size();
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_F)) {
+		if (m_cameraTime < 2.0f) {
+			m_cameraUnit = (m_cameraUnit + 1) % characters.size();
+		}
+		else {
+			m_cameraUnit = 0;
+		}
+
+		m_cameraTime = 0.0f;
+		m_cam->MoveToView(characters[m_cameraUnit].GetPos(), glm::vec3(0, 50 - characters[m_cameraUnit].GetPos().y, -40.0f), 0);
+	}
+
 	if (clickedOnEnemy)
 	{
 		for (auto it = characters.begin(); it != characters.end(); it++)
