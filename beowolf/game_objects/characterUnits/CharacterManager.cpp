@@ -53,7 +53,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		}
 
 		m_cameraTime = 0.0f;
-		m_cam->MoveToView(characters[m_cameraUnit].GetPos(), glm::vec3(0, 50 - characters[m_cameraUnit].GetPos().y, -40.0f), 0);
+		m_cam->MoveToView(characters[m_cameraUnit].GetPos(), glm::vec3(0, 50 - characters[m_cameraUnit].GetPos().y, -40.0f), 0.35f);
 	}
 
 	if (clickedOnEnemy)
