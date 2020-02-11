@@ -298,6 +298,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			if (it->GetTile() == currTarget && !it->getHasMoved())
 			{
 				targetName = it->GetName();
+				grid->StartTargeting(currTarget);
 				targeting = true;
 				timeBetween = 0.0f;
 				it->setSelected(true);
@@ -306,6 +307,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			}
 			else
 			{
+				grid->StopTargeting();
 				targeting = false;
 				timeBetween = 1.0f;
 			}
@@ -375,6 +377,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 								targeting = false;
 								timeBetween = 0.0f;
 								it->setSelected(false);
+								grid->StopTargeting();
 								it->Move(path, movementTime, true);
 								it->SetTile(path.at(path.size() - 2));
 								clickedOnEnemy = true;
@@ -420,6 +423,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 							targeting = false;
 							timeBetween = 0.0f;
 							it->setSelected(false);
+							grid->StopTargeting();
 							it->Move(path, movementTime, false);
 							it->SetTile(path.at(path.size() - 1));
 							it = characters.end();
@@ -617,6 +621,11 @@ void CharacterManager::SetScoreTracker(ScoreTracker* tracker)
 void CharacterManager::SetCamera(Camera* cam)
 {
 	m_cam = cam;
+}
+
+void CharacterManager::SetGridSelector(HexSelector* selector)
+{
+	m_hexSelector = selector;
 }
 
 bool CharacterManager::IsCharOnTile(int pos) {
