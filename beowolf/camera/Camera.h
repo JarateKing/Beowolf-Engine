@@ -19,6 +19,7 @@ public:
 	glm::vec3 GetPos();
 	glm::vec3 GetUp();
 	glm::vec3 GetAim();
+	void MoveToView(glm::vec3 position, glm::vec3 offset, float time);
 
 private:
 	void ApplyAngleVectors();
@@ -35,6 +36,11 @@ private:
 
 	glm::mat4 m_proj;
 	glm::mat4 m_view;
+
+	float m_moveTime = 0.0f;
+	float m_moveTimeLimit = 0.0f;
+	glm::vec3 m_startPos;
+	glm::vec3 m_endPos;
 };
 
 #endif

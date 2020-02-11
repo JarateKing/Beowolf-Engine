@@ -86,6 +86,7 @@ void BaseScene::Init()
 	selector = new HexSelector(5.0f);
 	cManager = new CharacterManager(grid, testhud);
 	cManager->SetSoundEngine(SE);
+	cManager->SetCamera(cam);
 	hexPos.SetGrid(grid);
 
 	StateManager::getInstance().SetCharacterManager(cManager);

@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include <iostream>
+#include "W_Math.h"
 
 Camera::Camera(float horizontalAngle, float verticalAngle, glm::vec3 position)
 {
@@ -60,6 +61,14 @@ void Camera::Update(float delta)
 		{
 			m_pos -= m_aim * movespeed;
 		}
+	}
+
+	if (m_moveTimeLimit != 0 && m_moveTime != m_moveTimeLimit) {
+		m_moveTime += delta;
+		if (m_moveTime > m_moveTimeLimit)
+			m_moveTime = m_moveTimeLimit;
+
+		m_pos = wolf::Math::lerp(m_startPos, m_endPos, wolf::Math::ease(m_moveTime / m_moveTimeLimit));
 	}
 
 	// updating matrix incase something changed
@@ -150,4 +159,20 @@ glm::vec3 Camera::GetUp()
 glm::vec3 Camera::GetAim()
 {
 	return m_aim;
+}
+
+void Camera::MoveToView(glm::vec3 position, glm::vec3 offset, float time) {
+	offset = (glm::vec3)(glm::vec4(offset.x, offset.y, offset.z, 0) * glm::rotate(-m_horiz * RAD2DEG, glm::vec3(0, 1, 0)));
+	position += offset;
+
+	if (time == 0) {
+		m_pos = position;
+	}
+	else {
+		m_startPos = m_pos;
+		m_endPos = position;
+
+		m_moveTime = 0.0f;
+		m_moveTimeLimit = time;
+	}
 }

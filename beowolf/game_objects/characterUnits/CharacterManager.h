@@ -10,7 +10,7 @@
 #include "CharacterInfoHub.h"
 #include "ScoreTracker.h"
 #include "sound/W_SoundEngine.h"
-
+#include "camera/Camera.h"
 
 class CharacterManager
 {
@@ -27,6 +27,7 @@ class CharacterManager
 
 		void SetScoreTracker(ScoreTracker* tracker);
 		void SetSoundEngine(wolf::SoundEngine* soundEng);
+		void SetCamera(Camera* cam);
 
 		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
@@ -61,8 +62,11 @@ class CharacterManager
 		int m_enemyCap = 3;
 		int m_score = 0;
 		int m_itemCap = 5;
+		int m_charCount = 3;
+		Camera* m_cam;
+		float m_cameraTime = 0.0f;
+		int m_cameraUnit = 0;
 		int m_enemiesSpawnedTotal = 0;
-
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 		bool IsCharOnTile(int pos);

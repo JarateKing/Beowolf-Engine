@@ -20,7 +20,13 @@ namespace wolf
 		void SetZ(const float& zpos);
 		void SetVisible(const bool& visible);
 		void SetAlpha(const float& alpha);
+		float GetW();
+		float GetH();
+		float GetX();
+		float GetY();
 		float GetZ();
+		bool GetVisible();
+		float GetAlpha();
 
 	protected:
 		float m_xPos;
