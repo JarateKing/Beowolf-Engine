@@ -79,6 +79,13 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	pTex = wolf::TextureManager::CreateTexture(texFile);
 	pTex->SetFilterMode(wolf::Texture::FM_LinearMipmap, wolf::Texture::FM_Linear);
 	pTex->SetWrapMode(wolf::Texture::WM_Repeat);
+	std::vector<glm::vec3> dPos;
+	for (int i = 0; i < desert.size(); i++)
+	{
+		if(i < positions.size())
+			dPos.push_back(glm::vec3(positions.at(desert.at(i)).x, 0.0f, positions.at(desert.at(i)).y));
+	}
+	pathFinder->Instance()->SetDesertPositions(dPos);
 }
 
 HexGrid::~HexGrid()
@@ -1018,6 +1025,15 @@ bool HexGrid::isMountain(int pos)
 {
 	for (int i = 0; i < mountains.size(); i++)
 		if (mountains[i] == pos)
+			return true;
+
+	return false;
+}
+
+bool HexGrid::isDesert(int pos)
+{
+	for (int i = 0; i < desert.size(); i++)
+		if (desert[i] == pos)
 			return true;
 
 	return false;

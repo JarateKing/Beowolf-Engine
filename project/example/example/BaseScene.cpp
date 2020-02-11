@@ -4,11 +4,9 @@
 #include <iostream>
 #include "W_Math.h"
 #include "W_ProjectionMatrix.h"
-//#include <BMWModel.h>
 #include <W_Time.h>
 #include <W_ProjectionMatrix.h>
 #include <iomanip>
-//#include "DebugCamera.h"
 #include "sound/W_SoundEngine.h"
 #include "beowolf/hexGrid/HexGrid.h"
 #include "camera/Camera.h"
@@ -32,7 +30,7 @@
 #include "characterUnits/ScoreTracker.h"
 
 const float DISTANCEFACTOR = 1.0f;
-wolf::SoundEngine SE;
+wolf::SoundEngine* SE;
 static Camera* cam;
 static glm::mat4 cull;
 static HexGrid* grid;
@@ -48,6 +46,7 @@ ScoreTracker* scoreTracker;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
+float distance = -1000.0f;
 
 BaseScene::BaseScene()
 {
@@ -55,24 +54,27 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
+	SE = new wolf::SoundEngine();
+	SE->InitSystem();
+	SE->AddSound("resources/sound/Base_Music/old_city_theme.ogg", "base_theme", true);
+	SE->AddSound("resources/sound/Death/enemy_death.wav", "enemy_death", false);
+	SE->AddSound("resources/sound/Death/hero_death.flac", "hero_death", false);
+	SE->AddSound("resources/sound/Game_Over/Jingle_Lose_00.wav", "lose_jingle", true);
+	SE->AddSound("resources/sound/Game_Start/Jingle_Achievement_00.wav", "start_jingle", true);
+	SE->AddSound("resources/sound/Hits/Socapex-Swordsmall.wav", "hit1", true);
+	SE->AddSound("resources/sound/Hits/Socapex-Swordsmall_1.wav", "hit2", true);
+	SE->AddSound("resources/sound/Hits/Socapex-Swordsmall_2.wav", "hit3", true);
+	SE->AddSound("resources/sound/Hits/Socapex-Swordsmall_3.wav", "hit4", true);
+	SE->AddSound("resources/sound/Item_Pickup/Inventory_Open_00.wav", "item_pickup", false);
+	SE->AddSound("resources/sound/Movement/wooden-stairs-in-1.flac", "movement1", false);
+	SE->AddSound("resources/sound/Movement/wooden-stairs-out-1.flac", "movement2", false);
+
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	auto shaders = wolf::ResourceLoader::Instance().getShaders("animatable");
 
-	//Hub Testing
-	//cHub.AddCharacter("Characters/hero1.json", "WingedKnight");
-	//cHub.AddEnemyType("Characters/enemyLight.json", "Enemy1");
-	//cHub.AddItemType("Items/potion.json");
-	//cHub.DamageCharacter("WingedKnight", 50);
-	//cHub.DamageEnemy("Enemy1", 50);
-	//cHub.GivePlayerItem("WingedKnight", "Potion");
-
 	float scale = 5.0;
 	float scale2 = 0.05;
-	//test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("Knights/RedKnightAlternative.bmw"), shaders.first, shaders.second);
-	//test2 = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("lich/FreeLich.bmw"), shaders.first, shaders.second);
-	//test->setTransform(glm::translate(glm::vec3(0, -100, 50)) * glm::rotate(90.0f, 0.0f, 1.0f, 0.0f) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::scale(glm::vec3(scale2, scale2, scale2)));
-	//test2->setTransform(glm::translate(glm::vec3(0, -100, 60)) * glm::scale(glm::vec3(scale, scale, scale)));
 
 	testhud = new wolf::Hud("resources/hud/hud.json");
 	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -83,24 +85,28 @@ void BaseScene::Init()
 	grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
 	selector = new HexSelector(5.0f);
 	cManager = new CharacterManager(grid, testhud);
+	cManager->SetSoundEngine(SE);
 	cManager->SetCamera(cam);
 	hexPos.SetGrid(grid);
 
 	StateManager::getInstance().SetCharacterManager(cManager);
 	StateManager::getInstance().SetHud(testhud);
 	StateManager::getInstance().SetCamera(cam);
+	StateManager::getInstance().SetSoundEngine(SE);
 
 	scoreTracker = new ScoreTracker(testhud);
 	cManager->SetScoreTracker(scoreTracker);
+	SE->Play3DSound("base_theme", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), true);
+	SE->UpdateSystem();
 }
 
 void BaseScene::Update()
 {
+	SE->SetListenerAttr(glm::vec3(-cam->GetPos().x, cam->GetPos().y, -cam->GetPos().z), glm::vec3(0.0f, 0.0f, 0.0f), cam->GetAim(), cam->GetUp());
+
 	static bool wasJustAnimated = false;
 	float delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
-
-	//test->update(delta);
 	
 	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	std::vector<float> heights = grid->GetHeights();
@@ -150,6 +156,7 @@ void BaseScene::Update()
 	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
 	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
 	testhud->Update(delta);
+	SE->UpdateSystem();
 }
 
 void BaseScene::Render()

@@ -87,6 +87,8 @@ void CharacterUnits::Update(float deltaT)
 					model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 					SetAnim("attack");
 					SetAnim("attack_begin");
+					m_soundEngine->PauseSound("movement1");
+					m_soundEngine->UpdateSystem();
 				}
 				timeAttacking += deltaT;
 				if (timeAttacking >= 1.5f)
@@ -101,6 +103,9 @@ void CharacterUnits::Update(float deltaT)
 			{
 				model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 				SetAnim("idle");
+
+				m_soundEngine->PauseSound("movement1");
+				m_soundEngine->UpdateSystem();
 				model->setModelFilter(glm::vec3(0.7, 0.7, 0.7));
 			}
 
@@ -124,6 +129,8 @@ void CharacterUnits::Update(float deltaT)
 					if (canTakeDamage)
 					{
 						initiatingDamage = true;
+						m_soundEngine->PlayBasicSound("hit3");
+						m_soundEngine->UpdateSystem();
 						canTakeDamage = false;
 					}
 				}
@@ -135,6 +142,7 @@ void CharacterUnits::Update(float deltaT)
 				{
 					damaged = false;
 					model->setModelAdditive(glm::vec3(0, 0, 0));
+
 				}
 				else if (timeDamaged >= 0.5)
 				{
@@ -142,6 +150,8 @@ void CharacterUnits::Update(float deltaT)
 					if (canTakeDamage)
 					{
 						initiatingDamage = true;
+						m_soundEngine->PlayBasicSound("hit3");
+						m_soundEngine->UpdateSystem();
 						canTakeDamage = false;
 					}
 				}
@@ -184,6 +194,8 @@ void CharacterUnits::SetAnim(std::string p_animName)
 
 void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete, bool p_attacking)
 {
+	m_soundEngine->PlayBasicSound("movement1");
+	m_soundEngine->UpdateSystem();
 	if (p_attacking)
 	{
 		m_attacking = true;
@@ -294,4 +306,9 @@ std::string CharacterUnits::GetAttacker()
 wolf::BMWModel* CharacterUnits::GetModel()
 {
 	return model;
+}
+
+void CharacterUnits::SetSoundEngine(wolf::SoundEngine* soundEng)
+{
+	m_soundEngine = soundEng;
 }

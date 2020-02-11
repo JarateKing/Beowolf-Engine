@@ -2,7 +2,6 @@
 #define CHARACTERMANAGER_H
 
 #include <list>
-//#include <map>
 #include "W_Common.h"
 #include "CharacterUnits.h"
 #include "hexGrid/HexGrid.h"
@@ -10,6 +9,7 @@
 #include "W_Hud.h"
 #include "CharacterInfoHub.h"
 #include "ScoreTracker.h"
+#include "sound/W_SoundEngine.h"
 #include "camera/Camera.h"
 
 class CharacterManager
@@ -26,13 +26,12 @@ class CharacterManager
 		std::string GetCharacterSelected();
 
 		void SetScoreTracker(ScoreTracker* tracker);
+		void SetSoundEngine(wolf::SoundEngine* soundEng);
 		void SetCamera(Camera* cam);
 
 		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
 
-		void BlockCharacters();
-		void BlockEnemies();
 		void BlockTiles(std::vector<int> tiles);
 
 	private:
@@ -58,6 +57,7 @@ class CharacterManager
 		wolf::Hud* m_hud;
 		std::vector<glm::vec3> blocked;
 		ScoreTracker* m_scoreTracker;
+		wolf::SoundEngine* m_soundEngine;
 		int m_enemyCount = 0;
 		int m_enemyCap = 3;
 		int m_score = 0;

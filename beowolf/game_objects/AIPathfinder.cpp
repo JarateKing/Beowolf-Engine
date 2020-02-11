@@ -315,7 +315,17 @@ const AIPathfinder::PositionList& AIPathfinder::FindPath(const glm::vec3& p_vSta
 			{
 				// See if getting to this node from our current node is a better path
 				int currentGCost = pNeighbour->G;
-				int newGCost = pCurrentNode->G + glm::length(pCurrentNode->m_vPosition - pNeighbour->m_vPosition); // Parent cost + "as the crow flies" cost to get from parent to us
+				int newGCost;
+				//CHECK IF NEIGHBOUR NODE IS SAND, DOUBLE IF SO
+				if (WithinDesert(pNeighbour->m_vPosition))
+				{
+					newGCost = pCurrentNode->G + 2* (glm::length(pCurrentNode->m_vPosition - pNeighbour->m_vPosition)); // Parent cost + "as the crow flies" cost to get from parent to us
+				}
+				else
+				{
+					newGCost = pCurrentNode->G + glm::length(pCurrentNode->m_vPosition - pNeighbour->m_vPosition); // Parent cost + "as the crow flies" cost to get from parent to us
+				}
+
 				if (newGCost < currentGCost)
 				{
 					// Change parent; we found a better route
@@ -329,7 +339,17 @@ const AIPathfinder::PositionList& AIPathfinder::FindPath(const glm::vec3& p_vSta
 				pNeighbour->pParentNode = pCurrentNode;
 				pNeighbour->bInOpenList = true;
 				pNeighbour->bInClosedList = false;
-				pNeighbour->G = pCurrentNode->G + glm::length(pCurrentNode->m_vPosition - pNeighbour->m_vPosition);	// Parent cost + "as the crow flies" cost to get from parent to us
+				if (WithinDesert(pNeighbour->m_vPosition))
+				{
+					pNeighbour->G = pCurrentNode->G + 2*(glm::length(pCurrentNode->m_vPosition - pNeighbour->m_vPosition));	// Parent cost + "as the crow flies" cost to get from parent to us
+				}
+				else
+				{
+					pNeighbour->G = pCurrentNode->G + glm::length(pCurrentNode->m_vPosition - pNeighbour->m_vPosition);	// Parent cost + "as the crow flies" cost to get from parent to us
+				}
+				
+				//CHECK IF NEIGHBOUR NODE IS SAND, DOUBLE IF SO
+				
 				pNeighbour->H = glm::length(pNeighbour->m_vPosition - pEndNode->m_vPosition);			// "As the crow flies" cost to get to the end square
 				lOpenList.push_back(pNeighbour);
 
@@ -484,4 +504,19 @@ void AIPathfinder::BlockNode(glm::vec3 nodePos)
 void AIPathfinder::ClearBlockedNodes()
 {
 	m_blockedNodes.clear();
+}
+
+void AIPathfinder::SetDesertPositions(std::vector<glm::vec3> desert)
+{
+	desertPos = desert;
+}
+
+bool AIPathfinder::WithinDesert(glm::vec3 check)
+{
+	for (int i = 0; i < desertPos.size(); i++)
+	{
+		if (glm::length(check - desertPos.at(i)) < 0.01)
+			return true;
+	}
+	return false;
 }

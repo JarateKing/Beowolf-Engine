@@ -68,6 +68,9 @@ namespace week9
 		bool IsNodeBlocked(glm::vec3 nodePos);
 		void BlockNode(glm::vec3 nodePos);
 		void ClearBlockedNodes();
+		void SetDesertPositions(std::vector<glm::vec3> desert);
+		bool WithinDesert(glm::vec3 check);
+		
 
 	private:
 		//------------------------------------------------------------------------------
@@ -82,6 +85,8 @@ namespace week9
 		//------------------------------------------------------------------------------
 		// Private members.
 		//------------------------------------------------------------------------------
+
+		std::vector<glm::vec3> desertPos;
 
 		// Static singleton instance
 		static AIPathfinder* s_pPathfindingInstance;
