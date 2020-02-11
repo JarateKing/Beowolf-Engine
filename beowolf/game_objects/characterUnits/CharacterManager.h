@@ -10,6 +10,7 @@
 #include "W_Hud.h"
 #include "CharacterInfoHub.h"
 #include "ScoreTracker.h"
+#include "camera/Camera.h"
 
 class CharacterManager
 {
@@ -25,6 +26,7 @@ class CharacterManager
 		std::string GetCharacterSelected();
 
 		void SetScoreTracker(ScoreTracker* tracker);
+		void SetCamera(Camera* cam);
 
 		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
@@ -61,6 +63,7 @@ class CharacterManager
 		int m_score = 0;
 		int m_itemCap = 5;
 		int m_charCount = 3;
+		Camera* m_cam;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 		bool IsCharOnTile(int pos);

@@ -591,6 +591,11 @@ void CharacterManager::SetScoreTracker(ScoreTracker* tracker)
 	m_scoreTracker = tracker;
 }
 
+void CharacterManager::SetCamera(Camera* cam)
+{
+	m_cam = cam;
+}
+
 bool CharacterManager::IsCharOnTile(int pos) {
 	for (int i = 0; i < characters.size(); i++)
 		if (characters[i].GetTile() == pos)
