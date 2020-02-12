@@ -41,10 +41,9 @@ void ComponentHexPos::Update(float p_fDelta)
 		{
 			if (attacking)
 			{
-				//std::cout << pathway.at(pathway.size() - 1) << " | " << endAttackTile;
-
 				glm::vec3 last = glm::vec3(m_grid->GetPos().at(pathway.at(pathway.size()-1)).x, m_grid->GetHeights().at(pathway.at(pathway.size()-1)), m_grid->GetPos().at(pathway.at(pathway.size()-1)).y);
 				glm::vec3 dif = glm::vec3(m_grid->GetPos().at(endAttackTile).x, m_grid->GetHeights().at(endAttackTile), m_grid->GetPos().at(endAttackTile).y) - last;
+				currentPos = last;
 				float dir = 180.0f;
 				if (dif.x != 0 || dif.z != 0)
 				{
@@ -56,6 +55,7 @@ void ComponentHexPos::Update(float p_fDelta)
 				attacking = false;
 			}
 			moving = false;
+			justEndMove = true;
 		}
 	}
 }
@@ -63,6 +63,11 @@ void ComponentHexPos::Update(float p_fDelta)
 void ComponentHexPos::SetGrid(HexGrid* p_grid)
 {
 	m_grid = p_grid;
+}
+
+void ComponentHexPos::SetPos(glm::vec3 pos)
+{
+	currentPos = pos;
 }
 
 void ComponentHexPos::Move(std::vector<int> p_path, float timeToComplete, bool p_attacking)
@@ -82,7 +87,6 @@ void ComponentHexPos::Move(std::vector<int> p_path, float timeToComplete, bool p
 
 glm::vec3 ComponentHexPos::GetPos()
 {
-	//return glm::vec3(m_grid->GetPos().at(currentHex).x, m_grid->GetHeights().at(currentHex), m_grid->GetPos().at(currentHex).y);
 	return currentPos;
 }
 

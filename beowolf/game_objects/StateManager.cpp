@@ -54,8 +54,6 @@ void StateManager::Update(float delta) {
 				for (auto element : m_hud->GetElementsByTag("ingame"))
 					element->SetVisible(true);
 			}
-
-			m_soundEngine->PlayBasicSound("lose_jingle");
 		}
 		else if (m_currentState == State::GamestatePlayerTurn) {
 			bool hasAllMoved = true;
@@ -73,7 +71,10 @@ void StateManager::Update(float delta) {
 			}
 
 			if (hasAllMoved)
+			{
 				SetState(State::GamestateEnemyTurn);
+				m_soundEngine->PlayBasicSound("movement2");
+			}
 		}
 		else if (m_currentState == State::GamestateEnemyTurn) {
 			bool hasAllMoved = true;
@@ -91,9 +92,15 @@ void StateManager::Update(float delta) {
 
 			if (hasAllMoved) {
 				if (enemies->size() == 0)
+				{
 					SetState(State::GamestatePlayerLost);
+					m_soundEngine->PlayBasicSound("lose_jingle");
+				}
 				else
+				{
 					SetState(State::GamestatePlayerTurn);
+					m_soundEngine->PauseSound("movement2");
+				}
 			}
 		}
 	}

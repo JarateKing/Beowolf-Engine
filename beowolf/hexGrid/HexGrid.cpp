@@ -82,7 +82,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	std::vector<glm::vec3> dPos;
 	for (int i = 0; i < desert.size(); i++)
 	{
-		if(i < positions.size())
+		if(desert.at(i) < positions.size())
 			dPos.push_back(glm::vec3(positions.at(desert.at(i)).x, 0.0f, positions.at(desert.at(i)).y));
 	}
 	pathFinder->Instance()->SetDesertPositions(dPos);

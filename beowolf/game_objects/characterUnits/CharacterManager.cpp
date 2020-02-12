@@ -43,7 +43,8 @@ CharacterManager::~CharacterManager()
 void CharacterManager::Update(int p_target, float p_deltaT)
 {
 	m_cameraTime += p_deltaT;
-	m_cameraUnit %= characters.size();
+	if(characters.size() != 0)
+		m_cameraUnit %= characters.size();
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_F)) {
 		if (m_cameraTime < 2.0f) {
 			m_cameraUnit = (m_cameraUnit + 1) % characters.size();
@@ -388,7 +389,16 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 								timeBetween = 0.0f;
 								it->setSelected(false);
 								it->Move(path, movementTime, true);
-								it->SetTile(path.at(path.size() - 2));
+								if (path.size() > 1)
+									it->SetTile(path.at(path.size() - 2));
+								else
+								{
+									int pop = path.back();
+									path.pop_back();
+									path.push_back(p_target);
+									path.push_back(pop);
+									it->SetTile(path.at(path.size() - 2));
+								}
 								clickedOnEnemy = true;
 								characterMoving = it->GetName();
 								targetedEnemy = targetEnemy;
@@ -453,14 +463,35 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 
 void CharacterManager::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
 {
+	std::vector<HexSelector*> hexs;
 	for (auto it = characters.begin(); it != characters.end(); it++)
+	{
 		it->Render(p_view, p_proj, type);
+		//HexSelector* temp = new HexSelector(5.0f);
+		//temp->Update(it->GetTile(), grid->GetPos().at(it->GetTile()), grid->GetHeights().at(it->GetTile()) + 1.0f);
+		//hexs.push_back(temp);
+	}
 	
 	for (int i = 0; i < enemies.size(); i++)
+	{
 		enemies.at(i).Render(p_view, p_proj, type);
+		//HexSelector* temp = new HexSelector(5.0f);
+		//temp->Update(enemies.at(i).GetTile(), grid->GetPos().at(enemies.at(i).GetTile()), grid->GetHeights().at(enemies.at(i).GetTile()) + 1.0f);
+		//hexs.push_back(temp);
+	}
 
 	for (int i = 0; i < items.size(); i++)
 		items[i]->Render(p_view, p_proj, type);
+
+	/*for (int i = 0; i < hexs.size(); i++)
+	{
+		hexs.at(i)->Render(p_view);
+	}
+
+	for (int i = 0; i < hexs.size(); i++)
+	{
+		hexs.at(i)->~HexSelector();
+	}*/
 }
 
 void CharacterManager::MoveEnemies()
@@ -497,6 +528,11 @@ void CharacterManager::MoveEnemies()
 				enemies.at(i).Move(pathToHero, movementTime, false);
 				enemies.at(i).SetTile(pathToHero.at(pathToHero.size() - 1));
 			}
+		}
+		else
+		{
+			pathToHero.push_back(enemies.at(i).GetTile());
+			enemies.at(i).Move(pathToHero, movementTime, false);
 		}
 
 		attacking = false;
@@ -654,4 +690,19 @@ void CharacterManager::PreloadCharacterModels()
 	Item("potion.bmw", "unlit_texture", 5, "Items/potion.json", "Potion", grid);
 	Item("sword1.bmw", "unlit_texture", 6, "Items/sword.json", "Sword", grid);
 	Item("shield.bmw", "unlit_texture", 7, "Items/shield.json", "Shield", grid);
+}
+
+void CharacterManager::PrintCharacterTilePos()
+{
+	std::cout << "================================\n\n";
+	for (int i = 0; i < characters.size(); i++)
+	{
+		std::cout << characters.at(i).GetTile() << ", (" << characters.at(i).GetPos().x << ", " << characters.at(i).GetPos().y << ") \n";
+	}
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		std::cout << enemies.at(i).GetTile() << ", (" << enemies.at(i).GetPos().x << ", " << enemies.at(i).GetPos().y << ") \n";
+	}
+	std::cout << "================================\n\n";
 }

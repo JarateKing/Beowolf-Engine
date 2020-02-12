@@ -17,11 +17,9 @@ class CharacterUnits
 		std::string GetName();
 		int GetTile();
 		void SetTile(int tile);
-		void PlaySound(std::string soundName);
 		void SetAnim(std::string animName);
 		void Move(std::vector<int> p_path, float p_timeToComplete, bool p_attacking);
 		glm::vec3 GetPos();
-		void ModifyStats(std::string id, float mult);
 		void SetSoundEngine(wolf::SoundEngine* soundEng);
 
 		bool getHasMoved();
