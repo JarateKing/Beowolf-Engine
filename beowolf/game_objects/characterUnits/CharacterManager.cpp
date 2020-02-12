@@ -350,21 +350,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				{
 					if (it->GetName().compare(targetName) == 0)
 					{
-						grid->ClearBlocks();
-
-						std::vector<int> tilesBlocked;
-
-						for (int i = 0; i < enemies.size(); i++)
-						{
-							if (enemies.at(i).GetName().compare(targetEnemy) != 0)
-								tilesBlocked.push_back(enemies.at(i).GetTile());
-						}
-						for (int i = 0; i < characters.size(); i++)
-						{
-							if (characters.at(i).GetName().compare(targetName) != 0)
-								tilesBlocked.push_back(characters.at(i).GetTile());
-						}
-						BlockTiles(tilesBlocked);
+						ApplyPathBlocks(targetName);
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 
@@ -399,20 +385,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				{
 					if (it->GetName().compare(targetName) == 0)
 					{
-						grid->ClearBlocks();
-
-						std::vector<int> tilesBlocked;
-
-						for (int i = 0; i < enemies.size(); i++)
-						{
-							tilesBlocked.push_back(enemies.at(i).GetTile());
-						}
-						for (int i = 0; i < characters.size(); i++)
-						{
-							if(characters.at(i).GetName().compare(targetName) != 0)
-								tilesBlocked.push_back(characters.at(i).GetTile());
-						}
-						BlockTiles(tilesBlocked);
+						ApplyPathBlocks(targetName);
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 
@@ -653,4 +626,23 @@ void CharacterManager::PreloadCharacterModels()
 	Item("potion.bmw", "unlit_texture", 5, "Items/potion.json", "Potion", grid);
 	Item("sword1.bmw", "unlit_texture", 6, "Items/sword.json", "Sword", grid);
 	Item("shield.bmw", "unlit_texture", 7, "Items/shield.json", "Shield", grid);
+}
+
+void CharacterManager::ApplyPathBlocks(std::string toIgnore)
+{
+	grid->ClearBlocks();
+
+	std::vector<int> tilesBlocked;
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		if (enemies[i].GetName() != toIgnore)
+			tilesBlocked.push_back(enemies.at(i).GetTile());
+	}
+	for (int i = 0; i < characters.size(); i++)
+	{
+		if (characters[i].GetName() != toIgnore)
+			tilesBlocked.push_back(characters.at(i).GetTile());
+	}
+	BlockTiles(tilesBlocked);
 }

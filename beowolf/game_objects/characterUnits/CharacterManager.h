@@ -74,6 +74,7 @@ class CharacterManager
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 		bool IsCharOnTile(int pos);
 		void PreloadCharacterModels();
+		void ApplyPathBlocks(std::string toIgnore);
 };
 
 #endif
