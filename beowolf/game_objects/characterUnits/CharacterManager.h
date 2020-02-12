@@ -31,7 +31,7 @@ class CharacterManager
 
 		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
-
+		void PrintCharacterTilePos();
 		void BlockTiles(std::vector<int> tiles);
 
 	private:

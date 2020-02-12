@@ -129,8 +129,6 @@ bool AIPathfinder::Load(const char* p_strPathfindingData)
 		float y = std::stof(ystr);
 		float z = std::stof(zstr);
 
-		//std::cout << idx << ": " << x << ", " << y << ", " << z << std::endl;
-
 		// Add the node to our list
 		PathNode* pNode = new PathNode();
 		pNode->m_vPosition = glm::vec3(x, y, z);
@@ -146,8 +144,6 @@ bool AIPathfinder::Load(const char* p_strPathfindingData)
 			
 		int start = std::stoi(startN);
 		int end = std::stoi(endN);
-
-		//std::cout << start << ", " << end << std::endl;
 
 		//assert(start >= 0 && start < m_lPathNodes.size());
 		//assert(end >= 0 && end < m_lPathNodes.size());
@@ -236,7 +232,7 @@ const AIPathfinder::PositionList& AIPathfinder::FindPath(const glm::vec3& p_vSta
 			pStartNode = pNode;
 			fStartNodeDist = fDistToStartPos;
 		}
-		if (pEndNode == NULL || fDistToEndPos < fEndNodeDist || IsNodeBlocked(pStartNode->m_vPosition))
+		if (pEndNode == NULL || fDistToEndPos < fEndNodeDist || IsNodeBlocked(pEndNode->m_vPosition))
 		{
 			pEndNode = pNode;
 			fEndNodeDist = fDistToEndPos;

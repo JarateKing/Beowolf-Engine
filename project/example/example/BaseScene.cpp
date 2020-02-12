@@ -124,6 +124,9 @@ void BaseScene::Update()
 	if (shouldSwap)
 		shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerTurn;
 
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_T))
+		cManager->PrintCharacterTilePos();
+
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_Y))
 		shouldSwap = true;
 
@@ -170,17 +173,11 @@ void BaseScene::Render()
 	grid->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
 	selector->Render(cam->GetViewMatrix());
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
-	
-	//test->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
-	//test2->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
 
 	// Transparent
 	glEnable(GL_BLEND);
 
 	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
-	
-	//test->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
-	//test2->render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
 
 	// Depthless
 	glDepthMask(false);
