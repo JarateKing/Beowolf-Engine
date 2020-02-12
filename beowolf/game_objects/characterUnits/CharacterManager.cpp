@@ -299,6 +299,10 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		{
 			if (it->GetTile() == currTarget && !it->getHasMoved())
 			{
+				std::vector<std::string> toIgnore;
+				toIgnore.push_back(it->GetName());
+				ApplyPathBlocks(toIgnore, true, false);
+
 				targetName = it->GetName();
 				grid->StartTargeting(currTarget, characterIHub.GetStat(it->GetName(), "MaxMovement") + 1);
 				targeting = true;
@@ -350,7 +354,10 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				{
 					if (it->GetName().compare(targetName) == 0)
 					{
-						ApplyPathBlocks(targetName);
+						std::vector<std::string> toIgnore;
+						toIgnore.push_back(targetName);
+						toIgnore.push_back(targetEnemy);
+						ApplyPathBlocks(toIgnore, true, true);
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 
@@ -385,7 +392,9 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				{
 					if (it->GetName().compare(targetName) == 0)
 					{
-						ApplyPathBlocks(targetName);
+						std::vector<std::string> toIgnore;
+						toIgnore.push_back(targetName);
+						ApplyPathBlocks(toIgnore, true, true);
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 
@@ -628,21 +637,21 @@ void CharacterManager::PreloadCharacterModels()
 	Item("shield.bmw", "unlit_texture", 7, "Items/shield.json", "Shield", grid);
 }
 
-void CharacterManager::ApplyPathBlocks(std::string toIgnore)
+void CharacterManager::ApplyPathBlocks(std::vector<std::string> toIgnore, bool blockCharacters, bool blockEnemies)
 {
 	grid->ClearBlocks();
 
 	std::vector<int> tilesBlocked;
 
-	for (int i = 0; i < enemies.size(); i++)
-	{
-		if (enemies[i].GetName() != toIgnore)
-			tilesBlocked.push_back(enemies.at(i).GetTile());
-	}
-	for (int i = 0; i < characters.size(); i++)
-	{
-		if (characters[i].GetName() != toIgnore)
-			tilesBlocked.push_back(characters.at(i).GetTile());
-	}
+	if (blockEnemies)
+		for (int i = 0; i < enemies.size(); i++)
+			if (std::find(toIgnore.begin(), toIgnore.end(), enemies[i].GetName()) == toIgnore.end())
+				tilesBlocked.push_back(enemies.at(i).GetTile());
+
+	if (blockCharacters)
+		for (int i = 0; i < characters.size(); i++)
+			if (std::find(toIgnore.begin(), toIgnore.end(), characters[i].GetName()) == toIgnore.end())
+				tilesBlocked.push_back(characters.at(i).GetTile());
+
 	BlockTiles(tilesBlocked);
 }
