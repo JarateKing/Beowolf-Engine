@@ -5,6 +5,7 @@
 #include "BMWModel.h"
 #include "ComponentHexPos.h"
 #include "Healthbar.h"
+#include "sound/W_SoundEngine.h"
 
 class CharacterUnits
 {
@@ -16,11 +17,10 @@ class CharacterUnits
 		std::string GetName();
 		int GetTile();
 		void SetTile(int tile);
-		void PlaySound(std::string soundName);
 		void SetAnim(std::string animName);
 		void Move(std::vector<int> p_path, float p_timeToComplete, bool p_attacking);
 		glm::vec3 GetPos();
-		void ModifyStats(std::string id, float mult);
+		void SetSoundEngine(wolf::SoundEngine* soundEng);
 
 		bool getHasMoved();
 		void setHasMoved(bool moved);
@@ -64,6 +64,7 @@ class CharacterUnits
 		double m_deltaSum = 0.0;
 		bool m_isHealthbarVisible = true;
 		Healthbar* m_healthbar;
+		wolf::SoundEngine* m_soundEngine;
 };
 
 #endif

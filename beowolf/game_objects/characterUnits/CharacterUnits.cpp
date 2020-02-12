@@ -25,6 +25,7 @@ CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, 
 	currTile = p_startTile;
 	name = p_name;
 	pos.SetGrid(p_grid);
+	pos.SetPos(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y));
 
 	m_healthbar = new Healthbar();
 	m_healthbar->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 4.0f, p_grid->GetPos().at(p_startTile).y)));
@@ -87,6 +88,8 @@ void CharacterUnits::Update(float deltaT)
 					model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 					SetAnim("attack");
 					SetAnim("attack_begin");
+					m_soundEngine->PauseSound("movement1");
+					m_soundEngine->UpdateSystem();
 				}
 				timeAttacking += deltaT;
 				if (timeAttacking >= 1.5f)
@@ -101,6 +104,9 @@ void CharacterUnits::Update(float deltaT)
 			{
 				model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 				SetAnim("idle");
+
+				m_soundEngine->PauseSound("movement1");
+				m_soundEngine->UpdateSystem();
 				model->setModelFilter(glm::vec3(0.7, 0.7, 0.7));
 			}
 
@@ -124,6 +130,8 @@ void CharacterUnits::Update(float deltaT)
 					if (canTakeDamage)
 					{
 						initiatingDamage = true;
+						m_soundEngine->PlayBasicSound("hit3");
+						m_soundEngine->UpdateSystem();
 						canTakeDamage = false;
 					}
 				}
@@ -135,6 +143,7 @@ void CharacterUnits::Update(float deltaT)
 				{
 					damaged = false;
 					model->setModelAdditive(glm::vec3(0, 0, 0));
+
 				}
 				else if (timeDamaged >= 0.5)
 				{
@@ -142,6 +151,8 @@ void CharacterUnits::Update(float deltaT)
 					if (canTakeDamage)
 					{
 						initiatingDamage = true;
+						m_soundEngine->PlayBasicSound("hit3");
+						m_soundEngine->UpdateSystem();
 						canTakeDamage = false;
 					}
 				}
@@ -172,11 +183,6 @@ void CharacterUnits::SetTile(int tile)
 	currTile = tile;
 }
 
-void CharacterUnits::PlaySound(std::string p_soundName)
-{
-	//TODO
-}
-
 void CharacterUnits::SetAnim(std::string p_animName)
 {
 	model->setAnim(p_animName);
@@ -184,6 +190,8 @@ void CharacterUnits::SetAnim(std::string p_animName)
 
 void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete, bool p_attacking)
 {
+	m_soundEngine->PlayBasicSound("movement1");
+	m_soundEngine->UpdateSystem();
 	if (p_attacking)
 	{
 		m_attacking = true;
@@ -201,17 +209,17 @@ void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete, bool 
 		SetAnim("walk");
 		SetAnim("run");
 	}
+	if (p_path.size() < 1)
+	{
+		m_hasMoved = true;
+		m_justMoved = true;
+	}
 	pos.Move(p_path, p_timeToComplete, p_attacking);
 }
 
 glm::vec3 CharacterUnits::GetPos()
 {
 	return pos.GetPos();
-}
-
-void CharacterUnits::ModifyStats(std::string id, float mult)
-{
-	// TODO: make actually modify stats
 }
 
 bool CharacterUnits::getHasMoved() {
@@ -294,4 +302,9 @@ std::string CharacterUnits::GetAttacker()
 wolf::BMWModel* CharacterUnits::GetModel()
 {
 	return model;
+}
+
+void CharacterUnits::SetSoundEngine(wolf::SoundEngine* soundEng)
+{
+	m_soundEngine = soundEng;
 }

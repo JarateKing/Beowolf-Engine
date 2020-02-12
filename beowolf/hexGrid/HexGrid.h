@@ -28,6 +28,7 @@ public:
 	bool cmpf(float a, float b);
 	int GetRandomBorder();
 	bool isMountain(int pos);
+	bool isDesert(int pos);
 	void BlockNodePositions(glm::vec3 p_nodePos);
 	void ClearBlocks();
 	void StartTargeting(int target, int max);

@@ -1,7 +1,7 @@
 
 {"Character" : 
 	{"Name" : "Winged Knight",
-	"HP" : 500.0,
+	"HP" : 300.0,
 	"MaxMovement" : 6.0,
 	"MaxAttack" : 80.0,
 	"MinAttack" : 60.0,

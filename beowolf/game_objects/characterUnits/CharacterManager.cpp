@@ -18,7 +18,7 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 	characterIHub.AddCharacter("Characters/hero2.json", "myGiant");
 	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 109, "myLich", p_grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
 	characterIHub.AddCharacter("Characters/hero3.json", "myLich");
-	
+
 	player1.SetHealthbarVisible(false);
 	player2.SetHealthbarVisible(false);
 	player3.SetHealthbarVisible(false);
@@ -52,7 +52,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			else {
 				m_cameraUnit = 0;
 			}
-
+			
 			m_cameraTime = 0.0f;
 			m_cam->MoveToView(characters[m_cameraUnit].GetPos(), glm::vec3(0, 50 - characters[m_cameraUnit].GetPos().y, -40.0f), 0.35f);
 		}
@@ -67,7 +67,6 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				if (it->isAttacking() == true)
 				{
 					clickedOnEnemy = false;
-					//characterIHub.DamageEnemy(targetedEnemy, characterMoving);
 					for (int i = 0; i < enemies.size(); i++)
 					{
 						if (enemies.at(i).GetName().compare(targetedEnemy) == 0)
@@ -90,7 +89,6 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			{
 				if (enemies.at(i).isAttacking() == true && enemies.at(i).GetName().compare(it->first) == 0)
 				{
-					//characterIHub.DamageCharacter(it->second, it->first);
 					deletions.push_back(it->first);
 					for (auto itc = characters.begin(); itc != characters.end(); itc++)
 					{
@@ -125,8 +123,11 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			if (characterIHub.GetStat(characters.at(i).GetName(), "HP") <= 0.0f)
 			{
 				characters.at(i).InitDeath();
+
 				if (characters.at(i).GetDeathTimer() >= 99.0f)
 				{
+					m_soundEngine->PlayBasicSound("hero_death");
+					m_soundEngine->UpdateSystem();
 					characters.erase(characters.begin() + i);
 				}
 			}
@@ -145,8 +146,12 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			if (characterIHub.GetStat(enemies.at(i).GetName(), "HP") <= 0.0f)
 			{
 				enemies.at(i).InitDeath();
+
 				if (enemies.at(i).GetDeathTimer() >= 99.0f)
 				{
+					m_soundEngine->PlayBasicSound("enemy_death");
+					m_soundEngine->UpdateSystem();
+
 					if (items.size() < m_itemCap)
 						SpawnItem(enemies.at(i).GetTile());
 
@@ -224,7 +229,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			if (glm::length(it->GetPos() - items[i]->GetPos()) < 0.25) {
 
 				characterIHub.GivePlayerItem(it->GetName(), items[i]->GetName());
-
+				m_soundEngine->PlayBasicSound("item_pickup");
+				m_soundEngine->UpdateSystem();
 				delete items[i];
 				items.erase(items.begin() + i);
 				i--;
@@ -361,8 +367,14 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 
-						int pSize = path.size();
-						pSize--;
+						int pSize = 0;
+						for (int i = 1; i < path.size(); i++)
+						{
+							if (grid->isDesert(path.at(i)))
+								pSize += 2;
+							else
+								pSize += 1;
+						}
 						int mMove = (int)characterIHub.GetStat(it->GetName(), "MaxMovement");
 
 						if ((path.size() > 0) && (pSize <= mMove))
@@ -374,7 +386,16 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 								it->setSelected(false);
 								grid->StopTargeting();
 								it->Move(path, movementTime, true);
-								it->SetTile(path.at(path.size() - 2));
+								if (path.size() > 1)
+									it->SetTile(path.at(path.size() - 2));
+								else
+								{
+									int pop = path.back();
+									path.pop_back();
+									path.push_back(p_target);
+									path.push_back(pop);
+									it->SetTile(path.at(path.size() - 2));
+								}
 								clickedOnEnemy = true;
 								characterMoving = it->GetName();
 								targetedEnemy = targetEnemy;
@@ -398,9 +419,16 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 
-						int pSize = path.size();
-						pSize--;
+						int pSize = 0;
+						for (int i = 1; i < path.size(); i++)
+						{
+							if (grid->isDesert(path.at(i)))
+								pSize += 2;
+							else
+								pSize += 1;
+						}
 						int mMove = (int)characterIHub.GetStat(it->GetName(), "MaxMovement");
+
 
 						if ((path.size() > 0) && (pSize <= mMove))
 						{
@@ -422,14 +450,35 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 
 void CharacterManager::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
 {
+	std::vector<HexSelector*> hexs;
 	for (auto it = characters.begin(); it != characters.end(); it++)
+	{
 		it->Render(p_view, p_proj, type);
+		//HexSelector* temp = new HexSelector(5.0f);
+		//temp->Update(it->GetTile(), grid->GetPos().at(it->GetTile()), grid->GetHeights().at(it->GetTile()) + 1.0f);
+		//hexs.push_back(temp);
+	}
 	
 	for (int i = 0; i < enemies.size(); i++)
+	{
 		enemies.at(i).Render(p_view, p_proj, type);
+		//HexSelector* temp = new HexSelector(5.0f);
+		//temp->Update(enemies.at(i).GetTile(), grid->GetPos().at(enemies.at(i).GetTile()), grid->GetHeights().at(enemies.at(i).GetTile()) + 1.0f);
+		//hexs.push_back(temp);
+	}
 
 	for (int i = 0; i < items.size(); i++)
 		items[i]->Render(p_view, p_proj, type);
+
+	/*for (int i = 0; i < hexs.size(); i++)
+	{
+		hexs.at(i)->Render(p_view);
+	}
+
+	for (int i = 0; i < hexs.size(); i++)
+	{
+		hexs.at(i)->~HexSelector();
+	}*/
 }
 
 void CharacterManager::MoveEnemies()
@@ -467,6 +516,11 @@ void CharacterManager::MoveEnemies()
 				enemies.at(i).SetTile(pathToHero.at(pathToHero.size() - 1));
 			}
 		}
+		else
+		{
+			pathToHero.push_back(enemies.at(i).GetTile());
+			enemies.at(i).Move(pathToHero, movementTime, false);
+		}
 
 		attacking = false;
 	}
@@ -484,6 +538,7 @@ void CharacterManager::SpawnEnemy(int pos, float multiplier)
 
 	CharacterUnits Enemy((unitType)?"units/myskeleton.bmw":"units/myfleshlobber.bmw", "animatable_untextured", pos, ((unitType)?"mySkeleton":"myFleshLobber")+std::to_string(m_enemyCount), grid, (unitType)?0.03:0.07, false, glm::vec3(0.7, 0.1, 0));
 	characterIHub.AddEnemyType((unitType)?"Characters/enemyLight.json":"Characters/enemyMedium.json", Enemy.GetName());
+	Enemy.SetSoundEngine(m_soundEngine);
 
 	characterIHub.UpdateStat(Enemy.GetName(), "HP", characterIHub.GetStat(Enemy.GetName(), "HP") * multiplier);
 	characterIHub.UpdateStat(Enemy.GetName(), "Health", characterIHub.GetStat(Enemy.GetName(), "Health") * multiplier);
@@ -572,24 +627,6 @@ std::vector<CharacterUnits>* CharacterManager::getEnemies()
 	return &enemies;
 }
 
-void CharacterManager::BlockEnemies()
-{
-	for (int i = 0; i < enemies.size(); i++)
-	{
-		blocked.push_back(glm::vec3(enemies.at(i).GetPos().x, 0.0f, enemies.at(i).GetPos().z));
-		grid->BlockNodePositions(glm::vec3(enemies.at(i).GetPos().x, 0.0f, enemies.at(i).GetPos().z));
-	}
-}
-
-void CharacterManager::BlockCharacters()
-{
-	for (int i = 0; i < characters.size(); i++)
-	{
-		blocked.push_back(glm::vec3(characters.at(i).GetPos().x, 0.0f, characters.at(i).GetPos().z));
-		grid->BlockNodePositions(glm::vec3(characters.at(i).GetPos().x, 0.0f, characters.at(i).GetPos().z));
-	}
-}
-
 void CharacterManager::BlockTiles(std::vector<int> tiles)
 {
 	for (int i = 0; i < tiles.size(); i++)
@@ -597,6 +634,7 @@ void CharacterManager::BlockTiles(std::vector<int> tiles)
 		grid->BlockNodePositions(glm::vec3(grid->GetPos().at(tiles.at(i)).x, 0.0f, grid->GetPos().at(tiles.at(i)).y));
 	}
 }
+
 void CharacterManager::SetScoreTracker(ScoreTracker* tracker)
 {
 	m_scoreTracker = tracker;
@@ -622,6 +660,15 @@ bool CharacterManager::IsCharOnTile(int pos) {
 			return true;
 
 	return false;
+}
+
+void CharacterManager::SetSoundEngine(wolf::SoundEngine* soundEng)
+{
+	m_soundEngine = soundEng;
+	for (int i = 0; i < characters.size(); i++)
+	{
+		characters.at(i).SetSoundEngine(m_soundEngine);
+	}
 }
 
 void CharacterManager::PreloadCharacterModels()
@@ -654,4 +701,19 @@ void CharacterManager::ApplyPathBlocks(std::vector<std::string> toIgnore, bool b
 				tilesBlocked.push_back(characters.at(i).GetTile());
 
 	BlockTiles(tilesBlocked);
+}
+
+void CharacterManager::PrintCharacterTilePos()
+{
+	std::cout << "================================\n\n";
+	for (int i = 0; i < characters.size(); i++)
+	{
+		std::cout << characters.at(i).GetTile() << ", (" << characters.at(i).GetPos().x << ", " << characters.at(i).GetPos().y << ") \n";
+	}
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		std::cout << enemies.at(i).GetTile() << ", (" << enemies.at(i).GetPos().x << ", " << enemies.at(i).GetPos().y << ") \n";
+	}
+	std::cout << "================================\n\n";
 }

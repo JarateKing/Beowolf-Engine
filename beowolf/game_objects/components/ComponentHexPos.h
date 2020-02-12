@@ -20,6 +20,7 @@ namespace week2
 		virtual void Update(float p_fDelta);
 		virtual void SetGrid(HexGrid* p_grid);
 
+		void SetPos(glm::vec3 pos);
 		void Move(std::vector<int> p_path, float p_timeToComplete, bool p_attacking);
 		bool IsMoving();
 		glm::vec3 GetPos();
@@ -37,6 +38,7 @@ namespace week2
 		int totalTargets;
 		int endAttackTile;
 		bool attacking = false;
+		bool justEndMove = false;
 		float m_direction;
 
 	};

@@ -52,7 +52,7 @@ namespace wolf
 			ERRCHECK(result);
 		}
 
-		result = sound->set3DMinMaxDistance(0.5f * DISTANCEFACTOR, 5000.0f * DISTANCEFACTOR);
+		result = sound->set3DMinMaxDistance(0.5f * DISTANCEFACTOR, 1000.0f * DISTANCEFACTOR);
 		ERRCHECK(result);
 
 		sounds.push_back(sound);
@@ -233,5 +233,20 @@ namespace wolf
 		ERRCHECK(result);
 
 		return vel;
+	}
+
+	void SoundEngine::PauseSound(const char* soundName)
+	{
+		std::vector<const char*>::iterator it = std::find(soundNames.begin(), soundNames.end(), soundName);
+		if (it == soundNames.end())
+		{
+			std::cout << "Sound Not Found" << std::endl;
+		}
+
+		int index = std::distance(soundNames.begin(), it);
+		FMOD::Sound* soundChanging = sounds.at(index);
+
+		result = system->playSound(soundChanging, 0, true, &channel);
+		ERRCHECK(result);
 	}
 }

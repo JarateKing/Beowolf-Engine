@@ -40,6 +40,8 @@ void StateManager::Update(float delta) {
 
 				if (m_cam != nullptr)
 					movingcamera = true;
+				m_soundEngine->PlayBasicSound("start_jingle");
+				m_soundEngine->UpdateSystem();
 			}
 		}
 		else if (m_currentState == State::GamestatePlayerLost) {
@@ -69,7 +71,10 @@ void StateManager::Update(float delta) {
 			}
 
 			if (hasAllMoved)
+			{
 				SetState(State::GamestateEnemyTurn);
+				m_soundEngine->PlayBasicSound("movement2");
+			}
 		}
 		else if (m_currentState == State::GamestateEnemyTurn) {
 			bool hasAllMoved = true;
@@ -87,9 +92,15 @@ void StateManager::Update(float delta) {
 
 			if (hasAllMoved) {
 				if (enemies->size() == 0)
+				{
 					SetState(State::GamestatePlayerLost);
+					m_soundEngine->PlayBasicSound("lose_jingle");
+				}
 				else
+				{
 					SetState(State::GamestatePlayerTurn);
+					m_soundEngine->PauseSound("movement2");
+				}
 			}
 		}
 	}
@@ -161,6 +172,13 @@ void StateManager::SetCharacterManager(CharacterManager* charMan) {
 		std::cout << "Note: character manager already tracked by state manager\n";
 
 	m_charManager = charMan;
+}
+
+void StateManager::SetSoundEngine(wolf::SoundEngine* soundEng) {
+	if (m_soundEngine == soundEng)
+		std::cout << "Note: sound engine already tracked by state manager\n";
+
+	m_soundEngine = soundEng;
 }
 
 void StateManager::SetHud(wolf::Hud* hud) {
