@@ -152,6 +152,7 @@ void BaseScene::Update()
 
 		scoreTracker->SetScore(0);
 		cManager->SetScoreTracker(scoreTracker);
+		cManager->SetSoundEngine(SE);
 	}
 
 	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
