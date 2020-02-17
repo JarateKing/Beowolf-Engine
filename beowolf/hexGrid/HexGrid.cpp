@@ -907,6 +907,19 @@ bool HexGrid::WithinBounds(int tile)
 	return false;
 }
 
+void HexGrid::StartTargeting(int target, int max)
+{
+	targeting = true;
+	targetingT = target;
+	targetingMax = max;
+}
+
+void HexGrid::StopTargeting()
+{
+	targeting = false;
+	targetingT = -1;
+}
+
 void HexGrid::Update(int target, float delta)
 {
 	abstractTarget = target;
@@ -914,20 +927,6 @@ void HexGrid::Update(int target, float delta)
 	if (lastFrame != target)
 	{
 		changed = true;
-	}
-
-	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == false && timeBetween >= 0.2f)
-	{
-		targeting = true;
-		targetingT = target;
-		timeBetween = 0.0f;
-	}
-
-	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == true && timeBetween >= 0.2f)
-	{
-		targeting = false;
-		targetingT = -1;
-		timeBetween = 0.0f;
 	}
 
 	if (targeting)
@@ -943,7 +942,7 @@ void HexGrid::Update(int target, float delta)
 			}
 
 			std::vector<int> tiles;
-			for (int i = 0; i < pathway.size(); i++)
+			for (int i = 0; i < pathway.size() && i < targetingMax; i++)
 			{
 				for (int j = 0; j < positions.size(); j++)
 				{
@@ -953,8 +952,6 @@ void HexGrid::Update(int target, float delta)
 					}
 				}
 			}
-
-			timeBetween += delta;
 
 			while (tiles.size() > selections.size())
 			{
@@ -977,8 +974,6 @@ void HexGrid::Update(int target, float delta)
 	}
 	else
 	{
-		timeBetween += delta;
-
 		for (int i = 0; i < selections.size(); i++)
 		{
 			delete selections.at(0);

@@ -11,6 +11,7 @@
 #include "ScoreTracker.h"
 #include "sound/W_SoundEngine.h"
 #include "camera/Camera.h"
+#include "camera/HexSelector.h"
 
 class CharacterManager
 {
@@ -28,6 +29,7 @@ class CharacterManager
 		void SetScoreTracker(ScoreTracker* tracker);
 		void SetSoundEngine(wolf::SoundEngine* soundEng);
 		void SetCamera(Camera* cam);
+		void SetGridSelector(HexSelector* selector);
 
 		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
@@ -64,6 +66,7 @@ class CharacterManager
 		int m_itemCap = 5;
 		int m_charCount = 3;
 		Camera* m_cam;
+		HexSelector* m_hexSelector;
 		float m_cameraTime = 0.0f;
 		int m_cameraUnit = 0;
 		int m_enemiesSpawnedTotal = 0;
@@ -71,6 +74,7 @@ class CharacterManager
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 		bool IsCharOnTile(int pos);
 		void PreloadCharacterModels();
+		void ApplyPathBlocks(std::vector<std::string> toIgnore, bool blockCharacters, bool blockEnemies);
 };
 
 #endif
