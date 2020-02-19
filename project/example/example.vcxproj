@@ -96,6 +96,7 @@
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CharacterInfoHub.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CharacterManager.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CharacterUnits.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CooldownIndicator.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\EnemyManager.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\Healthbar.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\Item.cpp" />
@@ -350,6 +351,7 @@
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CharacterInfoHub.h" />
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CharacterManager.h" />
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CharacterUnits.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CooldownIndicator.h" />
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\EnemyManager.h" />
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\Healthbar.h" />
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\Item.h" />
