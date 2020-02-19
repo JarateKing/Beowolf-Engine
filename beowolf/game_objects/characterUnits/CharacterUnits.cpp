@@ -29,6 +29,9 @@ CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, 
 
 	m_healthbar = new Healthbar();
 	m_healthbar->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 4.0f, p_grid->GetPos().at(p_startTile).y)));
+
+	m_cooldown = new CooldownIndicator();
+	m_cooldown->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 8.0f, p_grid->GetPos().at(p_startTile).y)));
 }
 
 CharacterUnits::~CharacterUnits()
@@ -42,6 +45,9 @@ void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilt
 
 	if (m_isHealthbarVisible && type == wolf::RenderFilterTransparent) {
 		m_healthbar->Render(p_view, p_proj);
+	}
+	if (m_isCooldownVisible && type == wolf::RenderFilterTransparent) {
+		m_cooldown->Render(p_view, p_proj);
 	}
 }
 
@@ -77,6 +83,7 @@ void CharacterUnits::Update(float deltaT)
 		{
 			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 			m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 4.0f, pos.GetPos().z)));
+			m_cooldown->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 8.0f, pos.GetPos().z)));
 		}
 		else {
 			if (m_attacking)
@@ -161,6 +168,8 @@ void CharacterUnits::Update(float deltaT)
 		}
 	}
 	model->update(deltaT);
+
+	m_cooldown->Update(deltaT);
 }
 
 bool CharacterUnits::cmpf(float a, float b)
@@ -271,6 +280,7 @@ void CharacterUnits::TakeDamage(std::string p_characterFrom)
 void CharacterUnits::SetHealthbarVisible(bool isVisible)
 {
 	m_isHealthbarVisible = isVisible;
+	m_isCooldownVisible = !isVisible;
 }
 
 void CharacterUnits::SetHealthbarPercent(float percent)

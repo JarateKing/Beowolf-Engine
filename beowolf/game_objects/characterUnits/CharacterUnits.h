@@ -5,6 +5,7 @@
 #include "BMWModel.h"
 #include "ComponentHexPos.h"
 #include "Healthbar.h"
+#include "CooldownIndicator.h"
 #include "sound/W_SoundEngine.h"
 
 class CharacterUnits
@@ -64,6 +65,8 @@ class CharacterUnits
 		double m_deltaSum = 0.0;
 		bool m_isHealthbarVisible = true;
 		Healthbar* m_healthbar;
+		bool m_isCooldownVisible = false;
+		CooldownIndicator* m_cooldown;
 		wolf::SoundEngine* m_soundEngine;
 };
 
