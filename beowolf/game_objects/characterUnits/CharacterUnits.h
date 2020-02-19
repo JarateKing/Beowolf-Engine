@@ -66,6 +66,7 @@ class CharacterUnits
 		bool m_isHealthbarVisible = true;
 		Healthbar* m_healthbar;
 		bool m_isCooldownVisible = false;
+		int m_cooldownHeightAdjustment = 0.0f;
 		CooldownIndicator* m_cooldown;
 		wolf::SoundEngine* m_soundEngine;
 };

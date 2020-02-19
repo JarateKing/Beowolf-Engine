@@ -23,7 +23,11 @@ CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, 
 		model->setTransform(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y)) * glm::scale(glm::vec3(scale, scale, scale)));
 	}
 	currTile = p_startTile;
+
 	name = p_name;
+	if (name == "myGiant")
+		m_cooldownHeightAdjustment = 2.5f;
+
 	pos.SetGrid(p_grid);
 	pos.SetPos(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y));
 
@@ -31,7 +35,7 @@ CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, 
 	m_healthbar->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 4.0f, p_grid->GetPos().at(p_startTile).y)));
 
 	m_cooldown = new CooldownIndicator();
-	m_cooldown->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 8.0f, p_grid->GetPos().at(p_startTile).y)));
+	m_cooldown->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 5.5f + m_cooldownHeightAdjustment, p_grid->GetPos().at(p_startTile).y)));
 }
 
 CharacterUnits::~CharacterUnits()
@@ -83,7 +87,7 @@ void CharacterUnits::Update(float deltaT)
 		{
 			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 			m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 4.0f, pos.GetPos().z)));
-			m_cooldown->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 8.0f, pos.GetPos().z)));
+			m_cooldown->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 5.5f + m_cooldownHeightAdjustment, pos.GetPos().z)));
 		}
 		else {
 			if (m_attacking)
