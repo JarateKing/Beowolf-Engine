@@ -91,7 +91,7 @@
 			],
 			"type": "textbox",
 			"xpos": 12,
-			"ypos": 20,
+			"ypos": 21,
 			"zpos": 2,
 			"wide": 305,
 			"tall": 46,
@@ -103,25 +103,6 @@
 			"font": "OpenSans",
 			"fontSize": 14,
 			"color": "1.0 1.0 1.0 1.0"
-		},
-		{
-			"tags": [
-				"ingame", "hpbar1"
-			],
-			"type": "textbox",
-			"xpos": 12,
-			"ypos": 21,
-			"zpos": 3,
-			"wide": 305,
-			"tall": 46,
-			
-			"label": "UnitHP_1",
-			"labelRaw": false,
-			"alignment": "right",
-			
-			"font": "OpenSans",
-			"fontSize": 14,
-			"color": "0.0 0.0 0.0 1.0"
 		},
 		{
 			"tags": [
@@ -211,7 +192,7 @@
 			],
 			"type": "textbox",
 			"xpos": 12,
-			"ypos": 80,
+			"ypos": 81,
 			"zpos": 2,
 			"wide": 305,
 			"tall": 46,
@@ -223,25 +204,6 @@
 			"font": "OpenSans",
 			"fontSize": 14,
 			"color": "1.0 1.0 1.0 1.0"
-		},
-		{
-			"tags": [
-				"ingame", "hpbar2"
-			],
-			"type": "textbox",
-			"xpos": 12,
-			"ypos": 81,
-			"zpos": 3,
-			"wide": 305,
-			"tall": 46,
-			
-			"label": "UnitHP_2",
-			"labelRaw": false,
-			"alignment": "right",
-			
-			"font": "OpenSans",
-			"fontSize": 14,
-			"color": "0.0 0.0 0.0 1.0"
 		},
 		{
 			"tags": [
@@ -331,7 +293,7 @@
 			],
 			"type": "textbox",
 			"xpos": 12,
-			"ypos": 140,
+			"ypos": 141,
 			"zpos": 2,
 			"wide": 305,
 			"tall": 46,
@@ -343,25 +305,6 @@
 			"font": "OpenSans",
 			"fontSize": 14,
 			"color": "1.0 1.0 1.0 1.0"
-		},
-		{
-			"tags": [
-				"ingame", "hpbar3"
-			],
-			"type": "textbox",
-			"xpos": 12,
-			"ypos": 141,
-			"zpos": 3,
-			"wide": 305,
-			"tall": 46,
-			
-			"label": "UnitHP_3",
-			"labelRaw": false,
-			"alignment": "right",
-			
-			"font": "OpenSans",
-			"fontSize": 14,
-			"color": "0.0 0.0 0.0 1.0"
 		},
 		{
 			"tags": [
