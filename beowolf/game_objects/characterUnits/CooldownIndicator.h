@@ -18,6 +18,7 @@ public:
 	void Render(glm::mat4 view, glm::mat4 proj);
 	void SetPos(glm::mat4 translation);
 	void SetThreshold(float threshold);
+	void ResetThreshold();
 
 private:
 	wolf::VertexBuffer* g_pVB;
