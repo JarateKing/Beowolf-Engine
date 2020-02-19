@@ -1,5 +1,6 @@
 #include "CooldownIndicator.h"
 #include "W_ResourceLoader.h"
+#include "W_Math.h"
 
 const wolf::Vertex square[] = { wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 1, 0}),
 								wolf::Vertex({ 0, 1, 1.0f, 1, 1, 1, 1, 1, 1}),
@@ -27,7 +28,13 @@ CooldownIndicator::~CooldownIndicator() {
 }
 
 void CooldownIndicator::Update(float p_fDelta) {
+	if (m_threshold != m_targetThreshold) {
+		m_targetThresholdTime += p_fDelta * 0.25;
+		if (m_targetThresholdTime > 1.0)
+			m_targetThresholdTime = 1.0;
 
+		m_threshold = wolf::Math::lerp(m_startThreshold, m_targetThreshold, wolf::Math::easeOut(m_targetThresholdTime));
+	}
 }
 
 void CooldownIndicator::Render(glm::mat4 view, glm::mat4 proj) {
@@ -55,5 +62,7 @@ void CooldownIndicator::SetPos(glm::mat4 translation) {
 }
 
 void CooldownIndicator::SetThreshold(float threshold) {
-	m_threshold = threshold;
+	m_targetThresholdTime = 0.0f;
+	m_startThreshold = m_threshold;
+	m_targetThreshold = threshold;
 }

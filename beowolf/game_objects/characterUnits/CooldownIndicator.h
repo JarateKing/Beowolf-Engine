@@ -26,6 +26,9 @@ private:
 	wolf::Texture* m_tex;
 	glm::mat4 m_pos;
 	float m_threshold = 0.0f;
+	float m_targetThreshold = 0.0f;
+	float m_targetThresholdTime = 0.0f;
+	float m_startThreshold = 0.0f;
 };
 
 
