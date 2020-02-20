@@ -1,10 +1,10 @@
 
 {"Character" : 
-	{"Name" : "Classic Knight",
+	{"Name" : "Giant",
 	"HP" : 400.0,
 	"MaxMovement" : 5.0,
 	"MaxAttack" : 60.0,
 	"MinAttack" : 50.0,
 	"Defense" : 150.0,
-	"BasicDescription" : "A basic soldier called to battle."}
+	"BasicDescription" : "A giant in both size and damage, nothing's more deadly than a boulder in his hands."}
 }
