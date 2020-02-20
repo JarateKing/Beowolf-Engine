@@ -85,7 +85,7 @@ namespace wolf
 	
 		float offsetHead = 0.0f;
 		float offsetLine = 0.0f;
-		float lineOffset = m_font->GetLineOffset();
+		float lineOffset = m_font->GetLineOffset() * 9.0f / 16.0f / 2.0f;
 	
 		glm::vec2 screenDimensions = ProjMatrix::GetScreenSize();
 		float aspectFactor = (screenDimensions.x / screenDimensions.y) / (16.0 / 9.0);
