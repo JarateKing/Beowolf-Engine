@@ -29,6 +29,7 @@ class CharacterInfoHub
 		void GivePlayerItem(std::string p_characterName, std::string p_itemName);
 
 		float GetStat(std::string p_characterName, std::string p_statID);
+		std::string GetDescription(std::string p_characterName);
 		void UpdateStat(std::string p_characterName, std::string p_statID, float p_updatedValue);
 
 
