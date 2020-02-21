@@ -425,11 +425,20 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		}
 	}
 
+	// handle special moves
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_SPACE) && targeting == true)
+	{
+		m_isSpecialActive = !m_isSpecialActive;
+
+		std::cout << "SPECIAL: " << m_isSpecialActive << "\n";
+	}
+
 	//check if mouse pressed for second time away from hero
 	if (wolf::Input::Instance().isMousePressed(INPUT_LMB) && targeting == true && timeBetween >= 0.2f)
 	{
 		bool heroPositionedOnTile = false;
 		//bool withinTarget = false;
+		m_isSpecialActive = false;
 
 		for (int i = 0; i < characters.size(); i++)
 		{
