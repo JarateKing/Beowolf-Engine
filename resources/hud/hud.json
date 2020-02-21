@@ -571,7 +571,7 @@
 		
 		{
 			"tags": [
-				"uihoverpanel"
+				"ingame", "uihoverpanel"
 			],
 			"type": "fillcolor",
 			"xpos": 1500,
@@ -584,7 +584,7 @@
 		},
 		{
 			"tags": [
-				"uihoverpanel"
+				"ingame", "uihoverpanel"
 			],
 			"type": "textbox",
 			"xpos": 1510,
@@ -603,7 +603,7 @@
 		},
 		{
 			"tags": [
-				"uihoverpanel"
+				"ingame", "uihoverpanel"
 			],
 			"type": "textbox",
 			"xpos": 1510,
@@ -622,7 +622,7 @@
 		},
 		{
 			"tags": [
-				"uihoverpanel"
+				"ingame", "uihoverpanel"
 			],
 			"type": "textbox",
 			"xpos": 1510,
@@ -641,7 +641,7 @@
 		},
 		{
 			"tags": [
-				"uihoverpanel"
+				"ingame", "uihoverpanel"
 			],
 			"type": "textbox",
 			"xpos": 1510,
@@ -660,7 +660,7 @@
 		},
 		{
 			"tags": [
-				"uihoverpanel"
+				"ingame", "uihoverpanel"
 			],
 			"type": "textbox",
 			"xpos": 1510,
@@ -679,7 +679,7 @@
 		},
 		{
 			"tags": [
-				"uihoverpanel"
+				"ingame", "uihoverpanel"
 			],
 			"type": "textbox",
 			"xpos": 1510,
