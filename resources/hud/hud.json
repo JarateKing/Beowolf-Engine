@@ -586,11 +586,82 @@
 			"tags": [
 				"ingame", "uihoverpanel"
 			],
-			"type": "textbox",
-			"xpos": 1510,
-			"ypos": 210,
+			"type": "fillcolor",
+			"xpos": 1501,
+			"ypos": 201,
 			"zpos": 3,
-			"wide": 380,
+			"wide": 398,
+			"tall": 5,
+			
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"type": "fillcolor",
+			"xpos": 1501,
+			"ypos": 201,
+			"zpos": 3,
+			"wide": 5,
+			"tall": 100,
+			
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"type": "fillcolor",
+			"xpos": 1894,
+			"ypos": 201,
+			"zpos": 3,
+			"wide": 5,
+			"tall": 100,
+			
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"type": "gradient",
+			"xpos": 1501,
+			"ypos": 301,
+			"zpos": 3,
+			"wide": 5,
+			"tall": 200,
+			
+			"topLeft": "1.0 1.0 1.0 1.0",
+			"topRight": "1.0 1.0 1.0 1.0",
+			"bottomLeft": "1.0 1.0 1.0 0.0",
+			"bottomRight": "1.0 1.0 1.0 0.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"type": "gradient",
+			"xpos": 1894,
+			"ypos": 301,
+			"zpos": 3,
+			"wide": 5,
+			"tall": 200,
+			
+			"topLeft": "1.0 1.0 1.0 1.0",
+			"topRight": "1.0 1.0 1.0 1.0",
+			"bottomLeft": "1.0 1.0 1.0 0.0",
+			"bottomRight": "1.0 1.0 1.0 0.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"type": "textbox",
+			"xpos": 1515,
+			"ypos": 215,
+			"zpos": 3,
+			"wide": 370,
 			"tall": 30,
 			
 			"label": "UI_Name",
@@ -606,10 +677,10 @@
 				"ingame", "uihoverpanel"
 			],
 			"type": "textbox",
-			"xpos": 1510,
-			"ypos": 280,
+			"xpos": 1515,
+			"ypos": 285,
 			"zpos": 3,
-			"wide": 380,
+			"wide": 370,
 			"tall": 100,
 			
 			"label": "UI_Description",
@@ -625,10 +696,10 @@
 				"ingame", "uihoverpanel"
 			],
 			"type": "textbox",
-			"xpos": 1510,
-			"ypos": 600,
+			"xpos": 1515,
+			"ypos": 595,
 			"zpos": 3,
-			"wide": 380,
+			"wide": 370,
 			"tall": 100,
 			
 			"label": "UI_Health",
@@ -644,10 +715,10 @@
 				"ingame", "uihoverpanel"
 			],
 			"type": "textbox",
-			"xpos": 1510,
-			"ypos": 650,
+			"xpos": 1515,
+			"ypos": 645,
 			"zpos": 3,
-			"wide": 380,
+			"wide": 370,
 			"tall": 100,
 			
 			"label": "UI_Attack",
@@ -663,10 +734,10 @@
 				"ingame", "uihoverpanel"
 			],
 			"type": "textbox",
-			"xpos": 1510,
-			"ypos": 700,
+			"xpos": 1515,
+			"ypos": 695,
 			"zpos": 3,
-			"wide": 380,
+			"wide": 370,
 			"tall": 100,
 			
 			"label": "UI_Defense",
@@ -682,10 +753,10 @@
 				"ingame", "uihoverpanel"
 			],
 			"type": "textbox",
-			"xpos": 1510,
-			"ypos": 750,
+			"xpos": 1515,
+			"ypos": 745,
 			"zpos": 3,
-			"wide": 380,
+			"wide": 370,
 			"tall": 100,
 			
 			"label": "UI_Speed",
