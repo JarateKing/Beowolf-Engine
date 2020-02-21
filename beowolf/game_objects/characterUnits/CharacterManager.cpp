@@ -5,6 +5,7 @@
 #include "W_Math.h"
 #include <cmath>
 #include "camera/HexSelector.h"
+#include "StateManager.h"
 
 CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 {
@@ -218,6 +219,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	m_hud->GetElement("Unit_1_Indicator")->SetVisible(false);
 	m_hud->GetElement("Unit_2_Indicator")->SetVisible(false);
 	m_hud->GetElement("Unit_3_Indicator")->SetVisible(false);
+	for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
+		it->SetVisible(false);
 
 	//Update Heroes and check for target
 	for (auto it = characters.begin(); it != characters.end(); it++)
@@ -239,8 +242,14 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 
 		// do hud specific stuff
 		if (it->GetName() == "myChamp") {
-			if (p_target == it->GetTile())
+			if (p_target == it->GetTile()) {
 				m_hud->GetElement("Unit_1_Indicator")->SetVisible(true);
+
+				if (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
+					for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
+						it->SetVisible(true);
+				}
+			}
 
 			float health = characterIHub.GetStat(it->GetName(), "HP");
 			float maxhealth = characterIHub.GetStat(it->GetName(), "Health");
@@ -258,8 +267,14 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			}
 		}
 		else if (it->GetName() == "myGiant") {
-			if (p_target == it->GetTile())
+			if (p_target == it->GetTile()) {
 				m_hud->GetElement("Unit_2_Indicator")->SetVisible(true);
+
+				if (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
+					for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
+						it->SetVisible(true);
+				}
+			}
 
 			float health = characterIHub.GetStat(it->GetName(), "HP");
 			float maxhealth = characterIHub.GetStat(it->GetName(), "Health");
@@ -277,8 +292,14 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			}
 		}
 		else if (it->GetName() == "myLich") {
-			if (p_target == it->GetTile())
+			if (p_target == it->GetTile()) {
 				m_hud->GetElement("Unit_3_Indicator")->SetVisible(true);
+
+				if (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
+					for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
+						it->SetVisible(true);
+				}
+			}
 
 			float health = characterIHub.GetStat(it->GetName(), "HP");
 			float maxhealth = characterIHub.GetStat(it->GetName(), "Health");

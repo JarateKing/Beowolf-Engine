@@ -204,9 +204,7 @@ std::string CharacterInfoHub::GetDescription(std::string p_characterName)
 	for (int i = 0; i < m_infoBits.size(); i++)
 	{
 		if (m_infoBits.at(i).m_name.compare(p_characterName) == 0)
-		{
 			return m_infoBits.at(i).m_desc;
-		}
 	}
 }
 
