@@ -252,6 +252,19 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 
 			m_hud->SetVar("HoverName", (*it)->GetName());
 			m_hud->SetVar("HoverDescription", characterIHub.GetDescription((*it)->GetName()));
+
+			if ((*it)->GetName() == "Potion") {
+				m_hud->SetVar("HoverItemStatName", "Health");
+				m_hud->SetVar("HoverItemStatValue", std::to_string((int)characterIHub.GetStat((*it)->GetName(), "HP")));
+			}
+			else if ((*it)->GetName() == "Sword") {
+				m_hud->SetVar("HoverItemStatName", "Attack");
+				m_hud->SetVar("HoverItemStatValue", std::to_string((int)characterIHub.GetStat((*it)->GetName(), "MaxAttack")));
+			}
+			else {
+				m_hud->SetVar("HoverItemStatName", "Defense");
+				m_hud->SetVar("HoverItemStatValue", std::to_string((int)characterIHub.GetStat((*it)->GetName(), "Defense")));
+			}
 		}
 	}
 

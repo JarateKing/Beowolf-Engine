@@ -13,4 +13,4 @@ UI_Health	Health: $HoverHealth$ / $HoverMaxHealth$	Health: $HoverHealth$ / $Hove
 UI_Attack	Attack: $HoverAttackStat$	Attack: $HoverAttackStat$
 UI_Defense	Defense: $HoverDefenseStat$	Defense: $HoverDefenseStat$
 UI_Speed	Speed: $HoverSpeedStat$	Speed: $HoverSpeedStat$
-UI_Itemstat	Attack: +50	Attack: +50
+UI_Itemstat	$HoverItemStatName$: +$HoverItemStatValue$	$HoverItemStatName$: +$HoverItemStatValue$
