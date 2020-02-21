@@ -226,6 +226,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		if (p_target == it->GetTile() && StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
 			for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
 				it->SetVisible(true);
+			for (auto it : m_hud->GetElementsByTag("uihoverpanelitem"))
+				it->SetVisible(false);
 
 			std::string currentUnitName = "Zombie";
 			if (it->GetName().find("mySkeleton") == 0)
@@ -279,6 +281,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				if (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
 					for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
 						it->SetVisible(true);
+					for (auto it : m_hud->GetElementsByTag("uihoverpanelitem"))
+						it->SetVisible(false);
 
 					m_hud->SetVar("HoverName", "Knight");
 					m_hud->SetVar("HoverDescription", characterIHub.GetDescription(it->GetName()));
@@ -312,6 +316,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				if (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
 					for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
 						it->SetVisible(true);
+					for (auto it : m_hud->GetElementsByTag("uihoverpanelitem"))
+						it->SetVisible(false);
 
 					m_hud->SetVar("HoverName", "Giant");
 					m_hud->SetVar("HoverDescription", characterIHub.GetDescription(it->GetName()));
@@ -345,6 +351,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				if (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
 					for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
 						it->SetVisible(true);
+					for (auto it : m_hud->GetElementsByTag("uihoverpanelitem"))
+						it->SetVisible(false);
 
 					m_hud->SetVar("HoverName", "Lich");
 					m_hud->SetVar("HoverDescription", characterIHub.GetDescription(it->GetName()));
