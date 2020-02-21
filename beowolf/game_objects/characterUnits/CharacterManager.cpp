@@ -221,6 +221,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	m_hud->GetElement("Unit_3_Indicator")->SetVisible(false);
 	for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
 		it->SetVisible(false);
+	m_hud->GetElement("HoverPanelBG")->SetH(600);
 
 	for (auto it = enemies.begin(); it != enemies.end(); it++) {
 		if (p_target == it->GetTile() && StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
@@ -249,6 +250,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				it->SetVisible(true);
 			for (auto it : m_hud->GetElementsByTag("uihoverpanelstat"))
 				it->SetVisible(false);
+			m_hud->GetElement("HoverPanelBG")->SetH(300);
 
 			m_hud->SetVar("HoverName", (*it)->GetName());
 			m_hud->SetVar("HoverDescription", characterIHub.GetDescription((*it)->GetName()));

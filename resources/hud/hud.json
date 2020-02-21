@@ -573,6 +573,7 @@
 			"tags": [
 				"ingame", "uihoverpanel"
 			],
+			"name": "HoverPanelBG",
 			"type": "fillcolor",
 			"xpos": 1500,
 			"ypos": 200,
@@ -773,14 +774,14 @@
 			],
 			"type": "textbox",
 			"xpos": 1515,
-			"ypos": 745,
+			"ypos": 445,
 			"zpos": 3,
 			"wide": 370,
 			"tall": 100,
 			
 			"label": "UI_Itemstat",
 			"labelRaw": false,
-			"alignment": "left",
+			"alignment": "center",
 			
 			"font": "OpenSans",
 			"fontSize": 18,
