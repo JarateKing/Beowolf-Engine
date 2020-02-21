@@ -222,6 +222,21 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
 		it->SetVisible(false);
 
+	for (auto it = enemies.begin(); it != enemies.end(); it++) {
+		if (p_target == it->GetTile() && StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
+			for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
+				it->SetVisible(true);
+
+			m_hud->SetVar("HoverName", it->GetName());
+			m_hud->SetVar("HoverDescription", characterIHub.GetDescription(it->GetName()));
+			m_hud->SetVar("HoverHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "HP")));
+			m_hud->SetVar("HoverMaxHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "Health")));
+			m_hud->SetVar("HoverAttackStat", std::to_string((int)((characterIHub.GetStat(it->GetName(), "MaxAttack") + characterIHub.GetStat(it->GetName(), "MinAttack")) / 2.0f)));
+			m_hud->SetVar("HoverDefenseStat", std::to_string((int)characterIHub.GetStat(it->GetName(), "Defense")));
+			m_hud->SetVar("HoverSpeedStat", std::to_string((int)characterIHub.GetStat(it->GetName(), "MaxMovement")));
+		}
+	}
+
 	//Update Heroes and check for target
 	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
