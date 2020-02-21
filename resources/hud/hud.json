@@ -567,6 +567,134 @@
 			"font": "OpenSans",
 			"fontSize": 64,
 			"color": "1.0 1.0 1.0 1.0"
+		},
+		
+		{
+			"tags": [
+				"uihoverpanel"
+			],
+			"type": "fillcolor",
+			"xpos": 1500,
+			"ypos": 200,
+			"zpos": 4,
+			"wide": 400,
+			"tall": 600,
+			
+			"color": "0.0 0.0 0.0 0.5"
+		},
+		{
+			"tags": [
+				"uihoverpanel"
+			],
+			"type": "textbox",
+			"xpos": 1510,
+			"ypos": 210,
+			"zpos": 3,
+			"wide": 380,
+			"tall": 30,
+			
+			"label": "Name",
+			"labelRaw": true,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 24,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"uihoverpanel"
+			],
+			"type": "textbox",
+			"xpos": 1510,
+			"ypos": 280,
+			"zpos": 3,
+			"wide": 380,
+			"tall": 100,
+			
+			"label": "This is a test description for the ui panel yo ho this is cool. I am testing this further with really long text hahaha lets see what happens",
+			"labelRaw": true,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 18,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"uihoverpanel"
+			],
+			"type": "textbox",
+			"xpos": 1510,
+			"ypos": 600,
+			"zpos": 3,
+			"wide": 380,
+			"tall": 100,
+			
+			"label": "HP: 100 / 100",
+			"labelRaw": true,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 18,
+			"color": "1.0 0.4 0.5 1.0"
+		},
+		{
+			"tags": [
+				"uihoverpanel"
+			],
+			"type": "textbox",
+			"xpos": 1510,
+			"ypos": 650,
+			"zpos": 3,
+			"wide": 380,
+			"tall": 100,
+			
+			"label": "Attack: 100",
+			"labelRaw": true,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 18,
+			"color": "1.0 0.9 0.3 1.0"
+		},
+		{
+			"tags": [
+				"uihoverpanel"
+			],
+			"type": "textbox",
+			"xpos": 1510,
+			"ypos": 700,
+			"zpos": 3,
+			"wide": 380,
+			"tall": 100,
+			
+			"label": "Defense: 100",
+			"labelRaw": true,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 18,
+			"color": "0.3 0.6 1.0 1.0"
+		},
+		{
+			"tags": [
+				"uihoverpanel"
+			],
+			"type": "textbox",
+			"xpos": 1510,
+			"ypos": 750,
+			"zpos": 3,
+			"wide": 380,
+			"tall": 100,
+			
+			"label": "Speed: 5",
+			"labelRaw": true,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 18,
+			"color": "0.3 0.9 0.4 1.0"
 		}
 	]
 }
