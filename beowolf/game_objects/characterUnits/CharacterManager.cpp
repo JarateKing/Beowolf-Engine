@@ -241,6 +241,16 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		}
 	}
 
+	for (auto it = items.begin(); it != items.end(); it++) {
+		if (p_target == (*it)->GetTile() && StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
+			for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
+				it->SetVisible(true);
+
+			m_hud->SetVar("HoverName", (*it)->GetName());
+			m_hud->SetVar("HoverDescription", characterIHub.GetDescription((*it)->GetName()));
+		}
+	}
+
 	//Update Heroes and check for target
 	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
