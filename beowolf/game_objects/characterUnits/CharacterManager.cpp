@@ -268,7 +268,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 					for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
 						it->SetVisible(true);
 
-					m_hud->SetVar("HoverName", it->GetName());
+					m_hud->SetVar("HoverName", "Knight");
 					m_hud->SetVar("HoverDescription", characterIHub.GetDescription(it->GetName()));
 					m_hud->SetVar("HoverHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "HP")));
 					m_hud->SetVar("HoverMaxHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "Health")));
@@ -301,7 +301,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 					for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
 						it->SetVisible(true);
 
-					m_hud->SetVar("HoverName", it->GetName());
+					m_hud->SetVar("HoverName", "Giant");
 					m_hud->SetVar("HoverDescription", characterIHub.GetDescription(it->GetName()));
 					m_hud->SetVar("HoverHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "HP")));
 					m_hud->SetVar("HoverMaxHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "Health")));
@@ -334,7 +334,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 					for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
 						it->SetVisible(true);
 
-					m_hud->SetVar("HoverName", it->GetName());
+					m_hud->SetVar("HoverName", "Lich");
 					m_hud->SetVar("HoverDescription", characterIHub.GetDescription(it->GetName()));
 					m_hud->SetVar("HoverHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "HP")));
 					m_hud->SetVar("HoverMaxHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "Health")));
