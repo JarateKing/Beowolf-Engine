@@ -693,7 +693,7 @@
 		},
 		{
 			"tags": [
-				"ingame", "uihoverpanel"
+				"ingame", "uihoverpanel", "uihoverpanelstat"
 			],
 			"type": "textbox",
 			"xpos": 1515,
@@ -712,7 +712,7 @@
 		},
 		{
 			"tags": [
-				"ingame", "uihoverpanel"
+				"ingame", "uihoverpanel", "uihoverpanelstat"
 			],
 			"type": "textbox",
 			"xpos": 1515,
@@ -731,7 +731,7 @@
 		},
 		{
 			"tags": [
-				"ingame", "uihoverpanel"
+				"ingame", "uihoverpanel", "uihoverpanelstat"
 			],
 			"type": "textbox",
 			"xpos": 1515,
@@ -750,7 +750,7 @@
 		},
 		{
 			"tags": [
-				"ingame", "uihoverpanel"
+				"ingame", "uihoverpanel", "uihoverpanelstat"
 			],
 			"type": "textbox",
 			"xpos": 1515,
