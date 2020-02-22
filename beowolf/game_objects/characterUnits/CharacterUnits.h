@@ -36,6 +36,8 @@ class CharacterUnits
 		void SetHealthbarPercent(float percent);
 		float GetDeathTimer();
 		bool InitDamage();
+		void StartCooldown();
+		void UpdateCooldown();
 		std::string GetAttacker();
 		wolf::BMWModel* GetModel();
 
@@ -68,6 +70,8 @@ class CharacterUnits
 		bool m_isCooldownVisible = false;
 		int m_cooldownHeightAdjustment = 0.0f;
 		CooldownIndicator* m_cooldown;
+		int m_cooldownMax = 2;
+		int m_cooldownCur = 0;
 		wolf::SoundEngine* m_soundEngine;
 };
 

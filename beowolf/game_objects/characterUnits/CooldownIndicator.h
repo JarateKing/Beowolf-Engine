@@ -17,7 +17,7 @@ public:
 	void Update(float p_fDelta);
 	void Render(glm::mat4 view, glm::mat4 proj);
 	void SetPos(glm::mat4 translation);
-	void SetThreshold(float threshold);
+	void SetThreshold(float threshold, bool forceSet = false);
 	void ResetThreshold();
 
 private:

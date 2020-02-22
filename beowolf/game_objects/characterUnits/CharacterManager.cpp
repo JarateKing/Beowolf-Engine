@@ -430,7 +430,9 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	{
 		m_isSpecialActive = !m_isSpecialActive;
 
-		std::cout << "SPECIAL: " << m_isSpecialActive << "\n";
+		for (int i = 0; i < characters.size(); i++)
+			if (characters[i].GetName() == targetName)
+				characters[i].StartCooldown();
 	}
 
 	//check if mouse pressed for second time away from hero

@@ -322,3 +322,17 @@ void CharacterUnits::SetSoundEngine(wolf::SoundEngine* soundEng)
 {
 	m_soundEngine = soundEng;
 }
+
+void CharacterUnits::StartCooldown()
+{
+	m_cooldownCur = m_cooldownMax;
+	m_cooldown->SetThreshold(0.0, true);
+}
+
+void CharacterUnits::UpdateCooldown()
+{
+	if (m_cooldownCur > 0)
+		m_cooldownCur--;
+
+	m_cooldown->SetThreshold(1 - m_cooldownCur / ((float)m_cooldownMax));
+}

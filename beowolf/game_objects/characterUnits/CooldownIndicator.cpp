@@ -21,6 +21,8 @@ CooldownIndicator::CooldownIndicator() {
 	wolf::Vertex::applyAttributes(g_pDecl);
 	g_pDecl->SetVertexBuffer(g_pVB);
 	g_pDecl->End();
+
+	ResetThreshold();
 }
 
 CooldownIndicator::~CooldownIndicator() {
@@ -38,7 +40,7 @@ void CooldownIndicator::Update(float p_fDelta) {
 }
 
 void CooldownIndicator::Render(glm::mat4 view, glm::mat4 proj) {
-	if (m_threshold > 0.0f) {
+	if (m_threshold < 0.99f) {
 		glm::mat4 rot = glm::mat4(glm::transpose(glm::mat3(view)));
 
 		g_pProgram->Bind();
@@ -63,15 +65,22 @@ void CooldownIndicator::SetPos(glm::mat4 translation) {
 	m_pos = translation;
 }
 
-void CooldownIndicator::SetThreshold(float threshold) {
+void CooldownIndicator::SetThreshold(float threshold, bool forceSet) {
 	m_targetThresholdTime = 0.0f;
-	m_startThreshold = m_threshold;
 	m_targetThreshold = threshold;
+
+	if (forceSet) {
+		m_startThreshold = threshold;
+		m_threshold = threshold;
+	}
+	else {
+		m_startThreshold = m_threshold;
+	}
 }
 
 void CooldownIndicator::ResetThreshold() {
-	m_threshold = 0.0f;
-	m_targetThreshold = 0.0f;
+	m_threshold = 1.0f;
+	m_targetThreshold = 1.0f;
 	m_targetThresholdTime = 0.0f;
-	m_startThreshold = 0.0f;
+	m_startThreshold = 1.0f;
 }
