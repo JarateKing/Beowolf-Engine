@@ -336,3 +336,8 @@ void CharacterUnits::UpdateCooldown()
 
 	m_cooldown->SetThreshold(1 - m_cooldownCur / ((float)m_cooldownMax));
 }
+
+int CharacterUnits::GetCooldown()
+{
+	return m_cooldownCur;
+}

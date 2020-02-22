@@ -426,13 +426,14 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	}
 
 	// handle special moves
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_SPACE) && targeting == true)
-	{
-		m_isSpecialActive = !m_isSpecialActive;
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_SPACE) && targeting == true) {
+		for (int i = 0; i < characters.size(); i++) {
+			if (characters[i].GetName() == targetName && characters[i].GetCooldown() == 0) {
+				m_isSpecialActive = !m_isSpecialActive;
 
-		for (int i = 0; i < characters.size(); i++)
-			if (characters[i].GetName() == targetName)
 				characters[i].StartCooldown();
+			}
+		}
 	}
 
 	//check if mouse pressed for second time away from hero

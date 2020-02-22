@@ -38,6 +38,7 @@ class CharacterUnits
 		bool InitDamage();
 		void StartCooldown();
 		void UpdateCooldown();
+		int GetCooldown();
 		std::string GetAttacker();
 		wolf::BMWModel* GetModel();
 
