@@ -67,7 +67,13 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			{
 				if (it->isAttacking() == true)
 				{
+					std::cout << m_isSpecialActive << '\n';
+
 					clickedOnEnemy = false;
+
+					if (m_isSpecialActive)
+						it->StartCooldown();
+
 					for (int i = 0; i < enemies.size(); i++)
 					{
 						if (enemies.at(i).GetName().compare(targetedEnemy) == 0)
@@ -75,6 +81,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 							enemies.at(i).TakeDamage(it->GetName());
 						}
 					}
+
+					m_isSpecialActive = false;
 				}
 			}
 		}
@@ -429,9 +437,13 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_SPACE) && targeting == true) {
 		for (int i = 0; i < characters.size(); i++) {
 			if (characters[i].GetName() == targetName && characters[i].GetCooldown() == 0) {
-				m_isSpecialActive = !m_isSpecialActive;
-
-				characters[i].StartCooldown();
+				// special case with the lich
+				if (characters[i].GetName() == "myLich") {
+					characters[i].StartCooldown();
+				}
+				else {
+					m_isSpecialActive = !m_isSpecialActive;
+				}
 			}
 		}
 	}
@@ -441,7 +453,6 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	{
 		bool heroPositionedOnTile = false;
 		//bool withinTarget = false;
-		m_isSpecialActive = false;
 
 		for (int i = 0; i < characters.size(); i++)
 		{
@@ -520,6 +531,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			else
 			//If not targeting enemy
 			{
+				m_isSpecialActive = false;
 				for (auto it = characters.begin(); it != characters.end(); it++)
 				{
 					if (it->GetName().compare(targetName) == 0)
