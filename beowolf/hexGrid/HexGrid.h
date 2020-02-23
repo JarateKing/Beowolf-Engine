@@ -19,7 +19,7 @@ public:
 	HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile);
 	~HexGrid();
 	void PrintOutLoc();
-	void Render(glm::mat4 projView, wolf::RenderFilterType type);
+	void Render(glm::mat4 projView, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass);
 	std::vector<float> GetHeights();
 	std::vector<glm::vec2> GetPos();
 	int GetSize();
@@ -31,6 +31,7 @@ public:
 	bool isDesert(int pos);
 	void BlockNodePositions(glm::vec3 p_nodePos);
 	void ClearBlocks();
+	void SetLightDir(glm::vec3 dir);
 
 private:
 	void GenerateLoc(int width, int length, float tileWidth);
@@ -70,6 +71,7 @@ private:
 	wolf::VertexBuffer* g_pVB;
 	wolf::VertexDeclaration* g_pDecl;
 	wolf::Program* g_dProgram;
+	wolf::Program* g_dShadowProgram;
 	
 	bool targeting = false;
 	bool changed = true;

@@ -9,7 +9,7 @@
 
 namespace wolf
 {
-	BMWModel::BMWModel(std::string file, std::string vertexShader, std::string pixelShader)
+	BMWModel::BMWModel(std::string file, std::string vertexShader, std::string pixelShader, std::string shadowVertexShader, std::string shadowPixelShader)
 	{
 		BMWModeLData* data = BMWLoader::getInstance().loadFile(file);
 
@@ -41,6 +41,13 @@ namespace wolf
 			current.m_pIB->Write(&((*m_indices)[i][0]), (*m_indices)[i].size() * sizeof(unsigned int));
 
 			current.m_pProg = wolf::ProgramManager::CreateProgram(vertexShader, pixelShader);
+
+			auto animateShadowShaders = wolf::ResourceLoader::Instance().getShaders("shadow_map_animate");
+
+			if(m_hasAnimations)
+				current.m_pShadowProg = wolf::ProgramManager::CreateProgram(animateShadowShaders.first, animateShadowShaders.second);
+			else
+				current.m_pShadowProg = wolf::ProgramManager::CreateProgram(shadowVertexShader, shadowPixelShader);
 
 			current.m_pTex = NULL;
 			if (m_textures->size() > i) {
@@ -120,33 +127,51 @@ namespace wolf
 		}
 	}
 
-	void BMWModel::render(glm::mat4 view, glm::mat4 proj, RenderFilterType type)
+	void BMWModel::render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, RenderFilterType type, bool shadowPass)
 	{
 		if (type == RenderFilterOpaque)
 			for (int i = 0; i < m_toRender.size(); i++)
 				if (!m_meshes[m_toRender[i].meshID].isTransparent)
-					renderMesh(transform * m_toRender[i].transform, view, proj, i);
+					renderMesh(transform * m_toRender[i].transform, view, proj, lightSpaceMatrix, i, shadowPass);
 
 		if (type == RenderFilterTransparent)
 			for (int i = 0; i < m_toRender.size(); i++)
 				if (m_meshes[m_toRender[i].meshID].isTransparent)
-					renderMesh(transform * m_toRender[i].transform, view, proj, i);
+					renderMesh(transform * m_toRender[i].transform, view, proj, lightSpaceMatrix, i, shadowPass);
 	}
 
-	void BMWModel::renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, unsigned int meshID) {
+	void BMWModel::renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, unsigned int meshID, bool shadowPass) {
 		m_meshes[meshID].m_pDecl->Bind();
 
 		if (m_meshes[meshID].m_pTex != NULL)
 			m_meshes[meshID].m_pTex->Bind();
+		if (shadowPass)
+		{
+			m_meshes[meshID].m_pShadowProg->Bind();
+			m_meshes[meshID].m_pShadowProg->SetUniform("lightSpaceMatrix", lightSpaceMatrix);
+			m_meshes[meshID].m_pShadowProg->SetUniform("model", transform);
+		}
+		else
+		{
+			m_meshes[meshID].m_pProg->Bind();
+			m_meshes[meshID].m_pProg->SetUniform("projection", proj);
+			m_meshes[meshID].m_pProg->SetUniform("view", view);
+			m_meshes[meshID].m_pProg->SetUniform("world", world);
+			m_meshes[meshID].m_pProg->SetUniform("tex", 0);
+			m_meshes[meshID].m_pProg->SetUniform("modelColor", m_modelColor);
+			m_meshes[meshID].m_pProg->SetUniform("modelAdditive", m_modelAdditive);
+			m_meshes[meshID].m_pProg->SetUniform("modelFilter", m_modelFilter);
+			m_meshes[meshID].m_pProg->SetUniform("LightAmbient", m_lightAmbient);
+			m_meshes[meshID].m_pProg->SetUniform("LightDiffuse", m_lightDiffuse);
+			m_meshes[meshID].m_pProg->SetUniform("LightDir", m_lightDir);
+			m_meshes[meshID].m_pProg->SetUniform("ViewDir", m_viewDir);
+			glm::mat3 mWorldIT(transform);
+			mWorldIT = glm::inverse(mWorldIT);
+			mWorldIT = glm::transpose(mWorldIT);
+			m_meshes[meshID].m_pProg->SetUniform("WorldIT", mWorldIT);
+		}
 
-		m_meshes[meshID].m_pProg->Bind();
-		m_meshes[meshID].m_pProg->SetUniform("projection", proj);
-		m_meshes[meshID].m_pProg->SetUniform("view", view);
-		m_meshes[meshID].m_pProg->SetUniform("world", world);
-		m_meshes[meshID].m_pProg->SetUniform("tex", 0);
-		m_meshes[meshID].m_pProg->SetUniform("modelColor", m_modelColor);
-		m_meshes[meshID].m_pProg->SetUniform("modelAdditive", m_modelAdditive);
-		m_meshes[meshID].m_pProg->SetUniform("modelFilter", m_modelFilter);
+
 		if (m_hasAnimations)
 			m_meshes[meshID].m_pProg->SetUniform("BoneMatrixArray", m_boneMatrix, 128);
 
@@ -188,6 +213,26 @@ namespace wolf
 		m_modelFilter = color;
 	}
 
+	void BMWModel::setLightAmbient(glm::vec4 light) {
+		m_lightAmbient = light;
+	}
+
+	void BMWModel::setLightDiffuse(glm::vec4 light) {
+		m_lightDiffuse = light;
+	}
+
+	void BMWModel::setLightSpecular(glm::vec4 light) {
+		m_lightSpecular = light;
+	}
+
+	void BMWModel::setLightDir(glm::vec3 direction) {
+		m_lightDir = direction;
+	}
+
+	void BMWModel::setViewDir(glm::vec3 direction) {
+		m_viewDir = direction;
+	}
+
 	bool BMWModel::getIsAnimationRunning() {
 		return !m_isAnimationDone;
 	}
@@ -205,5 +250,10 @@ namespace wolf
 
 	bool BMWModel::isAnimDefault() {
 		return m_currentAnimation == (*m_animFrames)[*m_defaultAnimation];
+	}
+
+	bool BMWModel::canAnimate()
+	{
+		return m_hasAnimations;
 	}
 }

@@ -3,7 +3,6 @@
 uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 world;
-//uniform mat3 WorldIT;
 uniform mat4 BoneMatrixArray[128];
 //uniform mat3 BoneMatrixArrayIT[64];
 
@@ -15,6 +14,7 @@ in vec4 a_boneIndices;
 in vec4 a_boneWeights;
 
 out vec4 v_color;
+out vec3 v_normal;
 
 void main()
 {
@@ -36,4 +36,5 @@ void main()
 	//gl_Position = projection * view * world * a_position;
 	gl_Position = projection * view * world * blendedPos;
 	v_color = a_color;
+	v_normal = a_normal;
 }

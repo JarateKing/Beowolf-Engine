@@ -43,6 +43,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	for (int i = 0; i < treeNum; i++)
 	{
 		auto shaders = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
+		auto shadowShaders = wolf::ResourceLoader::Instance().getShaders("shadow_map");
 		rnd = wolf::RNG::GetRandom(0, 3);
 		switch (rnd) {
 
@@ -60,14 +61,18 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 			break;
 		}
 
-		test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(model), shaders.first, shaders.second);
+		test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(model), shaders.first, shaders.second, shadowShaders.first, shadowShaders.second);
 		float setScale = wolf::RNG::GetRandom(0.01f, 0.02f);
 		test->setTransform(glm::translate(glm::vec3(positions.at(treePos.at(i)).x, heights.at(treePos.at(i)), positions.at(treePos.at(i)).y)) * glm::rotate(180.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(setScale, setScale, setScale)));
+		test->setLightAmbient(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f));
+		test->setLightDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
+		test->setLightDir(glm::vec3(90.0f, 90.0f, 90.0f));
 		trees.push_back(test);
 	}
 
 	// set up rendering
 	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("hex"));
+	g_dShadowProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("shadow_map"));
 	g_pVB = wolf::BufferManager::CreateVertexBuffer(p_verts, sizeof(wolf::Vertex) * vertices.size());
 
 	g_pDecl = new wolf::VertexDeclaration();
@@ -731,33 +736,52 @@ void HexGrid::SmoothFullHeights(int width, int numTimes)
 	}
 }
 
-void HexGrid::Render(glm::mat4 projview, wolf::RenderFilterType type)
+void HexGrid::Render(glm::mat4 projview, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass)
 {
-	if (type == wolf::RenderFilterOpaque) {
-		pTex->Bind();
-		g_dProgram->Bind();
+	if (shadowPass)
+	{
+		if (type == wolf::RenderFilterOpaque) {
+			pTex->Bind();
+			g_dShadowProgram->Bind();
 
-		// Bind Uniforms
-		g_dProgram->SetUniform("projection", projview);
-		g_dProgram->SetUniform("world", glm::mat4());
-		g_dProgram->SetUniform("view", glm::mat4());
-		g_dProgram->SetUniform("tex", 0);
+			// Bind Uniforms
+			g_dShadowProgram->SetUniform("lightSpaceMatrix", lightSpaceMatrix);
+			g_dShadowProgram->SetUniform("model",glm::mat4());
 
-		// Set up source data
-		g_pDecl->Bind();
+			// Set up source data
+			g_pDecl->Bind();
 
-		// Draw!
-		glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-
-		for (int i = 0; i < selections.size(); i++)
-		{
-			selections.at(i)->Render(projview);
+			// Draw!
+			glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 		}
 	}
-	
+	else
+	{
+		if (type == wolf::RenderFilterOpaque) {
+			pTex->Bind();
+			g_dProgram->Bind();
+
+			// Bind Uniforms
+			g_dProgram->SetUniform("projection", projview);
+			g_dProgram->SetUniform("world", glm::mat4());
+			g_dProgram->SetUniform("view", glm::mat4());
+			g_dProgram->SetUniform("tex", 0);
+
+			// Set up source data
+			g_pDecl->Bind();
+
+			// Draw!
+			glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
+			for (int i = 0; i < selections.size(); i++)
+			{
+				selections.at(i)->Render(projview);
+			}
+		}
+	}
 	for (int i = 0; i < trees.size(); i++)
 	{
-		trees.at(i)->render(projview, glm::mat4(), type);
+		trees.at(i)->render(projview, glm::mat4(), lightSpaceMatrix, type, shadowPass);
 	}
 }
 
@@ -1047,4 +1071,12 @@ void HexGrid::BlockNodePositions(glm::vec3 p_nodePos)
 void HexGrid::ClearBlocks()
 {
 	pathFinder->Instance()->ClearBlockedNodes();
+}
+
+void HexGrid::SetLightDir(glm::vec3 dir)
+{
+	for (int i = 0; i < trees.size(); i++)
+	{
+		trees.at(i)->setLightDir(dir);
+	}
 }

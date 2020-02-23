@@ -18,9 +18,9 @@ namespace wolf
 	class BMWModel
 	{
 	public:
-		BMWModel(std::string file, std::string vertexShader, std::string pixelShader);
+		BMWModel(std::string file, std::string vertexShader, std::string pixelShader, std::string shadowVertexShader, std::string shadowPixelShader);
 		void update(float delta);
-		void render(glm::mat4 view, glm::mat4 proj, RenderFilterType type);
+		void render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, RenderFilterType type, bool shadowPass);
 
 		glm::mat4 getTransform();
 		void setModelColor(glm::vec3 color);
@@ -28,10 +28,16 @@ namespace wolf
 		void setModelFilter(glm::vec3 color);
 		void setTransform(glm::mat4 transform);
 		void setAnim(std::string name);
+		void setLightAmbient(glm::vec4 light);
+		void setLightDiffuse(glm::vec4 light);
+		void setLightSpecular(glm::vec4 light);
+		void setLightDir(glm::vec3 direction);
+		void setViewDir(glm::vec3 direction);
 		bool getIsAnimationRunning();
 		BMWAnimSegment* getAnim();
 		std::string getAnimName();
 		bool isAnimDefault();
+		bool canAnimate();
 
 	private:
 		struct Mesh
@@ -42,6 +48,7 @@ namespace wolf
 			wolf::IndexBuffer* m_pIB;
 			wolf::VertexDeclaration* m_pDecl;
 			wolf::Program* m_pProg;
+			wolf::Program* m_pShadowProg;
 			wolf::Texture* m_pTex;
 		};
 
@@ -51,7 +58,7 @@ namespace wolf
 			int meshID;
 		};
 
-		void renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, unsigned int meshID);
+		void renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, unsigned int meshID, bool shadowPass);
 
 		std::vector<std::string>* m_textures;
 		std::vector<std::vector<Vertex>>* m_vertices;
@@ -77,6 +84,12 @@ namespace wolf
 		glm::vec3 m_modelColor = glm::vec3(1, 1, 1);
 		glm::vec3 m_modelAdditive = glm::vec3(0, 0, 0);
 		glm::vec3 m_modelFilter = glm::vec3(1, 1, 1);
+
+		glm::vec4 m_lightAmbient = glm::vec4(1, 1, 1, 1);
+		glm::vec4 m_lightDiffuse = glm::vec4(1, 1, 1, 1);
+		glm::vec4 m_lightSpecular = glm::vec4(1, 1, 1, 1);
+		glm::vec3 m_lightDir = glm::vec3(1, 1, 1);
+		glm::vec3 m_viewDir = glm::vec3(1, 1, 1);
 	};
 }
 #endif

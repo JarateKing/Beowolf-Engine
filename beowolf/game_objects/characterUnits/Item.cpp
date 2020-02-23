@@ -9,7 +9,8 @@ const std::vector<std::string> STAT_NAMES = { "HP", "MaxAttack", "MinAttack", "D
 Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string jsonFile, std::string p_name, HexGrid* p_grid)
 {
 	auto shaders = wolf::ResourceLoader::Instance().getShaders(p_shaderFile);
-	model = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(p_bmwFile), shaders.first, shaders.second);
+	auto shadowShaders = wolf::ResourceLoader::Instance().getShaders("shadow_map");
+	model = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(p_bmwFile), shaders.first, shaders.second, shadowShaders.first, shadowShaders.second);
 	m_pos = glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y);
 	model->setTransform(glm::translate(m_pos) * glm::scale(glm::vec3(scale, scale, scale)));
 	currTile = p_startTile;
@@ -41,12 +42,24 @@ Item::~Item()
 	delete m_particleGlow;
 }
 
-void Item::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
+void Item::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass)
 {
-	model->render(p_view, p_proj, type);
+	model->render(p_view, p_proj, lightSpaceMatrix, type, shadowPass);
 	m_particleGlow->Render(p_proj * p_view, type);
 	
 	m_storedProj = glm::mat3(p_proj * glm::rotate(90.0f, glm::vec3(1, 0, 0)));
+}
+
+void Item::SetLighting(glm::vec4 ambLight, glm::vec4 difLight, glm::vec3 lightDir)
+{
+	model->setLightAmbient(ambLight);
+	model->setLightDiffuse(difLight);
+	model->setLightDir(lightDir);
+}
+
+void Item::SetLightingDir(glm::vec3 lightDir)
+{
+	model->setLightDir(lightDir);
 }
 
 void Item::Update(float deltaT)
