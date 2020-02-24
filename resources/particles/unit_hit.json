@@ -7,7 +7,7 @@
 				"pX" : "0.0",
 				"pY" : "0.05",
 				"pZ" : "0.0",
-				"duration" : "1",
+				"duration" : "0.1",
 				"rate" : "0.01",
 				"texture" : "resources/textures/particles/particle.dds",
 				"additive" : "false",

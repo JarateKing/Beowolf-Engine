@@ -34,7 +34,7 @@ Effect::Effect(std::string jsonPath)
 		// emitter setup
 		int max = 0;
 		glm::vec3 pos;
-		int duration = -1;
+		float duration = -1;
 		float rate = 0.1;
 		std::string texture = wolf::ResourceLoader::Instance().getTexture("particles/particle.dds");
 		bool additive = false;
@@ -54,7 +54,7 @@ Effect::Effect(std::string jsonPath)
 
 		max = std::stoi(maxt);
 		pos = glm::vec3(std::stof(xt), std::stof(yt), std::stof(zt));
-		duration = std::stoi(durationt);
+		duration = std::stof(durationt);
 		rate = std::stof(ratet);
 		texture = texturet;
 		if (additivet == "true")
