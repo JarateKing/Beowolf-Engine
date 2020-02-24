@@ -7,6 +7,7 @@
 #include "Healthbar.h"
 #include "CooldownIndicator.h"
 #include "sound/W_SoundEngine.h"
+#include "Effect.h"
 
 class CharacterUnits
 {
@@ -76,6 +77,8 @@ class CharacterUnits
 		int m_cooldownCur = 0;
 		wolf::SoundEngine* m_soundEngine;
 		float damageReceivingMult = 1.0f;
+		std::vector<Effect*> m_particleEffects;
+		glm::mat4 m_particleProjMatrix;
 };
 
 #endif

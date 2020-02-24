@@ -53,6 +53,11 @@ void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilt
 	if (m_isCooldownVisible && type == wolf::RenderFilterTransparent) {
 		m_cooldown->Render(p_view, p_proj);
 	}
+
+	for (int i = 0; i < m_particleEffects.size(); i++) {
+		m_particleEffects[i]->Render(p_proj * p_view, type);
+	}
+	m_particleProjMatrix = p_proj * p_view;
 }
 
 void CharacterUnits::Update(float deltaT)
@@ -144,6 +149,8 @@ void CharacterUnits::Update(float deltaT)
 						m_soundEngine->PlayBasicSound("hit3");
 						m_soundEngine->UpdateSystem();
 						canTakeDamage = false;
+						m_particleEffects.push_back(new Effect("resources/particles/item_glow.json"));
+						m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
 					}
 				}
 				timeDamaged += deltaT;
@@ -174,6 +181,10 @@ void CharacterUnits::Update(float deltaT)
 	model->update(deltaT);
 
 	m_cooldown->Update(deltaT);
+	
+	for (int i = 0; i < m_particleEffects.size(); i++) {
+		m_particleEffects[i]->Update(deltaT, glm::mat3(m_particleProjMatrix));
+	}
 }
 
 bool CharacterUnits::cmpf(float a, float b)
