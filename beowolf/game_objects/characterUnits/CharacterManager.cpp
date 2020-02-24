@@ -67,18 +67,26 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			{
 				if (it->isAttacking() == true)
 				{
-					std::cout << m_isSpecialActive << '\n';
-
 					clickedOnEnemy = false;
 
-					if (m_isSpecialActive)
+					// special attack
+					if (m_isSpecialActive) {
 						it->StartCooldown();
 
-					for (int i = 0; i < enemies.size(); i++)
-					{
-						if (enemies.at(i).GetName().compare(targetedEnemy) == 0)
+						for (int i = 0; i < enemies.size(); i++) {
+							if (glm::distance(enemies[i].GetPos(), it->GetPos()) <= 10.0f) {
+								enemies[i].TakeDamage(it->GetName());
+							}
+						}
+					}
+					// regular attack
+					else {
+						for (int i = 0; i < enemies.size(); i++)
 						{
-							enemies.at(i).TakeDamage(it->GetName());
+							if (enemies.at(i).GetName().compare(targetedEnemy) == 0)
+							{
+								enemies.at(i).TakeDamage(it->GetName());
+							}
 						}
 					}
 
