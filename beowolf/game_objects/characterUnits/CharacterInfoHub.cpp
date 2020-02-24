@@ -120,7 +120,7 @@ void CharacterInfoHub::AddItemType(std::string p_itemJson)
 	m_infoBits.push_back(temp);
 }
 
-void CharacterInfoHub::DamageEnemy(std::string p_enemyName, std::string p_characterName)
+void CharacterInfoHub::DamageEnemy(std::string p_enemyName, std::string p_characterName, float mult)
 {
 	for (int i = 0; i < m_infoBits.size(); i++)
 	{
@@ -130,7 +130,7 @@ void CharacterInfoHub::DamageEnemy(std::string p_enemyName, std::string p_charac
 			{
 				if (m_infoBits.at(j).m_name.compare(p_characterName) == 0)
 				{
-					m_infoBits.at(i).m_info["HP"] -= m_infoBits.at(j).m_info["MaxAttack"] * (100 / m_infoBits.at(i).m_info["Defense"]);
+					m_infoBits.at(i).m_info["HP"] -= m_infoBits.at(j).m_info["MaxAttack"] * mult * (100 / m_infoBits.at(i).m_info["Defense"]);
 
 					if (m_infoBits.at(i).m_info["HP"] < 0)
 						m_infoBits.at(i).m_info["HP"] = 0;
@@ -140,7 +140,7 @@ void CharacterInfoHub::DamageEnemy(std::string p_enemyName, std::string p_charac
 	}
 }
 
-void CharacterInfoHub::DamageCharacter(std::string p_characterName, std::string p_enemyName)
+void CharacterInfoHub::DamageCharacter(std::string p_characterName, std::string p_enemyName, float mult)
 {
 	for (int i = 0; i < m_infoBits.size(); i++)
 	{
@@ -150,7 +150,7 @@ void CharacterInfoHub::DamageCharacter(std::string p_characterName, std::string 
 			{
 				if (m_infoBits.at(j).m_name.compare(p_enemyName) == 0)
 				{
-					m_infoBits.at(i).m_info["HP"] -= m_infoBits.at(j).m_info["MaxAttack"] * (100 / m_infoBits.at(i).m_info["Defense"]);
+					m_infoBits.at(i).m_info["HP"] -= m_infoBits.at(j).m_info["MaxAttack"] * mult * (100 / m_infoBits.at(i).m_info["Defense"]);
 
 					if (m_infoBits.at(i).m_info["HP"] < 0)
 						m_infoBits.at(i).m_info["HP"] = 0;

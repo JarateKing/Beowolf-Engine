@@ -23,8 +23,8 @@ class CharacterInfoHub
 		void AddEnemyType(std::string p_enemyJson, std::string p_enemyName);
 		void AddItemType(std::string p_itemJson);
 
-		void DamageEnemy(std::string p_enemyName, std::string p_characterName);
-		void DamageCharacter(std::string p_characterName, std::string p_enemyName);
+		void DamageEnemy(std::string p_enemyName, std::string p_characterName, float mult = 1.0f);
+		void DamageCharacter(std::string p_characterName, std::string p_enemyName, float mult = 1.0f);
 
 		void GivePlayerItem(std::string p_characterName, std::string p_itemName);
 

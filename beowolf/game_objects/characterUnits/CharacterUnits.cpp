@@ -273,12 +273,18 @@ void CharacterUnits::InitDeath()
 	dying = true;
 }
 
-void CharacterUnits::TakeDamage(std::string p_characterFrom)
+void CharacterUnits::TakeDamage(std::string p_characterFrom, float mult)
 {
 	canTakeDamage = true;
 	characterAttacking = p_characterFrom;
 	timeDamaged = 0.0f;
 	damaged = true;
+	damageReceivingMult = mult;
+}
+
+float CharacterUnits::GetDamageReceivedMult()
+{
+	return damageReceivingMult;
 }
 
 void CharacterUnits::SetHealthbarVisible(bool isVisible)

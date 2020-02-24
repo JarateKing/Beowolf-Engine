@@ -134,7 +134,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		{
 			if (characters.at(i).InitDamage())
 			{
-				characterIHub.DamageCharacter(characters.at(i).GetName(), characters.at(i).GetAttacker());
+				characterIHub.DamageCharacter(characters.at(i).GetName(), characters.at(i).GetAttacker(), characters.at(i).GetDamageReceivedMult());
 			}
 
 			if (characterIHub.GetStat(characters.at(i).GetName(), "HP") <= 0.0f)
@@ -157,7 +157,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		{
 			if (enemies.at(i).InitDamage())
 			{
-				characterIHub.DamageEnemy(enemies.at(i).GetName(), enemies.at(i).GetAttacker());
+				characterIHub.DamageEnemy(enemies.at(i).GetName(), enemies.at(i).GetAttacker(), enemies.at(i).GetDamageReceivedMult());
 			}
 
 			if (characterIHub.GetStat(enemies.at(i).GetName(), "HP") <= 0.0f)
