@@ -20,7 +20,7 @@ namespace wolf
 	public:
 		BMWModel(std::string file, std::string vertexShader, std::string pixelShader, std::string shadowVertexShader, std::string shadowPixelShader);
 		void update(float delta);
-		void render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, RenderFilterType type, bool shadowPass);
+		void render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, RenderFilterType type, bool shadowPass, unsigned int depthMapTexture);
 
 		glm::mat4 getTransform();
 		void setModelColor(glm::vec3 color);
@@ -58,7 +58,7 @@ namespace wolf
 			int meshID;
 		};
 
-		void renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, unsigned int meshID, bool shadowPass);
+		void renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, unsigned int meshID, bool shadowPass, unsigned int depthMapTexture);
 
 		std::vector<std::string>* m_textures;
 		std::vector<std::vector<Vertex>>* m_vertices;

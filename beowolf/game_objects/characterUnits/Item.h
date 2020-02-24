@@ -12,7 +12,7 @@ class Item
 	public:
 		Item(std::string bmwFile, std::string shaderFile, int startTile, std::string jsonFile, std::string name, HexGrid* grid);
 		~Item();
-		void Render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass);
+		void Render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture);
 		void Update(float deltaT);
 		void SetLighting(glm::vec4 ambLight, glm::vec4 difLight, glm::vec3 lightDir);
 		void SetLightingDir(glm::vec3);

@@ -42,9 +42,9 @@ Item::~Item()
 	delete m_particleGlow;
 }
 
-void Item::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass)
+void Item::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture)
 {
-	model->render(p_view, p_proj, lightSpaceMatrix, type, shadowPass);
+	model->render(p_view, p_proj, lightSpaceMatrix, type, shadowPass, depthMapTexture);
 	m_particleGlow->Render(p_proj * p_view, type);
 	
 	m_storedProj = glm::mat3(p_proj * glm::rotate(90.0f, glm::vec3(1, 0, 0)));

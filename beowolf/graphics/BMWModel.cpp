@@ -127,24 +127,30 @@ namespace wolf
 		}
 	}
 
-	void BMWModel::render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, RenderFilterType type, bool shadowPass)
+	void BMWModel::render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, RenderFilterType type, bool shadowPass, unsigned int depthMapTexture)
 	{
 		if (type == RenderFilterOpaque)
 			for (int i = 0; i < m_toRender.size(); i++)
 				if (!m_meshes[m_toRender[i].meshID].isTransparent)
-					renderMesh(transform * m_toRender[i].transform, view, proj, lightSpaceMatrix, i, shadowPass);
+					renderMesh(transform * m_toRender[i].transform, view, proj, lightSpaceMatrix, i, shadowPass, depthMapTexture);
 
 		if (type == RenderFilterTransparent)
 			for (int i = 0; i < m_toRender.size(); i++)
 				if (m_meshes[m_toRender[i].meshID].isTransparent)
-					renderMesh(transform * m_toRender[i].transform, view, proj, lightSpaceMatrix, i, shadowPass);
+					renderMesh(transform * m_toRender[i].transform, view, proj, lightSpaceMatrix, i, shadowPass, depthMapTexture);
 	}
 
-	void BMWModel::renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, unsigned int meshID, bool shadowPass) {
+	void BMWModel::renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, unsigned int meshID, bool shadowPass, unsigned int depthMapTexture) {
 		m_meshes[meshID].m_pDecl->Bind();
 
+		glActiveTexture(GL_TEXTURE0);
 		if (m_meshes[meshID].m_pTex != NULL)
 			m_meshes[meshID].m_pTex->Bind();
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, depthMapTexture);
+		glActiveTexture(GL_TEXTURE0);
+
 		if (shadowPass)
 		{
 			m_meshes[meshID].m_pShadowProg->Bind();
@@ -158,6 +164,7 @@ namespace wolf
 			m_meshes[meshID].m_pProg->SetUniform("view", view);
 			m_meshes[meshID].m_pProg->SetUniform("world", world);
 			m_meshes[meshID].m_pProg->SetUniform("tex", 0);
+			m_meshes[meshID].m_pProg->SetUniform("shadowMap", 1);
 			m_meshes[meshID].m_pProg->SetUniform("modelColor", m_modelColor);
 			m_meshes[meshID].m_pProg->SetUniform("modelAdditive", m_modelAdditive);
 			m_meshes[meshID].m_pProg->SetUniform("modelFilter", m_modelFilter);
@@ -165,6 +172,7 @@ namespace wolf
 			m_meshes[meshID].m_pProg->SetUniform("LightDiffuse", m_lightDiffuse);
 			m_meshes[meshID].m_pProg->SetUniform("LightDir", m_lightDir);
 			m_meshes[meshID].m_pProg->SetUniform("ViewDir", m_viewDir);
+			m_meshes[meshID].m_pProg->SetUniform("lightSpaceMatrix", lightSpaceMatrix);
 			glm::mat3 mWorldIT(transform);
 			mWorldIT = glm::inverse(mWorldIT);
 			mWorldIT = glm::transpose(mWorldIT);

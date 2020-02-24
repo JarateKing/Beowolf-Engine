@@ -120,7 +120,6 @@ void updateGameLogic(Scene* scene)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glBindTexture(GL_TEXTURE_2D, depthMapTex);
 	scene->SwitchShadowPass();
-	scene->SetTex(depthMapTex);
 	scene->Render();
 }
 
@@ -130,6 +129,7 @@ int main()
     
 	BaseScene* scene = new BaseScene();
 	scene->Init();
+	scene->SetTex(depthMapTex);
 	while (glfwGetWindowParam(GLFW_OPENED))
 	{
 		updateGraphics();

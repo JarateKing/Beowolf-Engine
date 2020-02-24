@@ -12,7 +12,7 @@ class CharacterUnits
 	public:
 		CharacterUnits(std::string bmwFile, std::string shaderFile, int startTile, std::string name, HexGrid* grid, float scale = 1.0f, bool p_inverted = false, glm::vec3 model_color = glm::vec3(1.0, 1.0, 1.0));
 		~CharacterUnits();
-		void Render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass);
+		void Render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture);
 		void Update(float deltaT);
 		std::string GetName();
 		int GetTile();

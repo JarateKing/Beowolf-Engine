@@ -81,7 +81,7 @@ void BaseScene::Init()
 	float scale = 5.0;
 	float scale2 = 0.05;
 	
-	lightDir = glm::vec3(0.0f, 0.0f, 0.0f);
+	lightDir = glm::normalize(glm::vec3(-50.0f, -50.0f, -50.0f) - glm::vec3(0.0f, 0.0f, 0.0f));
 	tQuad = new TestQuad();
 	testhud = new wolf::Hud("resources/hud/hud.json");
 	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -90,6 +90,8 @@ void BaseScene::Init()
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
 	grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+	grid->SetAmbient(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f));
+	grid->SetDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
 	selector = new HexSelector(5.0f);
 	cManager = new CharacterManager(grid, testhud);
 	cManager->SetSoundEngine(SE);
@@ -155,7 +157,7 @@ void BaseScene::Update()
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_6))
 		lightDir.z -= 0.1f;
 
-	//std::cout << "Light Direction: " << lightDir.x << ", " << lightDir.y << ", " << lightDir.z << std::endl;
+	std::cout << "Light Direction: " << lightDir.x << ", " << lightDir.y << ", " << lightDir.z << std::endl;
 	if (shouldSwap) {
 
 		delete cam;
@@ -194,29 +196,29 @@ void BaseScene::Update()
 
 void BaseScene::Render()
 {
+	float near_plane = 1.0f, far_plane = 150.0f;
+	glm::mat4 lightProj = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, near_plane, far_plane);
+	glm::mat4 lightView = glm::lookAt(glm::vec3(-50.0f, 50.0f, -50.0f),
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 lightSpaceMatrix = lightProj * lightView;
+
 	if (shadowPass)
 	{
-		float near_plane = 1.0f, far_plane = 150.0f;
-		glm::mat4 lightProj = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, near_plane, far_plane);
-		glm::mat4 lightView = glm::lookAt(glm::vec3(-50.0f, 50.0f, -50.0f),
-			glm::vec3(0.0f, 0.0f, 0.0f),
-			glm::vec3(0.0f, 1.0f, 0.0f));
-		glm::mat4 lightSpaceMatrix = lightProj * lightView;
-
 		// Opaque
 		glDepthMask(true);
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, true);
+		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
 		selector->Render(cam->GetViewMatrix());
-		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true);
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
 
 		// Transparent
 		glEnable(GL_BLEND);
 
-		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, true);
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, true, depthMapTexture);
 
 		// Depthless
 		glDepthMask(false);
@@ -226,7 +228,7 @@ void BaseScene::Render()
 		// Additive
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
-		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterAdditive, true);
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterAdditive, true, depthMapTexture);
 
 		// Done
 		glDepthMask(true);
@@ -235,13 +237,6 @@ void BaseScene::Render()
 	}
 	else
 	{
-		float near_plane = 1.0f, far_plane = 1000.0f;
-		glm::mat4 lightProj = glm::ortho(-150.0f, 150.0f, -150.0f, 150.0f, near_plane, far_plane);
-		glm::mat4 lightView = glm::lookAt(glm::vec3(-150.0f, 150.0f, -150.0f),
-			glm::vec3(0.0f, 0.0f, 0.0f),
-			glm::vec3(0.0f, 1.0f, 0.0f));
-		glm::mat4 lightSpaceMatrix = lightProj * lightView;
-
 		// Opaque
 		glDepthMask(true);
 		glEnable(GL_DEPTH_TEST);
@@ -249,14 +244,14 @@ void BaseScene::Render()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		tQuad->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque, false, depthMapTexture);
-		//grid->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque, false);
+		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 		selector->Render(cam->GetViewMatrix());
-		cManager->Render(cam->GetViewMatrix(), glm::mat4(), glm::mat4(), wolf::RenderFilterOpaque, false);
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 
 		// Transparent
 		glEnable(GL_BLEND);
 
-		cManager->Render(cam->GetViewMatrix(), glm::mat4(), glm::mat4(), wolf::RenderFilterTransparent, false);
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, false, depthMapTexture);
 
 		// Depthless
 		glDepthMask(false);
@@ -266,7 +261,7 @@ void BaseScene::Render()
 		// Additive
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
-		cManager->Render(cam->GetViewMatrix(), glm::mat4(), glm::mat4(), wolf::RenderFilterAdditive, false);
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterAdditive, false, depthMapTexture);
 
 		// Done
 		glDepthMask(true);
