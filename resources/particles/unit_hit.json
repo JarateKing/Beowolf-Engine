@@ -1,0 +1,24 @@
+{
+	"Effect" :
+	{
+		"Emitters" : [
+			{
+				"max_particles" : "10",
+				"pX" : "0.0",
+				"pY" : "0.05",
+				"pZ" : "0.0",
+				"duration" : "1",
+				"rate" : "0.01",
+				"texture" : "resources/textures/particles/particle.dds",
+				"additive" : "false",
+				"lifespanMin" : "0.5",
+				"lifespanMax" : "0.75",
+				"affectors" : [
+					{"type" : "scale", "start" : "0.3", "end" : "5"},
+					{"type" : "recolor", "sR" : "1.0", "sG" : "0.0", "sB" : "0.0", "eR" : "0.5", "eG" : "0.0", "eB" : "0.0"},
+					{"type" : "fade", "start" : "1.0", "end" : "0"}
+				]
+			}
+		]
+	}
+}
