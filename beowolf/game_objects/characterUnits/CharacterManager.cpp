@@ -464,6 +464,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 					characters[i].StartCooldown();
 					for (int j = 0; j < characters.size(); j++) {
 						characterIHub.UpdateStat(characters[j].GetName(), "HP", std::min(characterIHub.GetStat(characters[j].GetName(), "HP") + 100, characterIHub.GetStat(characters[j].GetName(), "Health")));
+						characters[j].HealIndicator();
 					}
 				}
 				else {

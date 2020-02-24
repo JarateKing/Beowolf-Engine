@@ -360,3 +360,9 @@ int CharacterUnits::GetCooldown()
 {
 	return m_cooldownCur;
 }
+
+void CharacterUnits::HealIndicator()
+{
+	m_particleEffects.push_back(new Effect("resources/particles/lich_heal.json"));
+	m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
+}
