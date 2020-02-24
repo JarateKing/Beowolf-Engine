@@ -74,8 +74,13 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 						it->StartCooldown();
 
 						if (it->GetName() == "myGiant") {
+							int hitUnitIndex;
 							for (int i = 0; i < enemies.size(); i++) {
-								if (glm::distance(glm::vec2(enemies[i].GetPos().x, enemies[i].GetPos().z), glm::vec2(it->GetPos().x, it->GetPos().z)) <= 12.0f) {
+								if (enemies[i].GetName() == targetedEnemy)
+									hitUnitIndex = i;
+							}
+							for (int i = 0; i < enemies.size(); i++) {
+								if (i == hitUnitIndex || glm::distance(glm::vec2(enemies[i].GetPos().x, enemies[i].GetPos().z), glm::vec2(enemies[hitUnitIndex].GetPos().x, enemies[hitUnitIndex].GetPos().z)) <= 10.0f) {
 									enemies[i].TakeDamage(it->GetName(), 0.75f);
 								}
 							}
