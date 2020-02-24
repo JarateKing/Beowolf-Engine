@@ -457,6 +457,9 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				// special case with the lich
 				if (characters[i].GetName() == "myLich") {
 					characters[i].StartCooldown();
+					for (int j = 0; j < characters.size(); j++) {
+						characterIHub.UpdateStat(characters[j].GetName(), "HP", std::min(characterIHub.GetStat(characters[j].GetName(), "HP") + 100, characterIHub.GetStat(characters[j].GetName(), "Health")));
+					}
 				}
 				else {
 					m_isSpecialActive = !m_isSpecialActive;
