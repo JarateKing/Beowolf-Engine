@@ -172,6 +172,8 @@ void CharacterUnits::Update(float deltaT)
 						m_soundEngine->PlayBasicSound("hit3");
 						m_soundEngine->UpdateSystem();
 						canTakeDamage = false;
+						m_particleEffects.push_back(new Effect("resources/particles/unit_hit.json"));
+						m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
 					}
 				}
 				timeDamaged += deltaT;
