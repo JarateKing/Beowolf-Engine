@@ -75,7 +75,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 
 						if (it->GetName() == "myGiant") {
 							for (int i = 0; i < enemies.size(); i++) {
-								if (glm::distance(enemies[i].GetPos(), it->GetPos()) <= 10.0f) {
+								if (glm::distance(enemies[i].GetPos(), it->GetPos()) <= 12.5f) {
 									enemies[i].TakeDamage(it->GetName(), 0.75f);
 								}
 							}

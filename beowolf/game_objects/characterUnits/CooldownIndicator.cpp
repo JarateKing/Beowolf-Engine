@@ -31,7 +31,7 @@ CooldownIndicator::~CooldownIndicator() {
 
 void CooldownIndicator::Update(float p_fDelta) {
 	if (m_threshold != m_targetThreshold) {
-		m_targetThresholdTime += p_fDelta * 0.25;
+		m_targetThresholdTime += p_fDelta * 0.5;
 		if (m_targetThresholdTime > 1.0)
 			m_targetThresholdTime = 1.0;
 
