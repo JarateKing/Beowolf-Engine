@@ -254,7 +254,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	m_hud->GetElement("HoverPanelBG")->SetH(600);
 
 	for (auto it = enemies.begin(); it != enemies.end(); it++) {
-		if (p_target == it->GetTile() && StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
+		if (p_target == it->GetTile() && (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn)) {
 			for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
 				it->SetVisible(true);
 			for (auto it : m_hud->GetElementsByTag("uihoverpanelitem"))
@@ -275,7 +275,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	}
 
 	for (auto it = items.begin(); it != items.end(); it++) {
-		if (p_target == (*it)->GetTile() && StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
+		if (p_target == (*it)->GetTile() && (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn)) {
 			for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
 				it->SetVisible(true);
 			for (auto it : m_hud->GetElementsByTag("uihoverpanelstat"))
