@@ -3,7 +3,7 @@
 	{
 		"Emitters" : [
 			{
-				"max_particles" : "3",
+				"max_particles" : "10",
 				"pX" : "0.0",
 				"pY" : "0.5",
 				"pZ" : "0.0",
@@ -11,10 +11,10 @@
 				"rate" : "0.0001",
 				"texture" : "resources/textures/particles/ring.dds",
 				"additive" : "true",
-				"lifespanMin" : "0.1",
-				"lifespanMax" : "0.2",
+				"lifespanMin" : "0.2",
+				"lifespanMax" : "0.3",
 				"affectors" : [
-					{"type" : "scale", "start" : "1.0", "end" : "6"},
+					{"type" : "scale", "start" : "1.0", "end" : "9"},
 					{"type" : "recolor", "sR" : "1.0", "sG" : "1.0", "sB" : "0.0", "eR" : "0.0", "eG" : "0.0", "eB" : "0.0"},
 					{"type" : "fade", "start" : "1.0", "end" : "0"}
 				]
