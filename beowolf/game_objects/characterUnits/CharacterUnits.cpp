@@ -150,10 +150,11 @@ void CharacterUnits::Update(float deltaT)
 						m_soundEngine->UpdateSystem();
 						canTakeDamage = false;
 
-						if (damageReceivingMult > 1.0)
-							m_particleEffects.push_back(new Effect("resources/particles/unit_hit_heavy.json"));
+						if (damageReceivingParticle != "")
+							m_particleEffects.push_back(new Effect(damageReceivingParticle));
 						else
 							m_particleEffects.push_back(new Effect("resources/particles/unit_hit.json"));
+
 						m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
 					}
 				}
@@ -176,7 +177,12 @@ void CharacterUnits::Update(float deltaT)
 						m_soundEngine->PlayBasicSound("hit3");
 						m_soundEngine->UpdateSystem();
 						canTakeDamage = false;
-						m_particleEffects.push_back(new Effect("resources/particles/unit_hit.json"));
+
+						if (damageReceivingParticle != "")
+							m_particleEffects.push_back(new Effect(damageReceivingParticle));
+						else
+							m_particleEffects.push_back(new Effect("resources/particles/unit_hit.json"));
+
 						m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
 					}
 				}
@@ -290,13 +296,14 @@ void CharacterUnits::InitDeath()
 	dying = true;
 }
 
-void CharacterUnits::TakeDamage(std::string p_characterFrom, float mult)
+void CharacterUnits::TakeDamage(std::string p_characterFrom, float mult, std::string particleEffectOverride)
 {
 	canTakeDamage = true;
 	characterAttacking = p_characterFrom;
 	timeDamaged = 0.0f;
 	damaged = true;
 	damageReceivingMult = mult;
+	damageReceivingParticle = particleEffectOverride;
 }
 
 float CharacterUnits::GetDamageReceivedMult()

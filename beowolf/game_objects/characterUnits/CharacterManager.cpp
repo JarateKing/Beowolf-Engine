@@ -80,7 +80,10 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 									hitUnitIndex = i;
 							}
 							for (int i = 0; i < enemies.size(); i++) {
-								if (i == hitUnitIndex || glm::distance(glm::vec2(enemies[i].GetPos().x, enemies[i].GetPos().z), glm::vec2(enemies[hitUnitIndex].GetPos().x, enemies[hitUnitIndex].GetPos().z)) <= 10.0f) {
+								if (i == hitUnitIndex) {
+									enemies[i].TakeDamage(it->GetName(), 0.75f, "resources/particles/unit_hit_heavy.json");
+								}
+								else if (glm::distance(glm::vec2(enemies[i].GetPos().x, enemies[i].GetPos().z), glm::vec2(enemies[hitUnitIndex].GetPos().x, enemies[hitUnitIndex].GetPos().z)) <= 10.0f) {
 									enemies[i].TakeDamage(it->GetName(), 0.75f);
 								}
 							}
@@ -88,7 +91,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 						else {
 							for (int i = 0; i < enemies.size(); i++) {
 								if (enemies.at(i).GetName().compare(targetedEnemy) == 0) {
-									enemies.at(i).TakeDamage(it->GetName(), 2.5f);
+									enemies.at(i).TakeDamage(it->GetName(), 2.5f, "resources/particles/unit_hit_heavy.json");
 								}
 							}
 						}
