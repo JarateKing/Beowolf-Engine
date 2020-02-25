@@ -81,7 +81,7 @@ void BaseScene::Init()
 	float scale = 5.0;
 	float scale2 = 0.05;
 	
-	lightDir = glm::normalize(glm::vec3(-50.0f, -50.0f, -50.0f) - glm::vec3(0.0f, 0.0f, 0.0f));
+	lightDir = glm::normalize(glm::vec3(35.0f, -50.0f, 35.0f) - glm::vec3(0.0f, 0.0f, 0.0f));
 	tQuad = new TestQuad();
 	testhud = new wolf::Hud("resources/hud/hud.json");
 	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -157,7 +157,7 @@ void BaseScene::Update()
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_6))
 		lightDir.z -= 0.1f;
 
-	std::cout << "Light Direction: " << lightDir.x << ", " << lightDir.y << ", " << lightDir.z << std::endl;
+	//std::cout << "Light Direction: " << lightDir.x << ", " << lightDir.y << ", " << lightDir.z << std::endl;
 	if (shouldSwap) {
 
 		delete cam;
@@ -196,9 +196,9 @@ void BaseScene::Update()
 
 void BaseScene::Render()
 {
-	float near_plane = 1.0f, far_plane = 150.0f;
+	float near_plane = 20.0f, far_plane = 100.0f;
 	glm::mat4 lightProj = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, near_plane, far_plane);
-	glm::mat4 lightView = glm::lookAt(glm::vec3(-50.0f, 50.0f, -50.0f),
+	glm::mat4 lightView = glm::lookAt(glm::vec3(-35.0f, 50.0f, -35.0f),
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 lightSpaceMatrix = lightProj * lightView;
@@ -210,7 +210,8 @@ void BaseScene::Render()
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+		glCullFace(GL_FRONT);
+		
 		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
 		selector->Render(cam->GetViewMatrix());
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
@@ -234,6 +235,7 @@ void BaseScene::Render()
 		glDepthMask(true);
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
+		glCullFace(GL_BACK);
 	}
 	else
 	{

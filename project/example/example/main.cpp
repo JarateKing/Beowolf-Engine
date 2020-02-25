@@ -23,7 +23,7 @@ FILE _iob[] = { *stdin, *stdout, *stderr };
 
 unsigned int depthMapFrameBuf;
 unsigned int depthMapTex;
-const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+const unsigned int SHADOW_WIDTH = 8192, SHADOW_HEIGHT = 8192;
 
 extern "C" FILE * __cdecl __iob_func(void)
 {
@@ -109,7 +109,9 @@ void updateGameLogic(Scene* scene)
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	scene->SwitchShadowPass();
+	glCullFace(GL_FRONT);
 	scene->Render();
+	glCullFace(GL_BACK);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	//Render scene normally with shadows

@@ -162,7 +162,7 @@ namespace wolf
 			m_meshes[meshID].m_pProg->Bind();
 			m_meshes[meshID].m_pProg->SetUniform("projection", proj);
 			m_meshes[meshID].m_pProg->SetUniform("view", view);
-			m_meshes[meshID].m_pProg->SetUniform("world", world);
+			m_meshes[meshID].m_pProg->SetUniform("world", transform);
 			m_meshes[meshID].m_pProg->SetUniform("tex", 0);
 			m_meshes[meshID].m_pProg->SetUniform("shadowMap", 1);
 			m_meshes[meshID].m_pProg->SetUniform("modelColor", m_modelColor);
