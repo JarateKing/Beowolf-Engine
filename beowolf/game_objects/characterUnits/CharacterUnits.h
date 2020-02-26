@@ -44,7 +44,6 @@ class CharacterUnits
 		void UpdateCooldown();
 		int GetCooldown();
 		void HealIndicator();
-		std::string GetAttacker();
 		std::vector<std::string> GetAttacker();
 		wolf::BMWModel* GetModel();
 
