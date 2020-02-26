@@ -49,18 +49,19 @@ CharacterManager::~CharacterManager()
 void CharacterManager::Update(int p_target, float p_deltaT)
 {
 	m_cameraTime += p_deltaT;
-	if(characters.size() != 0)
+	if (characters.size() > 0) {
 		m_cameraUnit %= characters.size();
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_F)) {
-		if (m_cameraTime < 2.0f) {
-			m_cameraUnit = (m_cameraUnit + 1) % characters.size();
+		if (wolf::Input::Instance().isKeyPressed(INPUT_KB_F)) {
+			if (m_cameraTime < 2.0f) {
+				m_cameraUnit = (m_cameraUnit + 1) % characters.size();
+			}
+			else {
+				m_cameraUnit = 0;
+			}
+			
+			m_cameraTime = 0.0f;
+			m_cam->MoveToView(characters[m_cameraUnit].GetPos(), glm::vec3(0, 50 - characters[m_cameraUnit].GetPos().y, -40.0f), 0.35f);
 		}
-		else {
-			m_cameraUnit = 0;
-		}
-
-		m_cameraTime = 0.0f;
-		m_cam->MoveToView(characters[m_cameraUnit].GetPos(), glm::vec3(0, 50 - characters[m_cameraUnit].GetPos().y, -40.0f), 0.35f);
 	}
 
 	if (clickedOnEnemy)
@@ -311,7 +312,12 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		{
 			if (it->GetTile() == currTarget && !it->getHasMoved())
 			{
+				std::vector<std::string> toIgnore;
+				toIgnore.push_back(it->GetName());
+				ApplyPathBlocks(toIgnore, true, false);
+
 				targetName = it->GetName();
+				grid->StartTargeting(currTarget, characterIHub.GetStat(it->GetName(), "MaxMovement") + 1);
 				targeting = true;
 				timeBetween = 0.0f;
 				it->setSelected(true);
@@ -320,6 +326,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			}
 			else
 			{
+				grid->StopTargeting();
 				targeting = false;
 				timeBetween = 1.0f;
 			}
@@ -360,21 +367,10 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				{
 					if (it->GetName().compare(targetName) == 0)
 					{
-						grid->ClearBlocks();
-
-						std::vector<int> tilesBlocked;
-
-						for (int i = 0; i < enemies.size(); i++)
-						{
-							if (enemies.at(i).GetName().compare(targetEnemy) != 0)
-								tilesBlocked.push_back(enemies.at(i).GetTile());
-						}
-						for (int i = 0; i < characters.size(); i++)
-						{
-							if (characters.at(i).GetName().compare(targetName) != 0)
-								tilesBlocked.push_back(characters.at(i).GetTile());
-						}
-						BlockTiles(tilesBlocked);
+						std::vector<std::string> toIgnore;
+						toIgnore.push_back(targetName);
+						toIgnore.push_back(targetEnemy);
+						ApplyPathBlocks(toIgnore, true, true);
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 
@@ -395,6 +391,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 								targeting = false;
 								timeBetween = 0.0f;
 								it->setSelected(false);
+								grid->StopTargeting();
 								it->Move(path, movementTime, true);
 								if (path.size() > 1)
 									it->SetTile(path.at(path.size() - 2));
@@ -423,20 +420,9 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				{
 					if (it->GetName().compare(targetName) == 0)
 					{
-						grid->ClearBlocks();
-
-						std::vector<int> tilesBlocked;
-
-						for (int i = 0; i < enemies.size(); i++)
-						{
-							tilesBlocked.push_back(enemies.at(i).GetTile());
-						}
-						for (int i = 0; i < characters.size(); i++)
-						{
-							if(characters.at(i).GetName().compare(targetName) != 0)
-								tilesBlocked.push_back(characters.at(i).GetTile());
-						}
-						BlockTiles(tilesBlocked);
+						std::vector<std::string> toIgnore;
+						toIgnore.push_back(targetName);
+						ApplyPathBlocks(toIgnore, true, true);
 
 						std::vector<int> path = grid->GetPathway(prevTarget, currTarget);
 
@@ -456,6 +442,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 							targeting = false;
 							timeBetween = 0.0f;
 							it->setSelected(false);
+							grid->StopTargeting();
 							it->Move(path, movementTime, false);
 							it->SetTile(path.at(path.size() - 1));
 							it = characters.end();
@@ -656,6 +643,11 @@ void CharacterManager::SetCamera(Camera* cam)
 	m_cam = cam;
 }
 
+void CharacterManager::SetGridSelector(HexSelector* selector)
+{
+	m_hexSelector = selector;
+}
+
 bool CharacterManager::IsCharOnTile(int pos) {
 	for (int i = 0; i < characters.size(); i++)
 		if (characters[i].GetTile() == pos)
@@ -688,6 +680,25 @@ void CharacterManager::PreloadCharacterModels()
 	Item("potion.bmw", "unlit_texture", 5, "Items/potion.json", "Potion", grid);
 	Item("sword1.bmw", "unlit_texture", 6, "Items/sword.json", "Sword", grid);
 	Item("shield.bmw", "unlit_texture", 7, "Items/shield.json", "Shield", grid);
+}
+
+void CharacterManager::ApplyPathBlocks(std::vector<std::string> toIgnore, bool blockCharacters, bool blockEnemies)
+{
+	grid->ClearBlocks();
+
+	std::vector<int> tilesBlocked;
+
+	if (blockEnemies)
+		for (int i = 0; i < enemies.size(); i++)
+			if (std::find(toIgnore.begin(), toIgnore.end(), enemies[i].GetName()) == toIgnore.end())
+				tilesBlocked.push_back(enemies.at(i).GetTile());
+
+	if (blockCharacters)
+		for (int i = 0; i < characters.size(); i++)
+			if (std::find(toIgnore.begin(), toIgnore.end(), characters[i].GetName()) == toIgnore.end())
+				tilesBlocked.push_back(characters.at(i).GetTile());
+
+	BlockTiles(tilesBlocked);
 }
 
 void CharacterManager::PrintCharacterTilePos()

@@ -34,6 +34,8 @@ public:
 	void SetLightDir(glm::vec3 dir);
 	void SetDiffuse(glm::vec4 dif);
 	void SetAmbient(glm::vec4 amb);
+	void StartTargeting(int target, int max);
+	void StopTargeting();
 
 private:
 	void GenerateLoc(int width, int length, float tileWidth);
@@ -85,7 +87,7 @@ private:
 	int targetingT = -1;
 	int abstractTarget = -1;
 	int lastFrame = -1;
-	float timeBetween = 1.0f;
+	int targetingMax;
 
 	int m_width;
 	int m_height;

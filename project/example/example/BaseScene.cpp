@@ -122,7 +122,7 @@ void BaseScene::Update()
 	std::vector<glm::vec2> positions = grid->GetPos();
 	if (!(target < 0))
 	{
-		selector->Update(target, positions.at(target), heights.at(target));
+		//selector->Update(target, positions.at(target), heights.at(target));
 		grid->Update(target, delta);
 	}
 	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
@@ -179,6 +179,7 @@ void BaseScene::Update()
 
 		scoreTracker->SetScore(0);
 		cManager->SetScoreTracker(scoreTracker);
+		cManager->SetSoundEngine(SE);
 	}
 
 	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
@@ -219,9 +220,12 @@ void BaseScene::Render()
 		glEnable(GL_BLEND);
 
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, true, depthMapTexture);
-
 		// Depthless
 		glDepthMask(false);
+    
+	  //grid->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
+	  //selector->Render(cam->GetViewMatrix());
+	  //cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
 
 		//testhud->Render(hudProjMat);
 
