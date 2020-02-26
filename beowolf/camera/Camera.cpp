@@ -54,7 +54,7 @@ void Camera::Update(float delta)
 			m_pos += m_aim * movespeed;
 		//}
 	}
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_SPACE))
+	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_E))
 	{
 		float m_posZ = m_pos.z;
 		//if (m_pos.y <= startY + 15)
