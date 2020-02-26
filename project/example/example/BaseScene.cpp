@@ -213,26 +213,26 @@ void BaseScene::Render()
 		glCullFace(GL_FRONT);
 		
 		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
-		selector->Render(cam->GetViewMatrix());
+		//selector->Render(cam->GetViewMatrix());
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
 
 		// Transparent
-		glEnable(GL_BLEND);
+		//glEnable(GL_BLEND);
 
-		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, true, depthMapTexture);
+		//cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, true, depthMapTexture);
 		// Depthless
-		glDepthMask(false);
+		//glDepthMask(false);
     
-	  //grid->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
-	  //selector->Render(cam->GetViewMatrix());
-	  //cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
+		//grid->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
+		//selector->Render(cam->GetViewMatrix());
+		//cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
 
 		//testhud->Render(hudProjMat);
 
 		// Additive
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
-		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterAdditive, true, depthMapTexture);
+		//cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterAdditive, true, depthMapTexture);
 
 		// Done
 		glDepthMask(true);
