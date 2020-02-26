@@ -90,7 +90,7 @@ void BaseScene::Init()
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
 	grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
-	grid->SetAmbient(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f));
+	grid->SetAmbient(glm::vec4(0.999f, 0.999f, 0.899f, 1.0f));
 	grid->SetDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
 	selector = new HexSelector(5.0f);
 	cManager = new CharacterManager(grid, testhud);
@@ -157,7 +157,6 @@ void BaseScene::Update()
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_6))
 		lightDir.z -= 0.1f;
 
-	//std::cout << "Light Direction: " << lightDir.x << ", " << lightDir.y << ", " << lightDir.z << std::endl;
 	if (shouldSwap) {
 
 		delete cam;
