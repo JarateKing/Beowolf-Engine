@@ -15,26 +15,26 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::Update(float p_deltaT)
 {
-	std::list<CharacterUnits>::iterator it;
-	for (it = enemies.begin(); it != enemies.end(); ++it)
-	{
-		it->Update(p_deltaT);
-	}
+	//std::list<CharacterUnits>::iterator it;
+	//for (it = enemies.begin(); it != enemies.end(); ++it)
+	//{
+	//	it->Update(p_deltaT);
+	//}
 
-	if (moving)
-	{
-
-	}
+	//if (moving)
+	//{
+//
+	//}
 }
 
 void EnemyManager::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
 {
-	std::list<CharacterUnits>::iterator it;
-	for (it = enemies.begin(); it != enemies.end(); ++it)
-		it->Render(p_view, p_proj, type);
+	//std::list<CharacterUnits>::iterator it;
+	//for (it = enemies.begin(); it != enemies.end(); ++it)
+		//it->Render(p_view, p_proj, type);
 }
 
 void EnemyManager::Move()
 {
-	moving = true;
+	//moving = true;
 }

@@ -12,7 +12,7 @@ class CharacterUnits
 	public:
 		CharacterUnits(std::string bmwFile, std::string shaderFile, int startTile, std::string name, HexGrid* grid, float scale = 1.0f, bool p_inverted = false, glm::vec3 model_color = glm::vec3(1.0, 1.0, 1.0));
 		~CharacterUnits();
-		void Render(glm::mat4 view, glm::mat4 proj, wolf::RenderFilterType type);
+		void Render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture);
 		void Update(float deltaT);
 		std::string GetName();
 		int GetTile();
@@ -33,9 +33,11 @@ class CharacterUnits
 		bool cmpf(float a, float b);
 		void SetHealthbarVisible(bool isVisible);
 		void SetHealthbarPercent(float percent);
+		void SetLighting(glm::vec4 ambLight, glm::vec4 difLight, glm::vec3 lightDir);
+		void SetLightingDir(glm::vec3 dir);
 		float GetDeathTimer();
 		bool InitDamage();
-		std::string GetAttacker();
+		std::vector<std::string> GetAttacker();
 		wolf::BMWModel* GetModel();
 
 	private:
@@ -47,7 +49,7 @@ class CharacterUnits
 		float timeAttacking = 0.0f;
 		float timeDamaged = 0.0f;
 		std::string name;
-		std::string characterAttacking;
+		std::vector<std::string> characterAttacking;
 		week2::ComponentHexPos pos;
 		float scale = 0.0f;
 		bool canTakeDamage = false;

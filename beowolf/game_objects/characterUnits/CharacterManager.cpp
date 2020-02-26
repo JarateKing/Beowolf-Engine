@@ -10,18 +10,24 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 {
 	grid = p_grid;
 	m_hud = p_hud;
+
 	PreloadCharacterModels();
 
 	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 107, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
-	characterIHub.AddCharacter("Characters/hero1.json", "myChamp");
 	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 108, "myGiant", p_grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
-	characterIHub.AddCharacter("Characters/hero2.json", "myGiant");
 	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 109, "myLich", p_grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
+
+	characterIHub.AddCharacter("Characters/hero1.json", "myChamp");
+	characterIHub.AddCharacter("Characters/hero2.json", "myGiant");
 	characterIHub.AddCharacter("Characters/hero3.json", "myLich");
 
 	player1.SetHealthbarVisible(false);
 	player2.SetHealthbarVisible(false);
 	player3.SetHealthbarVisible(false);
+
+	player1.SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
+	player1.SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
+	player1.SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
 
 	characters.push_back(player1);
 	characters.push_back(player2);
@@ -117,7 +123,8 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		{
 			if (characters.at(i).InitDamage())
 			{
-				characterIHub.DamageCharacter(characters.at(i).GetName(), characters.at(i).GetAttacker());
+				for(int j = 0; j < characters.at(i).GetAttacker().size(); j++)
+					characterIHub.DamageCharacter(characters.at(i).GetName(), characters.at(i).GetAttacker().at(j));
 			}
 
 			if (characterIHub.GetStat(characters.at(i).GetName(), "HP") <= 0.0f)
@@ -140,7 +147,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		{
 			if (enemies.at(i).InitDamage())
 			{
-				characterIHub.DamageEnemy(enemies.at(i).GetName(), enemies.at(i).GetAttacker());
+				characterIHub.DamageEnemy(enemies.at(i).GetName(), enemies.at(i).GetAttacker().at(0));
 			}
 
 			if (characterIHub.GetStat(enemies.at(i).GetName(), "HP") <= 0.0f)
@@ -448,37 +455,21 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	}
 }
 
-void CharacterManager::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
+void CharacterManager::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture)
 {
 	std::vector<HexSelector*> hexs;
 	for (auto it = characters.begin(); it != characters.end(); it++)
 	{
-		it->Render(p_view, p_proj, type);
-		//HexSelector* temp = new HexSelector(5.0f);
-		//temp->Update(it->GetTile(), grid->GetPos().at(it->GetTile()), grid->GetHeights().at(it->GetTile()) + 1.0f);
-		//hexs.push_back(temp);
+		it->Render(p_view, p_proj, lightSpaceMatrix, type, shadowPass, depthMapTexture);
 	}
 	
 	for (int i = 0; i < enemies.size(); i++)
 	{
-		enemies.at(i).Render(p_view, p_proj, type);
-		//HexSelector* temp = new HexSelector(5.0f);
-		//temp->Update(enemies.at(i).GetTile(), grid->GetPos().at(enemies.at(i).GetTile()), grid->GetHeights().at(enemies.at(i).GetTile()) + 1.0f);
-		//hexs.push_back(temp);
+		enemies.at(i).Render(p_view, p_proj, lightSpaceMatrix, type, shadowPass, depthMapTexture);
 	}
 
 	for (int i = 0; i < items.size(); i++)
-		items[i]->Render(p_view, p_proj, type);
-
-	/*for (int i = 0; i < hexs.size(); i++)
-	{
-		hexs.at(i)->Render(p_view);
-	}
-
-	for (int i = 0; i < hexs.size(); i++)
-	{
-		hexs.at(i)->~HexSelector();
-	}*/
+		items[i]->Render(p_view, p_proj, lightSpaceMatrix, type, shadowPass, depthMapTexture);
 }
 
 void CharacterManager::MoveEnemies()
@@ -539,6 +530,7 @@ void CharacterManager::SpawnEnemy(int pos, float multiplier)
 	CharacterUnits Enemy((unitType)?"units/myskeleton.bmw":"units/myfleshlobber.bmw", "animatable_untextured", pos, ((unitType)?"mySkeleton":"myFleshLobber")+std::to_string(m_enemyCount), grid, (unitType)?0.03:0.07, false, glm::vec3(0.7, 0.1, 0));
 	characterIHub.AddEnemyType((unitType)?"Characters/enemyLight.json":"Characters/enemyMedium.json", Enemy.GetName());
 	Enemy.SetSoundEngine(m_soundEngine);
+	Enemy.SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
 
 	characterIHub.UpdateStat(Enemy.GetName(), "HP", characterIHub.GetStat(Enemy.GetName(), "HP") * multiplier);
 	characterIHub.UpdateStat(Enemy.GetName(), "Health", characterIHub.GetStat(Enemy.GetName(), "Health") * multiplier);
@@ -569,12 +561,18 @@ void CharacterManager::SpawnItem(int pos)
 {
 	int itemType = wolf::RNG::GetRandom(1, 3);
 
-	if (itemType == 1)
-		items.push_back(new Item("potion.bmw", "unlit_texture", pos, "Items/potion.json", "Potion", grid));
-	else if (itemType == 2)
-		items.push_back(new Item("sword1.bmw", "unlit_texture", pos, "Items/sword.json", "Sword", grid));
-	else
-		items.push_back(new Item("shield.bmw", "unlit_texture", pos, "Items/shield.json", "Shield", grid));
+	if (itemType == 1) {
+		items.push_back(new Item("potion.bmw", "lit_textured", pos, "Items/potion.json", "Potion", grid));
+		items.back()->SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
+	}
+	else if (itemType == 2) {
+		items.push_back(new Item("sword1.bmw", "lit_textured", pos, "Items/sword.json", "Sword", grid));
+		items.back()->SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
+	}
+	else {
+		items.push_back(new Item("shield.bmw", "lit_textured", pos, "Items/shield.json", "Shield", grid));
+		items.back()->SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
+	}
 }
 
 std::vector<int> CharacterManager::PathTowardsClosestHero(int enemyIndex, int length)
@@ -716,4 +714,22 @@ void CharacterManager::PrintCharacterTilePos()
 		std::cout << enemies.at(i).GetTile() << ", (" << enemies.at(i).GetPos().x << ", " << enemies.at(i).GetPos().y << ") \n";
 	}
 	std::cout << "================================\n\n";
+}
+
+void CharacterManager::SetLightDir(glm::vec3 dir)
+{
+	for (int i = 0; i < characters.size(); i++)
+	{
+		characters.at(i).SetLightingDir(dir);
+	}
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		enemies.at(i).SetLightingDir(dir);
+	}
+
+	for (int i = 0; i < items.size(); i++)
+	{
+		items.at(i)->SetLightingDir(dir);
+	}
 }

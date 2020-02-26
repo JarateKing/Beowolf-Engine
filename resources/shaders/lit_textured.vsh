@@ -3,8 +3,8 @@
 uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 world;
-uniform mat4 lightSpaceMatrix;
 uniform mat3 WorldIT;
+uniform mat4 lightSpaceMatrix;
 
 in vec4 a_position;
 in vec4 a_color;
@@ -21,8 +21,9 @@ void main()
 	vec3 FragPos = vec3(world * a_position);
 	FragPosLightSpace = lightSpaceMatrix * vec4(FragPos, 1.0);
 
+	v_uv1 = a_uv1;
 	v_normal = WorldIT * a_normal;
 	v_color = a_color;
-	v_uv1 = a_uv1;
-	gl_Position = projection * world * a_position;
+	gl_Position = projection * view * world * a_position;
 }
+

@@ -42,7 +42,8 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	std::string model;
 	for (int i = 0; i < treeNum; i++)
 	{
-		auto shaders = wolf::ResourceLoader::Instance().getShaders("unlit_texture");
+		auto shaders = wolf::ResourceLoader::Instance().getShaders("lit_textured");
+		auto shadowShaders = wolf::ResourceLoader::Instance().getShaders("shadow_map");
 		rnd = wolf::RNG::GetRandom(0, 3);
 		switch (rnd) {
 
@@ -60,14 +61,18 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 			break;
 		}
 
-		test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(model), shaders.first, shaders.second);
+		test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(model), shaders.first, shaders.second, shadowShaders.first, shadowShaders.second);
 		float setScale = wolf::RNG::GetRandom(0.01f, 0.02f);
 		test->setTransform(glm::translate(glm::vec3(positions.at(treePos.at(i)).x, heights.at(treePos.at(i)), positions.at(treePos.at(i)).y)) * glm::rotate(180.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(setScale, setScale, setScale)));
+		test->setLightAmbient(glm::vec4(0.999f, 0.999f, 0.899f, 1.0f));
+		test->setLightDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
+		test->setLightDir(glm::vec3(90.0f, 90.0f, 90.0f));
 		trees.push_back(test);
 	}
 
 	// set up rendering
 	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("hex"));
+	g_dShadowProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("shadow_map"));
 	g_pVB = wolf::BufferManager::CreateVertexBuffer(p_verts, sizeof(wolf::Vertex) * vertices.size());
 
 	g_pDecl = new wolf::VertexDeclaration();
@@ -213,6 +218,8 @@ void HexGrid::GenerateVerts(float tileWidth, float toEdge)
 	{
 		int ranTexX = wolf::RNG::GetRandom(0, 1);
 		int ranTexY = wolf::RNG::GetRandom(0, 1);
+		float xNormal = 0.894427f; //0.25f;
+		float yNormal = -0.447214f; //0.125f;
 		
 		glm::vec2 p0Tex(0.25f + (0.5f * ranTexX) , 0.0f + (0.5f * ranTexY));
 		glm::vec2 p1Tex(0.0f + (0.5f * ranTexX),0.125f + (0.5f * ranTexY));
@@ -283,12 +290,12 @@ void HexGrid::GenerateVerts(float tileWidth, float toEdge)
 		}
 
 		//Inner Top Verts
-		verts[0] = { positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 255, 255, 255, 255, p0Tex.x, p0Tex.y };
-		verts[1] = { (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 255, 255, 255, 255, p1Tex.x, p1Tex.y };
-		verts[2] = { (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 255, 255, 255, 255, p2Tex.x, p2Tex.y };
-		verts[3] = { positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 255, 255, 255, 255, p3Tex.x, p3Tex.y };
-		verts[4] = { (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 255, 255, 255, 255, p4Tex.x, p4Tex.y };
-		verts[5] = { (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 255, 255, 255, 255, p5Tex.x, p5Tex.y };
+		verts[0] = { positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 255, 255, 255, 255, p0Tex.x, p0Tex.y, 0.0f, 1.0f, 0.0f };
+		verts[1] = { (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 255, 255, 255, 255, p1Tex.x, p1Tex.y, 0.0f, 1.0f, 0.0f };
+		verts[2] = { (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 255, 255, 255, 255, p2Tex.x, p2Tex.y, 0.0f, 1.0f, 0.0f };
+		verts[3] = { positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 255, 255, 255, 255, p3Tex.x, p3Tex.y, 0.0f, 1.0f, 0.0f };
+		verts[4] = { (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 255, 255, 255, 255, p4Tex.x, p4Tex.y, 0.0f, 1.0f, 0.0f };
+		verts[5] = { (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 255, 255, 255, 255, p5Tex.x, p5Tex.y, 0.0f, 1.0f, 0.0f };
 
 		//Bottom Verts
 		verts[6] = { positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f };
@@ -315,120 +322,146 @@ void HexGrid::GenerateVerts(float tileWidth, float toEdge)
 		if (std::find(mountains.begin(), mountains.end(), i) != mountains.end())
 		{
 			//front left vertices
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 200, 200, 200, 255, 0.6f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 200, 200, 200, 255, 0.6f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.6f, 0.0f });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 200, 200, 200, 255, 0.6f, 0.45f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 200, 200, 200, 255, 0.6f, 0.45f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.6f, 0.0f, xNormal, 0.0f, yNormal });
 
 			//Left Vertices
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f, -1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, -1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f, -1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f });
 
 			//Back left Vertices
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, -xNormal, 0.0f, yNormal  });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -xNormal, 0.0f, yNormal });
 
 			//Back right Vertices
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f, -xNormal, 0.0f, -yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -xNormal, 0.0f, -yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, -xNormal, 0.0f, -yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f, -xNormal, 0.0f, -yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -xNormal, 0.0f, -yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f, -xNormal, 0.0f, -yNormal });
 
 			//Right Vertices
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f });
-
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, 1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f, 1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, 1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, 1.0f, 0.0f, 0.0f });
+			
 			//Front right Vertices
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.6f, 0.0f });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 200, 200, 200, 255, 0.6f, 0.45f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.6f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 200, 255, 1.0f, 0.45f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 200, 255, 0.6f, 0.0f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 200, 255, 0.6f, 0.45f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 200, 255, 1.0f, 0.45f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 200, 255, 0.6f, 0.0f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 200, 255, 1.0f, 0.0f, xNormal, 0.0f, yNormal });
 		}
 		else
 		{
+			//vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f });				//6
+			//vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f });	//7
+			//vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f });	//8
+			//vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f });				//9
+			//vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f });	//10
+			//vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f });	//11
+
 			//Front left Vertices
 			//vertices.push_back(verts[0]);
 			//vertices.push_back(verts[1]);
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(verts[7]);
+			//vertices.push_back(verts[7]);
 			//vertices.push_back(verts[0]);
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(verts[7]);
-			vertices.push_back(verts[6]);
+			//vertices.push_back(verts[7]);
+			//vertices.push_back(verts[6]);
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
+			
 
 			//Left Vertices
 			//vertices.push_back(verts[1]);
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(verts[8]);
+			//vertices.push_back(verts[8]);
 			//vertices.push_back(verts[2]);
 			//vertices.push_back(verts[1]);
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(verts[8]);
-			vertices.push_back(verts[7]);
+			//vertices.push_back(verts[8]);
+			//vertices.push_back(verts[7]);
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
 
 			//Back left Vertices
 			//vertices.push_back(verts[2]);
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(verts[9]);
+			//vertices.push_back(verts[9]);
 			//vertices.push_back(verts[3]);
 			//vertices.push_back(verts[2]);
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(verts[9]);
-			vertices.push_back(verts[8]);
+			//vertices.push_back(verts[9]);
+			//vertices.push_back(verts[8]);
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
 
 			//Back right Vertices
 			//vertices.push_back(verts[3]);
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(verts[10]);
+			//vertices.push_back(verts[10]);
 			//vertices.push_back(verts[4]);
 			//vertices.push_back(verts[3]);
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(verts[10]);
-			vertices.push_back(verts[9]);
+			//vertices.push_back(verts[10]);
+			//vertices.push_back(verts[9]);
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
 
 			//Right Vertices
 			//vertices.push_back(verts[4]);
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(verts[11]);
+			//vertices.push_back(verts[11]);
 			//vertices.push_back(verts[5]);
 			//vertices.push_back(verts[4]);
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(verts[11]);
-			vertices.push_back(verts[10]);
+			//vertices.push_back(verts[11]);
+			//vertices.push_back(verts[10]);
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
 
 			//Front right Vertices
 			//vertices.push_back(verts[5]);
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(verts[6]);
+			//vertices.push_back(verts[6]);
 			//vertices.push_back(verts[0]);
 			//vertices.push_back(verts[5]);
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0 });
-			vertices.push_back(verts[6]);
-			vertices.push_back(verts[11]);
+			//vertices.push_back(verts[6]);
+			//vertices.push_back(verts[11]);
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
 		}
 	}
 
@@ -731,33 +764,72 @@ void HexGrid::SmoothFullHeights(int width, int numTimes)
 	}
 }
 
-void HexGrid::Render(glm::mat4 projview, wolf::RenderFilterType type)
+void HexGrid::Render(glm::mat4 projview, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture)
 {
-	if (type == wolf::RenderFilterOpaque) {
-		pTex->Bind();
-		g_dProgram->Bind();
+	if (shadowPass)
+	{
+		if (type == wolf::RenderFilterOpaque) {
+			pTex->Bind();
+			g_dShadowProgram->Bind();
 
-		// Bind Uniforms
-		g_dProgram->SetUniform("projection", projview);
-		g_dProgram->SetUniform("world", glm::mat4());
-		g_dProgram->SetUniform("view", glm::mat4());
-		g_dProgram->SetUniform("tex", 0);
+			// Bind Uniforms
+			g_dShadowProgram->SetUniform("lightSpaceMatrix", lightSpaceMatrix);
+			g_dShadowProgram->SetUniform("model",glm::mat4());
 
-		// Set up source data
-		g_pDecl->Bind();
+			// Set up source data
+			g_pDecl->Bind();
 
-		// Draw!
-		glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-
-		for (int i = 0; i < selections.size(); i++)
-		{
-			selections.at(i)->Render(projview);
+			// Draw!
+			glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 		}
 	}
-	
+	else
+	{
+		if (type == wolf::RenderFilterOpaque) {
+			glActiveTexture(GL_TEXTURE0);
+			pTex->Bind();
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, depthMapTexture);
+			glActiveTexture(GL_TEXTURE0);
+
+			g_dProgram->Bind();
+
+			glm::mat4 biasMatrix(
+				0.5, 0.0, 0.0, 0.0,
+				0.0, 0.5, 0.0, 0.0,
+				0.0, 0.0, 0.5, 0.0,
+				0.5, 0.5, 0.5, 1.0
+			);
+
+			// Bind Uniforms
+			g_dProgram->SetUniform("lightSpaceMatrix", lightSpaceMatrix);
+			g_dProgram->SetUniform("projection", projview);
+			g_dProgram->SetUniform("world", glm::translate(glm::vec3(0.0f)));
+			g_dProgram->SetUniform("view", glm::mat4());
+			g_dProgram->SetUniform("tex", 0);
+			g_dProgram->SetUniform("shadowMap", 1);
+			g_dProgram->SetUniform("LightAmbient", ambLight);
+			g_dProgram->SetUniform("LightDiffuse", difLight);
+			g_dProgram->SetUniform("LightDir", lightDir);
+			glm::mat3 mWorldIT(glm::translate(glm::vec3(0.0f)));
+			mWorldIT = glm::inverse(mWorldIT);
+			mWorldIT = glm::transpose(mWorldIT);
+			g_dProgram->SetUniform("WorldIT", mWorldIT);
+			// Set up source data
+			g_pDecl->Bind();
+
+			// Draw!
+			glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
+			for (int i = 0; i < selections.size(); i++)
+			{
+				selections.at(i)->Render(projview);
+			}
+		}
+	}
 	for (int i = 0; i < trees.size(); i++)
 	{
-		trees.at(i)->render(projview, glm::mat4(), type);
+		trees.at(i)->render(projview, glm::mat4(), lightSpaceMatrix, type, shadowPass, depthMapTexture);
 	}
 }
 
@@ -1042,4 +1114,23 @@ void HexGrid::BlockNodePositions(glm::vec3 p_nodePos)
 void HexGrid::ClearBlocks()
 {
 	pathFinder->Instance()->ClearBlockedNodes();
+}
+
+void HexGrid::SetLightDir(glm::vec3 dir)
+{
+	for (int i = 0; i < trees.size(); i++)
+	{
+		trees.at(i)->setLightDir(dir);
+	}
+	lightDir = dir;
+}
+
+void HexGrid::SetDiffuse(glm::vec4 dif)
+{
+	difLight = dif;
+}
+
+void HexGrid::SetAmbient(glm::vec4 amb)
+{
+	ambLight = amb;
 }

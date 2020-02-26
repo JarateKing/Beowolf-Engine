@@ -16,6 +16,8 @@ public:
 	void Init();
 	void Update();
 	void Render();
+	void SwitchShadowPass();
+	void SetTex(unsigned int p_depthMapTex);
 };
 
 #endif
