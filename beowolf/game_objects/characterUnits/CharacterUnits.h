@@ -31,7 +31,7 @@ class CharacterUnits
 		bool isDying();
 		void setSelected(bool selected);
 		void InitDeath();
-		void TakeDamage(std::string p_characterFrom, float mult = 1.0f, std::string particleEffectOverride = "");
+		void TakeDamage(std::string p_characterFrom, float mult = 1.0f, std::string particleEffectOverride = "", bool isParticleBillboarded = true);
 		float GetDamageReceivedMult();
 		bool cmpf(float a, float b);
 		void SetHealthbarVisible(bool isVisible);
@@ -81,8 +81,11 @@ class CharacterUnits
 		wolf::SoundEngine* m_soundEngine;
 		float damageReceivingMult = 1.0f;
 		std::string damageReceivingParticle = "";
+		bool damageReceivingBillboarded = true;
 		std::vector<Effect*> m_particleEffects;
+		std::vector<Effect*> m_particleEffectsNoBillboard;
 		glm::mat4 m_particleProjMatrix;
+		glm::mat4 m_particleProjMatrixNoBillboard;
 };
 
 #endif

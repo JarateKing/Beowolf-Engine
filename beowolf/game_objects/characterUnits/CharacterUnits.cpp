@@ -67,10 +67,13 @@ void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightS
 		m_cooldown->Render(p_view, p_proj);
 	}
 
-	for (int i = 0; i < m_particleEffects.size(); i++) {
-		m_particleEffects[i]->Render(p_proj * p_view, type);
-	}
 	m_particleProjMatrix = p_proj * p_view;
+	m_particleProjMatrixNoBillboard = glm::mat4(glm::mat3(p_proj * glm::rotate(90.0f, glm::vec3(1, 0, 0))));
+
+	for (int i = 0; i < m_particleEffects.size(); i++)
+		m_particleEffects[i]->Render(m_particleProjMatrix, type);
+	for (int i = 0; i < m_particleEffectsNoBillboard.size(); i++)
+		m_particleEffectsNoBillboard[i]->Render(m_particleProjMatrix, type);
 }
 
 void CharacterUnits::Update(float deltaT)
@@ -163,12 +166,23 @@ void CharacterUnits::Update(float deltaT)
 						m_soundEngine->UpdateSystem();
 						canTakeDamage = false;
 
-						if (damageReceivingParticle != "")
-							m_particleEffects.push_back(new Effect(damageReceivingParticle));
-						else
-							m_particleEffects.push_back(new Effect("resources/particles/unit_hit.json"));
+						if (damageReceivingParticle != "") {
+							if (damageReceivingBillboarded)
+								m_particleEffects.push_back(new Effect(damageReceivingParticle));
+							else
+								m_particleEffectsNoBillboard.push_back(new Effect(damageReceivingParticle));
+						}
+						else {
+							if (damageReceivingBillboarded)
+								m_particleEffects.push_back(new Effect("resources/particles/unit_hit.json"));
+							else
+								m_particleEffectsNoBillboard.push_back(new Effect("resources/particles/unit_hit.json"));
+						}
 
-						m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
+						if (damageReceivingBillboarded)
+							m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
+						else
+							m_particleEffectsNoBillboard[m_particleEffectsNoBillboard.size() - 1]->SetPos(pos.GetPos());
 					}
 				}
 				timeDamaged += deltaT;
@@ -192,12 +206,23 @@ void CharacterUnits::Update(float deltaT)
 						m_soundEngine->UpdateSystem();
 						canTakeDamage = false;
 
-						if (damageReceivingParticle != "")
-							m_particleEffects.push_back(new Effect(damageReceivingParticle));
-						else
-							m_particleEffects.push_back(new Effect("resources/particles/unit_hit.json"));
+						if (damageReceivingParticle != "") {
+							if (damageReceivingBillboarded)
+								m_particleEffects.push_back(new Effect(damageReceivingParticle));
+							else
+								m_particleEffectsNoBillboard.push_back(new Effect(damageReceivingParticle));
+						}
+						else {
+							if (damageReceivingBillboarded)
+								m_particleEffects.push_back(new Effect("resources/particles/unit_hit.json"));
+							else
+								m_particleEffectsNoBillboard.push_back(new Effect("resources/particles/unit_hit.json"));
+						}
 
-						m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
+						if (damageReceivingBillboarded)
+							m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
+						else
+							m_particleEffectsNoBillboard[m_particleEffectsNoBillboard.size() - 1]->SetPos(pos.GetPos() + glm::vec3(0, 1.0, 0));
 					}
 				}
 				timeDamaged += deltaT;
@@ -210,6 +235,9 @@ void CharacterUnits::Update(float deltaT)
 	
 	for (int i = 0; i < m_particleEffects.size(); i++) {
 		m_particleEffects[i]->Update(deltaT, glm::mat3(m_particleProjMatrix));
+	}
+	for (int i = 0; i < m_particleEffectsNoBillboard.size(); i++) {
+		m_particleEffectsNoBillboard[i]->Update(deltaT, glm::mat3(m_particleProjMatrixNoBillboard));
 	}
 }
 
@@ -310,7 +338,7 @@ void CharacterUnits::InitDeath()
 	dying = true;
 }
 
-void CharacterUnits::TakeDamage(std::string p_characterFrom, float mult, std::string particleEffectOverride)
+void CharacterUnits::TakeDamage(std::string p_characterFrom, float mult, std::string particleEffectOverride, bool isParticleBillboarded)
 {
 	canTakeDamage = true;
 	characterAttacking.push_back(p_characterFrom);
@@ -318,6 +346,7 @@ void CharacterUnits::TakeDamage(std::string p_characterFrom, float mult, std::st
 	damaged = true;
 	damageReceivingMult = mult;
 	damageReceivingParticle = particleEffectOverride;
+	damageReceivingBillboarded = isParticleBillboarded;
 }
 
 float CharacterUnits::GetDamageReceivedMult()
