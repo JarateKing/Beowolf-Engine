@@ -87,7 +87,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 							}
 							for (int i = 0; i < enemies.size(); i++) {
 								if (i == hitUnitIndex) {
-									enemies[i].TakeDamage(it->GetName(), 0.75f, "resources/particles/unit_hit_heavy.json");
+									enemies[i].TakeDamage(it->GetName(), 0.75f, "resources/particles/giant_shockwave.json");
 								}
 								else if (glm::distance(glm::vec2(enemies[i].GetPos().x, enemies[i].GetPos().z), glm::vec2(enemies[hitUnitIndex].GetPos().x, enemies[hitUnitIndex].GetPos().z)) <= 10.0f) {
 									enemies[i].TakeDamage(it->GetName(), 0.75f, "resources/particles/blank.json");
