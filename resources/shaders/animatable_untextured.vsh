@@ -3,8 +3,9 @@
 uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 world;
-//uniform mat3 WorldIT;
+uniform mat4 lightSpaceMatrix;
 uniform mat4 BoneMatrixArray[128];
+uniform mat3 WorldIT;
 //uniform mat3 BoneMatrixArrayIT[64];
 
 in vec4 a_position;
@@ -14,7 +15,9 @@ in vec3 a_normal;
 in vec4 a_boneIndices;
 in vec4 a_boneWeights;
 
+out vec4 FragPosLightSpace;
 out vec4 v_color;
+out vec3 v_normal;
 
 void main()
 {
@@ -31,9 +34,10 @@ void main()
 	//blendedNormal += BoneMatrixArrayIT[boneIndices.z] * a_normal * a_boneWeights.z;
 	//blendedNormal += BoneMatrixArrayIT[boneIndices.w] * a_normal * a_boneWeights.w;
 
+	vec3 FragPos = vec3(world * blendedPos);
+	FragPosLightSpace = lightSpaceMatrix * vec4(FragPos, 1.0);
 
-    //gl_Position = WorldViewProj * blendedPos;
-	//gl_Position = projection * view * world * a_position;
-	gl_Position = projection * view * world * blendedPos;
 	v_color = a_color;
+	v_normal = WorldIT * a_normal;
+	gl_Position = projection * view * world * blendedPos;
 }

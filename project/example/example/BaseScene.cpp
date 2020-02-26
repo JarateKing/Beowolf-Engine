@@ -28,6 +28,7 @@
 #include "StateManager.h"
 #include "characterUnits/CharacterInfoHub.h"
 #include "characterUnits/ScoreTracker.h"
+#include "shadows/TestQuad.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine* SE;
@@ -40,9 +41,13 @@ week2::ComponentHexPos hexPos;
 std::vector<int> testMove;
 wolf::Hud* testhud;
 glm::mat4 hudProjMat;
+glm::vec3 lightDir;
 static CharacterManager* cManager;
 CharacterInfoHub cHub;
 ScoreTracker* scoreTracker;
+bool shadowPass = false;
+TestQuad* tQuad;
+unsigned int depthMapTexture;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -75,7 +80,9 @@ void BaseScene::Init()
 
 	float scale = 5.0;
 	float scale2 = 0.05;
-
+	
+	lightDir = glm::normalize(glm::vec3(35.0f, -50.0f, 35.0f) - glm::vec3(0.0f, 0.0f, 0.0f));
+	tQuad = new TestQuad();
 	testhud = new wolf::Hud("resources/hud/hud.json");
 	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
@@ -83,6 +90,8 @@ void BaseScene::Init()
 	cull = cam->GetViewMatrix();
 	wolf::SceneRenderer::getInstance().GenerateQuadtree(-10.0f, -10.0f, 20.0f, 20.0f);
 	grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+	grid->SetAmbient(glm::vec4(0.999f, 0.999f, 0.899f, 1.0f));
+	grid->SetDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
 	selector = new HexSelector(5.0f);
 	cManager = new CharacterManager(grid, testhud);
 	cManager->SetSoundEngine(SE);
@@ -130,6 +139,24 @@ void BaseScene::Update()
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_Y))
 		shouldSwap = true;
 
+	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_1))
+		lightDir.x += 0.1f;
+
+	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_2))
+		lightDir.y += 0.1f;
+
+	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_3))
+		lightDir.z += 0.1f;
+
+	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_4))
+		lightDir.x -= 0.1f;
+
+	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_5))
+		lightDir.y -= 0.1f;
+
+	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_6))
+		lightDir.z -= 0.1f;
+
 	if (shouldSwap) {
 
 		delete cam;
@@ -160,38 +187,100 @@ void BaseScene::Update()
 	testhud->SetVar("deltaMS", std::to_string(delta * 1000));
 	testhud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
 	testhud->Update(delta);
+
+	grid->SetLightDir(lightDir);
+	cManager->SetLightDir(lightDir);
+
 	SE->UpdateSystem();
 }
 
 void BaseScene::Render()
 {
-	// Opaque
-	glDepthMask(true);
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	float near_plane = 20.0f, far_plane = 100.0f;
+	glm::mat4 lightProj = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, near_plane, far_plane);
+	glm::mat4 lightView = glm::lookAt(glm::vec3(-35.0f, 50.0f, -35.0f),
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 lightSpaceMatrix = lightProj * lightView;
 
-	grid->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
-	//selector->Render(cam->GetViewMatrix());
-	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
+	if (shadowPass)
+	{
+		// Opaque
+		glDepthMask(true);
+		glEnable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glCullFace(GL_FRONT);
+		
+		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
+		selector->Render(cam->GetViewMatrix());
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
 
-	// Transparent
-	glEnable(GL_BLEND);
+		// Transparent
+		glEnable(GL_BLEND);
 
-	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterTransparent);
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, true, depthMapTexture);
+		// Depthless
+		glDepthMask(false);
+    
+	  //grid->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
+	  //selector->Render(cam->GetViewMatrix());
+	  //cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
 
-	// Depthless
-	glDepthMask(false);
+		//testhud->Render(hudProjMat);
 
-	testhud->Render(hudProjMat);
+		// Additive
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
-	// Additive
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterAdditive, true, depthMapTexture);
 
-	cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterAdditive);
+		// Done
+		glDepthMask(true);
+		glEnable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
+		glCullFace(GL_BACK);
+	}
+	else
+	{
+		// Opaque
+		glDepthMask(true);
+		glEnable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	// Done
-	glDepthMask(true);
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
+		tQuad->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque, false, depthMapTexture);
+		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
+		selector->Render(cam->GetViewMatrix());
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
+
+		// Transparent
+		glEnable(GL_BLEND);
+
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, false, depthMapTexture);
+
+		// Depthless
+		glDepthMask(false);
+
+		testhud->Render(hudProjMat);
+
+		// Additive
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterAdditive, false, depthMapTexture);
+
+		// Done
+		glDepthMask(true);
+		glEnable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
+	}
+}
+
+void BaseScene::SwitchShadowPass()
+{
+	shadowPass = !shadowPass;
+}
+
+void BaseScene::SetTex(unsigned int p_depthMapTex)
+{
+	depthMapTexture = p_depthMapTex;
 }

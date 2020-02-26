@@ -11,7 +11,8 @@ CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, 
 	animTimes.insert(std::pair<std::string, int>("mySkeleton", 0.5));
 	scale = p_scale;
 	auto shaders = wolf::ResourceLoader::Instance().getShaders(p_shaderFile);
-	model = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(p_bmwFile), shaders.first, shaders.second);
+	auto shadowShaders = wolf::ResourceLoader::Instance().getShaders("shadow_map");
+	model = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(p_bmwFile), shaders.first, shaders.second, shadowShaders.first, shadowShaders.second);
 	model->setModelColor(model_color);
 	if (p_inverted)
 	{
@@ -43,9 +44,21 @@ CharacterUnits::~CharacterUnits()
 	//TODO
 }
 
-void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, wolf::RenderFilterType type)
+void CharacterUnits::SetLighting(glm::vec4 ambLight, glm::vec4 difLight, glm::vec3 lightDir)
 {
-	model->render(p_view, p_proj, type);
+	model->setLightAmbient(ambLight);
+	model->setLightDiffuse(difLight);
+	model->setLightDir(lightDir);
+}
+
+void CharacterUnits::SetLightingDir(glm::vec3 dir)
+{
+	model->setLightDir(dir);
+}
+
+void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture)
+{
+	model->render(p_view, p_proj, lightSpaceMatrix, type, shadowPass, depthMapTexture);
 
 	if (m_isHealthbarVisible && type == wolf::RenderFilterTransparent) {
 		m_healthbar->Render(p_view, p_proj);
@@ -132,7 +145,7 @@ void CharacterUnits::Update(float deltaT)
 		if (damaged)
 		{
 			std::map<std::string, float>::iterator itm;
-			itm = animTimes.find(characterAttacking);
+			itm = animTimes.find(characterAttacking.at(0));
 			if (itm != animTimes.end())
 			{
 				if (timeDamaged >= (itm->second + 0.5))
@@ -166,6 +179,7 @@ void CharacterUnits::Update(float deltaT)
 				{
 					damaged = false;
 					model->setModelAdditive(glm::vec3(0, 0, 0));
+					characterAttacking.clear();
 
 				}
 				else if (timeDamaged >= 0.5)
@@ -299,7 +313,7 @@ void CharacterUnits::InitDeath()
 void CharacterUnits::TakeDamage(std::string p_characterFrom, float mult, std::string particleEffectOverride)
 {
 	canTakeDamage = true;
-	characterAttacking = p_characterFrom;
+	characterAttacking.push_back(p_characterFrom);
 	timeDamaged = 0.0f;
 	damaged = true;
 	damageReceivingMult = mult;
@@ -338,9 +352,10 @@ bool CharacterUnits::InitDamage()
 		return initiatingDamage;
 }
 
-std::string CharacterUnits::GetAttacker()
+std::vector<std::string> CharacterUnits::GetAttacker()
 {
-	return characterAttacking;
+	std::vector<std::string> temp = characterAttacking;
+	return temp;
 }
 
 wolf::BMWModel* CharacterUnits::GetModel()
