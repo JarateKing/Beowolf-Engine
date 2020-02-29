@@ -7,3 +7,10 @@ UnitHP_2	$UnitHealth2$ / $UnitHealthMax2$	$UnitHealth2$ / $UnitHealthMax2$
 UnitHP_3	$UnitHealth3$ / $UnitHealthMax3$	$UnitHealth3$ / $UnitHealthMax3$
 MM_Start	Start Game	Commencer Le Jeu
 MM_Replay	Restart		Restart
+UI_Name	$HoverName$	$HoverName$
+UI_Description	$HoverDescription$	$HoverDescription$
+UI_Health	Health: $HoverHealth$ / $HoverMaxHealth$	Health: $HoverHealth$ / $HoverMaxHealth$
+UI_Attack	Attack: $HoverAttackStat$	Attack: $HoverAttackStat$
+UI_Defense	Defense: $HoverDefenseStat$	Defense: $HoverDefenseStat$
+UI_Speed	Speed: $HoverSpeedStat$	Speed: $HoverSpeedStat$
+UI_Itemstat	$HoverItemStatName$: +$HoverItemStatValue$	$HoverItemStatName$: +$HoverItemStatValue$

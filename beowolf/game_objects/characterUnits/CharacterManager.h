@@ -71,6 +71,7 @@ class CharacterManager
 		float m_cameraTime = 0.0f;
 		int m_cameraUnit = 0;
 		int m_enemiesSpawnedTotal = 0;
+		bool m_isSpecialActive = false;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 		bool IsCharOnTile(int pos);

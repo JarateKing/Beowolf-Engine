@@ -252,6 +252,7 @@
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\ScoreTracker.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\Healthbar.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudButton.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CooldownIndicator.cpp" />
     <ClCompile Include="..\..\beowolf\shadows\W_ShadowMap.cpp" />
     <ClCompile Include="..\..\beowolf\shadows\TestQuad.cpp" />
   </ItemGroup>
@@ -589,6 +590,7 @@
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\ScoreTracker.h" />
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\Healthbar.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudButton.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CooldownIndicator.h" />
     <ClInclude Include="..\..\beowolf\shadows\W_ShadowMap.h" />
     <ClInclude Include="..\..\beowolf\shadows\TestQuad.h" />
   </ItemGroup>

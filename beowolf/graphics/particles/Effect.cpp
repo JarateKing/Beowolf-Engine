@@ -26,35 +26,34 @@ Effect::Effect(std::string jsonPath)
 	std::string content((std::istreambuf_iterator<char>(file)), (std::istreambuf_iterator<char>()));
 
 	json j = json::parse(content);
-	size_t it_h = 0;
 
 	auto& gameObjects = j["Effect"];
-	for (auto& gameObject : gameObjects)
+	for (auto& gameObject : gameObjects["Emitters"])
 	{
 		// emitter setup
 		int max = 0;
 		glm::vec3 pos;
-		int duration = -1;
+		float duration = -1;
 		float rate = 0.1;
 		std::string texture = wolf::ResourceLoader::Instance().getTexture("particles/particle.dds");
 		bool additive = false;
 		float lifespanMin = 1.0f;
 		float lifespanMax = 1.0f;
 
-		std::string maxt = gameObject[it_h]["max_particles"];
-		std::string xt = gameObject[it_h]["pX"];
-		std::string yt = gameObject[it_h]["pY"];
-		std::string zt = gameObject[it_h]["pZ"];
-		std::string durationt = gameObject[it_h]["duration"];
-		std::string ratet = gameObject[it_h]["rate"];
-		std::string texturet = gameObject[it_h]["texture"];
-		std::string additivet = gameObject[it_h]["additive"];
-		std::string lifespanMint = gameObject[it_h]["lifespanMin"];
-		std::string lifespanMaxt = gameObject[it_h]["lifespanMax"];
+		std::string maxt = gameObject["max_particles"];
+		std::string xt = gameObject["pX"];
+		std::string yt = gameObject["pY"];
+		std::string zt = gameObject["pZ"];
+		std::string durationt = gameObject["duration"];
+		std::string ratet = gameObject["rate"];
+		std::string texturet = gameObject["texture"];
+		std::string additivet = gameObject["additive"];
+		std::string lifespanMint = gameObject["lifespanMin"];
+		std::string lifespanMaxt = gameObject["lifespanMax"];
 
 		max = std::stoi(maxt);
 		pos = glm::vec3(std::stof(xt), std::stof(yt), std::stof(zt));
-		duration = std::stoi(durationt);
+		duration = std::stof(durationt);
 		rate = std::stof(ratet);
 		texture = texturet;
 		if (additivet == "true")
@@ -67,7 +66,7 @@ Effect::Effect(std::string jsonPath)
 		emitter->SetAdditive(additive);
 		emitter->SetLifespan(lifespanMin, lifespanMax);
 
-		auto& affectors = gameObject[it_h]["affectors"];
+		auto& affectors = gameObject["affectors"];
 		for (auto& affector : affectors)
 		{
 			if (affector["type"] == "scale")

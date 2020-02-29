@@ -1,10 +1,10 @@
 
 {"Character" : 
-	{"Name" : "Heavy Knight",
+	{"Name" : "Lich",
 	"HP" : 500.0,
 	"MaxMovement" : 4.0,
-	"MaxAttack" : 115.0,
-	"MinAttack" : 85.0,
+	"MaxAttack" : 60.0,
+	"MinAttack" : 50.0,
 	"Defense" : 200.0,
-	"BasicDescription" : "A knight lumbering in to battle."}
+	"BasicDescription" : "A powerful necromancer who's joined the good guys."}
 }

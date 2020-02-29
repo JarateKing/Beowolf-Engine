@@ -5,6 +5,7 @@
 #include "W_Math.h"
 #include <cmath>
 #include "camera/HexSelector.h"
+#include "StateManager.h"
 
 CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 {
@@ -73,13 +74,46 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				if (it->isAttacking() == true)
 				{
 					clickedOnEnemy = false;
-					for (int i = 0; i < enemies.size(); i++)
-					{
-						if (enemies.at(i).GetName().compare(targetedEnemy) == 0)
-						{
-							enemies.at(i).TakeDamage(it->GetName());
+
+					// special attack
+					if (m_isSpecialActive) {
+						it->StartCooldown();
+
+						if (it->GetName() == "myGiant") {
+							int hitUnitIndex;
+							for (int i = 0; i < enemies.size(); i++) {
+								if (enemies[i].GetName() == targetedEnemy)
+									hitUnitIndex = i;
+							}
+							for (int i = 0; i < enemies.size(); i++) {
+								if (i == hitUnitIndex) {
+									enemies[i].TakeDamage(it->GetName(), 0.75f, "resources/particles/giant_shockwave.json", false);
+								}
+								else if (glm::distance(glm::vec2(enemies[i].GetPos().x, enemies[i].GetPos().z), glm::vec2(enemies[hitUnitIndex].GetPos().x, enemies[hitUnitIndex].GetPos().z)) <= 10.0f) {
+									enemies[i].TakeDamage(it->GetName(), 0.75f, "resources/particles/blank.json");
+								}
+							}
+						}
+						else {
+							for (int i = 0; i < enemies.size(); i++) {
+								if (enemies.at(i).GetName().compare(targetedEnemy) == 0) {
+									enemies.at(i).TakeDamage(it->GetName(), 2.5f, "resources/particles/unit_hit_heavy.json");
+								}
+							}
 						}
 					}
+					// regular attack
+					else {
+						for (int i = 0; i < enemies.size(); i++)
+						{
+							if (enemies.at(i).GetName().compare(targetedEnemy) == 0)
+							{
+								enemies.at(i).TakeDamage(it->GetName());
+							}
+						}
+					}
+
+					m_isSpecialActive = false;
 				}
 			}
 		}
@@ -124,7 +158,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			if (characters.at(i).InitDamage())
 			{
 				for(int j = 0; j < characters.at(i).GetAttacker().size(); j++)
-					characterIHub.DamageCharacter(characters.at(i).GetName(), characters.at(i).GetAttacker().at(j));
+					characterIHub.DamageCharacter(characters.at(i).GetName(), characters.at(i).GetAttacker().at(j), characters.at(i).GetDamageReceivedMult());
 			}
 
 			if (characterIHub.GetStat(characters.at(i).GetName(), "HP") <= 0.0f)
@@ -147,7 +181,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 		{
 			if (enemies.at(i).InitDamage())
 			{
-				characterIHub.DamageEnemy(enemies.at(i).GetName(), enemies.at(i).GetAttacker().at(0));
+				characterIHub.DamageEnemy(enemies.at(i).GetName(), enemies.at(i).GetAttacker().at(0), enemies.at(i).GetDamageReceivedMult());
 			}
 
 			if (characterIHub.GetStat(enemies.at(i).GetName(), "HP") <= 0.0f)
@@ -225,6 +259,56 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	m_hud->GetElement("Unit_1_Indicator")->SetVisible(false);
 	m_hud->GetElement("Unit_2_Indicator")->SetVisible(false);
 	m_hud->GetElement("Unit_3_Indicator")->SetVisible(false);
+	for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
+		it->SetVisible(false);
+	m_hud->GetElement("HoverPanelBG")->SetH(600);
+
+	for (auto it = enemies.begin(); it != enemies.end(); it++) {
+		if (p_target == it->GetTile() && (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn)) {
+			for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
+				it->SetVisible(true);
+			for (auto it : m_hud->GetElementsByTag("uihoverpanelitem"))
+				it->SetVisible(false);
+
+			std::string currentUnitName = "Zombie";
+			if (it->GetName().find("mySkeleton") == 0)
+				currentUnitName = "Skeleton";
+
+			m_hud->SetVar("HoverName", currentUnitName);
+			m_hud->SetVar("HoverDescription", characterIHub.GetDescription(it->GetName()));
+			m_hud->SetVar("HoverHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "HP")));
+			m_hud->SetVar("HoverMaxHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "Health")));
+			m_hud->SetVar("HoverAttackStat", std::to_string((int)((characterIHub.GetStat(it->GetName(), "MaxAttack") + characterIHub.GetStat(it->GetName(), "MinAttack")) / 2.0f)));
+			m_hud->SetVar("HoverDefenseStat", std::to_string((int)characterIHub.GetStat(it->GetName(), "Defense")));
+			m_hud->SetVar("HoverSpeedStat", std::to_string((int)characterIHub.GetStat(it->GetName(), "MaxMovement")));
+		}
+	}
+
+	for (auto it = items.begin(); it != items.end(); it++) {
+		if (p_target == (*it)->GetTile() && (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn)) {
+			for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
+				it->SetVisible(true);
+			for (auto it : m_hud->GetElementsByTag("uihoverpanelstat"))
+				it->SetVisible(false);
+			m_hud->GetElement("HoverPanelBG")->SetH(300);
+
+			m_hud->SetVar("HoverName", (*it)->GetName());
+			m_hud->SetVar("HoverDescription", characterIHub.GetDescription((*it)->GetName()));
+
+			if ((*it)->GetName() == "Potion") {
+				m_hud->SetVar("HoverItemStatName", "Health");
+				m_hud->SetVar("HoverItemStatValue", std::to_string((int)characterIHub.GetStat((*it)->GetName(), "HP")));
+			}
+			else if ((*it)->GetName() == "Sword") {
+				m_hud->SetVar("HoverItemStatName", "Attack");
+				m_hud->SetVar("HoverItemStatValue", std::to_string((int)characterIHub.GetStat((*it)->GetName(), "MaxAttack")));
+			}
+			else {
+				m_hud->SetVar("HoverItemStatName", "Defense");
+				m_hud->SetVar("HoverItemStatValue", std::to_string((int)characterIHub.GetStat((*it)->GetName(), "Defense")));
+			}
+		}
+	}
 
 	//Update Heroes and check for target
 	for (auto it = characters.begin(); it != characters.end(); it++)
@@ -246,8 +330,24 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 
 		// do hud specific stuff
 		if (it->GetName() == "myChamp") {
-			if (p_target == it->GetTile())
+			if (p_target == it->GetTile()) {
 				m_hud->GetElement("Unit_1_Indicator")->SetVisible(true);
+
+				if (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
+					for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
+						it->SetVisible(true);
+					for (auto it : m_hud->GetElementsByTag("uihoverpanelitem"))
+						it->SetVisible(false);
+
+					m_hud->SetVar("HoverName", "Knight");
+					m_hud->SetVar("HoverDescription", characterIHub.GetDescription(it->GetName()));
+					m_hud->SetVar("HoverHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "HP")));
+					m_hud->SetVar("HoverMaxHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "Health")));
+					m_hud->SetVar("HoverAttackStat", std::to_string((int)((characterIHub.GetStat(it->GetName(), "MaxAttack") + characterIHub.GetStat(it->GetName(), "MinAttack")) / 2.0f)));
+					m_hud->SetVar("HoverDefenseStat", std::to_string((int)characterIHub.GetStat(it->GetName(), "Defense")));
+					m_hud->SetVar("HoverSpeedStat", std::to_string((int)characterIHub.GetStat(it->GetName(), "MaxMovement")));
+				}
+			}
 
 			float health = characterIHub.GetStat(it->GetName(), "HP");
 			float maxhealth = characterIHub.GetStat(it->GetName(), "Health");
@@ -265,8 +365,24 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			}
 		}
 		else if (it->GetName() == "myGiant") {
-			if (p_target == it->GetTile())
+			if (p_target == it->GetTile()) {
 				m_hud->GetElement("Unit_2_Indicator")->SetVisible(true);
+
+				if (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
+					for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
+						it->SetVisible(true);
+					for (auto it : m_hud->GetElementsByTag("uihoverpanelitem"))
+						it->SetVisible(false);
+
+					m_hud->SetVar("HoverName", "Giant");
+					m_hud->SetVar("HoverDescription", characterIHub.GetDescription(it->GetName()));
+					m_hud->SetVar("HoverHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "HP")));
+					m_hud->SetVar("HoverMaxHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "Health")));
+					m_hud->SetVar("HoverAttackStat", std::to_string((int)((characterIHub.GetStat(it->GetName(), "MaxAttack") + characterIHub.GetStat(it->GetName(), "MinAttack")) / 2.0f)));
+					m_hud->SetVar("HoverDefenseStat", std::to_string((int)characterIHub.GetStat(it->GetName(), "Defense")));
+					m_hud->SetVar("HoverSpeedStat", std::to_string((int)characterIHub.GetStat(it->GetName(), "MaxMovement")));
+				}
+			}
 
 			float health = characterIHub.GetStat(it->GetName(), "HP");
 			float maxhealth = characterIHub.GetStat(it->GetName(), "Health");
@@ -284,8 +400,24 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			}
 		}
 		else if (it->GetName() == "myLich") {
-			if (p_target == it->GetTile())
+			if (p_target == it->GetTile()) {
 				m_hud->GetElement("Unit_3_Indicator")->SetVisible(true);
+
+				if (StateManager::getInstance().GetState() == State::GamestatePlayerTurn || StateManager::getInstance().GetState() == State::GamestateEnemyTurn) {
+					for (auto it : m_hud->GetElementsByTag("uihoverpanel"))
+						it->SetVisible(true);
+					for (auto it : m_hud->GetElementsByTag("uihoverpanelitem"))
+						it->SetVisible(false);
+
+					m_hud->SetVar("HoverName", "Lich");
+					m_hud->SetVar("HoverDescription", characterIHub.GetDescription(it->GetName()));
+					m_hud->SetVar("HoverHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "HP")));
+					m_hud->SetVar("HoverMaxHealth", std::to_string((int)characterIHub.GetStat(it->GetName(), "Health")));
+					m_hud->SetVar("HoverAttackStat", std::to_string((int)((characterIHub.GetStat(it->GetName(), "MaxAttack") + characterIHub.GetStat(it->GetName(), "MinAttack")) / 2.0f)));
+					m_hud->SetVar("HoverDefenseStat", std::to_string((int)characterIHub.GetStat(it->GetName(), "Defense")));
+					m_hud->SetVar("HoverSpeedStat", std::to_string((int)characterIHub.GetStat(it->GetName(), "MaxMovement")));
+				}
+			}
 
 			float health = characterIHub.GetStat(it->GetName(), "HP");
 			float maxhealth = characterIHub.GetStat(it->GetName(), "Health");
@@ -329,6 +461,25 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 				grid->StopTargeting();
 				targeting = false;
 				timeBetween = 1.0f;
+			}
+		}
+	}
+
+	// handle special moves
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_SPACE) && targeting == true) {
+		for (int i = 0; i < characters.size(); i++) {
+			if (characters[i].GetName() == targetName && characters[i].GetCooldown() == 0) {
+				// special case with the lich
+				if (characters[i].GetName() == "myLich") {
+					characters[i].StartCooldown();
+					for (int j = 0; j < characters.size(); j++) {
+						characterIHub.UpdateStat(characters[j].GetName(), "HP", std::min(characterIHub.GetStat(characters[j].GetName(), "HP") + 100, characterIHub.GetStat(characters[j].GetName(), "Health")));
+						characters[j].HealIndicator();
+					}
+				}
+				else {
+					m_isSpecialActive = !m_isSpecialActive;
+				}
 			}
 		}
 	}
@@ -416,6 +567,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			else
 			//If not targeting enemy
 			{
+				m_isSpecialActive = false;
 				for (auto it = characters.begin(); it != characters.end(); it++)
 				{
 					if (it->GetName().compare(targetName) == 0)

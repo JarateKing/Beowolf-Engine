@@ -24,12 +24,19 @@ CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, 
 		model->setTransform(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y)) * glm::scale(glm::vec3(scale, scale, scale)));
 	}
 	currTile = p_startTile;
+
 	name = p_name;
+	if (name == "myGiant")
+		m_cooldownHeightAdjustment = 2.5f;
+
 	pos.SetGrid(p_grid);
 	pos.SetPos(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y));
 
 	m_healthbar = new Healthbar();
 	m_healthbar->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 4.0f, p_grid->GetPos().at(p_startTile).y)));
+
+	m_cooldown = new CooldownIndicator();
+	m_cooldown->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 5.5f + m_cooldownHeightAdjustment, p_grid->GetPos().at(p_startTile).y)));
 }
 
 CharacterUnits::~CharacterUnits()
@@ -56,6 +63,17 @@ void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightS
 	if (m_isHealthbarVisible && type == wolf::RenderFilterTransparent) {
 		m_healthbar->Render(p_view, p_proj);
 	}
+	if (m_isCooldownVisible && type == wolf::RenderFilterTransparent) {
+		m_cooldown->Render(p_view, p_proj);
+	}
+
+	m_particleProjMatrix = p_proj * p_view;
+	m_particleProjMatrixNoBillboard = glm::mat4(glm::mat3(p_proj * glm::rotate(90.0f, glm::vec3(1, 0, 0))));
+
+	for (int i = 0; i < m_particleEffects.size(); i++)
+		m_particleEffects[i]->Render(m_particleProjMatrix, type);
+	for (int i = 0; i < m_particleEffectsNoBillboard.size(); i++)
+		m_particleEffectsNoBillboard[i]->Render(m_particleProjMatrix, type);
 }
 
 void CharacterUnits::Update(float deltaT)
@@ -90,6 +108,7 @@ void CharacterUnits::Update(float deltaT)
 		{
 			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
 			m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 4.0f, pos.GetPos().z)));
+			m_cooldown->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 5.5f + m_cooldownHeightAdjustment, pos.GetPos().z)));
 		}
 		else {
 			if (m_attacking)
@@ -146,6 +165,24 @@ void CharacterUnits::Update(float deltaT)
 						m_soundEngine->PlayBasicSound("hit3");
 						m_soundEngine->UpdateSystem();
 						canTakeDamage = false;
+
+						if (damageReceivingParticle != "") {
+							if (damageReceivingBillboarded)
+								m_particleEffects.push_back(new Effect(damageReceivingParticle));
+							else
+								m_particleEffectsNoBillboard.push_back(new Effect(damageReceivingParticle));
+						}
+						else {
+							if (damageReceivingBillboarded)
+								m_particleEffects.push_back(new Effect("resources/particles/unit_hit.json"));
+							else
+								m_particleEffectsNoBillboard.push_back(new Effect("resources/particles/unit_hit.json"));
+						}
+
+						if (damageReceivingBillboarded)
+							m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
+						else
+							m_particleEffectsNoBillboard[m_particleEffectsNoBillboard.size() - 1]->SetPos(pos.GetPos());
 					}
 				}
 				timeDamaged += deltaT;
@@ -168,6 +205,24 @@ void CharacterUnits::Update(float deltaT)
 						m_soundEngine->PlayBasicSound("hit3");
 						m_soundEngine->UpdateSystem();
 						canTakeDamage = false;
+
+						if (damageReceivingParticle != "") {
+							if (damageReceivingBillboarded)
+								m_particleEffects.push_back(new Effect(damageReceivingParticle));
+							else
+								m_particleEffectsNoBillboard.push_back(new Effect(damageReceivingParticle));
+						}
+						else {
+							if (damageReceivingBillboarded)
+								m_particleEffects.push_back(new Effect("resources/particles/unit_hit.json"));
+							else
+								m_particleEffectsNoBillboard.push_back(new Effect("resources/particles/unit_hit.json"));
+						}
+
+						if (damageReceivingBillboarded)
+							m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
+						else
+							m_particleEffectsNoBillboard[m_particleEffectsNoBillboard.size() - 1]->SetPos(pos.GetPos() + glm::vec3(0, 1.0, 0));
 					}
 				}
 				timeDamaged += deltaT;
@@ -175,6 +230,15 @@ void CharacterUnits::Update(float deltaT)
 		}
 	}
 	model->update(deltaT);
+
+	m_cooldown->Update(deltaT);
+	
+	for (int i = 0; i < m_particleEffects.size(); i++) {
+		m_particleEffects[i]->Update(deltaT, glm::mat3(m_particleProjMatrix));
+	}
+	for (int i = 0; i < m_particleEffectsNoBillboard.size(); i++) {
+		m_particleEffectsNoBillboard[i]->Update(deltaT, glm::mat3(m_particleProjMatrixNoBillboard));
+	}
 }
 
 bool CharacterUnits::cmpf(float a, float b)
@@ -274,17 +338,26 @@ void CharacterUnits::InitDeath()
 	dying = true;
 }
 
-void CharacterUnits::TakeDamage(std::string p_characterFrom)
+void CharacterUnits::TakeDamage(std::string p_characterFrom, float mult, std::string particleEffectOverride, bool isParticleBillboarded)
 {
 	canTakeDamage = true;
 	characterAttacking.push_back(p_characterFrom);
 	timeDamaged = 0.0f;
 	damaged = true;
+	damageReceivingMult = mult;
+	damageReceivingParticle = particleEffectOverride;
+	damageReceivingBillboarded = isParticleBillboarded;
+}
+
+float CharacterUnits::GetDamageReceivedMult()
+{
+	return damageReceivingMult;
 }
 
 void CharacterUnits::SetHealthbarVisible(bool isVisible)
 {
 	m_isHealthbarVisible = isVisible;
+	m_isCooldownVisible = !isVisible;
 }
 
 void CharacterUnits::SetHealthbarPercent(float percent)
@@ -322,4 +395,29 @@ wolf::BMWModel* CharacterUnits::GetModel()
 void CharacterUnits::SetSoundEngine(wolf::SoundEngine* soundEng)
 {
 	m_soundEngine = soundEng;
+}
+
+void CharacterUnits::StartCooldown()
+{
+	m_cooldownCur = m_cooldownMax;
+	m_cooldown->SetThreshold(0.0, true);
+}
+
+void CharacterUnits::UpdateCooldown()
+{
+	if (m_cooldownCur > 0)
+		m_cooldownCur--;
+
+	m_cooldown->SetThreshold(1 - m_cooldownCur / ((float)m_cooldownMax));
+}
+
+int CharacterUnits::GetCooldown()
+{
+	return m_cooldownCur;
+}
+
+void CharacterUnits::HealIndicator()
+{
+	m_particleEffects.push_back(new Effect("resources/particles/lich_heal.json"));
+	m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
 }

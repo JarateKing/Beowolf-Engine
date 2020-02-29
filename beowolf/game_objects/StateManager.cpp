@@ -140,6 +140,7 @@ void StateManager::SetState(State state) {
 			auto chars = m_charManager->getCharacters();
 			for (auto it = chars->begin(); it != chars->end(); it++) {
 				it->setHasMoved(true);
+				it->UpdateCooldown();
 			}
 			auto enemies = m_charManager->getEnemies();
 			for (auto it = enemies->begin(); it != enemies->end(); it++) {

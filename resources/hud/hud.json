@@ -91,7 +91,7 @@
 			],
 			"type": "textbox",
 			"xpos": 12,
-			"ypos": 20,
+			"ypos": 21,
 			"zpos": 2,
 			"wide": 305,
 			"tall": 46,
@@ -103,25 +103,6 @@
 			"font": "OpenSans",
 			"fontSize": 14,
 			"color": "1.0 1.0 1.0 1.0"
-		},
-		{
-			"tags": [
-				"ingame", "hpbar1"
-			],
-			"type": "textbox",
-			"xpos": 12,
-			"ypos": 21,
-			"zpos": 3,
-			"wide": 305,
-			"tall": 46,
-			
-			"label": "UnitHP_1",
-			"labelRaw": false,
-			"alignment": "right",
-			
-			"font": "OpenSans",
-			"fontSize": 14,
-			"color": "0.0 0.0 0.0 1.0"
 		},
 		{
 			"tags": [
@@ -211,7 +192,7 @@
 			],
 			"type": "textbox",
 			"xpos": 12,
-			"ypos": 80,
+			"ypos": 81,
 			"zpos": 2,
 			"wide": 305,
 			"tall": 46,
@@ -223,25 +204,6 @@
 			"font": "OpenSans",
 			"fontSize": 14,
 			"color": "1.0 1.0 1.0 1.0"
-		},
-		{
-			"tags": [
-				"ingame", "hpbar2"
-			],
-			"type": "textbox",
-			"xpos": 12,
-			"ypos": 81,
-			"zpos": 3,
-			"wide": 305,
-			"tall": 46,
-			
-			"label": "UnitHP_2",
-			"labelRaw": false,
-			"alignment": "right",
-			
-			"font": "OpenSans",
-			"fontSize": 14,
-			"color": "0.0 0.0 0.0 1.0"
 		},
 		{
 			"tags": [
@@ -331,7 +293,7 @@
 			],
 			"type": "textbox",
 			"xpos": 12,
-			"ypos": 140,
+			"ypos": 141,
 			"zpos": 2,
 			"wide": 305,
 			"tall": 46,
@@ -343,25 +305,6 @@
 			"font": "OpenSans",
 			"fontSize": 14,
 			"color": "1.0 1.0 1.0 1.0"
-		},
-		{
-			"tags": [
-				"ingame", "hpbar3"
-			],
-			"type": "textbox",
-			"xpos": 12,
-			"ypos": 141,
-			"zpos": 3,
-			"wide": 305,
-			"tall": 46,
-			
-			"label": "UnitHP_3",
-			"labelRaw": false,
-			"alignment": "right",
-			
-			"font": "OpenSans",
-			"fontSize": 14,
-			"color": "0.0 0.0 0.0 1.0"
 		},
 		{
 			"tags": [
@@ -623,6 +566,225 @@
 			
 			"font": "OpenSans",
 			"fontSize": 64,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"name": "HoverPanelBG",
+			"type": "fillcolor",
+			"xpos": 1500,
+			"ypos": 200,
+			"zpos": 4,
+			"wide": 400,
+			"tall": 600,
+			
+			"color": "0.0 0.0 0.0 0.5"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"type": "fillcolor",
+			"xpos": 1501,
+			"ypos": 201,
+			"zpos": 3,
+			"wide": 398,
+			"tall": 5,
+			
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"type": "fillcolor",
+			"xpos": 1501,
+			"ypos": 201,
+			"zpos": 3,
+			"wide": 5,
+			"tall": 100,
+			
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"type": "fillcolor",
+			"xpos": 1894,
+			"ypos": 201,
+			"zpos": 3,
+			"wide": 5,
+			"tall": 100,
+			
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"type": "gradient",
+			"xpos": 1501,
+			"ypos": 301,
+			"zpos": 3,
+			"wide": 5,
+			"tall": 200,
+			
+			"topLeft": "1.0 1.0 1.0 1.0",
+			"topRight": "1.0 1.0 1.0 1.0",
+			"bottomLeft": "1.0 1.0 1.0 0.0",
+			"bottomRight": "1.0 1.0 1.0 0.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"type": "gradient",
+			"xpos": 1894,
+			"ypos": 301,
+			"zpos": 3,
+			"wide": 5,
+			"tall": 200,
+			
+			"topLeft": "1.0 1.0 1.0 1.0",
+			"topRight": "1.0 1.0 1.0 1.0",
+			"bottomLeft": "1.0 1.0 1.0 0.0",
+			"bottomRight": "1.0 1.0 1.0 0.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"type": "textbox",
+			"xpos": 1515,
+			"ypos": 215,
+			"zpos": 3,
+			"wide": 370,
+			"tall": 30,
+			
+			"label": "UI_Name",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 24,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel"
+			],
+			"type": "textbox",
+			"xpos": 1515,
+			"ypos": 285,
+			"zpos": 3,
+			"wide": 370,
+			"tall": 100,
+			
+			"label": "UI_Description",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 18,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel", "uihoverpanelstat"
+			],
+			"type": "textbox",
+			"xpos": 1515,
+			"ypos": 595,
+			"zpos": 3,
+			"wide": 370,
+			"tall": 100,
+			
+			"label": "UI_Health",
+			"labelRaw": false,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 18,
+			"color": "1.0 0.4 0.5 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel", "uihoverpanelstat"
+			],
+			"type": "textbox",
+			"xpos": 1515,
+			"ypos": 645,
+			"zpos": 3,
+			"wide": 370,
+			"tall": 100,
+			
+			"label": "UI_Attack",
+			"labelRaw": false,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 18,
+			"color": "1.0 0.9 0.3 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel", "uihoverpanelstat"
+			],
+			"type": "textbox",
+			"xpos": 1515,
+			"ypos": 695,
+			"zpos": 3,
+			"wide": 370,
+			"tall": 100,
+			
+			"label": "UI_Defense",
+			"labelRaw": false,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 18,
+			"color": "0.3 0.6 1.0 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel", "uihoverpanelstat"
+			],
+			"type": "textbox",
+			"xpos": 1515,
+			"ypos": 745,
+			"zpos": 3,
+			"wide": 370,
+			"tall": 100,
+			
+			"label": "UI_Speed",
+			"labelRaw": false,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 18,
+			"color": "0.3 0.9 0.4 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "uihoverpanel", "uihoverpanelitem"
+			],
+			"type": "textbox",
+			"xpos": 1515,
+			"ypos": 445,
+			"zpos": 3,
+			"wide": 370,
+			"tall": 100,
+			
+			"label": "UI_Itemstat",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 18,
 			"color": "1.0 1.0 1.0 1.0"
 		}
 	]

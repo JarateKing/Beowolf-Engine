@@ -22,7 +22,10 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	GenerateHexJSON(width, length, tileWidth);
 	pathFinder->Instance()->Load("resources/objects/AIPathfindingDataTest.json");
 
-	int treeNum = wolf::RNG::GetRandom(0, (positions.size() - mountains.size() - desert.size() - roads.size()) / 2);
+	int treeMaxNum = (positions.size() - mountains.size() - desert.size() - roads.size()) / 6 - 1;
+	int treeNum = treeMaxNum;
+	if (treeMaxNum > 4)
+		treeNum = wolf::RNG::GetRandom(0, treeMaxNum);
 	std::vector<int> treePos;
 	for (int i = 0; i < treeNum; i++)
 	{

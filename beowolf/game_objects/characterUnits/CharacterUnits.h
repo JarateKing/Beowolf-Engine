@@ -5,7 +5,9 @@
 #include "BMWModel.h"
 #include "ComponentHexPos.h"
 #include "Healthbar.h"
+#include "CooldownIndicator.h"
 #include "sound/W_SoundEngine.h"
+#include "Effect.h"
 
 class CharacterUnits
 {
@@ -29,7 +31,8 @@ class CharacterUnits
 		bool isDying();
 		void setSelected(bool selected);
 		void InitDeath();
-		void TakeDamage(std::string p_characterFrom);
+		void TakeDamage(std::string p_characterFrom, float mult = 1.0f, std::string particleEffectOverride = "", bool isParticleBillboarded = true);
+		float GetDamageReceivedMult();
 		bool cmpf(float a, float b);
 		void SetHealthbarVisible(bool isVisible);
 		void SetHealthbarPercent(float percent);
@@ -37,6 +40,10 @@ class CharacterUnits
 		void SetLightingDir(glm::vec3 dir);
 		float GetDeathTimer();
 		bool InitDamage();
+		void StartCooldown();
+		void UpdateCooldown();
+		int GetCooldown();
+		void HealIndicator();
 		std::vector<std::string> GetAttacker();
 		wolf::BMWModel* GetModel();
 
@@ -66,7 +73,19 @@ class CharacterUnits
 		double m_deltaSum = 0.0;
 		bool m_isHealthbarVisible = true;
 		Healthbar* m_healthbar;
+		bool m_isCooldownVisible = false;
+		int m_cooldownHeightAdjustment = 0.0f;
+		CooldownIndicator* m_cooldown;
+		int m_cooldownMax = 2;
+		int m_cooldownCur = 0;
 		wolf::SoundEngine* m_soundEngine;
+		float damageReceivingMult = 1.0f;
+		std::string damageReceivingParticle = "";
+		bool damageReceivingBillboarded = true;
+		std::vector<Effect*> m_particleEffects;
+		std::vector<Effect*> m_particleEffectsNoBillboard;
+		glm::mat4 m_particleProjMatrix;
+		glm::mat4 m_particleProjMatrixNoBillboard;
 };
 
 #endif
