@@ -9,7 +9,7 @@ const wolf::Vertex square[] = { wolf::Vertex({ -0.5, -0.5, 1.0f, 1, 1, 1, 1, 1, 
 								wolf::Vertex({ 0.5, -0.5, 1.0f, 1, 1, 1, 1, 0, 0}),
 								wolf::Vertex({ -0.5, -0.5, 1.0f, 1, 1, 1, 1, 1, 0}) };
 
-const glm::vec3 scale = glm::vec3(1.0 * 16.0 / 9.0, 1.0, 1.0);
+const glm::vec3 scale = glm::vec3(0.75 * 16.0 / 9.0, 0.75, 0.75);
 
 
 CooldownIndicator::CooldownIndicator() {
