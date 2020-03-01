@@ -30,6 +30,7 @@
 #include "characterUnits/ScoreTracker.h"
 #include "shadows/TestQuad.h"
 #include "camera/Skybox.h"
+#include "camera/Water.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine* SE;
@@ -50,6 +51,7 @@ bool shadowPass = false;
 TestQuad* tQuad;
 unsigned int depthMapTexture;
 Skybox* skybox;
+Water* water;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -111,6 +113,7 @@ void BaseScene::Init()
 	SE->UpdateSystem();
 
 	skybox = new Skybox();
+	water = new Water();
 }
 
 void BaseScene::Update()
@@ -198,6 +201,7 @@ void BaseScene::Update()
 	SE->UpdateSystem();
 
 	skybox->SetPos(cam->GetPos());
+	water->SetPos(cam->GetPos());
 }
 
 void BaseScene::Render()
@@ -264,6 +268,7 @@ void BaseScene::Render()
 		glEnable(GL_BLEND);
 
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, false, depthMapTexture);
+		water->Render(cam->GetViewMatrix(), wolf::RenderFilterTransparent);
 
 		// Depthless
 		glDepthMask(false);
