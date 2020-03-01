@@ -196,6 +196,8 @@ void BaseScene::Update()
 	cManager->SetLightDir(lightDir);
 
 	SE->UpdateSystem();
+
+	skybox->SetPos(cam->GetPos());
 }
 
 void BaseScene::Render()

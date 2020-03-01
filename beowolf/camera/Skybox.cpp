@@ -19,6 +19,10 @@ Skybox::~Skybox()
 
 }
 
+void Skybox::SetPos(glm::vec3 pos) {
+	m_pos = pos;
+}
+
 void Skybox::Render(glm::mat4 projView, wolf::RenderFilterType type)
 {
 	if (type == wolf::RenderFilterOpaque) {
@@ -26,7 +30,7 @@ void Skybox::Render(glm::mat4 projView, wolf::RenderFilterType type)
 		m_tex->Bind();
 
 		// Bind Uniforms
-		g_dProgram->SetUniform("projection", projView);
+		g_dProgram->SetUniform("projection", projView * glm::translate(m_pos));
 
 		// Set up source data
 		g_pDecl->Bind();

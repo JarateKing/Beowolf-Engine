@@ -16,6 +16,7 @@ public:
 	Skybox();
 	~Skybox();
 	void Render(glm::mat4 projView, wolf::RenderFilterType type);
+	void SetPos(glm::vec3 pos);
 
 private:
 
@@ -23,6 +24,7 @@ private:
 	wolf::VertexDeclaration* g_pDecl;
 	wolf::Program* g_dProgram;
 	wolf::Texture* m_tex;
+	glm::vec3 m_pos;
 
 	wolf::Vertex planeVertices[36] = {
 		{ 100.0f, -100.0f,  100.0f, 0, 1, 0, 1, 0.25f, 0.33f, 1.0f, 1.0f, 0.0f},
