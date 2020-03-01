@@ -29,6 +29,7 @@
 #include "characterUnits/CharacterInfoHub.h"
 #include "characterUnits/ScoreTracker.h"
 #include "shadows/TestQuad.h"
+#include "camera/Skybox.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine* SE;
@@ -48,6 +49,7 @@ ScoreTracker* scoreTracker;
 bool shadowPass = false;
 TestQuad* tQuad;
 unsigned int depthMapTexture;
+Skybox* skybox;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -107,6 +109,8 @@ void BaseScene::Init()
 	cManager->SetScoreTracker(scoreTracker);
 	SE->Play3DSound("base_theme", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), true);
 	SE->UpdateSystem();
+
+	skybox = new Skybox();
 }
 
 void BaseScene::Update()
@@ -252,6 +256,7 @@ void BaseScene::Render()
 		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 		selector->Render(cam->GetViewMatrix());
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
+		skybox->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
 
 		// Transparent
 		glEnable(GL_BLEND);
