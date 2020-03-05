@@ -30,7 +30,7 @@ void Skybox::Render(glm::mat4 projView, wolf::RenderFilterType type)
 		m_tex->Bind();
 
 		// Bind Uniforms
-		g_dProgram->SetUniform("projection", projView * glm::translate(m_pos));
+		g_dProgram->SetUniform("projection", projView * glm::translate(m_pos) * glm::rotate(-70.0f, glm::vec3(0, 1, 0)));
 
 		// Set up source data
 		g_pDecl->Bind();
