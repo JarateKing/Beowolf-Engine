@@ -203,7 +203,7 @@ void BaseScene::Update()
 	skybox->SetPos(cam->GetPos());
 
 	water->Update(delta);
-	water->SetPos(cam->GetPos());
+	//water->SetPos(cam->GetPos());
 }
 
 void BaseScene::Render()
