@@ -37,7 +37,9 @@ void Water::Render(glm::mat4 projView, wolf::RenderFilterType type)
 		// Bind Uniforms
 		g_dProgram->SetUniform("projection", projView * glm::translate(m_pos));
 		g_dProgram->SetUniform("time", m_time);
-		g_dProgram->SetUniform("scrollAngle", m_scrollAngle);
+		g_dProgram->SetUniform("scrollAngle1", m_scrollAngle1);
+		g_dProgram->SetUniform("scrollAngle2", m_scrollAngle2);
+		g_dProgram->SetUniform("copyScale", m_copyScale);
 
 		// Set up source data
 		g_pDecl->Bind();
