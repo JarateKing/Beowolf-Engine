@@ -201,6 +201,8 @@ void BaseScene::Update()
 	SE->UpdateSystem();
 
 	skybox->SetPos(cam->GetPos());
+
+	water->Update(delta);
 	water->SetPos(cam->GetPos());
 }
 
@@ -258,7 +260,7 @@ void BaseScene::Render()
 		glDisable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		tQuad->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque, false, depthMapTexture);
+		//tQuad->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque, false, depthMapTexture);
 		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 		selector->Render(cam->GetViewMatrix());
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
