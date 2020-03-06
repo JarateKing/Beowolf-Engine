@@ -19,7 +19,7 @@ void main()
 	
 	vec4 offset = texture(normaltex, v_uv3);
 	
-	vec2 reflectCoord = vec2(gl_FragCoord.x / screenX + (offset.r - 0.5) * 0.015, -gl_FragCoord.y / screenY + (offset.g - 0.5) * 0.015);
+	vec2 reflectCoord = vec2(gl_FragCoord.x / screenX + (offset.r - 0.5) * 0.015, 1 - gl_FragCoord.y / screenY + (offset.g - 0.5) * 0.015);
 	vec4 reflect = texture(reflection, reflectCoord);
 	
 	PixelColor = vec4(-0.1, 0.1, 0.15, 0) + 
