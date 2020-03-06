@@ -233,12 +233,12 @@ void BaseScene::Render(RenderTarget target)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glm::vec3 flippedPos = cam->GetPos();
-		flippedPos.y *= -1;
+		flippedPos.y = -flippedPos.y + 10;
 		skybox->SetPos(flippedPos);
 
-		skybox->Render(cam->GetVerticalInverse(0), wolf::RenderFilterOpaque);
-		cManager->Render(cam->GetVerticalInverse(0), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
-		grid->Render(cam->GetVerticalInverse(0), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
+		skybox->Render(cam->GetVerticalInverse(5), wolf::RenderFilterOpaque);
+		cManager->Render(cam->GetVerticalInverse(5), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
+		grid->Render(cam->GetVerticalInverse(5), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 	}
 	else
 	{

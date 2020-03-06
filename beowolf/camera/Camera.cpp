@@ -91,7 +91,7 @@ glm::mat4 Camera::GetViewMatrix()
 glm::mat4 Camera::GetVerticalInverse(float heightPlane)
 {
 	glm::vec3 newPos = m_pos;
-	newPos.y = -newPos.y;
+	newPos.y = -newPos.y + heightPlane * 2;
 	glm::vec3 newAim = m_aim;
 	newAim.y = -newAim.y;
 	glm::vec3 newUp = glm::cross(m_right, newAim);
