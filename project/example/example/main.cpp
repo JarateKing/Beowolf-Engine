@@ -26,6 +26,7 @@ unsigned int depthMapTex;
 const unsigned int SHADOW_WIDTH = 4096, SHADOW_HEIGHT = 4096;
 
 unsigned int reflectionFrameBuf;
+unsigned int reflectionRenderBuf;
 unsigned int reflectionTex;
 const unsigned int REFLECTION_WIDTH = 512, REFLECTION_HEIGHT = 512;
 
@@ -81,7 +82,7 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
+	
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMapTex, 0);
 	glDrawBuffer(GL_NONE);
@@ -91,6 +92,7 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	// gen reflection texture
 	glGenFramebuffers(1, &reflectionFrameBuf);
 	glGenTextures(1, &reflectionTex);
+	glGenRenderbuffers(1, &reflectionRenderBuf);
 
 	glBindTexture(GL_TEXTURE_2D, reflectionTex);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, REFLECTION_WIDTH, REFLECTION_HEIGHT, 0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
@@ -99,8 +101,13 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
+	glBindRenderbuffer(GL_RENDERBUFFER, reflectionRenderBuf);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, REFLECTION_WIDTH, REFLECTION_HEIGHT);
+
 	glBindFramebuffer(GL_FRAMEBUFFER, reflectionFrameBuf);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, reflectionTex, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, reflectionRenderBuf);
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -125,16 +132,21 @@ void updateGameLogic(Scene* scene)
 	scene->Update();
 	//EventManager::getInstance().Update(wolf::Time::Instance().deltaTime());
 	
+
+	glCullFace(GL_FRONT);
+
 	//Render scene to shadow depth map texture
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf);
 	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	scene->Render(RenderTarget::ShadowDepthmap);
 
+	glCullFace(GL_BACK);
+
 	//Render scene with reflection
 	glBindFramebuffer(GL_FRAMEBUFFER, reflectionFrameBuf);
 	glViewport(0, 0, REFLECTION_WIDTH, REFLECTION_HEIGHT);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	scene->Render(RenderTarget::WaterReflection);
 
 	//Render scene normally with shadows
