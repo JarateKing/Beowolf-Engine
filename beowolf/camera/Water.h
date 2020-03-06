@@ -25,6 +25,7 @@ private:
 	wolf::VertexDeclaration* g_pDecl;
 	wolf::Program* g_dProgram;
 	wolf::Texture* m_tex;
+	wolf::Texture* m_normals;
 	glm::vec3 m_pos;
 	float m_time = 0;
 	glm::vec3 m_scrollAngle1 = glm::vec3(0.01f, 0.05f, 1.0f);

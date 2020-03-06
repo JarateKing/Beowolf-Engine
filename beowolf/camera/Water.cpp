@@ -6,8 +6,12 @@ Water::Water()
 {
 	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("water"));
 	g_pVB = wolf::BufferManager::CreateVertexBuffer(planeVertices, sizeof(wolf::Vertex) * 6);
+
 	m_tex = wolf::TextureManager::CreateTexture(wolf::ResourceLoader::Instance().getTexture("water.tga"), false);
 	m_tex->SetWrapMode(wolf::Texture::WrapMode::WM_Repeat, wolf::Texture::WrapMode::WM_Repeat);
+
+	m_normals = wolf::TextureManager::CreateTexture(wolf::ResourceLoader::Instance().getTexture("water_normal.tga"), false);
+	m_normals->SetWrapMode(wolf::Texture::WrapMode::WM_Repeat, wolf::Texture::WrapMode::WM_Repeat);
 
 	g_pDecl = new wolf::VertexDeclaration();
 	g_pDecl->Begin();
@@ -34,10 +38,11 @@ void Water::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int
 	if (type == wolf::RenderFilterTransparent) {
 		g_dProgram->Bind();
 
-		glActiveTexture(GL_TEXTURE0);
 		m_tex->Bind();
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, reflectionTex);
+		glActiveTexture(GL_TEXTURE2);
+		m_normals->Bind();
 		glActiveTexture(GL_TEXTURE0);
 
 		// Bind Uniforms
@@ -49,6 +54,7 @@ void Water::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int
 		g_dProgram->SetUniform("screenX", wolf::ProjMatrix::GetScreenSize().x);
 		g_dProgram->SetUniform("screenY", wolf::ProjMatrix::GetScreenSize().y);
 		g_dProgram->SetUniform("reflection", 1);
+		g_dProgram->SetUniform("normaltex", 2);
 
 		// Set up source data
 		g_pDecl->Bind();
