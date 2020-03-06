@@ -767,7 +767,7 @@ void HexGrid::SmoothFullHeights(int width, int numTimes)
 	}
 }
 
-void HexGrid::Render(glm::mat4 projview, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture)
+void HexGrid::Render(glm::mat4 projview, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, float minHeight, float maxHeight)
 {
 	if (shadowPass)
 	{
@@ -814,6 +814,8 @@ void HexGrid::Render(glm::mat4 projview, glm::mat4 lightSpaceMatrix, wolf::Rende
 			g_dProgram->SetUniform("LightAmbient", ambLight);
 			g_dProgram->SetUniform("LightDiffuse", difLight);
 			g_dProgram->SetUniform("LightDir", lightDir);
+			g_dProgram->SetUniform("minHeight", minHeight);
+			g_dProgram->SetUniform("maxHeight", maxHeight);
 			glm::mat3 mWorldIT(glm::translate(glm::vec3(0.0f)));
 			mWorldIT = glm::inverse(mWorldIT);
 			mWorldIT = glm::transpose(mWorldIT);
