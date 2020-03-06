@@ -23,7 +23,7 @@ FILE _iob[] = { *stdin, *stdout, *stderr };
 
 unsigned int depthMapFrameBuf;
 unsigned int depthMapTex;
-const unsigned int SHADOW_WIDTH = 4096, SHADOW_HEIGHT = 4096;
+const unsigned int SHADOW_WIDTH = 3000, SHADOW_HEIGHT = 3000;
 
 unsigned int reflectionFrameBuf;
 unsigned int reflectionRenderBuf;
