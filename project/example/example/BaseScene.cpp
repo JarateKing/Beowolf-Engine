@@ -49,6 +49,7 @@ CharacterInfoHub cHub;
 ScoreTracker* scoreTracker;
 TestQuad* tQuad;
 unsigned int depthMapTexture;
+unsigned int reflectionTexture;
 Skybox* skybox;
 Water* water;
 
@@ -220,10 +221,24 @@ void BaseScene::Render(RenderTarget target)
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glCullFace(GL_FRONT);
 		
 		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
+	}
+	else if (target == RenderTarget::WaterReflection)
+	{
+		glDepthMask(true);
+		glEnable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glm::vec3 flippedPos = cam->GetPos();
+		flippedPos.y *= -1;
+		skybox->SetPos(flippedPos);
+
+		skybox->Render(cam->GetVerticalInverse(0), wolf::RenderFilterOpaque);
+		cManager->Render(cam->GetVerticalInverse(0), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
+		grid->Render(cam->GetVerticalInverse(0), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 	}
 	else
 	{
@@ -237,13 +252,16 @@ void BaseScene::Render(RenderTarget target)
 		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 		selector->Render(cam->GetViewMatrix());
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
+
+		skybox->SetPos(cam->GetPos());
 		skybox->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
 
 		// Transparent
 		glEnable(GL_BLEND);
 
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, false, depthMapTexture);
-		water->Render(cam->GetViewMatrix(), wolf::RenderFilterTransparent);
+
+		water->Render(cam->GetViewMatrix(), wolf::RenderFilterTransparent, reflectionTexture);
 
 		// Depthless
 		glDepthMask(false);
@@ -262,8 +280,10 @@ void BaseScene::Render(RenderTarget target)
 	}
 }
 
-void BaseScene::SetTex(RenderTarget target, unsigned int p_depthMapTex)
+void BaseScene::SetTex(RenderTarget target, unsigned int tex)
 {
 	if (target == RenderTarget::ShadowDepthmap)
-		depthMapTexture = p_depthMapTex;
+		depthMapTexture = tex;
+	else if (target == RenderTarget::WaterReflection)
+		reflectionTexture = tex;
 }

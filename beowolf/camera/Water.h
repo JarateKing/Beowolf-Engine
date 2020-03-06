@@ -15,7 +15,7 @@ public:
 
 	Water();
 	~Water();
-	void Render(glm::mat4 projView, wolf::RenderFilterType type);
+	void Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int reflectionTex);
 	void Update(float delta);
 	void SetPos(glm::vec3 pos);
 

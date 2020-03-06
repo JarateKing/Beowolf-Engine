@@ -28,11 +28,16 @@ void Water::SetPos(glm::vec3 pos) {
 	m_pos = glm::vec3(pos.x, 0, pos.z);
 }
 
-void Water::Render(glm::mat4 projView, wolf::RenderFilterType type)
+void Water::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int reflectionTex)
 {
 	if (type == wolf::RenderFilterTransparent) {
 		g_dProgram->Bind();
+
+		glActiveTexture(GL_TEXTURE0);
 		m_tex->Bind();
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, reflectionTex);
+		glActiveTexture(GL_TEXTURE0);
 
 		// Bind Uniforms
 		g_dProgram->SetUniform("projection", projView * glm::translate(m_pos));
@@ -40,6 +45,8 @@ void Water::Render(glm::mat4 projView, wolf::RenderFilterType type)
 		g_dProgram->SetUniform("scrollAngle1", m_scrollAngle1);
 		g_dProgram->SetUniform("scrollAngle2", m_scrollAngle2);
 		g_dProgram->SetUniform("copyScale", m_copyScale);
+
+		g_dProgram->SetUniform("reflection", 1);
 
 		// Set up source data
 		g_pDecl->Bind();
