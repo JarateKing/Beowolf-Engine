@@ -47,7 +47,6 @@ glm::vec3 lightDir;
 static CharacterManager* cManager;
 CharacterInfoHub cHub;
 ScoreTracker* scoreTracker;
-bool shadowPass = false;
 TestQuad* tQuad;
 unsigned int depthMapTexture;
 Skybox* skybox;
@@ -206,7 +205,7 @@ void BaseScene::Update()
 	//water->SetPos(cam->GetPos());
 }
 
-void BaseScene::Render()
+void BaseScene::Render(RenderTarget target)
 {
 	float near_plane = 20.0f, far_plane = 100.0f;
 	glm::mat4 lightProj = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, near_plane, far_plane);
@@ -215,9 +214,8 @@ void BaseScene::Render()
 		glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 lightSpaceMatrix = lightProj * lightView;
 
-	if (shadowPass)
+	if (target == RenderTarget::ShadowDepthmap)
 	{
-		// Opaque
 		glDepthMask(true);
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
@@ -225,32 +223,7 @@ void BaseScene::Render()
 		glCullFace(GL_FRONT);
 		
 		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
-		//selector->Render(cam->GetViewMatrix());
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
-
-		// Transparent
-		//glEnable(GL_BLEND);
-
-		//cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, true, depthMapTexture);
-		// Depthless
-		//glDepthMask(false);
-    
-		//grid->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
-		//selector->Render(cam->GetViewMatrix());
-		//cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
-
-		//testhud->Render(hudProjMat);
-
-		// Additive
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
-		//cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterAdditive, true, depthMapTexture);
-
-		// Done
-		glDepthMask(true);
-		glEnable(GL_DEPTH_TEST);
-		glDisable(GL_BLEND);
-		glCullFace(GL_BACK);
 	}
 	else
 	{
@@ -289,12 +262,8 @@ void BaseScene::Render()
 	}
 }
 
-void BaseScene::SwitchShadowPass()
+void BaseScene::SetTex(RenderTarget target, unsigned int p_depthMapTex)
 {
-	shadowPass = !shadowPass;
-}
-
-void BaseScene::SetTex(unsigned int p_depthMapTex)
-{
-	depthMapTexture = p_depthMapTex;
+	if (target == RenderTarget::ShadowDepthmap)
+		depthMapTexture = p_depthMapTex;
 }
