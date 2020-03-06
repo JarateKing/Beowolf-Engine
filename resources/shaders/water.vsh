@@ -17,5 +17,8 @@ void main()
     gl_Position = projection * a_position;
 	v_uv1 = vec2(a_uv1.x + scrollAngle1.x * time, a_uv1.y + scrollAngle1.y * time);
 	v_uv2 = vec2(a_uv1.x * copyScale + scrollAngle2.x * time, a_uv1.y * copyScale + scrollAngle2.y * time);
-	v_uv3 = a_uv1;
+	
+	vec2 norm = vec2(a_uv1.x / 70, a_uv1.y / 70);
+	vec2 flipped = vec2(norm.x, -norm.y);
+	v_uv3 = flipped;
 }
