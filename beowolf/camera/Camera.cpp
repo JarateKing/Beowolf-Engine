@@ -88,6 +88,17 @@ glm::mat4 Camera::GetViewMatrix()
 	return m_proj * m_view;
 }
 
+glm::mat4 Camera::GetVerticalInverse(float heightPlane)
+{
+	glm::vec3 newPos = m_pos;
+	newPos.y = -newPos.y;
+	glm::vec3 newAim = m_aim;
+	newAim.y = -newAim.y;
+	glm::vec3 newUp = glm::cross(m_right, newAim);
+
+	return m_proj * (glm::lookAt(newPos, newPos + newAim, newUp));
+}
+
 glm::vec3 Camera::GetRayFromScreen()
 {
 	int width, height;

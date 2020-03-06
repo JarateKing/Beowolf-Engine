@@ -13,6 +13,7 @@ public:
 	~Camera();
 	void Update(float delta);
 	glm::mat4 GetViewMatrix();
+	glm::mat4 GetVerticalInverse(float heightPlane);
 	int CalculateIntersection(std::vector<float> heights, std::vector<glm::vec2> positions, float tileWidth);
 	void SetVerticleAngle(float verti);
 	void ForceAngleUpdate();
