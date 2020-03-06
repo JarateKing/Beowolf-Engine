@@ -23,7 +23,12 @@ FILE _iob[] = { *stdin, *stdout, *stderr };
 
 unsigned int depthMapFrameBuf;
 unsigned int depthMapTex;
-const unsigned int SHADOW_WIDTH = 4096, SHADOW_HEIGHT = 4096;
+const unsigned int SHADOW_WIDTH = 3000, SHADOW_HEIGHT = 3000;
+
+unsigned int reflectionFrameBuf;
+unsigned int reflectionRenderBuf;
+unsigned int reflectionTex;
+const unsigned int REFLECTION_WIDTH = 512, REFLECTION_HEIGHT = 512;
 
 extern "C" FILE * __cdecl __iob_func(void)
 {
@@ -67,19 +72,42 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	// vsync
 	glfwSwapInterval(1);
 
+	// gen depth map texture
 	glGenFramebuffers(1, &depthMapFrameBuf);
 	glGenTextures(1, &depthMapTex);
+	
 	glBindTexture(GL_TEXTURE_2D, depthMapTex);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
+	
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMapTex, 0);
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// gen reflection texture
+	glGenFramebuffers(1, &reflectionFrameBuf);
+	glGenTextures(1, &reflectionTex);
+	glGenRenderbuffers(1, &reflectionRenderBuf);
+
+	glBindTexture(GL_TEXTURE_2D, reflectionTex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, REFLECTION_WIDTH, REFLECTION_HEIGHT, 0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+	glBindRenderbuffer(GL_RENDERBUFFER, reflectionRenderBuf);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, REFLECTION_WIDTH, REFLECTION_HEIGHT);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, reflectionFrameBuf);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, reflectionTex, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, reflectionRenderBuf);
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -104,25 +132,31 @@ void updateGameLogic(Scene* scene)
 	scene->Update();
 	//EventManager::getInstance().Update(wolf::Time::Instance().deltaTime());
 	
-	//Render scene to shadow depth map texture
-	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	scene->SwitchShadowPass();
+
 	glCullFace(GL_FRONT);
-	scene->Render();
+
+	//Render scene to shadow depth map texture
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf);
+	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	scene->Render(RenderTarget::ShadowDepthmap);
+
 	glCullFace(GL_BACK);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	//Render scene with reflection
+	glBindFramebuffer(GL_FRAMEBUFFER, reflectionFrameBuf);
+	glViewport(0, 0, REFLECTION_WIDTH, REFLECTION_HEIGHT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	scene->Render(RenderTarget::WaterReflection);
 
 	//Render scene normally with shadows
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	int width, height;
 	glfwGetWindowSize(&width, &height);
 	height = height > 0 ? height : 1;
 	glViewport(0, 0, width, height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glBindTexture(GL_TEXTURE_2D, depthMapTex);
-	scene->SwitchShadowPass();
-	scene->Render();
+	scene->Render(RenderTarget::Screen);
 }
 
 int main()
@@ -131,7 +165,8 @@ int main()
     
 	BaseScene* scene = new BaseScene();
 	scene->Init();
-	scene->SetTex(depthMapTex);
+	scene->SetTex(RenderTarget::ShadowDepthmap, depthMapTex);
+	scene->SetTex(RenderTarget::WaterReflection, reflectionTex);
 	while (glfwGetWindowParam(GLFW_OPENED))
 	{
 		updateGraphics();

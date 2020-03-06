@@ -29,6 +29,8 @@
 #include "characterUnits/CharacterInfoHub.h"
 #include "characterUnits/ScoreTracker.h"
 #include "shadows/TestQuad.h"
+#include "camera/Skybox.h"
+#include "camera/Water.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine* SE;
@@ -45,9 +47,11 @@ glm::vec3 lightDir;
 static CharacterManager* cManager;
 CharacterInfoHub cHub;
 ScoreTracker* scoreTracker;
-bool shadowPass = false;
 TestQuad* tQuad;
 unsigned int depthMapTexture;
+unsigned int reflectionTexture;
+Skybox* skybox;
+Water* water;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -107,6 +111,9 @@ void BaseScene::Init()
 	cManager->SetScoreTracker(scoreTracker);
 	SE->Play3DSound("base_theme", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), true);
 	SE->UpdateSystem();
+
+	skybox = new Skybox();
+	water = new Water();
 }
 
 void BaseScene::Update()
@@ -192,9 +199,14 @@ void BaseScene::Update()
 	cManager->SetLightDir(lightDir);
 
 	SE->UpdateSystem();
+
+	skybox->SetPos(cam->GetPos());
+
+	water->Update(delta);
+	//water->SetPos(cam->GetPos());
 }
 
-void BaseScene::Render()
+void BaseScene::Render(RenderTarget target)
 {
 	float near_plane = 20.0f, far_plane = 100.0f;
 	glm::mat4 lightProj = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, near_plane, far_plane);
@@ -203,42 +215,30 @@ void BaseScene::Render()
 		glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 lightSpaceMatrix = lightProj * lightView;
 
-	if (shadowPass)
+	if (target == RenderTarget::ShadowDepthmap)
 	{
-		// Opaque
 		glDepthMask(true);
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glCullFace(GL_FRONT);
 		
 		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
-		//selector->Render(cam->GetViewMatrix());
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
-
-		// Transparent
-		//glEnable(GL_BLEND);
-
-		//cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, true, depthMapTexture);
-		// Depthless
-		//glDepthMask(false);
-    
-		//grid->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
-		//selector->Render(cam->GetViewMatrix());
-		//cManager->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque);
-
-		//testhud->Render(hudProjMat);
-
-		// Additive
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
-		//cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterAdditive, true, depthMapTexture);
-
-		// Done
+	}
+	else if (target == RenderTarget::WaterReflection)
+	{
 		glDepthMask(true);
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
-		glCullFace(GL_BACK);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glm::vec3 flippedPos = cam->GetPos();
+		flippedPos.y = -flippedPos.y + 10;
+		skybox->SetPos(flippedPos);
+
+		skybox->Render(cam->GetVerticalInverse(5), wolf::RenderFilterOpaque);
+		cManager->Render(cam->GetVerticalInverse(5), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
+		grid->Render(cam->GetVerticalInverse(5), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 	}
 	else
 	{
@@ -248,15 +248,20 @@ void BaseScene::Render()
 		glDisable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		tQuad->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque, false, depthMapTexture);
+		//tQuad->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque, false, depthMapTexture);
 		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 		selector->Render(cam->GetViewMatrix());
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
+
+		skybox->SetPos(cam->GetPos());
+		skybox->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
 
 		// Transparent
 		glEnable(GL_BLEND);
 
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, false, depthMapTexture);
+
+		water->Render(cam->GetViewMatrix(), wolf::RenderFilterTransparent, reflectionTexture);
 
 		// Depthless
 		glDepthMask(false);
@@ -275,12 +280,10 @@ void BaseScene::Render()
 	}
 }
 
-void BaseScene::SwitchShadowPass()
+void BaseScene::SetTex(RenderTarget target, unsigned int tex)
 {
-	shadowPass = !shadowPass;
-}
-
-void BaseScene::SetTex(unsigned int p_depthMapTex)
-{
-	depthMapTexture = p_depthMapTex;
+	if (target == RenderTarget::ShadowDepthmap)
+		depthMapTexture = tex;
+	else if (target == RenderTarget::WaterReflection)
+		reflectionTexture = tex;
 }

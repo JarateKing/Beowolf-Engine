@@ -255,6 +255,8 @@
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CooldownIndicator.cpp" />
     <ClCompile Include="..\..\beowolf\shadows\W_ShadowMap.cpp" />
     <ClCompile Include="..\..\beowolf\shadows\TestQuad.cpp" />
+    <ClCompile Include="..\..\beowolf\camera\Skybox.cpp" />
+    <ClCompile Include="..\..\beowolf\camera\Water.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\camera\Camera.h" />
@@ -593,5 +595,7 @@
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CooldownIndicator.h" />
     <ClInclude Include="..\..\beowolf\shadows\W_ShadowMap.h" />
     <ClInclude Include="..\..\beowolf\shadows\TestQuad.h" />
+    <ClInclude Include="..\..\beowolf\camera\Skybox.h" />
+    <ClInclude Include="..\..\beowolf\camera\Water.h" />
   </ItemGroup>
 </Project>

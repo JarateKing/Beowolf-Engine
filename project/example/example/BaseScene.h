@@ -15,9 +15,8 @@ public:
 	BaseScene();
 	void Init();
 	void Update();
-	void Render();
-	void SwitchShadowPass();
-	void SetTex(unsigned int p_depthMapTex);
+	void Render(RenderTarget target);
+	void SetTex(RenderTarget target, unsigned int tex);
 };
 
 #endif
