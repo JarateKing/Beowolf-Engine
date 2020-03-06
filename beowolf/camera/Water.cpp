@@ -1,5 +1,6 @@
 #include "Water.h"
 #include "W_ResourceLoader.h"
+#include "W_ProjectionMatrix.h"
 
 Water::Water()
 {
@@ -45,7 +46,8 @@ void Water::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int
 		g_dProgram->SetUniform("scrollAngle1", m_scrollAngle1);
 		g_dProgram->SetUniform("scrollAngle2", m_scrollAngle2);
 		g_dProgram->SetUniform("copyScale", m_copyScale);
-
+		g_dProgram->SetUniform("screenX", wolf::ProjMatrix::GetScreenSize().x);
+		g_dProgram->SetUniform("screenY", wolf::ProjMatrix::GetScreenSize().y);
 		g_dProgram->SetUniform("reflection", 1);
 
 		// Set up source data
