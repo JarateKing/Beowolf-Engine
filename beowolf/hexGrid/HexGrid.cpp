@@ -834,7 +834,8 @@ void HexGrid::Render(glm::mat4 projview, glm::mat4 lightSpaceMatrix, wolf::Rende
 	}
 	for (int i = 0; i < trees.size(); i++)
 	{
-		trees.at(i)->render(projview, glm::mat4(), lightSpaceMatrix, type, shadowPass, depthMapTexture);
+		if (trees.at(i)->getTransform()[3][1] - 1.0 < maxHeight)
+			trees.at(i)->render(projview, glm::mat4(), lightSpaceMatrix, type, shadowPass, depthMapTexture);
 	}
 }
 
