@@ -238,7 +238,7 @@ void BaseScene::Render(RenderTarget target)
 
 		skybox->Render(cam->GetVerticalInverse(5), wolf::RenderFilterOpaque);
 		cManager->Render(cam->GetVerticalInverse(5), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
-		grid->Render(cam->GetVerticalInverse(5), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture, 5.0f, 100.0f);
+		grid->Render(cam->GetVerticalInverse(5), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture, 4.25f, 100.0f);
 	}
 	else
 	{
