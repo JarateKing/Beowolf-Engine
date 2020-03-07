@@ -244,7 +244,7 @@ void BaseScene::Render(RenderTarget target)
 	else if (target == RenderTarget::WaterRefraction)
 	{
 		skybox->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
-		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture, -1.0f, 100.0f);
+		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture, -1.0f, 6.0f);
 	}
 	else
 	{
