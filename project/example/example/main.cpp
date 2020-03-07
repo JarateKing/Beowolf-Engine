@@ -30,6 +30,11 @@ unsigned int reflectionRenderBuf;
 unsigned int reflectionTex;
 const unsigned int REFLECTION_WIDTH = 512, REFLECTION_HEIGHT = 512;
 
+unsigned int refractionFrameBuf;
+unsigned int refractionRenderBuf;
+unsigned int refractionTex;
+const unsigned int REFRACTION_WIDTH = 512, REFRACTION_HEIGHT = 512;
+
 extern "C" FILE * __cdecl __iob_func(void)
 {
 	return _iob;
@@ -109,6 +114,27 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, reflectionRenderBuf);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// gen refraction texture
+	glGenFramebuffers(1, &refractionFrameBuf);
+	glGenTextures(1, &refractionTex);
+	glGenRenderbuffers(1, &refractionRenderBuf);
+
+	glBindTexture(GL_TEXTURE_2D, refractionTex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, REFRACTION_WIDTH, REFRACTION_HEIGHT, 0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glBindRenderbuffer(GL_RENDERBUFFER, refractionRenderBuf);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, REFRACTION_WIDTH, REFRACTION_HEIGHT);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, refractionFrameBuf);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, refractionTex, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, refractionRenderBuf);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void updateGraphics()
@@ -143,11 +169,17 @@ void updateGameLogic(Scene* scene)
 
 	glCullFace(GL_BACK);
 
-	//Render scene with reflection
+	//Render scene for reflection
 	glBindFramebuffer(GL_FRAMEBUFFER, reflectionFrameBuf);
 	glViewport(0, 0, REFLECTION_WIDTH, REFLECTION_HEIGHT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	scene->Render(RenderTarget::WaterReflection);
+
+	//Render scene for refraction
+	glBindFramebuffer(GL_FRAMEBUFFER, refractionFrameBuf);
+	glViewport(0, 0, REFLECTION_WIDTH, REFLECTION_HEIGHT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	scene->Render(RenderTarget::WaterRefraction);
 
 	//Render scene normally with shadows
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -167,6 +199,7 @@ int main()
 	scene->Init();
 	scene->SetTex(RenderTarget::ShadowDepthmap, depthMapTex);
 	scene->SetTex(RenderTarget::WaterReflection, reflectionTex);
+	scene->SetTex(RenderTarget::WaterRefraction, refractionTex);
 	while (glfwGetWindowParam(GLFW_OPENED))
 	{
 		updateGraphics();
