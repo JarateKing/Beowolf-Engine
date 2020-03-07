@@ -25,7 +25,7 @@ void main()
 	vec2 reflectCoord = vec2(gl_FragCoord.x / screenX + (offset.r - 0.5) * 0.015, 1 - gl_FragCoord.y / screenY + (offset.g - 0.5) * 0.015);
 	vec4 reflect = texture(reflection, reflectCoord);
 	
-	vec2 refractCoord = vec2(gl_FragCoord.x / screenX + (offset2.r - 0.5) * 0.02, gl_FragCoord.y / screenY + (offset.g - 0.5) * 0.03);
+	vec2 refractCoord = vec2(gl_FragCoord.x / screenX + (offset2.r - 0.5) * 0.02, gl_FragCoord.y / screenY + (offset.g - 0.5) * 0.02);
 	vec4 refract = texture(refraction, refractCoord);
 	
 	vec4 baseColor = mix(reflect, refract, 0.5);
