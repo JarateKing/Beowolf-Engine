@@ -240,6 +240,10 @@ void BaseScene::Render(RenderTarget target)
 		cManager->Render(cam->GetVerticalInverse(5), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 		grid->Render(cam->GetVerticalInverse(5), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture, 4.25f, 100.0f);
 	}
+	else if (target == RenderTarget::WaterRefraction)
+	{
+		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture, -1.0f, 100.0f);
+	}
 	else
 	{
 		// Opaque
