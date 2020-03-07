@@ -11,6 +11,7 @@ in vec2 a_uv1;
 out vec2 v_uv1;
 out vec2 v_uv2;
 out vec2 v_uv3;
+out vec2 v_uv4;
 
 void main()
 {
@@ -18,4 +19,5 @@ void main()
 	v_uv1 = vec2(a_uv1.x + scrollAngle1.x * time, a_uv1.y + scrollAngle1.y * time);
 	v_uv2 = vec2(a_uv1.x * copyScale + scrollAngle2.x * time, a_uv1.y * copyScale + scrollAngle2.y * time);
 	v_uv3 = vec2(a_uv1.x * 0.1 + scrollAngle1.x * time, a_uv1.y * 0.1 + scrollAngle1.y * time);
+	v_uv4 = vec2(a_uv1.x * 0.1 + scrollAngle1.x * time, a_uv1.y * 2.0 + scrollAngle1.y * time);
 }
