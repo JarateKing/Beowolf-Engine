@@ -266,7 +266,7 @@ void BaseScene::Render(RenderTarget target)
 
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, false, depthMapTexture);
 
-		water->Render(cam->GetViewMatrix(), wolf::RenderFilterTransparent, reflectionTexture);
+		water->Render(cam->GetViewMatrix(), wolf::RenderFilterTransparent, reflectionTexture, refractionTexture);
 
 		// Depthless
 		glDepthMask(false);
