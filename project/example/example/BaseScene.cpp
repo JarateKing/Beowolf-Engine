@@ -50,6 +50,7 @@ ScoreTracker* scoreTracker;
 TestQuad* tQuad;
 unsigned int depthMapTexture;
 unsigned int reflectionTexture;
+unsigned int refractionTexture;
 Skybox* skybox;
 Water* water;
 
@@ -290,4 +291,6 @@ void BaseScene::SetTex(RenderTarget target, unsigned int tex)
 		depthMapTexture = tex;
 	else if (target == RenderTarget::WaterReflection)
 		reflectionTexture = tex;
+	else if (target == RenderTarget::WaterRefraction)
+		refractionTexture = tex;
 }
