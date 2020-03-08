@@ -177,7 +177,7 @@ void updateGameLogic(Scene* scene)
 
 	//Render scene for refraction
 	glBindFramebuffer(GL_FRAMEBUFFER, refractionFrameBuf);
-	glViewport(0, 0, REFLECTION_WIDTH, REFLECTION_HEIGHT);
+	glViewport(0, 0, REFRACTION_WIDTH, REFRACTION_HEIGHT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	scene->Render(RenderTarget::WaterRefraction);
 
