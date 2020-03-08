@@ -33,7 +33,7 @@ void Water::SetPos(glm::vec3 pos) {
 	m_pos = glm::vec3(pos.x, 0, pos.z);
 }
 
-void Water::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int reflectionTex, unsigned int refractionTex)
+void Water::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int reflectionTex, unsigned int refractionTex, unsigned int fogTex)
 {
 	if (type == wolf::RenderFilterTransparent) {
 		g_dProgram->Bind();
@@ -45,6 +45,8 @@ void Water::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int
 		m_normals->Bind();
 		glActiveTexture(GL_TEXTURE3);
 		glBindTexture(GL_TEXTURE_2D, refractionTex);
+		glActiveTexture(GL_TEXTURE4);
+		glBindTexture(GL_TEXTURE_2D, fogTex);
 		glActiveTexture(GL_TEXTURE0);
 
 		// Bind Uniforms
@@ -58,6 +60,7 @@ void Water::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int
 		g_dProgram->SetUniform("reflection", 1);
 		g_dProgram->SetUniform("normaltex", 2);
 		g_dProgram->SetUniform("refraction", 3);
+		g_dProgram->SetUniform("fogDistance", 4);
 
 		// Set up source data
 		g_pDecl->Bind();
