@@ -35,6 +35,11 @@ unsigned int refractionRenderBuf;
 unsigned int refractionTex;
 const unsigned int REFRACTION_WIDTH = 512, REFRACTION_HEIGHT = 512;
 
+unsigned int fogFrameBuf;
+unsigned int fogRenderBuf;
+unsigned int fogTex;
+const unsigned int FOG_WIDTH = 512, FOG_HEIGHT = 512;
+
 extern "C" FILE * __cdecl __iob_func(void)
 {
 	return _iob;
@@ -77,7 +82,7 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	// vsync
 	glfwSwapInterval(1);
 
-	// gen depth map texture
+	// gen depth map texture for shadows
 	glGenFramebuffers(1, &depthMapFrameBuf);
 	glGenTextures(1, &depthMapTex);
 	
@@ -135,6 +140,21 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, refractionRenderBuf);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// gen depth map texture for fog
+	glGenFramebuffers(1, &fogFrameBuf);
+	glGenTextures(1, &fogTex);
+
+	glBindTexture(GL_TEXTURE_2D, fogTex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, FOG_WIDTH, FOG_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, fogFrameBuf);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, fogTex, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void updateGraphics()
@@ -166,6 +186,12 @@ void updateGameLogic(Scene* scene)
 	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	scene->Render(RenderTarget::ShadowDepthmap);
+
+	//Render scene to fog depth map texture
+	glBindFramebuffer(GL_FRAMEBUFFER, fogFrameBuf);
+	glViewport(0, 0, FOG_WIDTH, FOG_HEIGHT);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	scene->Render(RenderTarget::WaterFog);
 
 	glCullFace(GL_BACK);
 
@@ -200,6 +226,7 @@ int main()
 	scene->SetTex(RenderTarget::ShadowDepthmap, depthMapTex);
 	scene->SetTex(RenderTarget::WaterReflection, reflectionTex);
 	scene->SetTex(RenderTarget::WaterRefraction, refractionTex);
+	scene->SetTex(RenderTarget::WaterFog, fogTex);
 	while (glfwGetWindowParam(GLFW_OPENED))
 	{
 		updateGraphics();

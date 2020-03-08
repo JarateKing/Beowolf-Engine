@@ -6,6 +6,7 @@ enum RenderTarget {
 	ShadowDepthmap,
 	WaterReflection,
 	WaterRefraction,
+	WaterFog,
 };
 
 class Scene
