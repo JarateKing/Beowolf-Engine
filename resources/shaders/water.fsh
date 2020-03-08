@@ -39,16 +39,15 @@ void main()
 	vec2 refractCoord = vec2(gl_FragCoord.x / screenX + (offset2.r - 0.5) * 0.02, gl_FragCoord.y / screenY + (offset.g - 0.5) * 0.02);
 	vec4 refract = texture(refraction, refractCoord);
 	
-	vec4 baseColor = mix(reflect, refract, 0.5);
-	
-	float fogdist = LinearizeDepth(texture(fogDistance, vec2(gl_FragCoord.x / screenX, gl_FragCoord.y / screenY)).x) / (far_plane / 10);
+	float fogdist = LinearizeDepth(texture(fogDistance, refractCoord).x) / (far_plane / 10);
 	float ref = v_depth / (far_plane / 10);
 	float fog = (fogdist - ref);
-	fog = fog * 5;
+	fog = fog * 16;
 	fog = clamp(fog, 0, 1);
 	
-	//PixelColor = vec4(-0.1, 0.1, 0.15, 0) +
-	//			 baseColor + 
-	//			 vec4(magnitude, magnitude, magnitude, magnitude);
-	PixelColor = vec4(vec3(fog), 1.0);
+	vec4 baseColor = mix(reflect, mix(refract, vec4(0.1, 0.2, 0.5, 1.0), fog), 0.5);
+	
+	PixelColor = vec4(-0.1, 0.1, 0.15, 0) +
+				 baseColor + 
+				 vec4(magnitude, magnitude, magnitude, magnitude);
 }
