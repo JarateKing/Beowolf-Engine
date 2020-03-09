@@ -6,15 +6,22 @@ uniform vec4 LightAmbient;
 uniform vec4 LightDiffuse;
 uniform vec3 LightDir;
 
+uniform float minHeight;
+uniform float maxHeight;
+
 in vec4 FragPosLightSpace;
 in vec2 v_uv1;
 in vec3 v_normal;
 in vec4 v_color;
+in float v_height;
 
 out vec4 PixelColor;
 
 void main()
 {
+	if ((v_height > maxHeight) || (v_height < minHeight))
+		discard;
+
 	vec3 n = normalize( v_normal );
 
 	vec4 ambient = LightAmbient * 0.7;

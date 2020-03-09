@@ -50,6 +50,8 @@ ScoreTracker* scoreTracker;
 TestQuad* tQuad;
 unsigned int depthMapTexture;
 unsigned int reflectionTexture;
+unsigned int refractionTexture;
+unsigned int fogTexture;
 Skybox* skybox;
 Water* water;
 
@@ -222,7 +224,7 @@ void BaseScene::Render(RenderTarget target)
 		glDisable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
-		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
+		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture, -1.0f, 100.0f);
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, depthMapTexture);
 	}
 	else if (target == RenderTarget::WaterReflection)
@@ -238,7 +240,16 @@ void BaseScene::Render(RenderTarget target)
 
 		skybox->Render(cam->GetVerticalInverse(5), wolf::RenderFilterOpaque);
 		cManager->Render(cam->GetVerticalInverse(5), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
-		grid->Render(cam->GetVerticalInverse(5), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
+		grid->Render(cam->GetVerticalInverse(5), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture, 4.25f, 100.0f);
+	}
+	else if (target == RenderTarget::WaterRefraction)
+	{
+		skybox->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque);
+		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture, -1.0f, 6.0f);
+	}
+	else if (target == RenderTarget::WaterFog)
+	{
+		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture, -1.0f, 6.0f);
 	}
 	else
 	{
@@ -249,7 +260,7 @@ void BaseScene::Render(RenderTarget target)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		//tQuad->Render(cam->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque, false, depthMapTexture);
-		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
+		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture, -1.0f, 100.0f);
 		selector->Render(cam->GetViewMatrix());
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 
@@ -261,7 +272,7 @@ void BaseScene::Render(RenderTarget target)
 
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, false, depthMapTexture);
 
-		water->Render(cam->GetViewMatrix(), wolf::RenderFilterTransparent, reflectionTexture);
+		water->Render(cam->GetViewMatrix(), wolf::RenderFilterTransparent, reflectionTexture, refractionTexture, fogTexture);
 
 		// Depthless
 		glDepthMask(false);
@@ -286,4 +297,8 @@ void BaseScene::SetTex(RenderTarget target, unsigned int tex)
 		depthMapTexture = tex;
 	else if (target == RenderTarget::WaterReflection)
 		reflectionTexture = tex;
+	else if (target == RenderTarget::WaterRefraction)
+		refractionTexture = tex;
+	else if (target == RenderTarget::WaterFog)
+		fogTexture = tex;
 }
