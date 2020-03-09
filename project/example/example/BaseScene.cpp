@@ -29,6 +29,7 @@
 #include "characterUnits/CharacterInfoHub.h"
 #include "characterUnits/ScoreTracker.h"
 #include "shadows/TestQuad.h"
+#include "post/PostProcessingQuad.h"
 #include "camera/Skybox.h"
 #include "camera/Water.h"
 
@@ -48,8 +49,10 @@ static CharacterManager* cManager;
 CharacterInfoHub cHub;
 ScoreTracker* scoreTracker;
 TestQuad* tQuad;
+PostProcessingQuad* pQuad;
 unsigned int depthMapTexture;
 unsigned int reflectionTexture;
+unsigned int postProcessTexture;
 Skybox* skybox;
 Water* water;
 
@@ -87,6 +90,7 @@ void BaseScene::Init()
 	
 	lightDir = glm::normalize(glm::vec3(35.0f, -50.0f, 35.0f) - glm::vec3(0.0f, 0.0f, 0.0f));
 	tQuad = new TestQuad();
+	pQuad = new PostProcessingQuad();
 	testhud = new wolf::Hud("resources/hud/hud.json");
 	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
@@ -240,7 +244,7 @@ void BaseScene::Render(RenderTarget target)
 		cManager->Render(cam->GetVerticalInverse(5), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 		grid->Render(cam->GetVerticalInverse(5), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture);
 	}
-	else
+	else if (target == RenderTarget::PostProcessing)
 	{
 		// Opaque
 		glDepthMask(true);
@@ -278,6 +282,12 @@ void BaseScene::Render(RenderTarget target)
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 	}
+	else
+	{
+		// Opaque
+
+		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture);
+	}
 }
 
 void BaseScene::SetTex(RenderTarget target, unsigned int tex)
@@ -286,4 +296,6 @@ void BaseScene::SetTex(RenderTarget target, unsigned int tex)
 		depthMapTexture = tex;
 	else if (target == RenderTarget::WaterReflection)
 		reflectionTexture = tex;
+	else if (target == RenderTarget::PostProcessing)
+		postProcessTexture = tex;
 }

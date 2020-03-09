@@ -172,6 +172,11 @@ glm::vec3 Camera::GetAim()
 	return m_aim;
 }
 
+glm::mat4 Camera::GetProj()
+{
+	return m_proj;
+}
+
 void Camera::MoveToView(glm::vec3 position, glm::vec3 offset, float time) {
 	offset = (glm::vec3)(glm::vec4(offset.x, offset.y, offset.z, 0) * glm::rotate(-m_horiz * RAD2DEG, glm::vec3(0, 1, 0)));
 	position += offset;

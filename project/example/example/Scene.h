@@ -5,6 +5,7 @@ enum RenderTarget {
 	Screen,
 	ShadowDepthmap,
 	WaterReflection,
+	PostProcessing,
 };
 
 class Scene
