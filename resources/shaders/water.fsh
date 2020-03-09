@@ -45,7 +45,7 @@ void main()
 	fog = fog * 16;
 	fog = clamp(fog, 0, 1);
 	
-	vec4 baseColor = mix(mix(-refract, vec4(0.1, 0.2, 0.5, 1.0), fog), reflect, 0.35);
+	vec4 baseColor = mix(mix(refract, vec4(0.1, 0.2, 0.5, 1.0), fog), reflect, 0.35);
 	
 	PixelColor = vec4(-0.1, 0.1, 0.15, 0) +
 				 baseColor + 

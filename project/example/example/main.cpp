@@ -30,14 +30,6 @@ unsigned int reflectionRenderBuf;
 unsigned int reflectionTex;
 const unsigned int REFLECTION_WIDTH = 512, REFLECTION_HEIGHT = 512;
 
-unsigned int postFrameBuf1;
-unsigned int postFrameBuf2;
-unsigned int postDepthBuf1;
-unsigned int postDepthBuf2;
-unsigned int postTex1;
-unsigned int postTex2;
-const unsigned int POST_TEX_WIDTH = 2048, POST_TEX_HEIGHT = 1024;
-
 unsigned int refractionFrameBuf;
 unsigned int refractionRenderBuf;
 unsigned int refractionTex;
@@ -47,6 +39,14 @@ unsigned int fogFrameBuf;
 unsigned int fogRenderBuf;
 unsigned int fogTex;
 const unsigned int FOG_WIDTH = 512, FOG_HEIGHT = 512;
+
+unsigned int postFrameBuf1;
+unsigned int postFrameBuf2;
+unsigned int postDepthBuf1;
+unsigned int postDepthBuf2;
+unsigned int postTex1;
+unsigned int postTex2;
+const unsigned int POST_TEX_WIDTH = 2048, POST_TEX_HEIGHT = 1024;
 
 extern "C" FILE * __cdecl __iob_func(void)
 {
@@ -127,26 +127,6 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, reflectionRenderBuf);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	// gen post processing textures
-	glGenFramebuffers(1, &postFrameBuf1);
-	glGenTextures(1, &postTex1);
-	glGenRenderbuffers(1, &postDepthBuf1);
-
-	glBindTexture(GL_TEXTURE_2D, postTex1);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, POST_TEX_WIDTH, POST_TEX_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindRenderbuffer(GL_RENDERBUFFER, postDepthBuf1);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, POST_TEX_WIDTH, POST_TEX_HEIGHT);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, postTex1, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, postDepthBuf1);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 	// gen refraction texture
 	glGenFramebuffers(1, &refractionFrameBuf);
 	glGenTextures(1, &refractionTex);
@@ -180,6 +160,26 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fogFrameBuf);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, fogTex, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// gen post processing textures
+	glGenFramebuffers(1, &postFrameBuf1);
+	glGenTextures(1, &postTex1);
+	glGenRenderbuffers(1, &postDepthBuf1);
+
+	glBindTexture(GL_TEXTURE_2D, postTex1);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, POST_TEX_WIDTH, POST_TEX_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glBindRenderbuffer(GL_RENDERBUFFER, postDepthBuf1);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, POST_TEX_WIDTH, POST_TEX_HEIGHT);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, postTex1, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, postDepthBuf1);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
