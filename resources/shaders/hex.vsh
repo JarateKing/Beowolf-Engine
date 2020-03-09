@@ -15,6 +15,7 @@ out vec4 FragPosLightSpace;
 out vec2 v_uv1;
 out vec3 v_normal;
 out vec4 v_color;
+out float v_height;
 
 void main()
 {
@@ -24,5 +25,6 @@ void main()
 	v_normal = WorldIT * a_normal;
 	v_color = a_color;
 	v_uv1 = a_uv1;
+	v_height = a_position.y;
 	gl_Position = projection * world * a_position;
 }

@@ -38,6 +38,16 @@ unsigned int postTex1;
 unsigned int postTex2;
 const unsigned int POST_TEX_WIDTH = 2048, POST_TEX_HEIGHT = 1024;
 
+unsigned int refractionFrameBuf;
+unsigned int refractionRenderBuf;
+unsigned int refractionTex;
+const unsigned int REFRACTION_WIDTH = 512, REFRACTION_HEIGHT = 512;
+
+unsigned int fogFrameBuf;
+unsigned int fogRenderBuf;
+unsigned int fogTex;
+const unsigned int FOG_WIDTH = 512, FOG_HEIGHT = 512;
+
 extern "C" FILE * __cdecl __iob_func(void)
 {
 	return _iob;
@@ -80,7 +90,7 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	// vsync
 	glfwSwapInterval(1);
 
-	// gen depth map texture
+	// gen depth map texture for shadows
 	glGenFramebuffers(1, &depthMapFrameBuf);
 	glGenTextures(1, &depthMapTex);
 	
@@ -106,8 +116,8 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, REFLECTION_WIDTH, REFLECTION_HEIGHT, 0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	glBindRenderbuffer(GL_RENDERBUFFER, reflectionRenderBuf);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, REFLECTION_WIDTH, REFLECTION_HEIGHT);
@@ -115,7 +125,6 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	glBindFramebuffer(GL_FRAMEBUFFER, reflectionFrameBuf);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, reflectionTex, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, reflectionRenderBuf);
-
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// gen post processing textures
@@ -136,6 +145,42 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, postTex1, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, postDepthBuf1);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// gen refraction texture
+	glGenFramebuffers(1, &refractionFrameBuf);
+	glGenTextures(1, &refractionTex);
+	glGenRenderbuffers(1, &refractionRenderBuf);
+
+	glBindTexture(GL_TEXTURE_2D, refractionTex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, REFRACTION_WIDTH, REFRACTION_HEIGHT, 0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glBindRenderbuffer(GL_RENDERBUFFER, refractionRenderBuf);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, REFRACTION_WIDTH, REFRACTION_HEIGHT);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, refractionFrameBuf);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, refractionTex, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, refractionRenderBuf);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// gen depth map texture for fog
+	glGenFramebuffers(1, &fogFrameBuf);
+	glGenTextures(1, &fogTex);
+
+	glBindTexture(GL_TEXTURE_2D, fogTex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, FOG_WIDTH, FOG_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, fogFrameBuf);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, fogTex, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void updateGraphics()
@@ -178,13 +223,25 @@ void updateGameLogic(Scene* scene)
 	glClear(GL_DEPTH_BUFFER_BIT);
 	scene->Render(RenderTarget::ShadowDepthmap);
 
+	//Render scene to fog depth map texture
+	glBindFramebuffer(GL_FRAMEBUFFER, fogFrameBuf);
+	glViewport(0, 0, FOG_WIDTH, FOG_HEIGHT);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	scene->Render(RenderTarget::WaterFog);
+
 	glCullFace(GL_BACK);
 
-	//Render scene with reflection
+	//Render scene for reflection
 	glBindFramebuffer(GL_FRAMEBUFFER, reflectionFrameBuf);
 	glViewport(0, 0, REFLECTION_WIDTH, REFLECTION_HEIGHT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	scene->Render(RenderTarget::WaterReflection);
+
+	//Render scene for refraction
+	glBindFramebuffer(GL_FRAMEBUFFER, refractionFrameBuf);
+	glViewport(0, 0, REFRACTION_WIDTH, REFRACTION_HEIGHT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	scene->Render(RenderTarget::WaterRefraction);
 
 	//Render scene to Post Processing Texture
 	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
@@ -209,6 +266,8 @@ int main()
 	scene->SetTex(RenderTarget::ShadowDepthmap, depthMapTex);
 	scene->SetTex(RenderTarget::WaterReflection, reflectionTex);
 	scene->SetTex(RenderTarget::PostProcessing, postTex1);
+	scene->SetTex(RenderTarget::WaterRefraction, refractionTex);
+	scene->SetTex(RenderTarget::WaterFog, fogTex);
 
 	while (glfwGetWindowParam(GLFW_OPENED))
 	{

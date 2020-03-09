@@ -19,7 +19,7 @@ public:
 	HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile);
 	~HexGrid();
 	void PrintOutLoc();
-	void Render(glm::mat4 projView, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture);
+	void Render(glm::mat4 projView, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, float minHeight, float maxHeight);
 	std::vector<float> GetHeights();
 	std::vector<glm::vec2> GetPos();
 	int GetSize();
