@@ -55,7 +55,7 @@ void main()
 	
 	shoreAmount = shoreAmount * 0.215 + shoreAmountVariance * 0.175;
 	
-	vec4 baseColor = mix(mix(refract, vec4(0.1, 0.2, 0.5, 1.0), fog), reflect, 0.35);
+	vec4 baseColor = mix(mix(refract, vec4(0.1, 0.2, 0.5, 1.0), fog), reflect, 0.25);
 	
 	PixelColor = vec4(-0.1, 0.1, 0.15, 0) +
 				 vec4(shoreAmount, shoreAmount, shoreAmount, 0) + 
