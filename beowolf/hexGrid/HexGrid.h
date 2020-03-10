@@ -47,6 +47,7 @@ private:
 	bool WithinSameLine(int tile1, int tile2, int width);
 	bool WithinLineBelow(int tile1, int tile2, int width);
 	bool WithinBounds(int tile);
+	bool isBorder(int tile);
 
 	float minH, maxH;
 
