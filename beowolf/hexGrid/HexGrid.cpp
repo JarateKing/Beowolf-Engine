@@ -588,8 +588,9 @@ void HexGrid::GroupTextures(int width)
 
 	float minMHeight = maxH * 0.75;
 	float maxMHeight = maxH;
+	float percentCoverage = 0.10;
 
-	while ((mountains.size() < (int)(positions.size() * 0.20)))
+	while (mountains.size() < (int)(positions.size() * percentCoverage))
 	{
 		bool found = true;
 		int start;
@@ -603,35 +604,43 @@ void HexGrid::GroupTextures(int width)
 
 		mountains.push_back(start);
 
-		if ((mountains.size() < (positions.size() * 0.20)) && std::find(mountains.begin(), mountains.end(), (start + (width - 1))) == mountains.end() && std::find(roads.begin(), roads.end(), (start + (width - 1))) == roads.end() && (start + (width - 1)) >= 0 && (start + (width - 1)) < positions.size())
+		if ((mountains.size() < (positions.size() * percentCoverage)) && std::find(mountains.begin(), mountains.end(), (start + (width - 1))) == mountains.end() && std::find(roads.begin(), roads.end(), (start + (width - 1))) == roads.end() && (start + (width - 1)) >= 0 && (start + (width - 1)) < positions.size())
 		{
 			mountains.push_back(start + (width - 1));
 		}
 
-		if ((mountains.size() < (positions.size() * 0.20)) && std::find(mountains.begin(), mountains.end(), (start - 1)) == mountains.end() && std::find(roads.begin(), roads.end(), (start  - 1)) == roads.end() && (start - 1) >= 0 && (start - 1) < positions.size())
+		if ((mountains.size() < (positions.size() * percentCoverage)) && std::find(mountains.begin(), mountains.end(), (start - 1)) == mountains.end() && std::find(roads.begin(), roads.end(), (start  - 1)) == roads.end() && (start - 1) >= 0 && (start - 1) < positions.size())
 		{
 			mountains.push_back(start - 1);
 		}
 
-		if ((mountains.size() < (positions.size() * 0.20)) && std::find(mountains.begin(), mountains.end(), (start - width)) == mountains.end() && std::find(roads.begin(), roads.end(), (start - width)) == roads.end() && (start - width) >= 0 && (start - width) < positions.size())
+		if ((mountains.size() < (positions.size() * percentCoverage)) && std::find(mountains.begin(), mountains.end(), (start - width)) == mountains.end() && std::find(roads.begin(), roads.end(), (start - width)) == roads.end() && (start - width) >= 0 && (start - width) < positions.size())
 		{
 			mountains.push_back(start - width);
 		}
 
-		if ((mountains.size() < (positions.size() * 0.20)) && std::find(mountains.begin(), mountains.end(), (start - (width - 1))) == mountains.end() && std::find(roads.begin(), roads.end(), (start - (width - 1))) == roads.end() && (start - (width - 1)) >= 0 && (start - (width - 1)) < positions.size())
+		if ((mountains.size() < (positions.size() * percentCoverage)) && std::find(mountains.begin(), mountains.end(), (start - (width - 1))) == mountains.end() && std::find(roads.begin(), roads.end(), (start - (width - 1))) == roads.end() && (start - (width - 1)) >= 0 && (start - (width - 1)) < positions.size())
 		{
 			mountains.push_back(start - (width - 1));
 		}
 
-		if ((mountains.size() < (positions.size() * 0.20)) && std::find(mountains.begin(), mountains.end(), (start + 1)) == mountains.end() && std::find(roads.begin(), roads.end(), (start + 1)) == roads.end() && (start + 1) >= 0 && (start + 1) < positions.size())
+		if ((mountains.size() < (positions.size() * percentCoverage)) && std::find(mountains.begin(), mountains.end(), (start + 1)) == mountains.end() && std::find(roads.begin(), roads.end(), (start + 1)) == roads.end() && (start + 1) >= 0 && (start + 1) < positions.size())
 		{
 			mountains.push_back(start + 1);
 		}
 
-		if ((mountains.size() < (positions.size() * 0.20)) && std::find(mountains.begin(), mountains.end(), (start + width)) == mountains.end() && std::find(roads.begin(), roads.end(), (start + width)) == roads.end() && (start + width) >= 0 && (start + width) < positions.size())
+		if ((mountains.size() < (positions.size() * percentCoverage)) && std::find(mountains.begin(), mountains.end(), (start + width)) == mountains.end() && std::find(roads.begin(), roads.end(), (start + width)) == roads.end() && (start + width) >= 0 && (start + width) < positions.size())
 		{
 			mountains.push_back(start + width);
 		}
+	}
+
+	// add a couple mountains to the edges
+	for (int i = 0; i < 20; i++) {
+		int pos = GetRandomBorder();
+		while (std::find(mountains.begin(), mountains.end(), pos) != mountains.end())
+			pos = GetRandomBorder();
+		mountains.push_back(pos);
 	}
 
 	//Laying out Deserts
