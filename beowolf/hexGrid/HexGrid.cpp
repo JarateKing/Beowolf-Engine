@@ -718,7 +718,7 @@ void HexGrid::GroupTextures(int width)
 	//NEED TO FIX ISSUE HERE
 	for (int i = 0; i < mountains.size(); i++)
 	{
-		heights.at(mountains.at(i)) = wolf::RNG::GetRandom(minMHeight, maxMHeight);
+		heights.at(mountains.at(i)) = (isBorder(mountains.at(i))) ? 0 : wolf::RNG::GetRandom(minMHeight, maxMHeight);
 	}
 
 	for (int i = 0; i < positions.size(); i++)
