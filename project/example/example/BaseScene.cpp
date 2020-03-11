@@ -278,7 +278,7 @@ void BaseScene::Render(RenderTarget target)
 		// Depthless
 		glDepthMask(false);
 
-		testhud->Render(hudProjMat);
+		//testhud->Render(hudProjMat);
 
 		// Additive
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -306,6 +306,19 @@ void BaseScene::Render(RenderTarget target)
 	else if (target == RenderTarget::DepthOfField)
 	{
 		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, depthMapTexture, "DepthOfField");
+	}
+	else if (target == RenderTarget::HUD)
+	{
+		//pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, depthMapTexture, "None");
+		glEnable(GL_DEPTH_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+		glDepthMask(false);
+
+		testhud->Render(hudProjMat);
+
+		glDepthMask(true);
+		glDisable(GL_BLEND);
 	}
 }
 

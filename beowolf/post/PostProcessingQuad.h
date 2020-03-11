@@ -25,6 +25,7 @@ private:
 	wolf::Program* g_grayProgram;
 	wolf::Program* g_blurProgram;
 	wolf::Program* g_dofProgram;
+	wolf::Program* g_dProgram;
 
 	float percentGray = 0.0f;
 

@@ -3,6 +3,7 @@
 
 PostProcessingQuad::PostProcessingQuad()
 {
+	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("post_quad"));
 	g_grayProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("post_gray"));
 	g_blurProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("post_blur"));
 	g_dofProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("post_depth"));
@@ -80,6 +81,25 @@ void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type,
 			g_dofProgram->SetUniform("postProcessingTex", 0);
 			g_dofProgram->SetUniform("depthTexture", 1);
 			g_dofProgram->SetUniform("boxBlurTex", 2);
+
+			// Set up source data
+			g_pDecl->Bind();
+
+			// Draw!
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+		}
+	}
+	else if (effect.compare("None") == 0)
+	{
+		if (type == wolf::RenderFilterOpaque) {
+
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, postProcessingSharpTex);
+
+			g_dProgram->Bind();
+
+			// Bind Uniforms
+			g_dProgram->SetUniform("postProcessingTex", 0);
 
 			// Set up source data
 			g_pDecl->Bind();

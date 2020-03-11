@@ -3,6 +3,7 @@
 
 enum RenderTarget {
 	Screen,
+	HUD,
 	ShadowDepthmap,
 	DepthFieldMap,
 	WaterReflection,
