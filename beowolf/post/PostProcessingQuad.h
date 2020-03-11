@@ -15,23 +15,18 @@ public:
 
 	PostProcessingQuad();
 	~PostProcessingQuad();
-	void Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int postProcessingTex);
+	void Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int postProcessingSharpTex, unsigned int postProcessingBlurTex, unsigned int depthTex, std::string effect);
+	void SetPercentGray(float p_percent);	
 
 private:
 
 	wolf::VertexBuffer* g_pVB;
 	wolf::VertexDeclaration* g_pDecl;
-	wolf::Program* g_dProgram;
+	wolf::Program* g_grayProgram;
+	wolf::Program* g_blurProgram;
+	wolf::Program* g_dofProgram;
 
-	/*wolf::Vertex planeVertices[6] = {
-		{25.0f, -0.5f, 75.0f, 0, 1, 0, 1, 0.0f,  1.0f},
-		{-25.0f, -0.5f,  75.0f, 0, 1, 0, 1, 1.0f,  1.0f},
-		{-25.0f, -0.5f, 25.0f, 0, 1, 0, 1, 1.0f, 0.0f},
-
-		{ 25.0f, -0.5f,  75.0f, 0, 1, 0, 1, 0.0f,  1.0f},
-		{-25.0f, -0.5f, 25.0f, 0, 1, 0, 1,  1.0f, 0.0f},
-		{ 25.0f, -0.5f, 25.0f, 0, 1, 0, 1,  0.0f, 0.0f}
-	};*/
+	float percentGray = 0.0f;
 
 	wolf::Vertex planeVertices[6] = {
 		{-1.0f, 0.0f, -1.0f, 0, 1, 0, 1, 0.0f, 0.0f},

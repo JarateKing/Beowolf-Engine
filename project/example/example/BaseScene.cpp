@@ -53,10 +53,13 @@ PostProcessingQuad* pQuad;
 unsigned int depthMapTexture;
 unsigned int reflectionTexture;
 unsigned int postProcessTexture;
+unsigned int postProcessBlurTexture;
 unsigned int refractionTexture;
 unsigned int fogTexture;
+unsigned int postProcessDepthMap;
 Skybox* skybox;
 Water* water;
+float grayLevel = 0.0f;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -153,22 +156,16 @@ void BaseScene::Update()
 		shouldSwap = true;
 
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_1))
-		lightDir.x += 0.1f;
-
+	{
+		grayLevel += 0.01f;
+		pQuad->SetPercentGray(grayLevel);
+	}
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_2))
-		lightDir.y += 0.1f;
+	{
+		grayLevel -= 0.01f;
+		pQuad->SetPercentGray(grayLevel);
+	}
 
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_3))
-		lightDir.z += 0.1f;
-
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_4))
-		lightDir.x -= 0.1f;
-
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_5))
-		lightDir.y -= 0.1f;
-
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_6))
-		lightDir.z -= 0.1f;
 
 	if (shouldSwap) {
 
@@ -293,10 +290,22 @@ void BaseScene::Render(RenderTarget target)
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 	}
-	else
+	else if (target == RenderTarget::DepthFieldMap)
 	{
-		// Opaque
-		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture);
+		grid->Render(cam->GetViewMatrix(), cam->GetViewMatrix(), wolf::RenderFilterOpaque, true, depthMapTexture, -1.0f, 100.0f);
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), cam->GetViewMatrix(), wolf::RenderFilterOpaque, true, depthMapTexture);
+	}
+	else if(target == RenderTarget::GrayScale)
+	{
+		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, fogTexture, "GrayScale");
+	}
+	else if (target == RenderTarget::Blur)
+	{
+		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, fogTexture, "Blur");
+	}
+	else if (target == RenderTarget::DepthOfField)
+	{
+		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, depthMapTexture, "DepthOfField");
 	}
 }
 
@@ -308,6 +317,10 @@ void BaseScene::SetTex(RenderTarget target, unsigned int tex)
 		reflectionTexture = tex;
 	else if (target == RenderTarget::PostProcessing)
 		postProcessTexture = tex;
+	else if (target == RenderTarget::Blur)
+		postProcessBlurTexture = tex;
+	else if (target == RenderTarget::DepthFieldMap)
+		postProcessDepthMap = tex;
 	else if (target == RenderTarget::WaterRefraction)
 		refractionTexture = tex;
 	else if (target == RenderTarget::WaterFog)
