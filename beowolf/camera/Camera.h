@@ -20,6 +20,8 @@ public:
 	glm::vec3 GetPos();
 	glm::vec3 GetUp();
 	glm::vec3 GetAim();
+	glm::mat4 GetProj();
+	glm::mat4 GetView();
 	void MoveToView(glm::vec3 position, glm::vec3 offset, float time);
 
 private:

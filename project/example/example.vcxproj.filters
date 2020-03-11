@@ -257,6 +257,7 @@
     <ClCompile Include="..\..\beowolf\shadows\TestQuad.cpp" />
     <ClCompile Include="..\..\beowolf\camera\Skybox.cpp" />
     <ClCompile Include="..\..\beowolf\camera\Water.cpp" />
+    <ClCompile Include="..\..\beowolf\post\PostProcessingQuad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\camera\Camera.h" />
@@ -597,5 +598,6 @@
     <ClInclude Include="..\..\beowolf\shadows\TestQuad.h" />
     <ClInclude Include="..\..\beowolf\camera\Skybox.h" />
     <ClInclude Include="..\..\beowolf\camera\Water.h" />
+    <ClInclude Include="..\..\beowolf\post\PostProcessingQuad.h" />
   </ItemGroup>
 </Project>

@@ -4,7 +4,12 @@
 enum RenderTarget {
 	Screen,
 	ShadowDepthmap,
+	DepthFieldMap,
 	WaterReflection,
+	PostProcessing,
+	GrayScale,
+	DepthOfField,
+	Blur,
 	WaterRefraction,
 	WaterFog,
 };

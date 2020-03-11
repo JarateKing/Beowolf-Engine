@@ -29,6 +29,7 @@
 #include "characterUnits/CharacterInfoHub.h"
 #include "characterUnits/ScoreTracker.h"
 #include "shadows/TestQuad.h"
+#include "post/PostProcessingQuad.h"
 #include "camera/Skybox.h"
 #include "camera/Water.h"
 
@@ -48,12 +49,17 @@ static CharacterManager* cManager;
 CharacterInfoHub cHub;
 ScoreTracker* scoreTracker;
 TestQuad* tQuad;
+PostProcessingQuad* pQuad;
 unsigned int depthMapTexture;
 unsigned int reflectionTexture;
+unsigned int postProcessTexture;
+unsigned int postProcessBlurTexture;
 unsigned int refractionTexture;
 unsigned int fogTexture;
+unsigned int postProcessDepthMap;
 Skybox* skybox;
 Water* water;
+float grayLevel = 0.0f;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -89,6 +95,7 @@ void BaseScene::Init()
 	
 	lightDir = glm::normalize(glm::vec3(35.0f, -50.0f, 35.0f) - glm::vec3(0.0f, 0.0f, 0.0f));
 	tQuad = new TestQuad();
+	pQuad = new PostProcessingQuad();
 	testhud = new wolf::Hud("resources/hud/hud.json");
 	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
@@ -149,22 +156,16 @@ void BaseScene::Update()
 		shouldSwap = true;
 
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_1))
-		lightDir.x += 0.1f;
-
+	{
+		grayLevel += 0.01f;
+		pQuad->SetPercentGray(grayLevel);
+	}
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_2))
-		lightDir.y += 0.1f;
+	{
+		grayLevel -= 0.01f;
+		pQuad->SetPercentGray(grayLevel);
+	}
 
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_3))
-		lightDir.z += 0.1f;
-
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_4))
-		lightDir.x -= 0.1f;
-
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_5))
-		lightDir.y -= 0.1f;
-
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_6))
-		lightDir.z -= 0.1f;
 
 	if (shouldSwap) {
 
@@ -251,7 +252,7 @@ void BaseScene::Render(RenderTarget target)
 	{
 		grid->Render(cam->GetViewMatrix(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, depthMapTexture, -1.0f, 6.0f);
 	}
-	else
+	else if (target == RenderTarget::PostProcessing)
 	{
 		// Opaque
 		glDepthMask(true);
@@ -289,6 +290,23 @@ void BaseScene::Render(RenderTarget target)
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 	}
+	else if (target == RenderTarget::DepthFieldMap)
+	{
+		grid->Render(cam->GetViewMatrix(), cam->GetViewMatrix(), wolf::RenderFilterOpaque, true, depthMapTexture, -1.0f, 100.0f);
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), cam->GetViewMatrix(), wolf::RenderFilterOpaque, true, depthMapTexture);
+	}
+	else if(target == RenderTarget::GrayScale)
+	{
+		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, fogTexture, "GrayScale");
+	}
+	else if (target == RenderTarget::Blur)
+	{
+		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, fogTexture, "Blur");
+	}
+	else if (target == RenderTarget::DepthOfField)
+	{
+		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, depthMapTexture, "DepthOfField");
+	}
 }
 
 void BaseScene::SetTex(RenderTarget target, unsigned int tex)
@@ -297,6 +315,12 @@ void BaseScene::SetTex(RenderTarget target, unsigned int tex)
 		depthMapTexture = tex;
 	else if (target == RenderTarget::WaterReflection)
 		reflectionTexture = tex;
+	else if (target == RenderTarget::PostProcessing)
+		postProcessTexture = tex;
+	else if (target == RenderTarget::Blur)
+		postProcessBlurTexture = tex;
+	else if (target == RenderTarget::DepthFieldMap)
+		postProcessDepthMap = tex;
 	else if (target == RenderTarget::WaterRefraction)
 		refractionTexture = tex;
 	else if (target == RenderTarget::WaterFog)
