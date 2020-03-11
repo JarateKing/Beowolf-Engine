@@ -27,8 +27,10 @@ float LinearizeDepth(float depth)
 
 void main()
 {
-	vec4 texVal = texture(tex, v_uv1) * texture(tex, v_uv2);
-	float magnitude = texVal.r * texVal.r * texVal.r * 3.0;
+	vec4 wave1 = texture(tex, v_uv1);
+	vec4 wave2 = texture(tex, v_uv2);
+	float magnitude = (wave1.r * wave2.r);
+	magnitude = magnitude * magnitude * magnitude * 3.0;
 	
 	vec4 offset = texture(normaltex, v_uv3);
 	vec4 offset2 = texture(normaltex, v_uv4);
@@ -45,9 +47,18 @@ void main()
 	fog = fog * 16;
 	fog = clamp(fog, 0, 1);
 	
-	vec4 baseColor = mix(mix(refract, vec4(0.1, 0.2, 0.5, 1.0), fog), reflect, 0.35);
+	float shoreAmount = fog * 10.0 + offset.r / 10.0;
+	shoreAmount = 1 - clamp(shoreAmount, 0, 1);
+	
+	float shoreAmountVariance = fog * 2.0 + offset.g / 16.0;
+	shoreAmountVariance = clamp(1 - shoreAmountVariance, 0, 1) * (wave1.r + wave2.r) * (wave1.r + wave2.r);
+	
+	shoreAmount = shoreAmount * 0.215 + shoreAmountVariance * 0.175;
+	
+	vec4 baseColor = mix(mix(refract, vec4(0.1, 0.2, 0.5, 1.0), fog), reflect, 0.25);
 	
 	PixelColor = vec4(-0.1, 0.1, 0.15, 0) +
+				 vec4(shoreAmount, shoreAmount, shoreAmount, 0) + 
 				 baseColor + 
 				 vec4(magnitude, magnitude, magnitude, magnitude);
 }
