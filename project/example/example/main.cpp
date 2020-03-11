@@ -298,6 +298,10 @@ void updateGameLogic(Scene* scene)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, width, height);
 	scene->Render(RenderTarget::DepthOfField);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, width, height);
+	scene->Render(RenderTarget::HUD);
 }
 
 int main()
