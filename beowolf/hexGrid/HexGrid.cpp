@@ -25,7 +25,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	int treeMaxNum = (positions.size() - mountains.size() - desert.size() - roads.size()) / 6 - 1;
 	int treeNum = treeMaxNum;
 	if (treeMaxNum > 4)
-		treeNum = wolf::RNG::GetRandom(0, treeMaxNum);
+		treeNum = wolf::RNG::GetRandom(2, treeMaxNum);
 	std::vector<int> treePos;
 	for (int i = 0; i < treeNum; i++)
 	{
