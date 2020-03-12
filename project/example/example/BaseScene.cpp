@@ -32,6 +32,7 @@
 #include "post/PostProcessingQuad.h"
 #include "camera/Skybox.h"
 #include "camera/Water.h"
+#include "BMWLoader.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine* SE;
@@ -71,6 +72,28 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
+	// loadng process
+
+	std::cout << "Loading Items\n";
+	wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel("potion.bmw"));
+	wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel("sword1.bmw"));
+	wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel("shield.bmw"));
+	std::cout << "Loading Trees\n";
+	wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel("Fir_Tree.bmw"));
+	wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel("Oak_Tree.bmw"));
+	wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel("Palm_Tree.bmw"));
+	wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel("Poplar_Tree.bmw"));
+	std::cout << "Loading Players\n";
+	wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel("units/mychamp.bmw"));
+	wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel("units/mygiant.bmw"));
+	wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel("units/mylich.bmw"));
+	std::cout << "Loading Enemies\n";
+	wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel("units/myskeleton.bmw"));
+	wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel("units/myfleshlobber.bmw"));
+	std::cout << "Done Loading!\n";
+
+	// basic initialization process
+
 	SE = new wolf::SoundEngine();
 	SE->InitSystem();
 	SE->AddSound("resources/sound/Base_Music/old_city_theme.ogg", "base_theme", true);
