@@ -1,0 +1,63 @@
+{
+	"defaultLanguage": "ENGLISH",
+
+	"localization": [
+		{
+			"file": "resources/localization/engine.txt"
+		}
+	],
+
+	"fonts": [
+		{
+			"name": "OpenSans",
+			"folder": "resources/fonts/",
+			"file": "opensans.fnt"
+		}
+	],
+
+	"elements" : [
+		{
+			"type": "textbox",
+			"xpos": 10,
+			"ypos": 940,
+			"zpos": 2,
+			"wide": 1920,
+			"tall": 50,
+			
+			"label": "Loading_File",
+			"labelRaw": false,
+			"alignment": "left",
+			
+			"font": "OpenSans",
+			"fontSize": 20,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"type": "textbox",
+			"xpos": -10,
+			"ypos": 940,
+			"zpos": 2,
+			"wide": 1920,
+			"tall": 50,
+			
+			"label": "Loading_Percent",
+			"labelRaw": false,
+			"alignment": "right",
+			
+			"font": "OpenSans",
+			"fontSize": 20,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"name": "loading_progressbar",
+			"type": "fillcolor",
+			"xpos": 0,
+			"ypos": 1000,
+			"zpos": 4,
+			"wide": 1000,
+			"tall": 80,
+			
+			"color": "0.7 0.3 0.1 1.0"
+		}
+	]
+}

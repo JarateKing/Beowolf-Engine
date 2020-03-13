@@ -2,3 +2,5 @@ STRING	ENGLISH	FRENCH
 Engine_Lang	English	Francais
 Engine_Name	Beowolf Engine	Moteur de Jeu Beowolf
 Engine_FPS	FPS: $fps$ ($deltaMS$ms)	FPS: $fps$ ($deltaMS$ms)
+Loading_Percent	$Loading_Percent$%	$Loading_Percent$%
+Loading_File	Loading $Loading_File$	Loading $Loading_File$
