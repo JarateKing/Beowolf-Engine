@@ -19,7 +19,7 @@
 		{
 			"type": "textbox",
 			"xpos": 10,
-			"ypos": 940,
+			"ypos": 970,
 			"zpos": 2,
 			"wide": 1920,
 			"tall": 50,
@@ -35,7 +35,7 @@
 		{
 			"type": "textbox",
 			"xpos": -10,
-			"ypos": 940,
+			"ypos": 970,
 			"zpos": 2,
 			"wide": 1920,
 			"tall": 50,
@@ -52,12 +52,24 @@
 			"name": "loading_progressbar",
 			"type": "fillcolor",
 			"xpos": 0,
-			"ypos": 1000,
+			"ypos": 1030,
 			"zpos": 4,
-			"wide": 1000,
-			"tall": 80,
+			"wide": 0,
+			"wideRelative": true,
+			"tall": 50,
 			
-			"color": "0.7 0.3 0.1 1.0"
+			"color": "0.95 0.05 0.4 1.0"
+		},
+		{
+			"type": "fillcolor",
+			"xpos": 0,
+			"ypos": 1030,
+			"zpos": 4,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 50,
+			
+			"color": "0.0 0.0 0.0 1.0"
 		}
 	]
 }
