@@ -36,13 +36,15 @@ void LoadingScreen::Load() {
 
 	for (int i = 0; i < m_models.size(); i++) {
 		std::cout << "Loading " << m_models[i] << '\n';
+		float percent = i / (m_models.size() + 1.0);
 		
 		// clear screen
 		glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		m_hud->SetVar("Loading_File", m_models[i]);
-		m_hud->SetVar("Loading_Percent", std::to_string(i));
+		m_hud->SetVar("Loading_Percent", std::to_string((int)(percent * 100.0)));
+		m_hud->GetElement("loading_progressbar")->SetW(percent, true);
 		m_hud->Update(1.0);
 		m_hud->Render(m_proj);
 
