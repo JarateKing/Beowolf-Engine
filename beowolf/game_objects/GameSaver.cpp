@@ -1,5 +1,6 @@
 #include "GameSaver.h"
 #include "W_Input.h"
+#include "W_Math.h"
 
 GameSaver::GameSaver(wolf::Hud* hud) {
 	m_hud = hud;
@@ -17,5 +18,5 @@ void GameSaver::Update(float delta) {
 		m_indicatorTime = 1.0f;
 
 	for (auto element : m_hud->GetElementsByTag("save_indicator"))
-		element->SetAlpha(1.0 - m_indicatorTime);
+		element->SetAlpha(wolf::Math::lerp(1.0f, 0.0f, wolf::Math::ease(m_indicatorTime)));
 }
