@@ -786,6 +786,20 @@
 			"font": "OpenSans",
 			"fontSize": 18,
 			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "save_indicator"
+			],
+			
+			"type": "image",
+			"xpos": 1840,
+			"ypos": 1000,
+			"zpos": 9,
+			"wide": 64,
+			"tall": 64,
+			
+			"image": "hud/save_icon.tga"
 		}
 	]
 }
