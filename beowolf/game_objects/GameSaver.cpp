@@ -20,3 +20,10 @@ void GameSaver::Update(float delta) {
 	for (auto element : m_hud->GetElementsByTag("save_indicator"))
 		element->SetAlpha(wolf::Math::lerp(1.0f, 0.0f, wolf::Math::ease(m_indicatorTime)));
 }
+
+void GameSaver::SetInfo(CharacterInfoHub* hub, CharacterManager* manager, ScoreTracker* tracker, HexGrid* grid) {
+	m_hub = hub;
+	m_manager = manager;
+	m_tracker = tracker;
+	m_grid = grid;
+}
