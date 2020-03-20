@@ -33,6 +33,7 @@
 #include "camera/Skybox.h"
 #include "camera/Water.h"
 #include "LoadingScreen.h"
+#include "GameSaver.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine* SE;
@@ -61,6 +62,7 @@ unsigned int postProcessDepthMap;
 Skybox* skybox;
 Water* water;
 float grayLevel = 0.0f;
+GameSaver* saver;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -143,6 +145,8 @@ void BaseScene::Init()
 
 	skybox = new Skybox();
 	water = new Water();
+
+	saver = new GameSaver(testhud);
 }
 
 void BaseScene::Update()
@@ -227,6 +231,8 @@ void BaseScene::Update()
 
 	water->Update(delta);
 	//water->SetPos(cam->GetPos());
+
+	saver->Update(delta);
 }
 
 void BaseScene::Render(RenderTarget target)

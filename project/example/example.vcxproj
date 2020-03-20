@@ -129,6 +129,7 @@
     <ClCompile Include="..\..\beowolf\game_objects\EventManager.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\GameObject.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\GameObjectManager.cpp" />
+    <ClCompile Include="..\..\beowolf\game_objects\GameSaver.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\LoadingScreen.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\LuaScriptManager.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\SceneCamera.cpp" />
@@ -392,6 +393,7 @@
     <ClInclude Include="..\..\beowolf\game_objects\EventManager.h" />
     <ClInclude Include="..\..\beowolf\game_objects\GameObject.h" />
     <ClInclude Include="..\..\beowolf\game_objects\GameObjectManager.h" />
+    <ClInclude Include="..\..\beowolf\game_objects\GameSaver.h" />
     <ClInclude Include="..\..\beowolf\game_objects\LoadingScreen.h" />
     <ClInclude Include="..\..\beowolf\game_objects\LuaScriptManager.h" />
     <ClInclude Include="..\..\beowolf\game_objects\SceneCamera.h" />
