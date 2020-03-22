@@ -13,6 +13,8 @@ public:
 	void SetInfo(CharacterInfoHub* hub, CharacterManager* manager, ScoreTracker* tracker, HexGrid* grid);
 
 private:
+	void SaveInfo();
+
 	wolf::Hud* m_hud;
 	float m_indicatorTime = 1.0f;
 	CharacterInfoHub* m_hub;

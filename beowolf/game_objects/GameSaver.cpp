@@ -11,6 +11,8 @@ GameSaver::~GameSaver() {}
 void GameSaver::Update(float delta) {
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_Z)) {
 		m_indicatorTime = 0.0f;
+
+		SaveInfo();
 	}
 
 	m_indicatorTime += delta;
@@ -26,4 +28,16 @@ void GameSaver::SetInfo(CharacterInfoHub* hub, CharacterManager* manager, ScoreT
 	m_manager = manager;
 	m_tracker = tracker;
 	m_grid = grid;
+}
+
+void GameSaver::SaveInfo() {
+	std::cout << "Character Info:\n";
+	for (auto unit : *(m_manager->getCharacters())) {
+		std::cout << unit.GetName() << " " << unit.GetTile() << " " << unit.GetCooldown() << "\n";
+	}
+	
+	std::cout << "Enemy Info:\n";
+	for (auto unit : *(m_manager->getEnemies())) {
+		std::cout << unit.GetName() << " " << unit.GetTile() << "\n";
+	}
 }

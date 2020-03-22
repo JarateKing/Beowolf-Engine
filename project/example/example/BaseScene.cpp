@@ -147,6 +147,7 @@ void BaseScene::Init()
 	water = new Water();
 
 	saver = new GameSaver(testhud);
+	saver->SetInfo(&cHub, cManager, scoreTracker, grid);
 }
 
 void BaseScene::Update()
