@@ -10,7 +10,7 @@ public:
 	GameSaver(wolf::Hud* hud);
 	~GameSaver();
 	void Update(float delta);
-	void SetInfo(CharacterInfoHub* hub, CharacterManager* manager, ScoreTracker* tracker, HexGrid* grid);
+	void SetInfo(CharacterManager* manager, ScoreTracker* tracker, HexGrid* grid);
 
 private:
 	void SaveInfo();

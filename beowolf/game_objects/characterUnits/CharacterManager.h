@@ -33,6 +33,7 @@ class CharacterManager
 
 		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
+		CharacterInfoHub* GetCharacterHub();
 		void PrintCharacterTilePos();
 		void BlockTiles(std::vector<int> tiles);
 		void SetLightDir(glm::vec3 dir);

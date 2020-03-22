@@ -147,7 +147,7 @@ void BaseScene::Init()
 	water = new Water();
 
 	saver = new GameSaver(testhud);
-	saver->SetInfo(&cHub, cManager, scoreTracker, grid);
+	saver->SetInfo(cManager, scoreTracker, grid);
 }
 
 void BaseScene::Update()
@@ -216,7 +216,7 @@ void BaseScene::Update()
 		cManager->SetScoreTracker(scoreTracker);
 		cManager->SetSoundEngine(SE);
 
-		saver->SetInfo(&cHub, cManager, scoreTracker, grid);
+		saver->SetInfo(cManager, scoreTracker, grid);
 	}
 
 	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;

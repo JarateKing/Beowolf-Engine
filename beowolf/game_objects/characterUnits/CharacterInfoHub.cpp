@@ -199,6 +199,21 @@ float CharacterInfoHub::GetStat(std::string p_characterName, std::string p_statI
 	return -1;
 }
 
+std::vector<std::pair<std::string, float>> CharacterInfoHub::GetStats(std::string p_characterName)
+{
+	for (int i = 0; i < m_infoBits.size(); i++)
+	{
+		if (m_infoBits.at(i).m_name.compare(p_characterName) == 0)
+		{
+			std::vector<std::pair<std::string, float>> toret;
+			for (auto value : m_infoBits.at(i).m_info)
+				toret.push_back({ value.first, value.second });
+			return toret;
+		}
+	}
+	return std::vector<std::pair<std::string, float>>();
+}
+
 std::string CharacterInfoHub::GetDescription(std::string p_characterName)
 {
 	for (int i = 0; i < m_infoBits.size(); i++)

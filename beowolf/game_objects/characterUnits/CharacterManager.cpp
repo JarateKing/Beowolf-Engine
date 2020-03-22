@@ -777,6 +777,11 @@ std::vector<CharacterUnits>* CharacterManager::getEnemies()
 	return &enemies;
 }
 
+CharacterInfoHub* CharacterManager::GetCharacterHub()
+{
+	return &characterIHub;
+}
+
 void CharacterManager::BlockTiles(std::vector<int> tiles)
 {
 	for (int i = 0; i < tiles.size(); i++)

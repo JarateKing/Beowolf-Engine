@@ -23,21 +23,28 @@ void GameSaver::Update(float delta) {
 		element->SetAlpha(wolf::Math::lerp(1.0f, 0.0f, wolf::Math::ease(m_indicatorTime)));
 }
 
-void GameSaver::SetInfo(CharacterInfoHub* hub, CharacterManager* manager, ScoreTracker* tracker, HexGrid* grid) {
-	m_hub = hub;
+void GameSaver::SetInfo(CharacterManager* manager, ScoreTracker* tracker, HexGrid* grid) {
 	m_manager = manager;
 	m_tracker = tracker;
 	m_grid = grid;
+
+	m_hub = m_manager->GetCharacterHub();
 }
 
 void GameSaver::SaveInfo() {
 	std::cout << "Character Info:\n";
 	for (auto unit : *(m_manager->getCharacters())) {
 		std::cout << unit.GetName() << " " << unit.GetTile() << " " << unit.GetCooldown() << "\n";
+		for (auto stat : m_hub->GetStats(unit.GetName())) {
+			std::cout << stat.first << " = " << stat.second << '\n';
+		}
 	}
 	
 	std::cout << "Enemy Info:\n";
 	for (auto unit : *(m_manager->getEnemies())) {
 		std::cout << unit.GetName() << " " << unit.GetTile() << "\n";
+		for (auto stat : m_hub->GetStats(unit.GetName())) {
+			std::cout << stat.first << " = " << stat.second << '\n';
+		}
 	}
 }
