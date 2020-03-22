@@ -52,4 +52,9 @@ void GameSaver::SaveInfo() {
 	for (auto item : *(m_manager->getItems())) {
 		std::cout << item->GetName() << " " << item->GetTile() << "\n";
 	}
+
+	std::cout << "Grid Info:\n";
+	for (int i = 0; i < m_grid->GetSize(); i++) {
+		std::cout << m_grid->isDesert(i) << " " << m_grid->isMountain(i) << " " << m_grid->GetHeights()[i] << "\n";
+	}
 }
