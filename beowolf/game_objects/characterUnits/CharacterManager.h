@@ -33,6 +33,7 @@ class CharacterManager
 
 		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
+		std::vector<Item*>* getItems();
 		CharacterInfoHub* GetCharacterHub();
 		void PrintCharacterTilePos();
 		void BlockTiles(std::vector<int> tiles);

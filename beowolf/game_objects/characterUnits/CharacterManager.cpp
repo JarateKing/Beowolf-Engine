@@ -777,6 +777,11 @@ std::vector<CharacterUnits>* CharacterManager::getEnemies()
 	return &enemies;
 }
 
+std::vector<Item*>* CharacterManager::getItems()
+{
+	return &items;
+}
+
 CharacterInfoHub* CharacterManager::GetCharacterHub()
 {
 	return &characterIHub;

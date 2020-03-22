@@ -47,4 +47,9 @@ void GameSaver::SaveInfo() {
 			std::cout << stat.first << " = " << stat.second << '\n';
 		}
 	}
+
+	std::cout << "Item Info:\n";
+	for (auto item : *(m_manager->getItems())) {
+		std::cout << item->GetName() << " " << item->GetTile() << "\n";
+	}
 }
