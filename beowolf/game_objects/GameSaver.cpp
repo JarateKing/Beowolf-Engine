@@ -5,6 +5,11 @@
 
 GameSaver::GameSaver(wolf::Hud* hud) {
 	m_hud = hud;
+
+	// hide the load button if there is no save file
+	if (!std::ifstream("savefile.json").good())
+		for (auto element : m_hud->GetElementsByTag("loadbutton"))
+			element->SetVisible(false);
 }
 
 GameSaver::~GameSaver() {}
