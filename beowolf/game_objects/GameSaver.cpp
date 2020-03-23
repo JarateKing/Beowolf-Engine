@@ -1,6 +1,7 @@
 #include "GameSaver.h"
 #include "W_Input.h"
 #include "W_Math.h"
+#include <fstream>
 
 GameSaver::GameSaver(wolf::Hud* hud) {
 	m_hud = hud;
@@ -12,7 +13,7 @@ void GameSaver::Update(float delta) {
 	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_Z)) {
 		m_indicatorTime = 0.0f;
 
-		SaveInfo();
+		SaveInfo("savefile.json");
 	}
 
 	m_indicatorTime += delta;
@@ -31,30 +32,35 @@ void GameSaver::SetInfo(CharacterManager* manager, ScoreTracker* tracker, HexGri
 	m_hub = m_manager->GetCharacterHub();
 }
 
-void GameSaver::SaveInfo() {
-	std::cout << "Character Info:\n";
-	for (auto unit : *(m_manager->getCharacters())) {
-		std::cout << unit.GetName() << " " << unit.GetTile() << " " << unit.GetCooldown() << "\n";
-		for (auto stat : m_hub->GetStats(unit.GetName())) {
-			std::cout << stat.first << " = " << stat.second << '\n';
+void GameSaver::SaveInfo(std::string filename) {
+	std::ofstream outFile;
+	outFile.open(filename);
+	if (outFile.is_open()) {
+		outFile << "Character Info:\n";
+		for (auto unit : *(m_manager->getCharacters())) {
+			outFile << unit.GetName() << " " << unit.GetTile() << " " << unit.GetCooldown() << "\n";
+			for (auto stat : m_hub->GetStats(unit.GetName())) {
+				outFile << stat.first << " = " << stat.second << '\n';
+			}
+		}
+		
+		outFile << "Enemy Info:\n";
+		for (auto unit : *(m_manager->getEnemies())) {
+			outFile << unit.GetName() << " " << unit.GetTile() << "\n";
+			for (auto stat : m_hub->GetStats(unit.GetName())) {
+				outFile << stat.first << " = " << stat.second << '\n';
+			}
+		}
+
+		outFile << "Item Info:\n";
+		for (auto item : *(m_manager->getItems())) {
+			outFile << item->GetName() << " " << item->GetTile() << "\n";
+		}
+
+		outFile << "Grid Info:\n";
+		for (int i = 0; i < m_grid->GetSize(); i++) {
+			outFile << m_grid->isDesert(i) << " " << m_grid->isMountain(i) << " " << m_grid->GetHeights()[i] << "\n";
 		}
 	}
-	
-	std::cout << "Enemy Info:\n";
-	for (auto unit : *(m_manager->getEnemies())) {
-		std::cout << unit.GetName() << " " << unit.GetTile() << "\n";
-		for (auto stat : m_hub->GetStats(unit.GetName())) {
-			std::cout << stat.first << " = " << stat.second << '\n';
-		}
-	}
-
-	std::cout << "Item Info:\n";
-	for (auto item : *(m_manager->getItems())) {
-		std::cout << item->GetName() << " " << item->GetTile() << "\n";
-	}
-
-	std::cout << "Grid Info:\n";
-	for (int i = 0; i < m_grid->GetSize(); i++) {
-		std::cout << m_grid->isDesert(i) << " " << m_grid->isMountain(i) << " " << m_grid->GetHeights()[i] << "\n";
-	}
+	outFile.close();
 }

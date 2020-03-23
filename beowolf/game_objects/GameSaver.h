@@ -13,7 +13,7 @@ public:
 	void SetInfo(CharacterManager* manager, ScoreTracker* tracker, HexGrid* grid);
 
 private:
-	void SaveInfo();
+	void SaveInfo(std::string filename);
 
 	wolf::Hud* m_hud;
 	float m_indicatorTime = 1.0f;
