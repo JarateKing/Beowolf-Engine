@@ -12,8 +12,6 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 	grid = p_grid;
 	m_hud = p_hud;
 
-	PreloadCharacterModels();
-
 	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 107, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
 	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 108, "myGiant", p_grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
 	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 109, "myLich", p_grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
@@ -829,19 +827,6 @@ void CharacterManager::SetSoundEngine(wolf::SoundEngine* soundEng)
 	{
 		characters.at(i).SetSoundEngine(m_soundEngine);
 	}
-}
-
-void CharacterManager::PreloadCharacterModels()
-{
-	CharacterUnits("units/mychamp.bmw", "animatable_untextured", 0, "myChamp", grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
-	CharacterUnits("units/mygiant.bmw", "animatable_untextured", 1, "myGiant", grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
-	CharacterUnits("units/mylich.bmw", "animatable_untextured", 2, "myLich", grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
-	CharacterUnits("units/myskeleton.bmw", "animatable_untextured", 3, "mySkeleton", grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
-	CharacterUnits("units/myfleshlobber.bmw", "animatable_untextured", 4, "myFleshLobber", grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
-
-	Item("potion.bmw", "unlit_texture", 5, "Items/potion.json", "Potion", grid);
-	Item("sword1.bmw", "unlit_texture", 6, "Items/sword.json", "Sword", grid);
-	Item("shield.bmw", "unlit_texture", 7, "Items/shield.json", "Shield", grid);
 }
 
 void CharacterManager::ApplyPathBlocks(std::vector<std::string> toIgnore, bool blockCharacters, bool blockEnemies)
