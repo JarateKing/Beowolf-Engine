@@ -24,6 +24,7 @@ resources/**/*.png
 resources/**/*.jpg
 resources/**/*.jpeg
 resources/objects/AIPathfindingDataTest.json
+savefile.json
 
 # ignore all visual studio files
 *.obj
