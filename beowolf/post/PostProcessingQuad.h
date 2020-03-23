@@ -15,7 +15,7 @@ public:
 
 	PostProcessingQuad();
 	~PostProcessingQuad();
-	void Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int postProcessingSharpTex, unsigned int postProcessingBlurTex, unsigned int depthTex, std::string effect);
+	void Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int postProcessingSharpTex, unsigned int postProcessingBlurTex, unsigned int depthTex, unsigned int depthTex2, std::string effect);
 	void SetPercentGray(float p_percent);	
 
 private:
