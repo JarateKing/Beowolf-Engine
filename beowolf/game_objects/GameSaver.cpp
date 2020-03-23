@@ -36,31 +36,88 @@ void GameSaver::SaveInfo(std::string filename) {
 	std::ofstream outFile;
 	outFile.open(filename);
 	if (outFile.is_open()) {
-		outFile << "Character Info:\n";
+		bool isFirst;
+		bool isFirstIter;
+		outFile << "{\n";
+
+		isFirst = true;
+		outFile << "\"Characters\": [\n";
 		for (auto unit : *(m_manager->getCharacters())) {
-			outFile << unit.GetName() << " " << unit.GetTile() << " " << unit.GetCooldown() << "\n";
+			if (!isFirst)
+				outFile << ",\n";
+			isFirst = false;
+
+			outFile << "{\n";
+			outFile << "\"Name\": " << unit.GetName() << ",\n";
+			outFile << "\"Tile\": " << unit.GetTile() << ",\n";
+			outFile << "\"Cooldown\": " << unit.GetCooldown() << ",\n";
+
+			isFirstIter = true;
+			outFile << "\"Stats\": {\n";
 			for (auto stat : m_hub->GetStats(unit.GetName())) {
-				outFile << stat.first << " = " << stat.second << '\n';
+				if (!isFirstIter)
+					outFile << ",\n";
+				isFirstIter = false;
+
+				outFile << stat.first << " = " << stat.second;
 			}
+			outFile << "\n}\n}";
 		}
+		outFile << "\n],\n";
 		
-		outFile << "Enemy Info:\n";
+		isFirst = true;
+		outFile << "\"Enemies\": [\n";
 		for (auto unit : *(m_manager->getEnemies())) {
-			outFile << unit.GetName() << " " << unit.GetTile() << "\n";
+			if (!isFirst)
+				outFile << ",\n";
+			isFirst = false;
+
+			outFile << "{\n";
+			outFile << "\"Name\": " << unit.GetName() << ",\n";
+			outFile << "\"Tile\": " << unit.GetTile() << ",\n";
+
+			isFirstIter = true;
+			outFile << "\"Stats\": {\n";
 			for (auto stat : m_hub->GetStats(unit.GetName())) {
-				outFile << stat.first << " = " << stat.second << '\n';
+				if (!isFirstIter)
+					outFile << ",\n";
+				isFirstIter = false;
+
+				outFile << stat.first << " = " << stat.second;
 			}
+			outFile << "\n}\n}";
 		}
+		outFile << "\n],\n";
 
-		outFile << "Item Info:\n";
+		isFirst = true;
+		outFile << "\"Items\": [\n";
 		for (auto item : *(m_manager->getItems())) {
-			outFile << item->GetName() << " " << item->GetTile() << "\n";
-		}
+			if (!isFirst)
+				outFile << ",\n";
+			isFirst = false;
 
-		outFile << "Grid Info:\n";
-		for (int i = 0; i < m_grid->GetSize(); i++) {
-			outFile << m_grid->isDesert(i) << " " << m_grid->isMountain(i) << " " << m_grid->GetHeights()[i] << "\n";
+			outFile << "{\n";
+			outFile << "\"Name\": " << item->GetName() << ",\n";
+			outFile << "\"Tile\": " << item->GetTile() << "\n";
+			outFile << "}";
 		}
+		outFile << "\n],\n";
+
+		isFirst = true;
+		outFile << "\"Grid\": [\n";
+		for (int i = 0; i < m_grid->GetSize(); i++) {
+			if (!isFirst)
+				outFile << ",\n";
+			isFirst = false;
+
+			outFile << "{\n";
+			outFile << "\"id\": " << i << ",\n";
+			outFile << "\"desert\": " << ((m_grid->isDesert(i)) ? "True" : "False") << ",\n";
+			outFile << "\"mountain\": " << ((m_grid->isMountain(i)) ? "True" : "False") << ",\n";
+			outFile << "\"height\": " << m_grid->GetHeights()[i] << ",\n";
+			outFile << "}";
+		}
+		outFile << "\n]\n";
 	}
 	outFile.close();
 }
