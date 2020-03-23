@@ -23,6 +23,8 @@ FILE _iob[] = { *stdin, *stdout, *stderr };
 
 unsigned int depthMapFrameBuf;
 unsigned int depthMapTex;
+unsigned int depthMapFrameBuf2;
+unsigned int depthMapTex2;
 const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 1024;
 
 unsigned int depthFieldMapBuf;
@@ -106,6 +108,23 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMapTex, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// gen depth map texture for characters
+	glGenFramebuffers(1, &depthMapFrameBuf2);
+	glGenTextures(1, &depthMapTex2);
+
+	glBindTexture(GL_TEXTURE_2D, depthMapTex2);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf2);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMapTex2, 0);
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -285,12 +304,19 @@ void updateGameLogic(Scene* scene)
 	glViewport(0, 0, width, height);
 	scene->Render(RenderTarget::GrayScale);
 
+	//Render characters to depthTexture
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf2);
+	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	scene->Render(RenderTarget::Characters);
+
 	//Render scene to Post Processing Texture w/ Blur
 	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf2);
 	glViewport(0, 0, width, height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	scene->Render(RenderTarget::Blur);
 
+	//Render scene to Depth Field for DepthOfField
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf);
 	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -301,6 +327,7 @@ void updateGameLogic(Scene* scene)
 	glViewport(0, 0, width, height);
 	scene->Render(RenderTarget::DepthOfField);
 
+	//Render HUD
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, width, height);
 	scene->Render(RenderTarget::HUD);
@@ -313,6 +340,7 @@ int main()
 	BaseScene* scene = new BaseScene();
 	scene->Init();
 	scene->SetTex(RenderTarget::ShadowDepthmap, depthMapTex);
+	scene->SetTex(RenderTarget::Cutouts, depthMapTex2);
 	scene->SetTex(RenderTarget::WaterReflection, reflectionTex);
 	scene->SetTex(RenderTarget::PostProcessing, postTex1);
 	scene->SetTex(RenderTarget::Blur, postTex2);

@@ -53,6 +53,7 @@ ScoreTracker* scoreTracker;
 TestQuad* tQuad;
 PostProcessingQuad* pQuad;
 unsigned int depthMapTexture;
+unsigned int depthMapTexture2;
 unsigned int reflectionTexture;
 unsigned int postProcessTexture;
 unsigned int postProcessBlurTexture;
@@ -319,6 +320,10 @@ void BaseScene::Render(RenderTarget target)
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 	}
+	else if (target == RenderTarget::Characters)
+	{
+		cManager->Render(cam->GetViewMatrix(), glm::mat4(), cam->GetViewMatrix(), wolf::RenderFilterOpaque, true, depthMapTexture2);
+	}
 	else if (target == RenderTarget::DepthFieldMap)
 	{
 		grid->Render(cam->GetViewMatrix(), cam->GetViewMatrix(), wolf::RenderFilterOpaque, true, depthMapTexture, -1.0f, 100.0f);
@@ -326,15 +331,15 @@ void BaseScene::Render(RenderTarget target)
 	}
 	else if(target == RenderTarget::GrayScale)
 	{
-		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, fogTexture, "GrayScale");
+		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, fogTexture, depthMapTexture2, "GrayScale");
 	}
 	else if (target == RenderTarget::Blur)
 	{
-		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, fogTexture, "Blur");
+		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, fogTexture, depthMapTexture2, "Blur");
 	}
 	else if (target == RenderTarget::DepthOfField)
 	{
-		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, depthMapTexture, "DepthOfField");
+		pQuad->Render(cam->GetViewMatrix(), wolf::RenderFilterOpaque, postProcessTexture, postProcessBlurTexture, depthMapTexture, depthMapTexture2, "DepthOfField");
 	}
 	else if (target == RenderTarget::HUD)
 	{
@@ -367,4 +372,6 @@ void BaseScene::SetTex(RenderTarget target, unsigned int tex)
 		refractionTexture = tex;
 	else if (target == RenderTarget::WaterFog)
 		fogTexture = tex;
+	else if (target == RenderTarget::Cutouts)
+		depthMapTexture2 = tex;
 }

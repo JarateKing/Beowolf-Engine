@@ -13,6 +13,8 @@ enum RenderTarget {
 	Blur,
 	WaterRefraction,
 	WaterFog,
+	Characters,
+	Cutouts,
 };
 
 class Scene

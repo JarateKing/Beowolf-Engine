@@ -6,6 +6,7 @@ out vec4 PixelColor;
 uniform sampler2D postProcessingTex; //Sharp Image
 uniform sampler2D boxBlurTex; //Blurred Image
 uniform sampler2D depthTexture;
+uniform sampler2D depthMap;
 
 const float near_plane = 0.1;
 const float far_plane = 1000.0;
@@ -27,5 +28,24 @@ void main()
 	float cursorDist = LinearizeDepth(texture(depthTexture, vec2(0.5, 0.5)).x) / (far_plane / 10);
 	float blur = smoothstep(minDistance, maxDistance, abs(dist - cursorDist)/cursorDist);
 	
-	PixelColor = mix(focusColor, outOfColor, blur);
+	vec4 tempColor = mix(focusColor, outOfColor, blur);
+	float distance = LinearizeDepth(texture(depthTexture, TexCoords).x) / (far_plane / 10);
+	float depthValue = LinearizeDepth(texture(depthMap, TexCoords).x) / (far_plane / 10);
+	if(!(depthValue >= 0.99) && ((distance - depthValue) <= 0.001))
+	{
+		tempColor = tempColor * 1.5;
+	}
+	PixelColor = tempColor;
+	
+	
+	// SECONDARY DEPTH
+	//if(depthValue >= 0.99)
+	//{
+	//	color = vec4(1.0, 0.0, 0.0, 1.0);
+	//}
+	//else
+	//{
+	//	color = vec4(vec3(depthValue), 1.0);
+	//}
+	//PixelColor = color;//vec4(vec3(depthValue), 1.0); // orthographic
 }

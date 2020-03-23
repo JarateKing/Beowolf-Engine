@@ -22,7 +22,7 @@ PostProcessingQuad::~PostProcessingQuad()
 
 }
 
-void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int postProcessingSharpTex, unsigned int postProcessingBlurTex, unsigned int depthTex, std::string effect)
+void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int postProcessingSharpTex, unsigned int postProcessingBlurTex, unsigned int depthTex, unsigned int depthTex2, std::string effect)
 {
 	if (effect.compare("GrayScale") == 0)
 	{
@@ -73,6 +73,8 @@ void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type,
 			glBindTexture(GL_TEXTURE_2D, depthTex);
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, postProcessingBlurTex);
+			glActiveTexture(GL_TEXTURE3);
+			glBindTexture(GL_TEXTURE_2D, depthTex2);
 			glActiveTexture(GL_TEXTURE0);
 
 			g_dofProgram->Bind();
@@ -81,6 +83,7 @@ void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type,
 			g_dofProgram->SetUniform("postProcessingTex", 0);
 			g_dofProgram->SetUniform("depthTexture", 1);
 			g_dofProgram->SetUniform("boxBlurTex", 2);
+			g_dofProgram->SetUniform("depthMap", 3);
 
 			// Set up source data
 			g_pDecl->Bind();
