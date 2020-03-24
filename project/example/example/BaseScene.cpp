@@ -35,6 +35,7 @@
 #include "LoadingScreen.h"
 #include "GameSaver.h"
 #include "W_HudButton.h"
+#include <sstream>
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine* SE;
@@ -223,14 +224,20 @@ void BaseScene::Update()
 
 	bool shouldLoad = (((wolf::HudButton*)testhud->GetElement("MM_Load_Button"))->IsClicked() && testhud->GetElement("MM_Load_Button")->GetVisible());
 	if (shouldLoad) {
+		std::ifstream jsonIn("savefile.json");
+		std::stringstream jsonFileStream;
+		jsonFileStream << jsonIn.rdbuf();
+		std::string jsonFileData = jsonFileStream.str();
+		json savedata = json::parse(jsonFileData);
+
 		delete grid;
-		grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+		grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), savedata);
 
 		delete selector;
 		selector = new HexSelector(5.0f);
 
 		delete cManager;
-		cManager = new CharacterManager(grid, testhud);
+		cManager = new CharacterManager(grid, testhud, savedata);
 
 		StateManager::getInstance().SetCharacterManager(cManager);
 

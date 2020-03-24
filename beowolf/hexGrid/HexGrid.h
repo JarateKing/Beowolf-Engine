@@ -17,6 +17,7 @@ class HexGrid
 {
 public:
 	HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile);
+	HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile, json savedata);
 	~HexGrid();
 	void PrintOutLoc();
 	void Render(glm::mat4 projView, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, float minHeight, float maxHeight);

@@ -40,6 +40,11 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 	characterIHub.AddItemType("Items/potion.json");
 }
 
+CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, json savedata)
+{
+	CharacterManager(p_grid, p_hud);
+}
+
 CharacterManager::~CharacterManager()
 {
 

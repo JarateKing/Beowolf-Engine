@@ -96,6 +96,11 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	pathFinder->Instance()->SetDesertPositions(dPos);
 }
 
+HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile, json savedata)
+{
+	HexGrid(width, length, tileWidth, minHeight, maxHeight, texFile);
+}
+
 HexGrid::~HexGrid()
 {
 
