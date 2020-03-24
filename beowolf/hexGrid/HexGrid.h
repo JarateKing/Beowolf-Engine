@@ -38,11 +38,11 @@ public:
 	void StopTargeting();
 
 private:
-	void GenerateLoc(int width, int length, float tileWidth);
+	void GenerateLoc(int width, int length, float tileWidth, bool partiallyPregenerated = false);
 	void GenerateHeights(int width, int length, float minHeight, float maxHeight);
 	void GenerateVerts(float tileWidth, float toEdge);
 	void SmoothFullHeights(int width, int numTimes);
-	void GroupTextures(int width);
+	void GroupTextures(int width, bool partiallyPregenerated = false);
 	void GenerateHexJSON(int width, int length, float tileWidth);
 	bool WithinSameLine(int tile1, int tile2, int width);
 	bool WithinLineBelow(int tile1, int tile2, int width);
