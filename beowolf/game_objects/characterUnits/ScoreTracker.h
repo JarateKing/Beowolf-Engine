@@ -13,7 +13,7 @@ public:
 
 	void SetScore(int score);
 	void AddScore(int score);
-	int GetScore(int score);
+	int GetScore();
 private:
 	void ApplyToHud();
 

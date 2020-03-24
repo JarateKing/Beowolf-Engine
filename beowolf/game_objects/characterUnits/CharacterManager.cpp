@@ -47,6 +47,8 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::strin
 		std::string jsonFileData = jsonFileStream.str();
 		json savejson = json::parse(jsonFileData);
 
+		m_score = savejson["Score"];
+
 		for (auto character : savejson["Characters"]) {
 			std::string name = character["Name"];
 			for (int i = 0; i < characters.size(); i++) {
@@ -860,6 +862,10 @@ void CharacterManager::BlockTiles(std::vector<int> tiles)
 void CharacterManager::SetScoreTracker(ScoreTracker* tracker)
 {
 	m_scoreTracker = tracker;
+	if (m_score != 0) {
+		m_scoreTracker->SetScore(m_score);
+		m_score = 0;
+	}
 }
 
 void CharacterManager::SetCamera(Camera* cam)

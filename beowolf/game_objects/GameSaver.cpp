@@ -44,6 +44,8 @@ void GameSaver::SaveInfo(std::string filename) {
 		bool isFirst;
 		bool isFirstIter;
 		outFile << "{\n";
+		
+		outFile << "\"Score\": " << m_tracker->GetScore() << ",\n";
 
 		isFirst = true;
 		outFile << "\"Characters\": [\n";
