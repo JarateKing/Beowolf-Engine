@@ -91,6 +91,14 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::strin
 
 			SpawnItem(itemPos, itemType);
 		}
+
+		m_enemyCount = enemies.size() + m_score;
+
+		// simulate to figure out the proper cap
+		for (int i = 0; i <= m_enemyCount; i++) {
+			if (i > m_enemyCap * m_enemyCap * 0.5)
+				m_enemyCap++;
+		}
 	}
 }
 
