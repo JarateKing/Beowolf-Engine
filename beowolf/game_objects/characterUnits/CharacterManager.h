@@ -21,6 +21,7 @@ class CharacterManager
 		void Update(int target, float deltaT);
 		void Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture);
 		void SpawnEnemy(int pos, float multiplier);
+		void SpawnEnemy(int pos, std::string name);
 		void SpawnEnemies();
 		void MoveEnemies();
 		void SpawnItem(int pos);

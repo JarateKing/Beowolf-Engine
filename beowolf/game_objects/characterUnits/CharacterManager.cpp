@@ -61,6 +61,16 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::strin
 			}
 		}
 
+		for (auto enemy : savejson["Enemies"]) {
+			std::string name = enemy["Name"];
+			int pos = enemy["Tile"];
+			SpawnEnemy(pos, name);
+
+			for (auto it = enemy["Stats"].begin(); it != enemy["Stats"].end(); it++) {
+				characterIHub.UpdateStat(name, it.key(), it.value());
+			}
+		}
+
 		for (auto item : savejson["Items"]) {
 			std::cout << "Item here!\n";
 			int itemType = 1;
@@ -722,6 +732,20 @@ void CharacterManager::SpawnEnemy(int pos, float multiplier)
 	characterIHub.UpdateStat(Enemy.GetName(), "Health", characterIHub.GetStat(Enemy.GetName(), "Health") * multiplier);
 	characterIHub.UpdateStat(Enemy.GetName(), "MaxAttack", characterIHub.GetStat(Enemy.GetName(), "MaxAttack") * multiplier);
 	characterIHub.UpdateStat(Enemy.GetName(), "Defense", characterIHub.GetStat(Enemy.GetName(), "Defense") * multiplier);
+
+	enemies.push_back(Enemy);
+}
+
+void CharacterManager::SpawnEnemy(int pos, std::string name)
+{
+	int unitType = 0;
+	if (name.find("FleshLobber") != std::string::npos)
+		unitType = 1;
+
+	CharacterUnits Enemy((unitType) ? "units/myskeleton.bmw" : "units/myfleshlobber.bmw", "animatable_untextured", pos, name, grid, (unitType) ? 0.03 : 0.07, false, glm::vec3(0.7, 0.1, 0));
+	characterIHub.AddEnemyType((unitType) ? "Characters/enemyLight.json" : "Characters/enemyMedium.json", name);
+	Enemy.SetSoundEngine(m_soundEngine);
+	Enemy.SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
 
 	enemies.push_back(Enemy);
 }
