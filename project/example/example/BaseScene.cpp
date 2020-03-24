@@ -34,6 +34,7 @@
 #include "camera/Water.h"
 #include "LoadingScreen.h"
 #include "GameSaver.h"
+#include "W_HudButton.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine* SE;
@@ -214,6 +215,25 @@ void BaseScene::Update()
 		StateManager::getInstance().SetCamera(cam);
 
 		scoreTracker->SetScore(0);
+		cManager->SetScoreTracker(scoreTracker);
+		cManager->SetSoundEngine(SE);
+
+		saver->SetInfo(cManager, scoreTracker, grid);
+	}
+
+	bool shouldLoad = (((wolf::HudButton*)testhud->GetElement("MM_Load_Button"))->IsClicked() && testhud->GetElement("MM_Load_Button")->GetVisible());
+	if (shouldLoad) {
+		delete grid;
+		grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+
+		delete selector;
+		selector = new HexSelector(5.0f);
+
+		delete cManager;
+		cManager = new CharacterManager(grid, testhud);
+
+		StateManager::getInstance().SetCharacterManager(cManager);
+
 		cManager->SetScoreTracker(scoreTracker);
 		cManager->SetSoundEngine(SE);
 
