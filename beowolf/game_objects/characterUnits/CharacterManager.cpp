@@ -49,10 +49,12 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::strin
 
 		m_score = savejson["Score"];
 
+		bool charsFound[3] = { false, false, false };
 		for (auto character : savejson["Characters"]) {
 			std::string name = character["Name"];
 			for (int i = 0; i < characters.size(); i++) {
 				if (name == characters[i].GetName()) {
+					charsFound[i] = true;
 					characters[i].SetTile(character["Tile"], true);
 					characters[i].SetCooldown(character["Cooldown"]);
 
@@ -62,6 +64,10 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::strin
 				}
 			}
 		}
+
+		for (int i = 2; i >= 0; i--)
+			if (!charsFound[i])
+				characters.erase(characters.begin() + i);
 
 		for (auto enemy : savejson["Enemies"]) {
 			std::string name = enemy["Name"];
