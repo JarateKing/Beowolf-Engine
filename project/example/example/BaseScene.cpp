@@ -225,20 +225,14 @@ void BaseScene::Update()
 
 	bool shouldLoad = (((wolf::HudButton*)testhud->GetElement("MM_Load_Button"))->IsClicked() && wasJustAtMainMenu);
 	if (shouldLoad) {
-		std::ifstream jsonIn("savefile.json");
-		std::stringstream jsonFileStream;
-		jsonFileStream << jsonIn.rdbuf();
-		std::string jsonFileData = jsonFileStream.str();
-		json savedata = json::parse(jsonFileData);
-
 		delete grid;
-		grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), savedata);
+		grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), "savefile.json");
 
 		delete selector;
 		selector = new HexSelector(5.0f);
 
 		delete cManager;
-		cManager = new CharacterManager(grid, testhud, savedata);
+		cManager = new CharacterManager(grid, testhud, "savefile.json");
 
 		StateManager::getInstance().SetCharacterManager(cManager);
 

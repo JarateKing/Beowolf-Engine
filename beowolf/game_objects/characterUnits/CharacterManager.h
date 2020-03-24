@@ -16,8 +16,7 @@
 class CharacterManager
 {
 	public:
-		CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud);
-		CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, json savedata);
+		CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::string savedata = "");
 		~CharacterManager();
 		void Update(int target, float deltaT);
 		void Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture);

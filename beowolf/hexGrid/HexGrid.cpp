@@ -7,7 +7,7 @@
 #define EPSILON_VALUE 0.01
 
 
-HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile)
+HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile, std::string savedata)
 {
 	m_width = width;
 	m_height = length;
@@ -94,11 +94,6 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 			dPos.push_back(glm::vec3(positions.at(desert.at(i)).x, 0.0f, positions.at(desert.at(i)).y));
 	}
 	pathFinder->Instance()->SetDesertPositions(dPos);
-}
-
-HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile, json savedata)
-{
-	HexGrid(width, length, tileWidth, minHeight, maxHeight, texFile);
 }
 
 HexGrid::~HexGrid()

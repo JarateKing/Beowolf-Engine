@@ -6,6 +6,7 @@
 #include <cmath>
 #include "camera/HexSelector.h"
 #include "StateManager.h"
+#include <sstream>
 
 CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 {

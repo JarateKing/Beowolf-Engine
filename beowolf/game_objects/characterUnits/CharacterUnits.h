@@ -18,7 +18,7 @@ class CharacterUnits
 		void Update(float deltaT);
 		std::string GetName();
 		int GetTile();
-		void SetTile(int tile);
+		void SetTile(int tile, bool updatePositionImmediately = false);
 		void SetAnim(std::string animName);
 		void Move(std::vector<int> p_path, float p_timeToComplete, bool p_attacking);
 		glm::vec3 GetPos();
@@ -43,6 +43,7 @@ class CharacterUnits
 		void StartCooldown();
 		void UpdateCooldown();
 		int GetCooldown();
+		void SetCooldown(int val);
 		void HealIndicator();
 		std::vector<std::string> GetAttacker();
 		wolf::BMWModel* GetModel();
@@ -86,6 +87,7 @@ class CharacterUnits
 		std::vector<Effect*> m_particleEffectsNoBillboard;
 		glm::mat4 m_particleProjMatrix;
 		glm::mat4 m_particleProjMatrixNoBillboard;
+		HexGrid* m_grid;
 };
 
 #endif
