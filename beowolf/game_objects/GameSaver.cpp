@@ -53,7 +53,7 @@ void GameSaver::SaveInfo(std::string filename) {
 			isFirst = false;
 
 			outFile << "{\n";
-			outFile << "\"Name\": " << unit.GetName() << ",\n";
+			outFile << "\"Name\": \"" << unit.GetName() << "\",\n";
 			outFile << "\"Tile\": " << unit.GetTile() << ",\n";
 			outFile << "\"Cooldown\": " << unit.GetCooldown() << ",\n";
 
@@ -64,7 +64,7 @@ void GameSaver::SaveInfo(std::string filename) {
 					outFile << ",\n";
 				isFirstIter = false;
 
-				outFile << stat.first << " = " << stat.second;
+				outFile << "\"" << stat.first << "\": " << stat.second;
 			}
 			outFile << "\n}\n}";
 		}
@@ -78,7 +78,7 @@ void GameSaver::SaveInfo(std::string filename) {
 			isFirst = false;
 
 			outFile << "{\n";
-			outFile << "\"Name\": " << unit.GetName() << ",\n";
+			outFile << "\"Name\": \"" << unit.GetName() << "\",\n";
 			outFile << "\"Tile\": " << unit.GetTile() << ",\n";
 
 			isFirstIter = true;
@@ -88,7 +88,7 @@ void GameSaver::SaveInfo(std::string filename) {
 					outFile << ",\n";
 				isFirstIter = false;
 
-				outFile << stat.first << " = " << stat.second;
+				outFile << "\"" << stat.first << "\": " << stat.second;
 			}
 			outFile << "\n}\n}";
 		}
@@ -102,7 +102,7 @@ void GameSaver::SaveInfo(std::string filename) {
 			isFirst = false;
 
 			outFile << "{\n";
-			outFile << "\"Name\": " << item->GetName() << ",\n";
+			outFile << "\"Name\": \"" << item->GetName() << "\",\n";
 			outFile << "\"Tile\": " << item->GetTile() << "\n";
 			outFile << "}";
 		}
@@ -117,12 +117,12 @@ void GameSaver::SaveInfo(std::string filename) {
 
 			outFile << "{\n";
 			outFile << "\"id\": " << i << ",\n";
-			outFile << "\"desert\": " << ((m_grid->isDesert(i)) ? "True" : "False") << ",\n";
-			outFile << "\"mountain\": " << ((m_grid->isMountain(i)) ? "True" : "False") << ",\n";
-			outFile << "\"height\": " << m_grid->GetHeights()[i] << ",\n";
+			outFile << "\"desert\": " << ((m_grid->isDesert(i)) ? "true" : "false") << ",\n";
+			outFile << "\"mountain\": " << ((m_grid->isMountain(i)) ? "true" : "false") << ",\n";
+			outFile << "\"height\": " << m_grid->GetHeights()[i] << "\n";
 			outFile << "}";
 		}
-		outFile << "\n]\n";
+		outFile << "\n]\n}";
 	}
 	outFile.close();
 }
