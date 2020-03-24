@@ -8,7 +8,7 @@
 #include "StateManager.h"
 #include <sstream>
 
-CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
+CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::string savedata)
 {
 	grid = p_grid;
 	m_hud = p_hud;
@@ -39,11 +39,37 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 	characterIHub.AddItemType("Items/sword.json");
 	characterIHub.AddItemType("Items/shield.json");
 	characterIHub.AddItemType("Items/potion.json");
-}
 
-CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, json savedata)
-{
-	CharacterManager(p_grid, p_hud);
+	if (savedata != "") {
+		std::ifstream jsonIn(savedata);
+		std::stringstream jsonFileStream;
+		jsonFileStream << jsonIn.rdbuf();
+		std::string jsonFileData = jsonFileStream.str();
+		json savejson = json::parse(jsonFileData);
+
+		for (auto character : savejson["Characters"]) {
+			std::string name = character["Name"];
+			for (int i = 0; i < characters.size(); i++) {
+				if (name == characters[i].GetName()) {
+					characters[i].SetTile(character["Tile"], true);
+					characters[i].SetCooldown(character["Cooldown"]);
+				}
+			}
+		}
+
+		for (auto item : savejson["Items"]) {
+			std::cout << "Item here!\n";
+			int itemType = 1;
+			if (item["Name"] == "Sword")
+				itemType = 2;
+			if (item["Name"] == "Shield")
+				itemType = 3;
+
+			int itemPos = item["Tile"];
+
+			SpawnItem(itemPos, itemType);
+		}
+	}
 }
 
 CharacterManager::~CharacterManager()
@@ -716,12 +742,16 @@ void CharacterManager::SpawnEnemies()
 void CharacterManager::SpawnItem(int pos)
 {
 	int itemType = wolf::RNG::GetRandom(1, 3);
+	SpawnItem(pos, itemType);
+}
 
-	if (itemType == 1) {
+void CharacterManager::SpawnItem(int pos, int type)
+{
+	if (type == 1) {
 		items.push_back(new Item("potion.bmw", "lit_textured", pos, "Items/potion.json", "Potion", grid));
 		items.back()->SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
 	}
-	else if (itemType == 2) {
+	else if (type == 2) {
 		items.push_back(new Item("sword1.bmw", "lit_textured", pos, "Items/sword.json", "Sword", grid));
 		items.back()->SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
 	}

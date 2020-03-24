@@ -264,6 +264,8 @@ void CharacterUnits::SetTile(int tile, bool updatePositionImmediately)
 	if (updatePositionImmediately) {
 		model->setTransform(glm::translate(glm::vec3(m_grid->GetPos().at(tile).x, m_grid->GetHeights().at(tile), m_grid->GetPos().at(tile).y)) * glm::scale(glm::vec3(scale, scale, scale)));
 		pos.SetPos(glm::vec3(m_grid->GetPos().at(tile).x, m_grid->GetHeights().at(tile), m_grid->GetPos().at(tile).y));
+		m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 4.0f, pos.GetPos().z)));
+		m_cooldown->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 5.5f + m_cooldownHeightAdjustment, pos.GetPos().z)));
 		Update(0);
 	}
 }

@@ -24,6 +24,7 @@ class CharacterManager
 		void SpawnEnemies();
 		void MoveEnemies();
 		void SpawnItem(int pos);
+		void SpawnItem(int pos, int type);
 		std::string GetCharacterSelected();
 
 		void SetScoreTracker(ScoreTracker* tracker);
