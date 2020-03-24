@@ -66,6 +66,7 @@ Skybox* skybox;
 Water* water;
 float grayLevel = 0.0f;
 GameSaver* saver;
+bool wasJustAtMainMenu = true;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -222,7 +223,7 @@ void BaseScene::Update()
 		saver->SetInfo(cManager, scoreTracker, grid);
 	}
 
-	bool shouldLoad = (((wolf::HudButton*)testhud->GetElement("MM_Load_Button"))->IsClicked() && testhud->GetElement("MM_Load_Button")->GetVisible());
+	bool shouldLoad = (((wolf::HudButton*)testhud->GetElement("MM_Load_Button"))->IsClicked() && wasJustAtMainMenu);
 	if (shouldLoad) {
 		std::ifstream jsonIn("savefile.json");
 		std::stringstream jsonFileStream;
@@ -264,6 +265,8 @@ void BaseScene::Update()
 	//water->SetPos(cam->GetPos());
 
 	saver->Update(delta);
+
+	wasJustAtMainMenu = StateManager::getInstance().GetState() == State::GamestateMainMenu;
 }
 
 void BaseScene::Render(RenderTarget target)
