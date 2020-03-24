@@ -482,6 +482,54 @@
 			"fontSize": 64,
 			"color": "1.0 1.0 1.0 1.0"
 		},
+		{
+			"tags": [
+				"mainmenu", "loadbutton"
+			],
+			"name": "MM_Load_Button",
+			"type": "button",
+			"xpos": 710,
+			"ypos": 850,
+			"zpos": 1,
+			"wide": 500,
+			"tall": 50
+		},
+		{
+			"tags": [
+				"mainmenu", "loadbutton"
+			],
+			"type": "gradient",
+			"xpos": 710,
+			"ypos": 850,
+			"zpos": 10,
+			"wide": 500,
+			"tall": 50,
+			
+			"topLeft": "0.1 0.1 0.1 1.0",
+			"topRight": "0.1 0.1 0.1 1.0",
+			"bottomLeft": "0.05 0.05 0.05 1.0",
+			"bottomRight": "0.05 0.05 0.05 1.0"
+		},
+		{
+			"tags": [
+				"mainmenu", "loadbutton"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 850,
+			"zpos": 0,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 50,
+			
+			"label": "MM_Load",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 24,
+			"color": "1.0 1.0 1.0 1.0"
+		},
 		
 		{
 			"tags": [
@@ -786,6 +834,20 @@
 			"font": "OpenSans",
 			"fontSize": 18,
 			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"ingame", "save_indicator"
+			],
+			
+			"type": "image",
+			"xpos": 1840,
+			"ypos": 1000,
+			"zpos": 9,
+			"wide": 64,
+			"tall": 64,
+			
+			"image": "hud/save_icon.tga"
 		}
 	]
 }

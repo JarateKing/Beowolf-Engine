@@ -32,6 +32,10 @@
 #include "post/PostProcessingQuad.h"
 #include "camera/Skybox.h"
 #include "camera/Water.h"
+#include "LoadingScreen.h"
+#include "GameSaver.h"
+#include "W_HudButton.h"
+#include <sstream>
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine* SE;
@@ -61,6 +65,8 @@ unsigned int postProcessDepthMap;
 Skybox* skybox;
 Water* water;
 float grayLevel = 0.0f;
+GameSaver* saver;
+bool wasJustAtMainMenu = true;
 
 wolf::BMWModel* test;
 wolf::BMWModel* test2;
@@ -72,6 +78,25 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
+	// loadng process
+
+	LoadingScreen loader;
+	loader.AddModel("potion.bmw");
+	loader.AddModel("sword1.bmw");
+	loader.AddModel("shield.bmw");
+	loader.AddModel("Fir_Tree.bmw");
+	loader.AddModel("Oak_Tree.bmw");
+	loader.AddModel("Palm_Tree.bmw");
+	loader.AddModel("Poplar_Tree.bmw");
+	loader.AddModel("units/mychamp.bmw");
+	loader.AddModel("units/mygiant.bmw");
+	loader.AddModel("units/mylich.bmw");
+	loader.AddModel("units/myskeleton.bmw");
+	loader.AddModel("units/myfleshlobber.bmw");
+	loader.Load();
+
+	// basic initialization process
+
 	SE = new wolf::SoundEngine();
 	SE->InitSystem();
 	SE->AddSound("resources/sound/Base_Music/old_city_theme.ogg", "base_theme", true);
@@ -124,6 +149,9 @@ void BaseScene::Init()
 
 	skybox = new Skybox();
 	water = new Water();
+
+	saver = new GameSaver(testhud);
+	saver->SetInfo(cManager, scoreTracker, grid);
 }
 
 void BaseScene::Update()
@@ -191,6 +219,27 @@ void BaseScene::Update()
 		scoreTracker->SetScore(0);
 		cManager->SetScoreTracker(scoreTracker);
 		cManager->SetSoundEngine(SE);
+
+		saver->SetInfo(cManager, scoreTracker, grid);
+	}
+
+	bool shouldLoad = (((wolf::HudButton*)testhud->GetElement("MM_Load_Button"))->IsClicked() && wasJustAtMainMenu);
+	if (shouldLoad) {
+		delete grid;
+		grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), "savefile.json");
+
+		delete selector;
+		selector = new HexSelector(5.0f);
+
+		delete cManager;
+		cManager = new CharacterManager(grid, testhud, "savefile.json");
+
+		StateManager::getInstance().SetCharacterManager(cManager);
+
+		cManager->SetScoreTracker(scoreTracker);
+		cManager->SetSoundEngine(SE);
+
+		saver->SetInfo(cManager, scoreTracker, grid);
 	}
 
 	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
@@ -208,6 +257,10 @@ void BaseScene::Update()
 
 	water->Update(delta);
 	//water->SetPos(cam->GetPos());
+
+	saver->Update(delta);
+
+	wasJustAtMainMenu = StateManager::getInstance().GetState() == State::GamestateMainMenu;
 }
 
 void BaseScene::Render(RenderTarget target)

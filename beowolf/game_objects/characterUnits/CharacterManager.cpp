@@ -6,13 +6,12 @@
 #include <cmath>
 #include "camera/HexSelector.h"
 #include "StateManager.h"
+#include <sstream>
 
-CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
+CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::string savedata)
 {
 	grid = p_grid;
 	m_hud = p_hud;
-
-	PreloadCharacterModels();
 
 	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 107, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
 	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 108, "myGiant", p_grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
@@ -40,6 +39,67 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud)
 	characterIHub.AddItemType("Items/sword.json");
 	characterIHub.AddItemType("Items/shield.json");
 	characterIHub.AddItemType("Items/potion.json");
+
+	if (savedata != "") {
+		std::ifstream jsonIn(savedata);
+		std::stringstream jsonFileStream;
+		jsonFileStream << jsonIn.rdbuf();
+		std::string jsonFileData = jsonFileStream.str();
+		json savejson = json::parse(jsonFileData);
+
+		m_score = savejson["Score"];
+
+		bool charsFound[3] = { false, false, false };
+		for (auto character : savejson["Characters"]) {
+			std::string name = character["Name"];
+			for (int i = 0; i < characters.size(); i++) {
+				if (name == characters[i].GetName()) {
+					charsFound[i] = true;
+					characters[i].SetTile(character["Tile"], true);
+					characters[i].SetCooldown(character["Cooldown"]);
+
+					for (auto it = character["Stats"].begin(); it != character["Stats"].end(); it++) {
+						characterIHub.UpdateStat(name, it.key(), it.value());
+					}
+				}
+			}
+		}
+
+		for (int i = 2; i >= 0; i--)
+			if (!charsFound[i])
+				characters.erase(characters.begin() + i);
+
+		for (auto enemy : savejson["Enemies"]) {
+			std::string name = enemy["Name"];
+			int pos = enemy["Tile"];
+			SpawnEnemy(pos, name);
+
+			for (auto it = enemy["Stats"].begin(); it != enemy["Stats"].end(); it++) {
+				characterIHub.UpdateStat(name, it.key(), it.value());
+			}
+		}
+
+		for (auto item : savejson["Items"]) {
+			std::cout << "Item here!\n";
+			int itemType = 1;
+			if (item["Name"] == "Sword")
+				itemType = 2;
+			if (item["Name"] == "Shield")
+				itemType = 3;
+
+			int itemPos = item["Tile"];
+
+			SpawnItem(itemPos, itemType);
+		}
+
+		m_enemyCount = enemies.size() + m_score;
+
+		// simulate to figure out the proper cap
+		for (int i = 0; i <= m_enemyCount; i++) {
+			if (i > m_enemyCap * m_enemyCap * 0.5)
+				m_enemyCap++;
+		}
+	}
 }
 
 CharacterManager::~CharacterManager()
@@ -692,6 +752,20 @@ void CharacterManager::SpawnEnemy(int pos, float multiplier)
 	enemies.push_back(Enemy);
 }
 
+void CharacterManager::SpawnEnemy(int pos, std::string name)
+{
+	int unitType = 0;
+	if (name.find("Skeleton") != std::string::npos)
+		unitType = 1;
+
+	CharacterUnits Enemy((unitType) ? "units/myskeleton.bmw" : "units/myfleshlobber.bmw", "animatable_untextured", pos, name, grid, (unitType) ? 0.03 : 0.07, false, glm::vec3(0.7, 0.1, 0));
+	characterIHub.AddEnemyType((unitType) ? "Characters/enemyLight.json" : "Characters/enemyMedium.json", name);
+	Enemy.SetSoundEngine(m_soundEngine);
+	Enemy.SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
+
+	enemies.push_back(Enemy);
+}
+
 void CharacterManager::SpawnEnemies()
 {
 	while (enemies.size() < m_enemyCap) {
@@ -712,12 +786,16 @@ void CharacterManager::SpawnEnemies()
 void CharacterManager::SpawnItem(int pos)
 {
 	int itemType = wolf::RNG::GetRandom(1, 3);
+	SpawnItem(pos, itemType);
+}
 
-	if (itemType == 1) {
+void CharacterManager::SpawnItem(int pos, int type)
+{
+	if (type == 1) {
 		items.push_back(new Item("potion.bmw", "lit_textured", pos, "Items/potion.json", "Potion", grid));
 		items.back()->SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
 	}
-	else if (itemType == 2) {
+	else if (type == 2) {
 		items.push_back(new Item("sword1.bmw", "lit_textured", pos, "Items/sword.json", "Sword", grid));
 		items.back()->SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
 	}
@@ -777,6 +855,16 @@ std::vector<CharacterUnits>* CharacterManager::getEnemies()
 	return &enemies;
 }
 
+std::vector<Item*>* CharacterManager::getItems()
+{
+	return &items;
+}
+
+CharacterInfoHub* CharacterManager::GetCharacterHub()
+{
+	return &characterIHub;
+}
+
 void CharacterManager::BlockTiles(std::vector<int> tiles)
 {
 	for (int i = 0; i < tiles.size(); i++)
@@ -788,6 +876,10 @@ void CharacterManager::BlockTiles(std::vector<int> tiles)
 void CharacterManager::SetScoreTracker(ScoreTracker* tracker)
 {
 	m_scoreTracker = tracker;
+	if (m_score != 0) {
+		m_scoreTracker->SetScore(m_score);
+		m_score = 0;
+	}
 }
 
 void CharacterManager::SetCamera(Camera* cam)
@@ -819,19 +911,10 @@ void CharacterManager::SetSoundEngine(wolf::SoundEngine* soundEng)
 	{
 		characters.at(i).SetSoundEngine(m_soundEngine);
 	}
-}
-
-void CharacterManager::PreloadCharacterModels()
-{
-	CharacterUnits("units/mychamp.bmw", "animatable_untextured", 0, "myChamp", grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
-	CharacterUnits("units/mygiant.bmw", "animatable_untextured", 1, "myGiant", grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
-	CharacterUnits("units/mylich.bmw", "animatable_untextured", 2, "myLich", grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
-	CharacterUnits("units/myskeleton.bmw", "animatable_untextured", 3, "mySkeleton", grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
-	CharacterUnits("units/myfleshlobber.bmw", "animatable_untextured", 4, "myFleshLobber", grid, 0.03, false, glm::vec3(0.7, 0.1, 0));
-
-	Item("potion.bmw", "unlit_texture", 5, "Items/potion.json", "Potion", grid);
-	Item("sword1.bmw", "unlit_texture", 6, "Items/sword.json", "Sword", grid);
-	Item("shield.bmw", "unlit_texture", 7, "Items/shield.json", "Shield", grid);
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		enemies.at(i).SetSoundEngine(m_soundEngine);
+	}
 }
 
 void CharacterManager::ApplyPathBlocks(std::vector<std::string> toIgnore, bool blockCharacters, bool blockEnemies)

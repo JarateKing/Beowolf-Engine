@@ -37,6 +37,8 @@ CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, 
 
 	m_cooldown = new CooldownIndicator();
 	m_cooldown->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 5.5f + m_cooldownHeightAdjustment, p_grid->GetPos().at(p_startTile).y)));
+
+	m_grid = p_grid;
 }
 
 CharacterUnits::~CharacterUnits()
@@ -256,9 +258,16 @@ int CharacterUnits::GetTile()
 	return currTile;
 }
 
-void CharacterUnits::SetTile(int tile)
+void CharacterUnits::SetTile(int tile, bool updatePositionImmediately)
 {
 	currTile = tile;
+	if (updatePositionImmediately) {
+		model->setTransform(glm::translate(glm::vec3(m_grid->GetPos().at(tile).x, m_grid->GetHeights().at(tile), m_grid->GetPos().at(tile).y)) * glm::scale(glm::vec3(scale, scale, scale)));
+		pos.SetPos(glm::vec3(m_grid->GetPos().at(tile).x, m_grid->GetHeights().at(tile), m_grid->GetPos().at(tile).y));
+		m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 4.0f, pos.GetPos().z)));
+		m_cooldown->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 5.5f + m_cooldownHeightAdjustment, pos.GetPos().z)));
+		Update(0);
+	}
 }
 
 void CharacterUnits::SetAnim(std::string p_animName)
@@ -414,6 +423,12 @@ void CharacterUnits::UpdateCooldown()
 int CharacterUnits::GetCooldown()
 {
 	return m_cooldownCur;
+}
+
+void CharacterUnits::SetCooldown(int val)
+{
+	m_cooldownCur = val + 1;
+	UpdateCooldown();
 }
 
 void CharacterUnits::HealIndicator()

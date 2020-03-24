@@ -25,7 +25,7 @@ unsigned int depthMapFrameBuf;
 unsigned int depthMapTex;
 unsigned int depthMapFrameBuf2;
 unsigned int depthMapTex2;
-const unsigned int SHADOW_WIDTH = 3000, SHADOW_HEIGHT = 3000;
+const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 1024;
 
 unsigned int depthFieldMapBuf;
 unsigned int depthFieldMapTex;
@@ -33,17 +33,17 @@ unsigned int depthFieldMapTex;
 unsigned int reflectionFrameBuf;
 unsigned int reflectionRenderBuf;
 unsigned int reflectionTex;
-const unsigned int REFLECTION_WIDTH = 512, REFLECTION_HEIGHT = 512;
+const unsigned int REFLECTION_WIDTH = 400, REFLECTION_HEIGHT = 400;
 
 unsigned int refractionFrameBuf;
 unsigned int refractionRenderBuf;
 unsigned int refractionTex;
-const unsigned int REFRACTION_WIDTH = 512, REFRACTION_HEIGHT = 512;
+const unsigned int REFRACTION_WIDTH = 400, REFRACTION_HEIGHT = 400;
 
 unsigned int fogFrameBuf;
 unsigned int fogRenderBuf;
 unsigned int fogTex;
-const unsigned int FOG_WIDTH = 512, FOG_HEIGHT = 512;
+const unsigned int FOG_WIDTH = 400, FOG_HEIGHT = 400;
 
 unsigned int postFrameBuf1;
 unsigned int postFrameBuf2;
@@ -101,8 +101,8 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	
 	glBindTexture(GL_TEXTURE_2D, depthMapTex);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 	
@@ -223,6 +223,8 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, postTex2, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, postDepthBuf2);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
 
 void updateGraphics()

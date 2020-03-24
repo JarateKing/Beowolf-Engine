@@ -19,7 +19,7 @@ void ScoreTracker::AddScore(int score) {
 	ApplyToHud();
 }
 
-int ScoreTracker::GetScore(int score) {
+int ScoreTracker::GetScore() {
 	return m_score;
 }
 
