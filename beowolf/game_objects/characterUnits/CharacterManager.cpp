@@ -747,7 +747,7 @@ void CharacterManager::SpawnEnemy(int pos, float multiplier)
 void CharacterManager::SpawnEnemy(int pos, std::string name)
 {
 	int unitType = 0;
-	if (name.find("FleshLobber") != std::string::npos)
+	if (name.find("Skeleton") != std::string::npos)
 		unitType = 1;
 
 	CharacterUnits Enemy((unitType) ? "units/myskeleton.bmw" : "units/myfleshlobber.bmw", "animatable_untextured", pos, name, grid, (unitType) ? 0.03 : 0.07, false, glm::vec3(0.7, 0.1, 0));
@@ -902,6 +902,10 @@ void CharacterManager::SetSoundEngine(wolf::SoundEngine* soundEng)
 	for (int i = 0; i < characters.size(); i++)
 	{
 		characters.at(i).SetSoundEngine(m_soundEngine);
+	}
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		enemies.at(i).SetSoundEngine(m_soundEngine);
 	}
 }
 
