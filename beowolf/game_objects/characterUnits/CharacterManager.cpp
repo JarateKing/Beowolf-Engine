@@ -53,6 +53,10 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::strin
 				if (name == characters[i].GetName()) {
 					characters[i].SetTile(character["Tile"], true);
 					characters[i].SetCooldown(character["Cooldown"]);
+
+					for (auto it = character["Stats"].begin(); it != character["Stats"].end(); it++) {
+						characterIHub.UpdateStat(name, it.key(), it.value());
+					}
 				}
 			}
 		}
