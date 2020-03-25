@@ -1,0 +1,21 @@
+{
+	"Effect" :
+	{
+		"Emitters" : [
+			{
+				"max_particles" : "1",
+				"pX" : "0.0",
+				"pY" : "2.0",
+				"pZ" : "0.0",
+				"duration" : "-1",
+				"rate" : "0.4",
+				"texture" : "resources/textures/particles/butterfly.dds",
+				"additive" : "false",
+				"lifespanMin" : "1000000",
+				"lifespanMax" : "1000000",
+				"affectors" : [
+				]
+			}
+		]
+	}
+}

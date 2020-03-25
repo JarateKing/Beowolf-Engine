@@ -123,8 +123,8 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	// add particle effects
 	for (int i = 0; i < 3; i++) {
 		int pos = grass.at(wolf::RNG::GetRandom(0, grass.size() - 1));
-		m_particleEffectsNoBillboard.push_back(new Effect("resources/particles/item_glow.json"));
-		m_particleEffectsNoBillboard[m_particleEffectsNoBillboard.size() - 1]->SetPos(glm::vec3(positions.at(pos).x, heights.at(pos), positions.at(pos).y));
+		m_particleEffects.push_back(new Effect("resources/particles/butterfly.json"));
+		m_particleEffects[m_particleEffects.size() - 1]->SetPos(glm::vec3(positions.at(pos).x, heights.at(pos), positions.at(pos).y));
 	}
 }
 
