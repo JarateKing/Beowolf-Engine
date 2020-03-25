@@ -118,7 +118,7 @@ void BaseScene::Init()
 
 	float scale = 5.0;
 	float scale2 = 0.05;
-	
+
 	lightDir = glm::normalize(glm::vec3(35.0f, -50.0f, 35.0f) - glm::vec3(0.0f, 0.0f, 0.0f));
 	tQuad = new TestQuad();
 	pQuad = new PostProcessingQuad();

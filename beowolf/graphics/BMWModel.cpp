@@ -127,20 +127,20 @@ namespace wolf
 		}
 	}
 
-	void BMWModel::render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, RenderFilterType type, bool shadowPass, unsigned int depthMapTexture)
+	void BMWModel::render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, bool instanced, float minheight, float maxheight)
 	{
 		if (type == RenderFilterOpaque)
 			for (int i = 0; i < m_toRender.size(); i++)
 				if (!m_meshes[m_toRender[i].meshID].isTransparent)
-					renderMesh(transform * m_toRender[i].transform, view, proj, lightSpaceMatrix, i, shadowPass, depthMapTexture);
+					renderMesh(transform * m_toRender[i].transform, view, proj, lightSpaceMatrix, i, shadowPass, depthMapTexture, instanced, minheight, maxheight);
 
 		if (type == RenderFilterTransparent)
 			for (int i = 0; i < m_toRender.size(); i++)
 				if (m_meshes[m_toRender[i].meshID].isTransparent)
-					renderMesh(transform * m_toRender[i].transform, view, proj, lightSpaceMatrix, i, shadowPass, depthMapTexture);
+					renderMesh(transform * m_toRender[i].transform, view, proj, lightSpaceMatrix, i, shadowPass, depthMapTexture, instanced, minheight, maxheight);
 	}
 
-	void BMWModel::renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, unsigned int meshID, bool shadowPass, unsigned int depthMapTexture) {
+	void BMWModel::renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, unsigned int meshID, bool shadowPass, unsigned int depthMapTexture, bool instanced, float minheight, float maxheight) {
 		m_meshes[meshID].m_pDecl->Bind();
 
 		glActiveTexture(GL_TEXTURE0);
@@ -156,6 +156,29 @@ namespace wolf
 			m_meshes[meshID].m_pShadowProg->Bind();
 			m_meshes[meshID].m_pShadowProg->SetUniform("lightSpaceMatrix", lightSpaceMatrix);
 			m_meshes[meshID].m_pShadowProg->SetUniform("model", transform);
+		}
+		else if (instanced)
+		{
+			m_meshes[meshID].m_pProg->Bind();
+			m_meshes[meshID].m_pProg->SetUniform("projection", proj);
+			m_meshes[meshID].m_pProg->SetUniform("view", view);
+
+			m_meshes[meshID].m_pProg->SetUniform("world", m_instancedWorld, 45);
+
+			m_meshes[meshID].m_pProg->SetUniform("tex", 0);
+			m_meshes[meshID].m_pProg->SetUniform("shadowMap", 1);
+			m_meshes[meshID].m_pProg->SetUniform("modelColor", m_modelColor);
+			m_meshes[meshID].m_pProg->SetUniform("modelAdditive", m_modelAdditive);
+			m_meshes[meshID].m_pProg->SetUniform("modelFilter", m_modelFilter);
+			m_meshes[meshID].m_pProg->SetUniform("LightAmbient", m_lightAmbient);
+			m_meshes[meshID].m_pProg->SetUniform("LightDiffuse", m_lightDiffuse);
+			m_meshes[meshID].m_pProg->SetUniform("LightDir", m_lightDir);
+			m_meshes[meshID].m_pProg->SetUniform("ViewDir", m_viewDir);
+			m_meshes[meshID].m_pProg->SetUniform("lightSpaceMatrix", lightSpaceMatrix);
+			glm::mat3 mWorldIT(transform);
+			mWorldIT = glm::inverse(mWorldIT);
+			mWorldIT = glm::transpose(mWorldIT);
+			m_meshes[meshID].m_pProg->SetUniform("WorldIT", mWorldIT);
 		}
 		else
 		{
@@ -179,11 +202,16 @@ namespace wolf
 			m_meshes[meshID].m_pProg->SetUniform("WorldIT", mWorldIT);
 		}
 
+		m_meshes[meshID].m_pProg->SetUniform("minheight", minheight);
+		m_meshes[meshID].m_pProg->SetUniform("maxheight", maxheight);
 
 		if (m_hasAnimations)
 			m_meshes[meshID].m_pProg->SetUniform("BoneMatrixArray", m_boneMatrix, 128);
 
-		glDrawElements(GL_TRIANGLES, m_meshes[meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
+		if (instanced)
+			glDrawElementsInstanced(GL_TRIANGLES, m_meshes[meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0, 45);
+		else
+			glDrawElements(GL_TRIANGLES, m_meshes[meshID].m_pIB->GetNumIndices(), GL_UNSIGNED_INT, 0);
 	}
 
 	glm::mat4 BMWModel::getTransform() {
@@ -239,6 +267,14 @@ namespace wolf
 
 	void BMWModel::setViewDir(glm::vec3 direction) {
 		m_viewDir = direction;
+	}
+
+	void BMWModel::setInstancedVariable(std::vector<glm::mat4> instancedV)
+	{
+		for (int i = 0; i < instancedV.size(); i++)
+		{
+			m_instancedWorld[i] = instancedV.at(i);
+		}
 	}
 
 	bool BMWModel::getIsAnimationRunning() {

@@ -20,7 +20,7 @@ namespace wolf
 	public:
 		BMWModel(std::string file, std::string vertexShader, std::string pixelShader, std::string shadowVertexShader, std::string shadowPixelShader);
 		void update(float delta);
-		void render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, RenderFilterType type, bool shadowPass, unsigned int depthMapTexture);
+		void render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, bool instanced, float minheight = -10000, float maxheight = 100000);
 
 		glm::mat4 getTransform();
 		void setModelColor(glm::vec3 color);
@@ -33,6 +33,7 @@ namespace wolf
 		void setLightSpecular(glm::vec4 light);
 		void setLightDir(glm::vec3 direction);
 		void setViewDir(glm::vec3 direction);
+		void setInstancedVariable(std::vector<glm::mat4> instancedV);
 		bool getIsAnimationRunning();
 		BMWAnimSegment* getAnim();
 		std::string getAnimName();
@@ -58,7 +59,7 @@ namespace wolf
 			int meshID;
 		};
 
-		void renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, unsigned int meshID, bool shadowPass, unsigned int depthMapTexture);
+		void renderMesh(glm::mat4 world, glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, unsigned int meshID, bool shadowPass, unsigned int depthMapTexture, bool instanced, float minheight, float maxheight);
 
 		std::vector<std::string>* m_textures;
 		std::vector<std::vector<Vertex>>* m_vertices;
@@ -74,10 +75,12 @@ namespace wolf
 		BMWAnimSegment* m_currentAnimation;
 		std::string* m_defaultAnimation;
 		glm::mat4 m_boneMatrix[128];
+		glm::mat4 m_instancedWorld[64];
 		bool m_hasAnimations;
 		float m_animationFrame;
 		BMWNode* m_rootNode;
 		std::vector<NodeMesh> m_toRender;
+		std::vector<glm::mat4> instanceInfo;
 		int m_currentAnimNum = 0;
 		bool m_isAnimationDone = false;
 

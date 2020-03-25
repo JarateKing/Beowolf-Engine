@@ -60,7 +60,7 @@ void CharacterUnits::SetLightingDir(glm::vec3 dir)
 
 void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture)
 {
-	model->render(p_view, p_proj, lightSpaceMatrix, type, shadowPass, depthMapTexture);
+	model->render(p_view, p_proj, lightSpaceMatrix, type, shadowPass, depthMapTexture, false);
 
 	if (m_isHealthbarVisible && type == wolf::RenderFilterTransparent) {
 		m_healthbar->Render(p_view, p_proj);

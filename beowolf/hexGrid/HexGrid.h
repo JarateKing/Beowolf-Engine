@@ -56,8 +56,12 @@ private:
 	wolf::Texture* pTex2;
 	wolf::BMWModel* test;
 	std::vector<wolf::BMWModel*> trees;
+	std::vector<wolf::BMWModel*> rocks;
 	std::vector<HexSelector*> selections;
 	std::vector<int> selectionTabs;
+
+	std::vector<glm::vec3> rockPos;
+	std::vector<glm::mat4> rockTRS;
 
 	std::vector<int> roads;
 	std::vector<int> mountains;
