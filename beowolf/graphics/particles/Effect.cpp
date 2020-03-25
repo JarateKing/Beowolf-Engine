@@ -4,6 +4,7 @@
 #include "AffectorFade.h"
 #include "AffectorVelocity.h"
 #include "AffectorRandomPos.h"
+#include "AffectorBounce.h"
 
 #include "tinyxml.h"
 #include "JSON/json.hpp"
@@ -145,6 +146,13 @@ Effect::Effect(std::string jsonPath)
 				radius = std::stof(radiust);
 
 				emitter->AddAffector(new AffectorRandomPos(radius));
+			}
+			else if (affector["type"] == "bounce")
+			{
+				float magnitude = affector["magnitude"];
+				float period = affector["period"];
+
+				emitter->AddAffector(new AffectorBounce(magnitude, period));
 			}
 		}
 

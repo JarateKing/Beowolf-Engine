@@ -16,6 +16,7 @@
 				"lifespanMin" : "1000000",
 				"lifespanMax" : "1000000",
 				"affectors" : [
+					{"type" : "bounce", "magnitude" : 1.0, "period" : 1.0}
 				]
 			}
 		]
