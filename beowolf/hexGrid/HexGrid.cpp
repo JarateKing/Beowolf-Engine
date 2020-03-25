@@ -47,6 +47,9 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	GenerateHexJSON(width, length, tileWidth);
 	pathFinder->Instance()->Load("resources/objects/AIPathfindingDataTest.json");
 
+	int rockInWaterMax = 30;
+	int rockAlongShoreMax = 15;
+
 	int treeMaxNum = (positions.size() - mountains.size() - desert.size() - roads.size()) / 6 - 1;
 	int treeNum = treeMaxNum;
 	if (treeMaxNum > 4)
@@ -97,6 +100,74 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 		test->setLightDir(glm::vec3(90.0f, 90.0f, 90.0f));
 		trees.push_back(test);
 	}
+
+	float scaleX;
+	float xPos = 0.0f;
+	float zPos = 0.0f;
+
+	for (int i = 0; i < rockInWaterMax; i++)
+	{
+
+		xPos = wolf::RNG::GetRandom(-100.0f, 100.0f);
+		zPos = wolf::RNG::GetRandom(-100.0f, 100.0f);
+		scaleX = wolf::RNG::GetRandom(0.5f, 4.0f);
+
+		while (xPos <= 40.0f && xPos >= -40.0f && zPos <= 40.0f && zPos >= -40.0f)
+		{
+			xPos = wolf::RNG::GetRandom(-75.0f, 75.0f);
+			zPos = wolf::RNG::GetRandom(-75.0f, 75.0f);
+		}
+
+		rockTRS.push_back(glm::translate(xPos, 5.0f, zPos) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
+	}
+
+	std::vector<int> tilesWithRocks;
+	std::vector<int>::iterator it;
+
+	for (int i = 0; i < rockAlongShoreMax; i++)
+	{
+		int curPlacement = GetRandomBorder();
+		it = find(tilesWithRocks.begin(), tilesWithRocks.end(), curPlacement);
+		while (it != tilesWithRocks.end())
+		{
+			curPlacement = GetRandomBorder();
+			it = find(tilesWithRocks.begin(), tilesWithRocks.end(), curPlacement);
+		}
+		tilesWithRocks.push_back(curPlacement);
+	}
+	
+	for (int i = 0; i < rockAlongShoreMax; i++)
+	{
+		scaleX = wolf::RNG::GetRandom(1.0f, 2.5f);
+
+		if (positions.at(tilesWithRocks.at(i)).x <= 0 && positions.at(tilesWithRocks.at(i)).y <= 0)
+		{
+			rockTRS.push_back(glm::translate(glm::vec3(positions.at(tilesWithRocks.at(i)).x - wolf::RNG::GetRandom(2.5f,5.0f), 5.0f, positions.at(tilesWithRocks.at(i)).y - wolf::RNG::GetRandom(2.5f, 5.0f))) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
+		}
+		else if (positions.at(tilesWithRocks.at(i)).x <= 0 && positions.at(tilesWithRocks.at(i)).y >= 0)
+		{
+			rockTRS.push_back(glm::translate(glm::vec3(positions.at(tilesWithRocks.at(i)).x - wolf::RNG::GetRandom(2.5f, 5.0f), 5.0f, positions.at(tilesWithRocks.at(i)).y + wolf::RNG::GetRandom(2.5f, 5.0f))) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
+		}
+		else if (positions.at(tilesWithRocks.at(i)).x >= 0 && positions.at(tilesWithRocks.at(i)).y >= 0)
+		{
+			rockTRS.push_back(glm::translate(glm::vec3(positions.at(tilesWithRocks.at(i)).x + wolf::RNG::GetRandom(2.5f, 5.0f), 5.0f, positions.at(tilesWithRocks.at(i)).y + wolf::RNG::GetRandom(2.5f, 5.0f))) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
+		}
+		else if (positions.at(tilesWithRocks.at(i)).x >= 0 && positions.at(tilesWithRocks.at(i)).y <= 0)
+		{
+			rockTRS.push_back(glm::translate(glm::vec3(positions.at(tilesWithRocks.at(i)).x + wolf::RNG::GetRandom(2.5f, 5.0f), 5.0f, positions.at(tilesWithRocks.at(i)).y - wolf::RNG::GetRandom(2.5f, 5.0f))) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
+		}
+	}
+
+	auto shaders = wolf::ResourceLoader::Instance().getShaders("lit_textured_instanced");
+	auto shadowShaders = wolf::ResourceLoader::Instance().getShaders("shadow_map_instanced");
+
+	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("rock.bmw"), shaders.first, shaders.second, shadowShaders.first, shadowShaders.second);
+	float setScale = wolf::RNG::GetRandom(1.0f, 2.0f);
+	test->setInstancedVariable(rockTRS);
+	test->setLightAmbient(glm::vec4(0.999f, 0.999f, 0.899f, 1.0f));
+	test->setLightDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
+	test->setLightDir(glm::vec3(90.0f, 90.0f, 90.0f));
+	rocks.push_back(test);
 
 	// set up rendering
 	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("hex"));
@@ -866,7 +937,11 @@ void HexGrid::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMat
 	for (int i = 0; i < trees.size(); i++)
 	{
 		if (trees.at(i)->getTransform()[3][1] - 1.0 < maxHeight)
-			trees.at(i)->render(projview, glm::mat4(), lightSpaceMatrix, type, shadowPass, depthMapTexture);
+			trees.at(i)->render(projview, glm::mat4(), lightSpaceMatrix, type, shadowPass, depthMapTexture, false);
+	}
+	for (int i = 0; i < rocks.size(); i++)
+	{
+		rocks.at(i)->render(projview, glm::mat4(), lightSpaceMatrix, type, shadowPass, depthMapTexture, true, minHeight, maxHeight);
 	}
 }
 
