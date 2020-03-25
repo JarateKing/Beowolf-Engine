@@ -119,6 +119,13 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 			dPos.push_back(glm::vec3(positions.at(desert.at(i)).x, 0.0f, positions.at(desert.at(i)).y));
 	}
 	pathFinder->Instance()->SetDesertPositions(dPos);
+
+	// add particle effects
+	for (int i = 0; i < 3; i++) {
+		int pos = grass.at(wolf::RNG::GetRandom(0, grass.size() - 1));
+		m_particleEffectsNoBillboard.push_back(new Effect("resources/particles/item_glow.json"));
+		m_particleEffectsNoBillboard[m_particleEffectsNoBillboard.size() - 1]->SetPos(glm::vec3(positions.at(pos).x, heights.at(pos), positions.at(pos).y));
+	}
 }
 
 HexGrid::~HexGrid()
@@ -769,8 +776,9 @@ void HexGrid::SmoothFullHeights(int width, int numTimes)
 	}
 }
 
-void HexGrid::Render(glm::mat4 projview, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, float minHeight, float maxHeight)
+void HexGrid::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, float minHeight, float maxHeight)
 {
+	glm::mat4 projview = p_proj * p_view;
 	if (shadowPass)
 	{
 		if (type == wolf::RenderFilterOpaque) {
@@ -832,6 +840,27 @@ void HexGrid::Render(glm::mat4 projview, glm::mat4 lightSpaceMatrix, wolf::Rende
 			{
 				selections.at(i)->Render(projview);
 			}
+		}
+		if (type == wolf::RenderFilterTransparent) {
+			m_particleProjMatrix = projview;
+			m_particleProjMatrixNoBillboard = glm::mat4(glm::mat3(p_proj * glm::rotate(90.0f, glm::vec3(1, 0, 0))));
+
+			for (int i = 0; i < m_particleEffects.size(); i++)
+				m_particleEffects[i]->Render(m_particleProjMatrix, type);
+			for (int i = 0; i < m_particleEffectsNoBillboard.size(); i++)
+				m_particleEffectsNoBillboard[i]->Render(m_particleProjMatrix, type);
+		}
+		if (type == wolf::RenderFilterAdditive) {
+			for (int i = 0; i < m_particleEffects.size(); i++)
+				m_particleEffects[i]->Render(m_particleProjMatrix, type);
+			for (int i = 0; i < m_particleEffectsNoBillboard.size(); i++)
+				m_particleEffectsNoBillboard[i]->Render(m_particleProjMatrix, type);
+		}
+		if (type == wolf::RenderFilterDepthless) {
+			for (int i = 0; i < m_particleEffects.size(); i++)
+				m_particleEffects[i]->Render(m_particleProjMatrix, type);
+			for (int i = 0; i < m_particleEffectsNoBillboard.size(); i++)
+				m_particleEffectsNoBillboard[i]->Render(m_particleProjMatrix, type);
 		}
 	}
 	for (int i = 0; i < trees.size(); i++)
@@ -1061,6 +1090,13 @@ void HexGrid::Update(int target, float delta)
 		}
 	}
 	lastFrame = target;
+
+	for (int i = 0; i < m_particleEffects.size(); i++) {
+		m_particleEffects[i]->Update(delta, glm::mat3(m_particleProjMatrix));
+	}
+	for (int i = 0; i < m_particleEffectsNoBillboard.size(); i++) {
+		m_particleEffectsNoBillboard[i]->Update(delta, glm::mat3(m_particleProjMatrixNoBillboard));
+	}
 }
 
 bool HexGrid::cmpf(float a, float b)
