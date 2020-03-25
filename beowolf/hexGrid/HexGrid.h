@@ -12,6 +12,7 @@
 #include "W_TextureManager.h"
 #include "AIPathfinder.h"
 #include "camera/HexSelector.h"
+#include "Effect.h"
 
 class HexGrid
 {
@@ -19,7 +20,7 @@ public:
 	HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile, std::string savedata = "");
 	~HexGrid();
 	void PrintOutLoc();
-	void Render(glm::mat4 projView, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, float minHeight, float maxHeight);
+	void Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, float minHeight, float maxHeight);
 	std::vector<float> GetHeights();
 	std::vector<glm::vec2> GetPos();
 	int GetSize();
@@ -86,6 +87,10 @@ private:
 	glm::vec4 difLight = glm::vec4(1, 1, 1, 1);
 	glm::vec3 lightDir = glm::vec3(1, 1, 1);
 
+	std::vector<Effect*> m_particleEffects;
+	std::vector<Effect*> m_particleEffectsNoBillboard;
+	glm::mat4 m_particleProjMatrix;
+	glm::mat4 m_particleProjMatrixNoBillboard;
 
 	bool targeting = false;
 	bool changed = true;

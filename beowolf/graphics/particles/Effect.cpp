@@ -4,6 +4,7 @@
 #include "AffectorFade.h"
 #include "AffectorVelocity.h"
 #include "AffectorRandomPos.h"
+#include "AffectorBounce.h"
 
 #include "tinyxml.h"
 #include "JSON/json.hpp"
@@ -51,6 +52,13 @@ Effect::Effect(std::string jsonPath)
 		std::string lifespanMint = gameObject["lifespanMin"];
 		std::string lifespanMaxt = gameObject["lifespanMax"];
 
+		int frames = 1;
+		int framerate = 60;
+		if (gameObject.contains("animationFrames"))
+			frames = gameObject["animationFrames"];
+		if (gameObject.contains("animationRate"))
+			framerate = gameObject["animationRate"];
+
 		max = std::stoi(maxt);
 		pos = glm::vec3(std::stof(xt), std::stof(yt), std::stof(zt));
 		duration = std::stof(durationt);
@@ -65,6 +73,7 @@ Effect::Effect(std::string jsonPath)
 		emitter->Translate(pos);
 		emitter->SetAdditive(additive);
 		emitter->SetLifespan(lifespanMin, lifespanMax);
+		emitter->SetAnimatedTexture(frames, framerate);
 
 		auto& affectors = gameObject["affectors"];
 		for (auto& affector : affectors)
@@ -137,6 +146,13 @@ Effect::Effect(std::string jsonPath)
 				radius = std::stof(radiust);
 
 				emitter->AddAffector(new AffectorRandomPos(radius));
+			}
+			else if (affector["type"] == "bounce")
+			{
+				float magnitude = affector["magnitude"];
+				float period = affector["period"];
+
+				emitter->AddAffector(new AffectorBounce(magnitude, period));
 			}
 		}
 

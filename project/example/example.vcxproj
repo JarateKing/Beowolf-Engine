@@ -163,6 +163,7 @@
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudGradient.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudImage.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\Node.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorBounce.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorRandomPos.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorRecolor.cpp" />
@@ -431,6 +432,7 @@
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudImage.h" />
     <ClInclude Include="..\..\beowolf\graphics\Node.h" />
     <ClInclude Include="..\..\beowolf\graphics\particles\affectors\Affector.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorBounce.h" />
     <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorFade.h" />
     <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorRandomPos.h" />
     <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorRecolor.h" />

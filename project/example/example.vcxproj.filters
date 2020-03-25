@@ -260,6 +260,7 @@
     <ClCompile Include="..\..\beowolf\post\PostProcessingQuad.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\LoadingScreen.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\GameSaver.cpp" />
+    <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorBounce.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\camera\Camera.h" />
@@ -603,5 +604,6 @@
     <ClInclude Include="..\..\beowolf\post\PostProcessingQuad.h" />
     <ClInclude Include="..\..\beowolf\game_objects\LoadingScreen.h" />
     <ClInclude Include="..\..\beowolf\game_objects\GameSaver.h" />
+    <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorBounce.h" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,24 @@
+{
+	"Effect" :
+	{
+		"Emitters" : [
+			{
+				"max_particles" : "1",
+				"pX" : "0.0",
+				"pY" : "2.0",
+				"pZ" : "0.0",
+				"duration" : "-1",
+				"rate" : "0.4",
+				"texture" : "resources/textures/particles/butterfly.dds",
+				"additive" : "false",
+				"animationFrames" : 25,
+				"animationRate" : 25,
+				"lifespanMin" : "1000000",
+				"lifespanMax" : "1000000",
+				"affectors" : [
+					{"type" : "bounce", "magnitude" : 1.0, "period" : 1.0}
+				]
+			}
+		]
+	}
+}

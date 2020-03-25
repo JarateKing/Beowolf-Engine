@@ -16,6 +16,7 @@ public:
 	void SetScale(glm::vec3 scale);
 	void SetColor(glm::vec3 color);
 	void SetAlpha(float alpha);
+	void SetAnim(int frames, int framerate);
 
 	void Translate(glm::vec3 pos);
 
@@ -32,6 +33,9 @@ private:
 	Emitter* m_owner;
 	float m_lifetime;
 	float m_duration;
+	int m_frames = 1;
+	int m_framerate = 60;
+	int m_currentframe = 0;
 };
 
 #endif
