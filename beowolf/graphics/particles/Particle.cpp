@@ -44,6 +44,10 @@ void Particle::Update(float delta, glm::mat3 view)
 	if (delta > 0)
 	{
 		m_duration += delta;
+		
+		if (m_frames > 1) {
+			m_currentframe = (int)(m_duration * m_framerate) % m_frames;
+		}
 	}
 
 	m_rot = glm::transpose(view);
@@ -52,7 +56,7 @@ void Particle::Update(float delta, glm::mat3 view)
 	{
 		glm::vec4 pos = glm::vec4(cubeVertices[i].x, cubeVertices[i].y, cubeVertices[i].z, 1);
 		pos = glm::translate(m_pos) * glm::mat4(m_rot) * glm::scale(m_scale) * pos;
-		m_quad[i] = wolf::Vertex({ pos.x, pos.y, pos.z, 0, 0, 0, 0, cubeVertices[i].u, cubeVertices[i].v });
+		m_quad[i] = wolf::Vertex({ pos.x, pos.y, pos.z, 0, 0, 0, 0, (m_currentframe * (1.0f / m_frames)) + cubeVertices[i].u * (1.0f / m_frames), cubeVertices[i].v });
 		m_quad[i].setColor(m_color);
 	}
 
@@ -80,6 +84,12 @@ void Particle::SetColor(glm::vec3 color)
 void Particle::SetAlpha(float alpha)
 {
 	m_color.a = alpha;
+}
+
+void Particle::SetAnim(int frames, int framerate)
+{
+	m_frames = frames;
+	m_framerate = framerate;
 }
 
 void Particle::Translate(glm::vec3 pos)

@@ -73,6 +73,7 @@ void Emitter::Update(float delta, glm::mat3 view)
 
 		m_particles[ppp.particle] = new Particle(ppp.particle, ppp.quad, this, wolf::RNG::GetRandom(m_lifespanMin, m_lifespanMax));
 		m_particles[ppp.particle]->Translate(m_position);
+		m_particles[ppp.particle]->SetAnim(m_animationFrames, m_animationFramerate);
 
 		for (int i = 0; i < m_affectors.size(); i++)
 		{
@@ -163,4 +164,10 @@ void Emitter::SetLifespan(float min, float max)
 {
 	m_lifespanMin = min;
 	m_lifespanMax = max;
+}
+
+void Emitter::SetAnimatedTexture(int frames, int framerate)
+{
+	m_animationFrames = frames;
+	m_animationFramerate = framerate;
 }

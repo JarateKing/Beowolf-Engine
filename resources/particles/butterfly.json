@@ -11,6 +11,8 @@
 				"rate" : "0.4",
 				"texture" : "resources/textures/particles/butterfly.dds",
 				"additive" : "false",
+				"animationFrames" : 25,
+				"animationRate" : 25,
 				"lifespanMin" : "1000000",
 				"lifespanMax" : "1000000",
 				"affectors" : [

@@ -29,6 +29,7 @@ public:
 	void Translate(glm::vec3 pos);
 	void SetAdditive(bool value);
 	void SetLifespan(float min, float max);
+	void SetAnimatedTexture(int frames, int framerate);
 
 private:
 	int m_max;
@@ -38,6 +39,8 @@ private:
 	float m_spawnrateOverflow;
 	float m_lifespanMin;
 	float m_lifespanMax;
+	int m_animationFrames = 1;
+	int m_animationFramerate = 60;
 	bool m_isAdditive;
 	glm::vec3 m_position;
 	std::queue<ParticlePointerPair> m_availableSlots;
