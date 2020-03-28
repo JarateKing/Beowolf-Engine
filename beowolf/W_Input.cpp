@@ -184,4 +184,30 @@ namespace wolf
 	{
 		return timeAfk > delay;
 	}
+
+	bool Input::isControllerButtonPressed(int button)
+	{
+		return controllerbuttons[button] == delta;
+	}
+
+	bool Input::isControllerButtonHeld(int button)
+	{
+		return controllerbuttons[button] > 0 && controllerbuttons[button] != RELEASED;
+	}
+
+	bool Input::isControllerButtonHeld(int button, double delay)
+	{
+		return controllerbuttons[button] > delay;
+	}
+
+	bool Input::isControllerButtonReleased(int button)
+	{
+		return controllerbuttons[button] == RELEASED;
+	}
+
+	bool Input::isControllerButtonUnheld(int button)
+	{
+		return controllerbuttons[button] == 0;
+	}
+
 }
