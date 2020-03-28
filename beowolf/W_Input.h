@@ -103,6 +103,12 @@ namespace wolf
 		bool isControllerButtonReleased(int button);
 		bool isControllerButtonUnheld(int button);
 
+		// controller axis
+		float getControllerAxis(int axis);
+		glm::vec2 getControllerLeftStick();
+		glm::vec2 getControllerRightStick();
+		glm::vec2 getControllerTriggers();
+
 		// combined input
 		double getTimeAfk();
 		bool isAfk(double delay);

@@ -210,4 +210,26 @@ namespace wolf
 		return controllerbuttons[button] == 0;
 	}
 
+	float Input::getControllerAxis(int axis)
+	{
+		return controlleraxis[axis];
+	}
+
+	glm::vec2 Input::getControllerLeftStick()
+	{
+		return glm::vec2(controlleraxis[INPUT_CONTROLLER_AXIS_LH], controlleraxis[INPUT_CONTROLLER_AXIS_LV]);
+	}
+
+	glm::vec2 Input::getControllerRightStick()
+	{
+		return glm::vec2(controlleraxis[INPUT_CONTROLLER_AXIS_RH], controlleraxis[INPUT_CONTROLLER_AXIS_RV]);
+	}
+
+	glm::vec2 Input::getControllerTriggers()
+	{
+		float value = controlleraxis[INPUT_CONTROLLER_AXIS_TRIGGER];
+		float left = (value < 0) ? -value : 0;
+		float right = (value > 0) ? value : 0;
+		return glm::vec2(left, right);
+	}
 }
