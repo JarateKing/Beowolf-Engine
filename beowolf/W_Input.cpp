@@ -66,6 +66,23 @@ namespace wolf
 			timeAfk += delta;
 		else
 			timeAfk = 0;
+
+		
+		// lh lv shoulder rv rh
+		int axisnum = glfwGetJoystickPos(0, controlleraxis, MAXCONTROLLERAXIS);
+
+		// a b x y lb rb back start lstick rstick
+		unsigned char* buttons = new unsigned char[MAXCONTROLLERBUTTONS];
+		int buttonnum = glfwGetJoystickButtons(0, buttons, MAXCONTROLLERBUTTONS);
+		for (int i = 0; i < buttonnum; i++) {
+			if (buttons[i])
+				controllerbuttons[i] = (controllerbuttons[i] == RELEASED) ? delta : controllerbuttons[i] + delta;
+			else if (controllerbuttons[i] == RELEASED)
+				controllerbuttons[i] = 0.0;
+			else
+				controllerbuttons[i] = RELEASED;
+		}
+			
 	}
 
 	double Input::getKey(int key) const

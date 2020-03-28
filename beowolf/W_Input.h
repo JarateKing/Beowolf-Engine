@@ -123,6 +123,12 @@ namespace wolf
 		double keys[MAXKEY] = { 0 };
 		double mbuttons[TOTALMBUTTONS] = { 0 };
 
+		// controller stuff
+		static const int MAXCONTROLLERAXIS = 6;
+		static const int MAXCONTROLLERBUTTONS = 10;
+		float controlleraxis[MAXCONTROLLERAXIS] = { 0 };
+		double controllerbuttons[MAXCONTROLLERBUTTONS] = { 0 };
+
 		// time afk
 		double timeAfk;
 
