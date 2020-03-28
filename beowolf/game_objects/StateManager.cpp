@@ -4,6 +4,7 @@
 #include "W_HudButton.h"
 #include "W_Math.h"
 #include <vector>
+#include "W_Input.h"
 
 void StateManager::Update(float delta) {
 	static float time = 0;
@@ -27,7 +28,7 @@ void StateManager::Update(float delta) {
 
 	if (m_charManager != nullptr && m_hud != nullptr) {
 		if (m_currentState == State::GamestateMainMenu) {
-			if (((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked() || (((wolf::HudButton*)m_hud->GetElement("MM_Load_Button"))->IsClicked() && m_hud->GetElement("MM_Load_Button")->GetVisible())) {
+			if (wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_A) || ((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked() || (((wolf::HudButton*)m_hud->GetElement("MM_Load_Button"))->IsClicked() && m_hud->GetElement("MM_Load_Button")->GetVisible())) {
 				SetState(State::GamestatePlayerTurn);
 
 				for (auto element : m_hud->GetElementsByTag("mainmenu"))
