@@ -31,21 +31,32 @@ void main()
 	vec4 tempColor = mix(focusColor, outOfColor, blur);
 	float distance = LinearizeDepth(texture(depthTexture, TexCoords).x) / (far_plane / 10);
 	float depthValue = LinearizeDepth(texture(depthMap, TexCoords).x) / (far_plane / 10);
-	if(!(depthValue >= 0.99) && ((distance - depthValue) <= 0.001))
+	
+	
+	
+	if(!(depthValue >= 0.9) && ((distance - depthValue) <= 0.01))
 	{
 		tempColor = tempColor * 1.5;
+		
+		bool edge = false;
+		vec2 texelSize = 1.0 / textureSize(depthMap, 0);
+		
+		for(int x = -2; x <= 2; ++x)
+		{
+			for(int y = -2; y <= 2; ++y)
+			{
+				if(!edge)
+				{
+					float pcfDepth = LinearizeDepth(texture(depthMap, TexCoords.xy + vec2(x, y) * texelSize).r) / (far_plane / 10);
+					edge = (pcfDepth < 0.01 || pcfDepth > 0.99) ? true : false;
+				}
+			}
+		}
+		if(edge)
+		{
+			tempColor = vec4 (0.0, 0.0, 0.0, 1.0);
+		}
 	}
+	
 	PixelColor = tempColor;
-	
-	
-	// SECONDARY DEPTH
-	//if(depthValue >= 0.99)
-	//{
-	//	color = vec4(1.0, 0.0, 0.0, 1.0);
-	//}
-	//else
-	//{
-	//	color = vec4(vec3(depthValue), 1.0);
-	//}
-	//PixelColor = color;//vec4(vec3(depthValue), 1.0); // orthographic
 }
