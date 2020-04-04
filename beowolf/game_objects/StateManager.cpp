@@ -46,7 +46,7 @@ void StateManager::Update(float delta) {
 			}
 		}
 		else if (m_currentState == State::GamestatePlayerLost) {
-			if (((wolf::HudButton*)m_hud->GetElement("LS_Restart_Button"))->IsClicked()) {
+			if (wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_A) || ((wolf::HudButton*)m_hud->GetElement("LS_Restart_Button"))->IsClicked()) {
 				SetState(State::GamestatePlayerTurn);
 
 				for (auto element : m_hud->GetElementsByTag("losescreen"))
