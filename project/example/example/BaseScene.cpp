@@ -223,7 +223,7 @@ void BaseScene::Update()
 		saver->SetInfo(cManager, scoreTracker, grid);
 	}
 
-	bool shouldLoad = (((wolf::HudButton*)testhud->GetElement("MM_Load_Button"))->IsClicked() && wasJustAtMainMenu);
+	bool shouldLoad = ((wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_B) || ((wolf::HudButton*)testhud->GetElement("MM_Load_Button"))->IsClicked()) && wasJustAtMainMenu);
 	if (shouldLoad) {
 		delete grid;
 		grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), "savefile.json");
