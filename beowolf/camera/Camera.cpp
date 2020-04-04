@@ -1,6 +1,9 @@
 #include "Camera.h"
 #include <iostream>
 #include "W_Math.h"
+#include <cmath>
+
+const float CONTROLLER_AXIS_THRESHOLD = 0.2;
 
 Camera::Camera(float horizontalAngle, float verticalAngle, glm::vec3 position)
 {
@@ -28,13 +31,17 @@ void Camera::Update(float delta)
 	else if (wolf::Input::Instance().isMouseReleased(INPUT_RMB))
 		glfwEnable(GLFW_MOUSE_CURSOR);
 
+	
 	if (wolf::Input::Instance().isMouseHeld(INPUT_RMB))
 	{
 		float sens = -0.11f * DEG2RAD;
 		m_horiz += wolf::Input::Instance().getMouseDelta().x * sens;
-
-		ApplyAngleVectors();
 	}
+
+	if (std::abs(wolf::Input::Instance().getControllerRightStick().x) > CONTROLLER_AXIS_THRESHOLD)
+		m_horiz += -wolf::Input::Instance().getControllerRightStick().x * DEG2RAD * 1.75f;
+
+	ApplyAngleVectors();
 
 	// position controls
 	float movespeed = delta * 25.0f;
@@ -61,6 +68,17 @@ void Camera::Update(float delta)
 		//{
 			m_pos -= m_aim * movespeed;
 		//}
+	}
+
+	if (std::abs(wolf::Input::Instance().getControllerLeftStick().x) > CONTROLLER_AXIS_THRESHOLD)
+		m_pos += m_right * wolf::Input::Instance().getControllerLeftStick().x * movespeed;
+	if (std::abs(wolf::Input::Instance().getControllerLeftStick().y) > CONTROLLER_AXIS_THRESHOLD)
+		m_pos += glm::vec3(m_aim.x, 0.0f, m_aim.z) * wolf::Input::Instance().getControllerLeftStick().y * movespeed;
+
+	if (std::abs(wolf::Input::Instance().getControllerAxis(INPUT_CONTROLLER_AXIS_TRIGGER)) > CONTROLLER_AXIS_THRESHOLD)
+	{
+		float m_posZ = m_pos.z;
+		m_pos += m_aim * delta * 30.0f * wolf::Input::Instance().getControllerAxis(INPUT_CONTROLLER_AXIS_TRIGGER);
 	}
 
 	if (m_moveTimeLimit != 0 && m_moveTime != m_moveTimeLimit) {
