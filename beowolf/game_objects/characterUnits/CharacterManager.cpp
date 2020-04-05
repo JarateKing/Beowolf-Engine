@@ -219,6 +219,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			{
 				for(int j = 0; j < characters.at(i).GetAttacker().size(); j++)
 					characterIHub.DamageCharacter(characters.at(i).GetName(), characters.at(i).GetAttacker().at(j), characters.at(i).GetDamageReceivedMult());
+				m_cam->InitiateShake();
 			}
 
 			if (characterIHub.GetStat(characters.at(i).GetName(), "HP") <= 0.0f)

@@ -186,8 +186,9 @@ void BaseScene::Update()
 
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_1))
 	{
-		grayLevel += 0.01f;
-		pQuad->SetPercentGray(grayLevel);
+		cam->InitiateShake();
+		//grayLevel += 0.01f;
+		//pQuad->SetPercentGray(grayLevel);
 	}
 	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_2))
 	{
