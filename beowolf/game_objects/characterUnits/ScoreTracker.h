@@ -19,6 +19,7 @@ private:
 
 	int m_score = 0;
 	wolf::Hud* m_hud;
+	int m_highscores[5];
 };
 
 #endif

@@ -1,8 +1,27 @@
 #include "ScoreTracker.h"
+#include <fstream>
 
 ScoreTracker::ScoreTracker(wolf::Hud* hud) {
 	m_hud = hud;
 	m_hud->SetVar("score", "0");
+
+	// if there is no highscores file, make a stub one
+	if (!std::ifstream("highscores.save").good()) {
+		std::ofstream outfile;
+		outfile.open("highscores.save", std::ios::binary);
+		int score = 0;
+		for (int i = 0; i < 5; i++)
+			outfile.write((char*)&score, sizeof(int));
+		outfile.close();
+	}
+
+	// load in highscores
+	std::ifstream infile("highscores.save", std::ifstream::binary);
+	if (infile.good()) {
+		for (int i = 0; i < 5; i++) {
+			infile.read((char*)&m_highscores[i], sizeof(int));
+		}
+	}
 }
 
 ScoreTracker::~ScoreTracker() {
