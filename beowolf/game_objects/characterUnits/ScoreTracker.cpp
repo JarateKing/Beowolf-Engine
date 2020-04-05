@@ -3,7 +3,6 @@
 
 ScoreTracker::ScoreTracker(wolf::Hud* hud) {
 	m_hud = hud;
-	m_hud->SetVar("score", "0");
 
 	// if there is no highscores file, make a stub one
 	if (!std::ifstream("highscores.save").good()) {
@@ -22,6 +21,8 @@ ScoreTracker::ScoreTracker(wolf::Hud* hud) {
 			infile.read((char*)&m_highscores[i], sizeof(int));
 		}
 	}
+
+	ApplyToHud();
 }
 
 ScoreTracker::~ScoreTracker() {
