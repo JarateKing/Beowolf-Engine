@@ -22,3 +22,4 @@ Scoreboard3	3. $highscore3$	3. $highscore3$
 Scoreboard4	4. $highscore4$	4. $highscore4$
 Scoreboard5	5. $highscore5$	5. $highscore5$
 Scoreboard_Back	Back	Back
+Scoreboard_Button	Highscores	Highscores
