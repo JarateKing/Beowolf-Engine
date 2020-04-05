@@ -58,9 +58,8 @@ void ScoreTracker::ApplyHighscore() {
 	if (outfile.good()) {
 		std::ofstream outfile;
 		outfile.open("highscores.save", std::ios::binary);
-		int highscore = 100;
 		for (int i = 0; i < 5; i++)
-			outfile.write((char*)&highscore, sizeof(int));
+			outfile.write((char*)&m_highscores[i], sizeof(int));
 	}
 	outfile.close();
 }
