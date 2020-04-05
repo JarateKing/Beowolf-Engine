@@ -1020,6 +1020,19 @@
 		},
 		{
 			"tags": [
+				"mainmenu", "scoreboard"
+			],
+			"type": "fillcolor",
+			"xpos": 590,
+			"ypos": 15,
+			"zpos": 3,
+			"wide": 740,
+			"tall": 730,
+			
+			"color": "0.0 0.0 0.0 0.3"
+		},
+		{
+			"tags": [
 				"mainmenu"
 			],
 			"name": "MM_Scoreboard_Button",
