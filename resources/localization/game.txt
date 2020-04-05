@@ -15,3 +15,10 @@ UI_Attack	Attack: $HoverAttackStat$	Attack: $HoverAttackStat$
 UI_Defense	Defense: $HoverDefenseStat$	Defense: $HoverDefenseStat$
 UI_Speed	Speed: $HoverSpeedStat$	Speed: $HoverSpeedStat$
 UI_Itemstat	$HoverItemStatName$: +$HoverItemStatValue$	$HoverItemStatName$: +$HoverItemStatValue$
+Scoreboard	Highscores	Highscores
+Scoreboard1	1. $highscore1$	1. $highscore1$
+Scoreboard2	2. $highscore2$	2. $highscore2$
+Scoreboard3	3. $highscore3$	3. $highscore3$
+Scoreboard4	4. $highscore4$	4. $highscore4$
+Scoreboard5	5. $highscore5$	5. $highscore5$
+Scoreboard_Back	Back	Back
