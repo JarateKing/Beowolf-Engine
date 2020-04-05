@@ -14,6 +14,7 @@ public:
 	void SetScore(int score);
 	void AddScore(int score);
 	int GetScore();
+	void ApplyHighscore();
 private:
 	void ApplyToHud();
 

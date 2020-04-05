@@ -25,15 +25,7 @@ ScoreTracker::ScoreTracker(wolf::Hud* hud) {
 }
 
 ScoreTracker::~ScoreTracker() {
-	// print scores
-	std::ofstream outfile;
-	if (outfile.good()) {
-		std::ofstream outfile;
-		outfile.open("highscores.save", std::ios::binary);
-		for (int i = 0; i < 5; i++)
-			outfile.write((char*)&m_highscores[i], sizeof(int));
-	}
-	outfile.close();
+	
 }
 
 void ScoreTracker::SetScore(int score) {
@@ -52,4 +44,23 @@ int ScoreTracker::GetScore() {
 
 void ScoreTracker::ApplyToHud() {
 	m_hud->SetVar("score", std::to_string(m_score));
+}
+
+void ScoreTracker::ApplyHighscore() {
+	// apply new highscores
+	int current = m_score;
+	for (int i = 0; i < 5; i++)
+		if (current > m_highscores[i])
+			std::swap(m_highscores[i], current);
+
+	// save scores
+	std::ofstream outfile;
+	if (outfile.good()) {
+		std::ofstream outfile;
+		outfile.open("highscores.save", std::ios::binary);
+		int highscore = 100;
+		for (int i = 0; i < 5; i++)
+			outfile.write((char*)&highscore, sizeof(int));
+	}
+	outfile.close();
 }
