@@ -21,6 +21,7 @@ public:
 	void SetSoundEngine(wolf::SoundEngine* soundEng);
 	void SetHud(wolf::Hud* hud);
 	void SetCamera(Camera* cam);
+	void SetScoreTracker(ScoreTracker* tracker);
 
 private:
 	StateManager() {
@@ -37,4 +38,5 @@ private:
 	wolf::SoundEngine* m_soundEngine;
 	wolf::Hud* m_hud;
 	Camera* m_cam;
+	ScoreTracker* m_scoreTracker;
 };

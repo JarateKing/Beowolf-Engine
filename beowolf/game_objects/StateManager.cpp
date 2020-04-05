@@ -165,6 +165,8 @@ void StateManager::SetState(State state) {
 				element->SetY(element->GetY() + 60);
 			for (auto element : m_hud->GetElementsByTag("hpbar3"))
 				element->SetY(element->GetY() + 120);
+
+			m_scoreTracker->ApplyHighscore();
 		}
 	}
 }
@@ -213,4 +215,8 @@ void StateManager::SetCamera(Camera* cam) {
 		m_cam->SetVerticleAngle(0.5);
 		m_cam->ForceAngleUpdate();
 	}
+}
+
+void StateManager::SetScoreTracker(ScoreTracker* tracker) {
+	m_scoreTracker = tracker;
 }

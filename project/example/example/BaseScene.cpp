@@ -144,6 +144,7 @@ void BaseScene::Init()
 
 	scoreTracker = new ScoreTracker(testhud);
 	cManager->SetScoreTracker(scoreTracker);
+	StateManager::getInstance().SetScoreTracker(scoreTracker);
 	SE->Play3DSound("base_theme", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), true);
 	SE->UpdateSystem();
 
