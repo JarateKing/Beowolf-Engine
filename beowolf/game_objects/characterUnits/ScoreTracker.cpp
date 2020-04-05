@@ -44,6 +44,9 @@ int ScoreTracker::GetScore() {
 
 void ScoreTracker::ApplyToHud() {
 	m_hud->SetVar("score", std::to_string(m_score));
+
+	for (int i = 0; i < 5; i++)
+		m_hud->SetVar("highscore" + std::to_string(i + 1), std::to_string(m_highscores[i]));
 }
 
 void ScoreTracker::ApplyHighscore() {
@@ -62,4 +65,6 @@ void ScoreTracker::ApplyHighscore() {
 			outfile.write((char*)&m_highscores[i], sizeof(int));
 	}
 	outfile.close();
+
+	ApplyToHud();
 }
