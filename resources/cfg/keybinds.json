@@ -1,14 +1,14 @@
 {
-	"pressed": [
+	"pressed": {
 		"space": [ "togglespecial" ],
 		"leftclick": [ "select" ],
 		"controller_a": [ "select", "startgame", "leavescoreboard" ],
 		"controller_b": [ "startgame", "loadgame", "leavescoreboard" ],
 		"controller_x": [ "scoreboard" ],
 		"controller_y": [ "togglespecial" ]
-	],
+	},
 	
-	"held": [
+	"held": {
 		"rightclick": [ "movecamera" ],
 		"w": [ "cameraforward" ],
 		"a": [ "cameraleft" ],
@@ -16,5 +16,11 @@
 		"d": [ "cameraright" ],
 		"q": [ "cameraout" ],
 		"e": [ "camerain" ]
-	]
+	},
+	
+	"released": {
+	},
+	
+	"unheld": {
+	}
 }
