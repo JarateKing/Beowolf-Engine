@@ -5,6 +5,7 @@
 #include "W_Math.h"
 #include <vector>
 #include "W_Input.h"
+#include "W_Keybind.h"
 
 void StateManager::Update(float delta) {
 	static float time = 0;
@@ -28,7 +29,7 @@ void StateManager::Update(float delta) {
 
 	if (m_charManager != nullptr && m_hud != nullptr) {
 		if (m_currentState == State::GamestateMainMenu) {
-			if (wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_A) || wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_B) || ((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked() || (((wolf::HudButton*)m_hud->GetElement("MM_Load_Button"))->IsClicked() && m_hud->GetElement("MM_Load_Button")->GetVisible())) {
+			if (wolf::Keybind::Instance().getBind("startgame") || ((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked() || (((wolf::HudButton*)m_hud->GetElement("MM_Load_Button"))->IsClicked() && m_hud->GetElement("MM_Load_Button")->GetVisible())) {
 				SetState(State::GamestatePlayerTurn);
 
 				for (auto element : m_hud->GetElementsByTag("mainmenu"))
@@ -45,12 +46,12 @@ void StateManager::Update(float delta) {
 				m_soundEngine->UpdateSystem();
 			}
 
-			if (wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_X) || ((wolf::HudButton*)m_hud->GetElement("MM_Scoreboard_Button"))->IsClicked()) {
+			if (wolf::Keybind::Instance().getBind("scoreboard") || ((wolf::HudButton*)m_hud->GetElement("MM_Scoreboard_Button"))->IsClicked()) {
 				SetState(State::GamestateScoreboard);
 			}
 		}
 		else if (m_currentState == State::GamestatePlayerLost) {
-			if (wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_A) || ((wolf::HudButton*)m_hud->GetElement("LS_Restart_Button"))->IsClicked()) {
+			if (wolf::Keybind::Instance().getBind("startgame") || ((wolf::HudButton*)m_hud->GetElement("LS_Restart_Button"))->IsClicked()) {
 				SetState(State::GamestatePlayerTurn);
 
 				for (auto element : m_hud->GetElementsByTag("losescreen"))
@@ -109,7 +110,7 @@ void StateManager::Update(float delta) {
 			}
 		}
 		else if (m_currentState == State::GamestateScoreboard) {
-			if (wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_A) || wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_B) || ((wolf::HudButton*)m_hud->GetElement("Scoreboard_Back_Button"))->IsClicked()) {
+			if (wolf::Keybind::Instance().getBind("leavescoreboard") || ((wolf::HudButton*)m_hud->GetElement("Scoreboard_Back_Button"))->IsClicked()) {
 				SetState(State::GamestateMainMenu);
 			}
 		}
