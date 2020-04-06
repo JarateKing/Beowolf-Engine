@@ -1,11 +1,34 @@
 #include "W_Keybind.h"
+#include "JSON/json.hpp"
+#include <sstream>
+#include <fstream>
 
 namespace wolf
 {
 	void Keybind::addBinds(std::string jsonfile) {
+		std::ifstream jsonIn(jsonfile);
+		if (jsonIn) {
+			std::stringstream jsonFileStream;
+			jsonFileStream << jsonIn.rdbuf();
+			std::string jsonFileData = jsonFileStream.str();
+			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
 
+			for (auto bind = jsonData["pressed"].begin(); bind != jsonData["pressed"].end(); bind++)
+				for (std::string command : bind.value())
+					m_pressed[command].push_back(bind.key());
 
-		createKeymap();
+			for (auto bind = jsonData["held"].begin(); bind != jsonData["held"].end(); bind++)
+				for (std::string command : bind.value())
+					m_held[command].push_back(bind.key());
+
+			for (auto bind = jsonData["released"].begin(); bind != jsonData["released"].end(); bind++)
+				for (std::string command : bind.value())
+					m_released[command].push_back(bind.key());
+
+			for (auto bind = jsonData["unheld"].begin(); bind != jsonData["unheld"].end(); bind++)
+				for (std::string command : bind.value())
+					m_unheld[command].push_back(bind.key());
+		}
 	}
 
 	bool Keybind::getBind(std::string bind) {

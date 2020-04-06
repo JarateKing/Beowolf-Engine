@@ -36,6 +36,7 @@
 #include "GameSaver.h"
 #include "W_HudButton.h"
 #include <sstream>
+#include "W_Keybind.h"
 
 const float DISTANCEFACTOR = 1.0f;
 wolf::SoundEngine* SE;
@@ -153,6 +154,8 @@ void BaseScene::Init()
 
 	saver = new GameSaver(testhud);
 	saver->SetInfo(cManager, scoreTracker, grid);
+
+	wolf::Keybind::Instance().addBinds("resources/cfg/keybinds.json");
 }
 
 void BaseScene::Update()
