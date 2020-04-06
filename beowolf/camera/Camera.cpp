@@ -2,6 +2,7 @@
 #include <iostream>
 #include "W_Math.h"
 #include <cmath>
+#include "W_Keybind.h"
 
 const float CONTROLLER_AXIS_THRESHOLD = 0.2;
 
@@ -50,7 +51,7 @@ void Camera::Update(float delta)
 		glfwEnable(GLFW_MOUSE_CURSOR);
 
 	
-	if (wolf::Input::Instance().isMouseHeld(INPUT_RMB))
+	if (wolf::Keybind::Instance().getBind("movecamera"))
 	{
 		float sens = -0.11f * DEG2RAD;
 		m_horiz += wolf::Input::Instance().getMouseDelta().x * sens;
@@ -63,15 +64,15 @@ void Camera::Update(float delta)
 
 	// position controls
 	float movespeed = delta * 25.0f;
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_W))
+	if (wolf::Keybind::Instance().getBind("cameraforward"))
 		m_pos += glm::vec3(m_aim.x, 0.0f, m_aim.z) * movespeed;
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_S))
+	if (wolf::Keybind::Instance().getBind("cameraback"))
 		m_pos -= glm::vec3(m_aim.x, 0.0f, m_aim.z) * movespeed;
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_A))
+	if (wolf::Keybind::Instance().getBind("cameraleft"))
 		m_pos -= m_right * movespeed;
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_D))
+	if (wolf::Keybind::Instance().getBind("cameraright"))
 		m_pos += m_right * movespeed;
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_Q))
+	if (wolf::Keybind::Instance().getBind("camerain"))
 	{
 		float m_posZ = m_pos.z;
 		//if (m_pos.y >= startY - 15)
@@ -79,7 +80,7 @@ void Camera::Update(float delta)
 			m_pos += m_aim * movespeed;
 		//}
 	}
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_E))
+	if (wolf::Keybind::Instance().getBind("cameraout"))
 	{
 		float m_posZ = m_pos.z;
 		//if (m_pos.y <= startY + 15)
