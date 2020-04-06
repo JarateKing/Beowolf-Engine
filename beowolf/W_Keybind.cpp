@@ -75,10 +75,10 @@ namespace wolf
 	void Keybind::createKeymap() {
 		// alphanumeric
 		for (char i = 'a'; i <= 'z'; i++) {
-			m_keymap[std::string(1, i)] = { 0, INPUT_KB_A };
+			m_keymap[std::string(1, i)] = { 0, INPUT_KB_A + (i - 'a')};
 		}
 		for (char i = '0'; i <= '9'; i++) {
-			m_keymap[std::string(1, i)] = { 0, INPUT_KB_0 };
+			m_keymap[std::string(1, i)] = { 0, INPUT_KB_0 + (i - '0') };
 		}
 		m_keymap["space"] = { 0, INPUT_KB_SPACE };
 
