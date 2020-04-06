@@ -33,17 +33,17 @@ unsigned int depthFieldMapTex;
 unsigned int reflectionFrameBuf;
 unsigned int reflectionRenderBuf;
 unsigned int reflectionTex;
-const unsigned int REFLECTION_WIDTH = 400, REFLECTION_HEIGHT = 400;
+const unsigned int REFLECTION_WIDTH = 512, REFLECTION_HEIGHT = 512;
 
 unsigned int refractionFrameBuf;
 unsigned int refractionRenderBuf;
 unsigned int refractionTex;
-const unsigned int REFRACTION_WIDTH = 400, REFRACTION_HEIGHT = 400;
+const unsigned int REFRACTION_WIDTH = 512, REFRACTION_HEIGHT = 512;
 
 unsigned int fogFrameBuf;
 unsigned int fogRenderBuf;
 unsigned int fogTex;
-const unsigned int FOG_WIDTH = 400, FOG_HEIGHT = 400;
+const unsigned int FOG_WIDTH = 512, FOG_HEIGHT = 512;
 
 unsigned int postFrameBuf1;
 unsigned int postFrameBuf2;
@@ -300,9 +300,10 @@ void updateGameLogic(Scene* scene)
 	scene->Render(RenderTarget::PostProcessing);
 
 	//Render scene to Post Processing Texture w/ GrayScale
-	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
-	glViewport(0, 0, width, height);
-	scene->Render(RenderTarget::GrayScale);
+	//glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
+	//glViewport(0, 0, width, height);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//scene->Render(RenderTarget::GrayScale);
 
 	//Render characters to depthTexture
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf2);
