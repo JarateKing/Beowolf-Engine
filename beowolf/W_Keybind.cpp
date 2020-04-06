@@ -3,6 +3,12 @@
 #include <sstream>
 #include <fstream>
 
+enum InputType {
+	Keyboard,
+	Mouse,
+	Controller
+};
+
 namespace wolf
 {
 	void Keybind::addBinds(std::string jsonfile) {
@@ -34,38 +40,38 @@ namespace wolf
 	bool Keybind::getBind(std::string bind) {
 		for (auto key : m_pressed[bind]) {
 			std::pair<int, int> keyval = m_keymap[key];
-			if (keyval.first == 0 && Input::Instance().isKeyPressed(keyval.second))
+			if (keyval.first == InputType::Keyboard && Input::Instance().isKeyPressed(keyval.second))
 				return true;
-			else if (keyval.first == 1 && Input::Instance().isMousePressed(keyval.second))
+			else if (keyval.first == InputType::Mouse && Input::Instance().isMousePressed(keyval.second))
 				return true;
-			else if (keyval.first == 2 && Input::Instance().isControllerButtonPressed(keyval.second))
+			else if (keyval.first == InputType::Controller && Input::Instance().isControllerButtonPressed(keyval.second))
 				return true;
 		}
 		for (auto key : m_held[bind]) {
 			std::pair<int, int> keyval = m_keymap[key];
-			if (keyval.first == 0 && Input::Instance().isKeyHeld(keyval.second))
+			if (keyval.first == InputType::Keyboard && Input::Instance().isKeyHeld(keyval.second))
 				return true;
-			else if (keyval.first == 1 && Input::Instance().isMouseHeld(keyval.second))
+			else if (keyval.first == InputType::Mouse && Input::Instance().isMouseHeld(keyval.second))
 				return true;
-			else if (keyval.first == 2 && Input::Instance().isControllerButtonHeld(keyval.second))
+			else if (keyval.first == InputType::Controller && Input::Instance().isControllerButtonHeld(keyval.second))
 				return true;
 		}
 		for (auto key : m_released[bind]) {
 			std::pair<int, int> keyval = m_keymap[key];
-			if (keyval.first == 0 && Input::Instance().isKeyReleased(keyval.second))
+			if (keyval.first == InputType::Keyboard && Input::Instance().isKeyReleased(keyval.second))
 				return true;
-			else if (keyval.first == 1 && Input::Instance().isMouseReleased(keyval.second))
+			else if (keyval.first == InputType::Mouse && Input::Instance().isMouseReleased(keyval.second))
 				return true;
-			else if (keyval.first == 2 && Input::Instance().isControllerButtonReleased(keyval.second))
+			else if (keyval.first == InputType::Controller && Input::Instance().isControllerButtonReleased(keyval.second))
 				return true;
 		}
 		for (auto key : m_unheld[bind]) {
 			std::pair<int, int> keyval = m_keymap[key];
-			if (keyval.first == 0 && Input::Instance().isKeyUnheld(keyval.second))
+			if (keyval.first == InputType::Keyboard && Input::Instance().isKeyUnheld(keyval.second))
 				return true;
-			else if (keyval.first == 1 && Input::Instance().isMouseUnheld(keyval.second))
+			else if (keyval.first == InputType::Mouse && Input::Instance().isMouseUnheld(keyval.second))
 				return true;
-			else if (keyval.first == 2 && Input::Instance().isControllerButtonUnheld(keyval.second))
+			else if (keyval.first == InputType::Controller && Input::Instance().isControllerButtonUnheld(keyval.second))
 				return true;
 		}
 
@@ -75,23 +81,23 @@ namespace wolf
 	void Keybind::createKeymap() {
 		// alphanumeric
 		for (char i = 'a'; i <= 'z'; i++) {
-			m_keymap[std::string(1, i)] = { 0, INPUT_KB_A + (i - 'a')};
+			m_keymap[std::string(1, i)] = { InputType::Keyboard, INPUT_KB_A + (i - 'a')};
 		}
 		for (char i = '0'; i <= '9'; i++) {
-			m_keymap[std::string(1, i)] = { 0, INPUT_KB_0 + (i - '0') };
+			m_keymap[std::string(1, i)] = { InputType::Keyboard, INPUT_KB_0 + (i - '0') };
 		}
-		m_keymap["space"] = { 0, INPUT_KB_SPACE };
+		m_keymap["space"] = { InputType::Keyboard, INPUT_KB_SPACE };
 
 		// mouse
-		m_keymap["leftclick"] = { 1, INPUT_LMB };
-		m_keymap["rightclick"] = { 1, INPUT_RMB };
+		m_keymap["leftclick"] = { InputType::Mouse, INPUT_LMB };
+		m_keymap["rightclick"] = { InputType::Mouse, INPUT_RMB };
 
 		// controller
-		m_keymap["controller_a"] = { 2, INPUT_CONTROLLER_A };
-		m_keymap["controller_b"] = { 2, INPUT_CONTROLLER_B };
-		m_keymap["controller_x"] = { 2, INPUT_CONTROLLER_X };
-		m_keymap["controller_y"] = { 2, INPUT_CONTROLLER_Y };
-		m_keymap["controller_lb"] = { 2, INPUT_CONTROLLER_LB };
-		m_keymap["controller_rb"] = { 2, INPUT_CONTROLLER_RB };
+		m_keymap["controller_a"] = { InputType::Controller, INPUT_CONTROLLER_A };
+		m_keymap["controller_b"] = { InputType::Controller, INPUT_CONTROLLER_B };
+		m_keymap["controller_x"] = { InputType::Controller, INPUT_CONTROLLER_X };
+		m_keymap["controller_y"] = { InputType::Controller, INPUT_CONTROLLER_Y };
+		m_keymap["controller_lb"] = { InputType::Controller, INPUT_CONTROLLER_LB };
+		m_keymap["controller_rb"] = { InputType::Controller, INPUT_CONTROLLER_RB };
 	}
 }
