@@ -5,6 +5,7 @@
 #include "W_Common.h"
 #include <map>
 #include <vector>
+#include <utility>
 
 namespace wolf
 {
@@ -34,9 +35,12 @@ namespace wolf
 		// private constructor
 		Keybind() {}
 
+		void createKeymap();
+
 		//-------------------------------------------------------------------------
 		// PRIVATE MEMBERS
 		//-------------------------------------------------------------------------
+		std::map<std::string, std::pair<int, int>> m_keymap;
 		std::map<std::string, std::vector<std::string>> m_pressed;
 		std::map<std::string, std::vector<std::string>> m_held;
 		std::map<std::string, std::vector<std::string>> m_released;
