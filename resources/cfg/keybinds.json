@@ -5,7 +5,10 @@
 		"controller_a": [ "select", "startgame", "leavescoreboard" ],
 		"controller_b": [ "startgame", "loadgame", "leavescoreboard" ],
 		"controller_x": [ "scoreboard" ],
-		"controller_y": [ "togglespecial" ]
+		"controller_y": [ "togglespecial" ],
+		"controller_rb": [ "switchunit" ],
+		"controller_lb": [ "switchunit" ],
+		"f": [ "switchunit" ]
 	},
 	
 	"held": {

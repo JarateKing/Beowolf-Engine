@@ -113,7 +113,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	m_cameraTime += p_deltaT;
 	if (characters.size() > 0) {
 		m_cameraUnit %= characters.size();
-		if (wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_RB) || wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_LB) || wolf::Input::Instance().isKeyPressed(INPUT_KB_F)) {
+		if (wolf::Keybind::Instance().getBind("switchunit")) {
 			if (m_cameraTime < 2.0f) {
 				m_cameraUnit = (m_cameraUnit + 1) % characters.size();
 			}

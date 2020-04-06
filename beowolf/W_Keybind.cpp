@@ -91,5 +91,7 @@ namespace wolf
 		m_keymap["controller_b"] = { 2, INPUT_CONTROLLER_B };
 		m_keymap["controller_x"] = { 2, INPUT_CONTROLLER_X };
 		m_keymap["controller_y"] = { 2, INPUT_CONTROLLER_Y };
+		m_keymap["controller_lb"] = { 2, INPUT_CONTROLLER_LB };
+		m_keymap["controller_rb"] = { 2, INPUT_CONTROLLER_RB };
 	}
 }
