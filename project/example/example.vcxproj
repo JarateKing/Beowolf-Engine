@@ -193,6 +193,7 @@
     <ClCompile Include="..\..\beowolf\text\W_TextTable.cpp" />
     <ClCompile Include="..\..\beowolf\W_Common.cpp" />
     <ClCompile Include="..\..\beowolf\W_Input.cpp" />
+    <ClCompile Include="..\..\beowolf\W_Keybind.cpp" />
     <ClCompile Include="..\..\beowolf\W_ResourceLoader.cpp" />
     <ClCompile Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btAxisSweep3.cpp" />
     <ClCompile Include="..\..\lib\bullet\src\BulletCollision\BroadphaseCollision\btBroadphaseProxy.cpp" />
@@ -464,6 +465,7 @@
     <ClInclude Include="..\..\beowolf\W_Common.h" />
     <ClInclude Include="..\..\beowolf\W_Input.h" />
     <ClInclude Include="..\..\beowolf\W_Input_Keys.h" />
+    <ClInclude Include="..\..\beowolf\W_Keybind.h" />
     <ClInclude Include="..\..\beowolf\W_ResourceLoader.h" />
     <ClInclude Include="..\..\beowolf\W_Types.h" />
     <ClInclude Include="..\..\lib\bullet\src\btBulletCollisionCommon.h" />
