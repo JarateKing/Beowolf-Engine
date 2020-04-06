@@ -9,17 +9,41 @@ namespace wolf
 	}
 
 	bool Keybind::getBind(std::string bind) {
-		for (auto keys : m_pressed[bind]) {
-
+		for (auto key : m_pressed[bind]) {
+			std::pair<int, int> keyval = m_keymap[key];
+			if (keyval.first == 0 && Input::Instance().isKeyPressed(keyval.second))
+				return true;
+			else if (keyval.first == 1 && Input::Instance().isMousePressed(keyval.second))
+				return true;
+			else if (keyval.first == 2 && Input::Instance().isControllerButtonPressed(keyval.second))
+				return true;
 		}
-		for (auto keys : m_held[bind]) {
-
+		for (auto key : m_held[bind]) {
+			std::pair<int, int> keyval = m_keymap[key];
+			if (keyval.first == 0 && Input::Instance().isKeyHeld(keyval.second))
+				return true;
+			else if (keyval.first == 1 && Input::Instance().isMouseHeld(keyval.second))
+				return true;
+			else if (keyval.first == 2 && Input::Instance().isControllerButtonHeld(keyval.second))
+				return true;
 		}
-		for (auto keys : m_released[bind]) {
-
+		for (auto key : m_released[bind]) {
+			std::pair<int, int> keyval = m_keymap[key];
+			if (keyval.first == 0 && Input::Instance().isKeyReleased(keyval.second))
+				return true;
+			else if (keyval.first == 1 && Input::Instance().isMouseReleased(keyval.second))
+				return true;
+			else if (keyval.first == 2 && Input::Instance().isControllerButtonReleased(keyval.second))
+				return true;
 		}
-		for (auto keys : m_unheld[bind]) {
-
+		for (auto key : m_unheld[bind]) {
+			std::pair<int, int> keyval = m_keymap[key];
+			if (keyval.first == 0 && Input::Instance().isKeyUnheld(keyval.second))
+				return true;
+			else if (keyval.first == 1 && Input::Instance().isMouseUnheld(keyval.second))
+				return true;
+			else if (keyval.first == 2 && Input::Instance().isControllerButtonUnheld(keyval.second))
+				return true;
 		}
 
 		return false;
