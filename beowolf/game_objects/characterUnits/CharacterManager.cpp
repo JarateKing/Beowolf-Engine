@@ -6,6 +6,7 @@
 #include <cmath>
 #include "camera/HexSelector.h"
 #include "StateManager.h"
+#include "W_Keybind.h"
 #include <sstream>
 
 CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::string savedata)
@@ -498,7 +499,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	}
 
 	//Check if mouse pressed on top of hero
-	if ((wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_A) || wolf::Input::Instance().isMousePressed(INPUT_LMB)) && targeting == false && timeBetween >= 0.2f)
+	if (wolf::Keybind::Instance().getBind("select") && targeting == false && timeBetween >= 0.2f)
 	{		
 		prevTarget = currTarget;
 		for (auto it = characters.begin(); it != characters.end(); it++)
@@ -527,7 +528,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	}
 
 	// handle special moves
-	if ((wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_Y) || wolf::Input::Instance().isKeyPressed(INPUT_KB_SPACE)) && targeting == true) {
+	if (wolf::Keybind::Instance().getBind("togglespecial") && targeting == true) {
 		for (int i = 0; i < characters.size(); i++) {
 			if (characters[i].GetName() == targetName && characters[i].GetCooldown() == 0) {
 				// special case with the lich
@@ -546,7 +547,7 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 	}
 
 	//check if mouse pressed for second time away from hero
-	if ((wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_A) || wolf::Input::Instance().isMousePressed(INPUT_LMB)) && targeting == true && timeBetween >= 0.2f)
+	if (wolf::Keybind::Instance().getBind("select") && targeting == true && timeBetween >= 0.2f)
 	{
 		bool heroPositionedOnTile = false;
 		//bool withinTarget = false;
