@@ -182,25 +182,6 @@ void BaseScene::Update()
 	if (shouldSwap)
 		shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerTurn;
 
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_T))
-		cManager->PrintCharacterTilePos();
-
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_Y))
-		shouldSwap = true;
-
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_1))
-	{
-		cam->InitiateShake();
-		//grayLevel += 0.01f;
-		//pQuad->SetPercentGray(grayLevel);
-	}
-	if (wolf::Input::Instance().isKeyHeld(INPUT_KB_2))
-	{
-		grayLevel -= 0.01f;
-		pQuad->SetPercentGray(grayLevel);
-	}
-
-
 	if (shouldSwap) {
 
 		delete cam;
@@ -228,7 +209,7 @@ void BaseScene::Update()
 		saver->SetInfo(cManager, scoreTracker, grid);
 	}
 
-	bool shouldLoad = ((wolf::Input::Instance().isControllerButtonPressed(INPUT_CONTROLLER_B) || ((wolf::HudButton*)testhud->GetElement("MM_Load_Button"))->IsClicked()) && wasJustAtMainMenu);
+	bool shouldLoad = ((wolf::Keybind::Instance().getBind("loadgame") || ((wolf::HudButton*)testhud->GetElement("MM_Load_Button"))->IsClicked()) && wasJustAtMainMenu);
 	if (shouldLoad) {
 		delete grid;
 		grid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), "savefile.json");
