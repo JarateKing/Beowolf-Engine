@@ -848,6 +848,236 @@
 			"tall": 64,
 			
 			"image": "hud/save_icon.tga"
+		},
+		
+		{
+			"tags": [
+				"mainmenu", "scoreboard"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 30,
+			"zpos": 3,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 100,
+			
+			"label": "Scoreboard",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 64,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"mainmenu", "scoreboard"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 180,
+			"zpos": 3,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 100,
+			
+			"label": "Scoreboard1",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 45,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"mainmenu", "scoreboard"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 290,
+			"zpos": 3,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 100,
+			
+			"label": "Scoreboard2",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 45,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"mainmenu", "scoreboard"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 400,
+			"zpos": 3,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 100,
+			
+			"label": "Scoreboard3",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 45,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"mainmenu", "scoreboard"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 510,
+			"zpos": 3,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 100,
+			
+			"label": "Scoreboard4",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 45,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"mainmenu", "scoreboard"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 620,
+			"zpos": 3,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 100,
+			
+			"label": "Scoreboard5",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 45,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"mainmenu", "scoreboard"
+			],
+			"name": "Scoreboard_Back_Button",
+			"type": "button",
+			"xpos": 710,
+			"ypos": 850,
+			"zpos": 1,
+			"wide": 500,
+			"tall": 50
+		},
+		{
+			"tags": [
+				"mainmenu", "scoreboard"
+			],
+			"type": "gradient",
+			"xpos": 710,
+			"ypos": 850,
+			"zpos": 10,
+			"wide": 500,
+			"tall": 50,
+			
+			"topLeft": "0.1 0.1 0.1 1.0",
+			"topRight": "0.1 0.1 0.1 1.0",
+			"bottomLeft": "0.05 0.05 0.05 1.0",
+			"bottomRight": "0.05 0.05 0.05 1.0"
+		},
+		{
+			"tags": [
+				"mainmenu", "scoreboard"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 850,
+			"zpos": 0,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 50,
+			
+			"label": "Scoreboard_Back",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 24,
+			"color": "1.0 1.0 1.0 1.0"
+		},
+		{
+			"tags": [
+				"mainmenu", "scoreboard"
+			],
+			"type": "fillcolor",
+			"xpos": 590,
+			"ypos": 15,
+			"zpos": 3,
+			"wide": 740,
+			"tall": 730,
+			
+			"color": "0.0 0.0 0.0 0.3"
+		},
+		{
+			"tags": [
+				"mainmenu"
+			],
+			"name": "MM_Scoreboard_Button",
+			"type": "button",
+			"xpos": 710,
+			"ypos": 920,
+			"zpos": 1,
+			"wide": 500,
+			"tall": 50
+		},
+		{
+			"tags": [
+				"mainmenu"
+			],
+			"type": "gradient",
+			"xpos": 710,
+			"ypos": 920,
+			"zpos": 10,
+			"wide": 500,
+			"tall": 50,
+			
+			"topLeft": "0.1 0.1 0.1 1.0",
+			"topRight": "0.1 0.1 0.1 1.0",
+			"bottomLeft": "0.05 0.05 0.05 1.0",
+			"bottomRight": "0.05 0.05 0.05 1.0"
+		},
+		{
+			"tags": [
+				"mainmenu"
+			],
+			"type": "textbox",
+			"xpos": 0,
+			"ypos": 920,
+			"zpos": 0,
+			"wide": 1,
+			"wideRelative": true,
+			"tall": 50,
+			
+			"label": "Scoreboard_Button",
+			"labelRaw": false,
+			"alignment": "center",
+			
+			"font": "OpenSans",
+			"fontSize": 24,
+			"color": "1.0 1.0 1.0 1.0"
 		}
 	]
 }

@@ -4,6 +4,8 @@
 #include "W_HudButton.h"
 #include "W_Math.h"
 #include <vector>
+#include "W_Input.h"
+#include "W_Keybind.h"
 
 void StateManager::Update(float delta) {
 	static float time = 0;
@@ -27,7 +29,7 @@ void StateManager::Update(float delta) {
 
 	if (m_charManager != nullptr && m_hud != nullptr) {
 		if (m_currentState == State::GamestateMainMenu) {
-			if (((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked() || (((wolf::HudButton*)m_hud->GetElement("MM_Load_Button"))->IsClicked() && m_hud->GetElement("MM_Load_Button")->GetVisible())) {
+			if (wolf::Keybind::Instance().getBind("startgame") || ((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked() || (((wolf::HudButton*)m_hud->GetElement("MM_Load_Button"))->IsClicked() && m_hud->GetElement("MM_Load_Button")->GetVisible())) {
 				SetState(State::GamestatePlayerTurn);
 
 				for (auto element : m_hud->GetElementsByTag("mainmenu"))
@@ -43,9 +45,13 @@ void StateManager::Update(float delta) {
 				m_soundEngine->PlayBasicSound("start_jingle");
 				m_soundEngine->UpdateSystem();
 			}
+
+			if (wolf::Keybind::Instance().getBind("scoreboard") || ((wolf::HudButton*)m_hud->GetElement("MM_Scoreboard_Button"))->IsClicked()) {
+				SetState(State::GamestateScoreboard);
+			}
 		}
 		else if (m_currentState == State::GamestatePlayerLost) {
-			if (((wolf::HudButton*)m_hud->GetElement("LS_Restart_Button"))->IsClicked()) {
+			if (wolf::Keybind::Instance().getBind("startgame") || ((wolf::HudButton*)m_hud->GetElement("LS_Restart_Button"))->IsClicked()) {
 				SetState(State::GamestatePlayerTurn);
 
 				for (auto element : m_hud->GetElementsByTag("losescreen"))
@@ -103,6 +109,11 @@ void StateManager::Update(float delta) {
 				}
 			}
 		}
+		else if (m_currentState == State::GamestateScoreboard) {
+			if (wolf::Keybind::Instance().getBind("leavescoreboard") || ((wolf::HudButton*)m_hud->GetElement("Scoreboard_Back_Button"))->IsClicked()) {
+				SetState(State::GamestateMainMenu);
+			}
+		}
 	}
 }
 
@@ -119,6 +130,9 @@ void StateManager::SetState(State state) {
 				element->SetVisible(true);
 
 			for (auto element : m_hud->GetElementsByTag("ingame"))
+				element->SetVisible(false);
+
+			for (auto element : m_hud->GetElementsByTag("scoreboard"))
 				element->SetVisible(false);
 		}
 		else if (m_currentState == State::GamestatePlayerTurn) {
@@ -164,6 +178,15 @@ void StateManager::SetState(State state) {
 				element->SetY(element->GetY() + 60);
 			for (auto element : m_hud->GetElementsByTag("hpbar3"))
 				element->SetY(element->GetY() + 120);
+
+			m_scoreTracker->ApplyHighscore();
+		}
+		else if (m_currentState == State::GamestateScoreboard) {
+			for (auto element : m_hud->GetElementsByTag("mainmenu"))
+				element->SetVisible(false);
+			
+			for (auto element : m_hud->GetElementsByTag("scoreboard"))
+				element->SetVisible(true);
 		}
 	}
 }
@@ -197,6 +220,9 @@ void StateManager::SetHud(wolf::Hud* hud) {
 
 		for (auto element : m_hud->GetElementsByTag("ingame"))
 			element->SetVisible(false);
+
+		for (auto element : m_hud->GetElementsByTag("scoreboard"))
+			element->SetVisible(false);
 	}
 
 	if (m_currentState == State::GamestatePlayerTurn)
@@ -212,4 +238,8 @@ void StateManager::SetCamera(Camera* cam) {
 		m_cam->SetVerticleAngle(0.5);
 		m_cam->ForceAngleUpdate();
 	}
+}
+
+void StateManager::SetScoreTracker(ScoreTracker* tracker) {
+	m_scoreTracker = tracker;
 }

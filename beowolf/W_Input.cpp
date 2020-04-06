@@ -66,6 +66,20 @@ namespace wolf
 			timeAfk += delta;
 		else
 			timeAfk = 0;
+
+		int axisnum = glfwGetJoystickPos(0, controlleraxis, MAXCONTROLLERAXIS);
+
+		unsigned char* buttons = new unsigned char[MAXCONTROLLERBUTTONS];
+		int buttonnum = glfwGetJoystickButtons(0, buttons, MAXCONTROLLERBUTTONS);
+		for (int i = 0; i < buttonnum; i++) {
+			if (buttons[i])
+				controllerbuttons[i] = (controllerbuttons[i] == RELEASED) ? delta : controllerbuttons[i] + delta;
+			else if (controllerbuttons[i] == RELEASED)
+				controllerbuttons[i] = 0.0;
+			else
+				controllerbuttons[i] = RELEASED;
+		}
+			
 	}
 
 	double Input::getKey(int key) const
@@ -169,5 +183,53 @@ namespace wolf
 	bool Input::isAfk(double delay)
 	{
 		return timeAfk > delay;
+	}
+
+	bool Input::isControllerButtonPressed(int button)
+	{
+		return controllerbuttons[button] == delta;
+	}
+
+	bool Input::isControllerButtonHeld(int button)
+	{
+		return controllerbuttons[button] > 0 && controllerbuttons[button] != RELEASED;
+	}
+
+	bool Input::isControllerButtonHeld(int button, double delay)
+	{
+		return controllerbuttons[button] > delay;
+	}
+
+	bool Input::isControllerButtonReleased(int button)
+	{
+		return controllerbuttons[button] == RELEASED;
+	}
+
+	bool Input::isControllerButtonUnheld(int button)
+	{
+		return controllerbuttons[button] == 0;
+	}
+
+	float Input::getControllerAxis(int axis)
+	{
+		return controlleraxis[axis];
+	}
+
+	glm::vec2 Input::getControllerLeftStick()
+	{
+		return glm::vec2(controlleraxis[INPUT_CONTROLLER_AXIS_LH], controlleraxis[INPUT_CONTROLLER_AXIS_LV]);
+	}
+
+	glm::vec2 Input::getControllerRightStick()
+	{
+		return glm::vec2(controlleraxis[INPUT_CONTROLLER_AXIS_RH], controlleraxis[INPUT_CONTROLLER_AXIS_RV]);
+	}
+
+	glm::vec2 Input::getControllerTriggers()
+	{
+		float value = controlleraxis[INPUT_CONTROLLER_AXIS_TRIGGER];
+		float left = (value < 0) ? -value : 0;
+		float right = (value > 0) ? value : 0;
+		return glm::vec2(left, right);
 	}
 }

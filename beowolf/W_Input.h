@@ -87,7 +87,7 @@ namespace wolf
 		int getNewerKey(int key1, int key2) const;
 		int getOlderKey(int key1, int key2) const;
 
-		//mouse input
+		// mouse input
 		MousePos getMousePos() const;
 		MousePos getMouseDelta() const;
 		
@@ -95,6 +95,19 @@ namespace wolf
 		bool isMouseHeld(int mbutton) const;
 		bool isMouseReleased(int mbutton) const;
 		bool isMouseUnheld(int mbutton) const;
+
+		// controller input
+		bool isControllerButtonPressed(int button);
+		bool isControllerButtonHeld(int button);
+		bool isControllerButtonHeld(int button, double delay);
+		bool isControllerButtonReleased(int button);
+		bool isControllerButtonUnheld(int button);
+
+		// controller axis
+		float getControllerAxis(int axis);
+		glm::vec2 getControllerLeftStick();
+		glm::vec2 getControllerRightStick();
+		glm::vec2 getControllerTriggers();
 
 		// combined input
 		double getTimeAfk();
@@ -122,6 +135,12 @@ namespace wolf
 		double delta = 0;
 		double keys[MAXKEY] = { 0 };
 		double mbuttons[TOTALMBUTTONS] = { 0 };
+
+		// controller stuff
+		static const int MAXCONTROLLERAXIS = 6;
+		static const int MAXCONTROLLERBUTTONS = 10;
+		float controlleraxis[MAXCONTROLLERAXIS] = { 0 };
+		double controllerbuttons[MAXCONTROLLERBUTTONS] = { 0 };
 
 		// time afk
 		double timeAfk;

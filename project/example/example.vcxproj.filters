@@ -261,6 +261,7 @@
     <ClCompile Include="..\..\beowolf\game_objects\LoadingScreen.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\GameSaver.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\particles\affectors\AffectorBounce.cpp" />
+    <ClCompile Include="..\..\beowolf\W_Keybind.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\beowolf\camera\Camera.h" />
@@ -605,5 +606,6 @@
     <ClInclude Include="..\..\beowolf\game_objects\LoadingScreen.h" />
     <ClInclude Include="..\..\beowolf\game_objects\GameSaver.h" />
     <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorBounce.h" />
+    <ClInclude Include="..\..\beowolf\W_Keybind.h" />
   </ItemGroup>
 </Project>
