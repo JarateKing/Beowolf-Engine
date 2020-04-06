@@ -22,6 +22,24 @@ Camera::~Camera()
 
 void Camera::Update(float delta)
 {
+	if (m_shaking)
+	{
+		m_timeShaking += delta;
+		if (m_timeShaking <= 0.20)
+		{
+			m_pos.x += sin(m_timeShaking * 50)/20;
+			m_verti += sin(m_timeShaking * 1000)/100;
+			ApplyAngleVectors();
+		}
+		else
+		{
+			m_shaking = false;
+			m_timeShaking = 0.0f;
+			m_pos = m_startShakePos;
+			m_verti = m_startShakeVert;
+		}
+	}
+
 	// look angle controls
 	if (wolf::Input::Instance().isMousePressed(INPUT_RMB))
 		glfwDisable(GLFW_MOUSE_CURSOR);
@@ -195,5 +213,15 @@ void Camera::MoveToView(glm::vec3 position, glm::vec3 offset, float time) {
 
 		m_moveTime = 0.0f;
 		m_moveTimeLimit = time;
+	}
+}
+
+void Camera::InitiateShake()
+{
+	if (!m_shaking)
+	{
+		m_startShakeVert = m_verti;
+		m_startShakePos = m_pos;
+		m_shaking = true;
 	}
 }

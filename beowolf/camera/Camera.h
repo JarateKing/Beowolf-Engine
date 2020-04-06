@@ -23,11 +23,17 @@ public:
 	glm::mat4 GetProj();
 	glm::mat4 GetView();
 	void MoveToView(glm::vec3 position, glm::vec3 offset, float time);
+	void InitiateShake();
 
 private:
 	void ApplyAngleVectors();
 	glm::vec3 GetRayFromScreen();
 
+	bool m_shaking = false;
+	float m_timeShaking = 0.0f;
+	glm::vec3 m_startShakePos;
+	glm::vec3 m_startShakeUp;
+	float m_startShakeVert;
 	float m_horiz;
 	float m_verti;
 	float fov = 90.0f;
