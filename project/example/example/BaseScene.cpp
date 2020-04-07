@@ -311,7 +311,6 @@ void BaseScene::Render(RenderTarget target)
 		// Transparent
 		glEnable(GL_BLEND);
 
-		grid->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, false, depthMapTexture, -1.0f, 100.0f);
 		cManager->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, false, depthMapTexture);
 
 		water->Render(cam->GetViewMatrix(), wolf::RenderFilterTransparent, reflectionTexture, refractionTexture, fogTexture);
@@ -319,7 +318,7 @@ void BaseScene::Render(RenderTarget target)
 		// Depthless
 		glDepthMask(false);
 
-		//testhud->Render(hudProjMat);
+		grid->Render(cam->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, false, depthMapTexture, -1.0f, 100.0f);
 
 		// Additive
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
