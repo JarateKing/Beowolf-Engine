@@ -17,6 +17,9 @@ public:
 	void Update();
 	void Render(RenderTarget target);
 	void SetTex(RenderTarget target, unsigned int tex);
+private:
+	void SetupLoader();
+	void SetupSoundEngine();
 };
 
 #endif

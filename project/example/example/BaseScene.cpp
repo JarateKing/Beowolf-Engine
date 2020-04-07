@@ -77,39 +77,8 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
-	// loadng process
-
-	LoadingScreen loader;
-	loader.AddModel("potion.bmw");
-	loader.AddModel("sword1.bmw");
-	loader.AddModel("shield.bmw");
-	loader.AddModel("Fir_Tree.bmw");
-	loader.AddModel("Oak_Tree.bmw");
-	loader.AddModel("Palm_Tree.bmw");
-	loader.AddModel("Poplar_Tree.bmw");
-	loader.AddModel("units/mychamp.bmw");
-	loader.AddModel("units/mygiant.bmw");
-	loader.AddModel("units/mylich.bmw");
-	loader.AddModel("units/myskeleton.bmw");
-	loader.AddModel("units/myfleshlobber.bmw");
-	loader.Load();
-
-	// basic initialization process
-
-	SE = new wolf::SoundEngine();
-	SE->InitSystem();
-	SE->AddSound("resources/sound/Base_Music/old_city_theme.ogg", "base_theme", true);
-	SE->AddSound("resources/sound/Death/enemy_death.wav", "enemy_death", false);
-	SE->AddSound("resources/sound/Death/hero_death.flac", "hero_death", false);
-	SE->AddSound("resources/sound/Game_Over/Jingle_Lose_00.wav", "lose_jingle", true);
-	SE->AddSound("resources/sound/Game_Start/Jingle_Achievement_00.wav", "start_jingle", true);
-	SE->AddSound("resources/sound/Hits/Socapex-Swordsmall.wav", "hit1", true);
-	SE->AddSound("resources/sound/Hits/Socapex-Swordsmall_1.wav", "hit2", true);
-	SE->AddSound("resources/sound/Hits/Socapex-Swordsmall_2.wav", "hit3", true);
-	SE->AddSound("resources/sound/Hits/Socapex-Swordsmall_3.wav", "hit4", true);
-	SE->AddSound("resources/sound/Item_Pickup/Inventory_Open_00.wav", "item_pickup", false);
-	SE->AddSound("resources/sound/Movement/wooden-stairs-in-1.flac", "movement1", false);
-	SE->AddSound("resources/sound/Movement/wooden-stairs-out-1.flac", "movement2", false);
+	SetupLoader();
+	SetupSoundEngine();
 
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -380,4 +349,38 @@ void BaseScene::SetTex(RenderTarget target, unsigned int tex)
 		fogTexture = tex;
 	else if (target == RenderTarget::Cutouts)
 		depthMapTexture2 = tex;
+}
+
+void SetupLoader() {
+	LoadingScreen loader;
+	loader.AddModel("potion.bmw");
+	loader.AddModel("sword1.bmw");
+	loader.AddModel("shield.bmw");
+	loader.AddModel("Fir_Tree.bmw");
+	loader.AddModel("Oak_Tree.bmw");
+	loader.AddModel("Palm_Tree.bmw");
+	loader.AddModel("Poplar_Tree.bmw");
+	loader.AddModel("units/mychamp.bmw");
+	loader.AddModel("units/mygiant.bmw");
+	loader.AddModel("units/mylich.bmw");
+	loader.AddModel("units/myskeleton.bmw");
+	loader.AddModel("units/myfleshlobber.bmw");
+	loader.Load();
+}
+
+void SetupSoundEngine() {
+	SE = new wolf::SoundEngine();
+	SE->InitSystem();
+	SE->AddSound("resources/sound/Base_Music/old_city_theme.ogg", "base_theme", true);
+	SE->AddSound("resources/sound/Death/enemy_death.wav", "enemy_death", false);
+	SE->AddSound("resources/sound/Death/hero_death.flac", "hero_death", false);
+	SE->AddSound("resources/sound/Game_Over/Jingle_Lose_00.wav", "lose_jingle", true);
+	SE->AddSound("resources/sound/Game_Start/Jingle_Achievement_00.wav", "start_jingle", true);
+	SE->AddSound("resources/sound/Hits/Socapex-Swordsmall.wav", "hit1", true);
+	SE->AddSound("resources/sound/Hits/Socapex-Swordsmall_1.wav", "hit2", true);
+	SE->AddSound("resources/sound/Hits/Socapex-Swordsmall_2.wav", "hit3", true);
+	SE->AddSound("resources/sound/Hits/Socapex-Swordsmall_3.wav", "hit4", true);
+	SE->AddSound("resources/sound/Item_Pickup/Inventory_Open_00.wav", "item_pickup", false);
+	SE->AddSound("resources/sound/Movement/wooden-stairs-in-1.flac", "movement1", false);
+	SE->AddSound("resources/sound/Movement/wooden-stairs-out-1.flac", "movement2", false);
 }
