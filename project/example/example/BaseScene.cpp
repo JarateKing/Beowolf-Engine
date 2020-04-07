@@ -112,8 +112,6 @@ void BaseScene::Init()
 	scoreTracker = new ScoreTracker(testhud);
 	cManager->SetScoreTracker(scoreTracker);
 	StateManager::getInstance().SetScoreTracker(scoreTracker);
-	SE->Play3DSound("base_theme", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), true);
-	SE->UpdateSystem();
 
 	skybox = new Skybox();
 	water = new Water();
@@ -351,7 +349,7 @@ void BaseScene::SetTex(RenderTarget target, unsigned int tex)
 		depthMapTexture2 = tex;
 }
 
-void SetupLoader() {
+void BaseScene::SetupLoader() {
 	LoadingScreen loader;
 	loader.AddModel("potion.bmw");
 	loader.AddModel("sword1.bmw");
@@ -368,7 +366,7 @@ void SetupLoader() {
 	loader.Load();
 }
 
-void SetupSoundEngine() {
+void BaseScene::SetupSoundEngine() {
 	SE = new wolf::SoundEngine();
 	SE->InitSystem();
 	SE->AddSound("resources/sound/Base_Music/old_city_theme.ogg", "base_theme", true);
@@ -383,4 +381,7 @@ void SetupSoundEngine() {
 	SE->AddSound("resources/sound/Item_Pickup/Inventory_Open_00.wav", "item_pickup", false);
 	SE->AddSound("resources/sound/Movement/wooden-stairs-in-1.flac", "movement1", false);
 	SE->AddSound("resources/sound/Movement/wooden-stairs-out-1.flac", "movement2", false);
+
+	SE->Play3DSound("base_theme", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), true);
+	SE->UpdateSystem();
 }
