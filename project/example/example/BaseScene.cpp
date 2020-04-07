@@ -169,11 +169,9 @@ void BaseScene::Update()
 	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	std::vector<float> heights = grid->GetHeights();
 	std::vector<glm::vec2> positions = grid->GetPos();
-	if (!(target < 0))
-	{
-		//selector->Update(target, positions.at(target), heights.at(target));
-		grid->Update(target, delta);
-	}
+
+	grid->Update((target >= 0) ? target : -1, delta);
+
 	wolf::SceneRenderer::getInstance().Update(delta, cam->GetViewMatrix());
 	cManager->Update(target, delta);
 
