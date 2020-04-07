@@ -46,7 +46,6 @@
     <ClCompile Include="..\..\beowolf\graphics\BMWModel.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Buffer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_BufferManager.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\core\W_Common.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_IndexBuffer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_LineDrawer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Material.cpp" />
@@ -313,7 +312,6 @@
     <ClInclude Include="..\..\beowolf\graphics\BMWModel.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Buffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_BufferManager.h" />
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Common.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_IndexBuffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_LineDrawer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Material.h" />
@@ -324,7 +322,6 @@
     <ClInclude Include="..\..\beowolf\graphics\core\W_Sprite.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Texture.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_TextureManager.h" />
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Types.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexBuffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexDeclaration.h" />
     <ClInclude Include="..\..\beowolf\graphics\DebugCamera.h" />

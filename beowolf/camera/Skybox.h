@@ -72,4 +72,4 @@ private:
 
 };
 
-#endif TESTQUAD_H
+#endif SKYBOX_H
