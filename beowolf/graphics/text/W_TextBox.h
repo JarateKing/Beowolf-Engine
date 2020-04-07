@@ -1,5 +1,5 @@
-#ifndef TEXTBOX_H
-#define TEXTBOX_H
+#ifndef W_TEXTBOX_H
+#define W_TEXTBOX_H
 
 #include "W_Common.h"
 #include <string.h>

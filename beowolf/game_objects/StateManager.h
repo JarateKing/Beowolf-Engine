@@ -1,3 +1,6 @@
+#ifndef STATE_MANAGER_H
+#define STATE_MANAGER_H
+
 #include "States.h"
 #include "characterUnits/CharacterManager.h"
 #include "W_Hud.h"
@@ -40,3 +43,5 @@ private:
 	Camera* m_cam;
 	ScoreTracker* m_scoreTracker;
 };
+
+#endif

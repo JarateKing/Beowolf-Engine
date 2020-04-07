@@ -1,3 +1,6 @@
+#ifndef LOADINGSCREEN_H
+#define LOADINGSCREEN_H
+
 #include <string>
 #include <vector>
 #include "W_Hud.h"
@@ -13,3 +16,5 @@ private:
 	wolf::Hud* m_hud;
 	glm::mat4 m_proj;
 };
+
+#endif

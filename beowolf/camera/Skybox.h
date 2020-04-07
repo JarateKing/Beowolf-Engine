@@ -72,4 +72,4 @@ private:
 
 };
 
-#endif SKYBOX_H
+#endif

@@ -43,4 +43,4 @@ private:
 
 };
 
-#endif TESTQUAD_H
+#endif

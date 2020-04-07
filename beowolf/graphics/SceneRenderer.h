@@ -1,5 +1,5 @@
-#ifndef SceneRendererRENDERER_H
-#define SceneRendererRENDERER_H
+#ifndef SCENERENDERER_H
+#define SCENERENDERER_H
 
 #include "W_Common.h"
 #include "Node.h"

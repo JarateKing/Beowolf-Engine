@@ -77,4 +77,4 @@ namespace Common
 
 } // namespace common
 
-#endif // COMMON_SCENECAMERA_H
+#endif
