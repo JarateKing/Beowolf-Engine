@@ -3,11 +3,7 @@
 #include <sstream>
 #include <fstream>
 
-enum InputType {
-	Keyboard,
-	Mouse,
-	Controller
-};
+std::string bindNames[] = { "pressed", "held", "released", "unheld" };
 
 namespace wolf
 {
@@ -19,63 +15,55 @@ namespace wolf
 			std::string jsonFileData = jsonFileStream.str();
 			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
 
-			for (auto bind = jsonData["pressed"].begin(); bind != jsonData["pressed"].end(); bind++)
-				for (std::string command : bind.value())
-					m_pressed[command].push_back(bind.key());
-
-			for (auto bind = jsonData["held"].begin(); bind != jsonData["held"].end(); bind++)
-				for (std::string command : bind.value())
-					m_held[command].push_back(bind.key());
-
-			for (auto bind = jsonData["released"].begin(); bind != jsonData["released"].end(); bind++)
-				for (std::string command : bind.value())
-					m_released[command].push_back(bind.key());
-
-			for (auto bind = jsonData["unheld"].begin(); bind != jsonData["unheld"].end(); bind++)
-				for (std::string command : bind.value())
-					m_unheld[command].push_back(bind.key());
+			for (int i = 0; i < 4; i++)
+				for (auto bind = jsonData[bindNames[i]].begin(); bind != jsonData[bindNames[i]].end(); bind++)
+					for (std::string command : bind.value())
+						m_bind[i][command].push_back(bind.key());
 		}
 	}
 
 	bool Keybind::getBind(std::string bind) {
-		for (auto key : m_pressed[bind]) {
-			std::pair<int, int> keyval = m_keymap[key];
-			if (keyval.first == InputType::Keyboard && Input::Instance().isKeyPressed(keyval.second))
-				return true;
-			else if (keyval.first == InputType::Mouse && Input::Instance().isMousePressed(keyval.second))
-				return true;
-			else if (keyval.first == InputType::Controller && Input::Instance().isControllerButtonPressed(keyval.second))
-				return true;
-		}
-		for (auto key : m_held[bind]) {
-			std::pair<int, int> keyval = m_keymap[key];
-			if (keyval.first == InputType::Keyboard && Input::Instance().isKeyHeld(keyval.second))
-				return true;
-			else if (keyval.first == InputType::Mouse && Input::Instance().isMouseHeld(keyval.second))
-				return true;
-			else if (keyval.first == InputType::Controller && Input::Instance().isControllerButtonHeld(keyval.second))
-				return true;
-		}
-		for (auto key : m_released[bind]) {
-			std::pair<int, int> keyval = m_keymap[key];
-			if (keyval.first == InputType::Keyboard && Input::Instance().isKeyReleased(keyval.second))
-				return true;
-			else if (keyval.first == InputType::Mouse && Input::Instance().isMouseReleased(keyval.second))
-				return true;
-			else if (keyval.first == InputType::Controller && Input::Instance().isControllerButtonReleased(keyval.second))
-				return true;
-		}
-		for (auto key : m_unheld[bind]) {
-			std::pair<int, int> keyval = m_keymap[key];
-			if (keyval.first == InputType::Keyboard && Input::Instance().isKeyUnheld(keyval.second))
-				return true;
-			else if (keyval.first == InputType::Mouse && Input::Instance().isMouseUnheld(keyval.second))
-				return true;
-			else if (keyval.first == InputType::Controller && Input::Instance().isControllerButtonUnheld(keyval.second))
-				return true;
-		}
+		for (int i = 0; i < 4; i++)
+			for (auto key : m_bind[i][bind])
+				if (functionSwitch((InputType)m_keymap[key].first, (BindType)i, m_keymap[key].second))
+					return true;
 
 		return false;
+	}
+
+	bool Keybind::functionSwitch(InputType input, BindType bind, int key) {
+		wolf::Input* instance = &(wolf::Input::Instance());
+		
+		if (input == InputType::Keyboard) {
+			if (bind == BindType::Pressed)
+				return instance->isKeyPressed(key);
+			if (bind == BindType::Held)
+				return instance->isKeyHeld(key);
+			if (bind == BindType::Released)
+				return instance->isKeyReleased(key);
+			if (bind == BindType::Unheld)
+				return instance->isKeyUnheld(key);
+		}
+		else if (input == InputType::Mouse) {
+			if (bind == BindType::Pressed)
+				return instance->isMousePressed(key);
+			if (bind == BindType::Held)
+				return instance->isMouseHeld(key);
+			if (bind == BindType::Released)
+				return instance->isMouseReleased(key);
+			if (bind == BindType::Unheld)
+				return instance->isMouseUnheld(key);
+		}
+		else if (input == InputType::Controller) {
+			if (bind == BindType::Pressed)
+				return instance->isControllerButtonPressed(key);
+			if (bind == BindType::Held)
+				return instance->isControllerButtonHeld(key);
+			if (bind == BindType::Released)
+				return instance->isControllerButtonReleased(key);
+			if (bind == BindType::Unheld)
+				return instance->isControllerButtonUnheld(key);
+		}
 	}
 
 	void Keybind::createKeymap() {
