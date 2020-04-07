@@ -1,5 +1,5 @@
-#ifndef EVENTDETAILS
-#define EVENTDETAILS
+#ifndef EVENTDETAILS_H
+#define EVENTDETAILS_H
 
 #include "GameObject.h"
 #include <map>

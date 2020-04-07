@@ -252,8 +252,6 @@
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\Healthbar.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudButton.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CooldownIndicator.cpp" />
-    <ClCompile Include="..\..\beowolf\shadows\W_ShadowMap.cpp" />
-    <ClCompile Include="..\..\beowolf\shadows\TestQuad.cpp" />
     <ClCompile Include="..\..\beowolf\camera\Skybox.cpp" />
     <ClCompile Include="..\..\beowolf\camera\Water.cpp" />
     <ClCompile Include="..\..\beowolf\post\PostProcessingQuad.cpp" />
@@ -595,8 +593,6 @@
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\Healthbar.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudButton.h" />
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CooldownIndicator.h" />
-    <ClInclude Include="..\..\beowolf\shadows\W_ShadowMap.h" />
-    <ClInclude Include="..\..\beowolf\shadows\TestQuad.h" />
     <ClInclude Include="..\..\beowolf\camera\Skybox.h" />
     <ClInclude Include="..\..\beowolf\camera\Water.h" />
     <ClInclude Include="..\..\beowolf\post\PostProcessingQuad.h" />

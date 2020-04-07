@@ -28,7 +28,6 @@
 #include "StateManager.h"
 #include "characterUnits/CharacterInfoHub.h"
 #include "characterUnits/ScoreTracker.h"
-#include "shadows/TestQuad.h"
 #include "post/PostProcessingQuad.h"
 #include "camera/Skybox.h"
 #include "camera/Water.h"
@@ -53,7 +52,6 @@ glm::vec3 lightDir;
 static CharacterManager* cManager;
 CharacterInfoHub cHub;
 ScoreTracker* scoreTracker;
-TestQuad* tQuad;
 PostProcessingQuad* pQuad;
 unsigned int depthMapTexture;
 unsigned int depthMapTexture2;
@@ -121,7 +119,6 @@ void BaseScene::Init()
 	float scale2 = 0.05;
 
 	lightDir = glm::normalize(glm::vec3(35.0f, -50.0f, 35.0f) - glm::vec3(0.0f, 0.0f, 0.0f));
-	tQuad = new TestQuad();
 	pQuad = new PostProcessingQuad();
 	testhud = new wolf::Hud("resources/hud/hud.json");
 	hudProjMat = glm::ortho(0.0f, 1920.0f, 1080.0f, 0.0f, 0.1f, 100.0f) * glm::lookAt(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
