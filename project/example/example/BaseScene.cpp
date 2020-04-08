@@ -95,6 +95,11 @@ void BaseScene::Update()
 		grayLevel = wolf::Math::lerp(0.0, 1.0, grayTiming / 5.0);
 		m_pQuad->SetPercentGray(grayLevel);
 	}
+	else if (!m_characterManager->IsGameOver()) {
+		grayTiming = 0;
+		grayLevel = 0.0;
+		m_pQuad->SetPercentGray(0);
+	}
 
 	if (shouldSwap)
 		RestartGame();
