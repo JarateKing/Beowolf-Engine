@@ -237,6 +237,10 @@ void CharacterManager::Update(int p_target, float p_deltaT)
 			if (characterIHub.GetStat(characters.at(i).GetName(), "HP") <= 0.0f)
 			{
 				characters.at(i).InitDeath();
+				if (characters.size() == 1)
+				{
+					gameOver = true;
+				}
 
 				if (characters.at(i).GetDeathTimer() >= 99.0f)
 				{
@@ -980,4 +984,9 @@ void CharacterManager::SetLightDir(glm::vec3 dir)
 	{
 		items.at(i)->SetLightingDir(dir);
 	}
+}
+
+bool CharacterManager::IsGameOver()
+{
+	return gameOver;
 }

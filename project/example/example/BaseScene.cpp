@@ -10,6 +10,40 @@
 #include "StateManager.h"
 
 const float DISTANCEFACTOR = 1.0f;
+wolf::SoundEngine* SE;
+static Camera* cam;
+static glm::mat4 cull;
+static HexGrid* grid;
+wolf::MousePos mouse;
+static HexSelector* selector;
+week2::ComponentHexPos hexPos;
+std::vector<int> testMove;
+wolf::Hud* testhud;
+glm::mat4 hudProjMat;
+glm::vec3 lightDir;
+static CharacterManager* cManager;
+CharacterInfoHub cHub;
+ScoreTracker* scoreTracker;
+TestQuad* tQuad;
+PostProcessingQuad* pQuad;
+unsigned int depthMapTexture;
+unsigned int depthMapTexture2;
+unsigned int reflectionTexture;
+unsigned int postProcessTexture;
+unsigned int postProcessBlurTexture;
+unsigned int refractionTexture;
+unsigned int fogTexture;
+unsigned int postProcessDepthMap;
+Skybox* skybox;
+Water* water;
+float grayLevel = 0.0f;
+float grayTiming = 0.0f;
+GameSaver* saver;
+bool wasJustAtMainMenu = true;
+
+wolf::BMWModel* test;
+wolf::BMWModel* test2;
+float distance = -1000.0f;
 
 BaseScene::BaseScene()
 {
@@ -69,6 +103,7 @@ void BaseScene::Update()
 
 	static bool wasJustAnimated = false;
 	float delta = wolf::Time::Instance().deltaTime();
+  
 	m_camera->Update(delta);
 	
 	int target = m_camera->CalculateIntersection(m_hexgrid->GetHeights(), m_hexgrid->GetPos(), 5.0f);
@@ -86,6 +121,25 @@ void BaseScene::Update()
 	StateManager::getInstance().Update(delta);
 	if (shouldSwap)
 		shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerTurn;
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_1))
+	{
+		grayLevel += 0.1;
+		pQuad->SetPercentGray(grayLevel);
+	}
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_2))
+	{
+		grayLevel -= 0.1;
+		pQuad->SetPercentGray(grayLevel);
+	}
+
+	if (cManager->IsGameOver() && grayTiming <= 5.0)
+	{
+		grayTiming += delta;
+		grayLevel = wolf::Math::lerp(0.0, 1.0, grayTiming / 5.0);
+		pQuad->SetPercentGray(grayLevel);
+	}
 
 	if (shouldSwap) {
 
