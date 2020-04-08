@@ -106,4 +106,4 @@ namespace Common
 
 } // namespace common
 
-#endif // COMMON_SCENEMANAGER_H
+#endif

@@ -1,3 +1,6 @@
+#ifndef EVENTMANAGER_H
+#define EVENTMANAGER_H
+
 #include <vector>
 #include <map>
 #include "EventDetails.h"
@@ -29,3 +32,5 @@ private:
 	std::vector<EventDetails*> m_eventQueue;
 	std::map<std::string, std::vector<Common::ComponentBase*>> m_listeners;
 };
+
+#endif

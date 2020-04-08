@@ -141,7 +141,6 @@
     <ClCompile Include="..\..\beowolf\graphics\BMWModel.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Buffer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_BufferManager.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\core\W_Common.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_IndexBuffer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_LineDrawer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Material.cpp" />
@@ -187,8 +186,6 @@
     <ClCompile Include="..\..\beowolf\physics\BulletPhysicsManager.cpp" />
     <ClCompile Include="..\..\beowolf\physics\BulletPhysicsMaterialManager.cpp" />
     <ClCompile Include="..\..\beowolf\post\PostProcessingQuad.cpp" />
-    <ClCompile Include="..\..\beowolf\shadows\TestQuad.cpp" />
-    <ClCompile Include="..\..\beowolf\shadows\W_ShadowMap.cpp" />
     <ClCompile Include="..\..\beowolf\sound\W_SoundEngine.cpp" />
     <ClCompile Include="..\..\beowolf\text\W_TextTable.cpp" />
     <ClCompile Include="..\..\beowolf\W_Common.cpp" />
@@ -409,7 +406,6 @@
     <ClInclude Include="..\..\beowolf\graphics\BMWModel.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Buffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_BufferManager.h" />
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Common.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_IndexBuffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_LineDrawer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Material.h" />
@@ -420,7 +416,6 @@
     <ClInclude Include="..\..\beowolf\graphics\core\W_Sprite.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Texture.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_TextureManager.h" />
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Types.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexBuffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexDeclaration.h" />
     <ClInclude Include="..\..\beowolf\graphics\DebugCamera.h" />
@@ -458,8 +453,6 @@
     <ClInclude Include="..\..\beowolf\physics\BulletPhysicsManager.h" />
     <ClInclude Include="..\..\beowolf\physics\BulletPhysicsMaterialManager.h" />
     <ClInclude Include="..\..\beowolf\post\PostProcessingQuad.h" />
-    <ClInclude Include="..\..\beowolf\shadows\TestQuad.h" />
-    <ClInclude Include="..\..\beowolf\shadows\W_ShadowMap.h" />
     <ClInclude Include="..\..\beowolf\sound\W_SoundEngine.h" />
     <ClInclude Include="..\..\beowolf\text\W_TextTable.h" />
     <ClInclude Include="..\..\beowolf\W_Common.h" />
