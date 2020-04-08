@@ -1,3 +1,6 @@
+#ifndef EVENTDETAILS_H
+#define EVENTDETAILS_H
+
 #include "GameObject.h"
 #include <map>
 
@@ -26,3 +29,5 @@ private:
 	std::map<std::string, Common::GameObject*> mapObj;
 	std::map<std::string, std::string> mapStr;
 };
+
+#endif

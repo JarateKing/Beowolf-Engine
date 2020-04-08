@@ -72,33 +72,24 @@ void Camera::Update(float delta)
 		m_pos -= m_right * movespeed;
 	if (wolf::Keybind::Instance().getBind("cameraright"))
 		m_pos += m_right * movespeed;
-	if (wolf::Keybind::Instance().getBind("camerain"))
-	{
-		float m_posZ = m_pos.z;
-		//if (m_pos.y >= startY - 15)
-		//{
-			m_pos += m_aim * movespeed;
-		//}
-	}
-	if (wolf::Keybind::Instance().getBind("cameraout"))
-	{
-		float m_posZ = m_pos.z;
-		//if (m_pos.y <= startY + 15)
-		//{
-			m_pos -= m_aim * movespeed;
-		//}
-	}
 
 	if (std::abs(wolf::Input::Instance().getControllerLeftStick().x) > CONTROLLER_AXIS_THRESHOLD)
 		m_pos += m_right * wolf::Input::Instance().getControllerLeftStick().x * movespeed;
 	if (std::abs(wolf::Input::Instance().getControllerLeftStick().y) > CONTROLLER_AXIS_THRESHOLD)
 		m_pos += glm::vec3(m_aim.x, 0.0f, m_aim.z) * wolf::Input::Instance().getControllerLeftStick().y * movespeed;
 
+
+	glm::vec3 prevPos = m_pos;
+	if (wolf::Keybind::Instance().getBind("camerain"))
+		m_pos += m_aim * movespeed;
+	if (wolf::Keybind::Instance().getBind("cameraout"))
+		m_pos -= m_aim * movespeed;
 	if (std::abs(wolf::Input::Instance().getControllerAxis(INPUT_CONTROLLER_AXIS_TRIGGER)) > CONTROLLER_AXIS_THRESHOLD)
-	{
-		float m_posZ = m_pos.z;
 		m_pos += m_aim * delta * 30.0f * wolf::Input::Instance().getControllerAxis(INPUT_CONTROLLER_AXIS_TRIGGER);
-	}
+
+	// apply bounds
+	if (m_pos.y > startY + 15 || m_pos.y < startY - 25)
+		m_pos = prevPos;
 
 	if (m_moveTimeLimit != 0 && m_moveTime != m_moveTimeLimit) {
 		m_moveTime += delta;

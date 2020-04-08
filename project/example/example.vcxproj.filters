@@ -46,7 +46,6 @@
     <ClCompile Include="..\..\beowolf\graphics\BMWModel.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Buffer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_BufferManager.cpp" />
-    <ClCompile Include="..\..\beowolf\graphics\core\W_Common.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_IndexBuffer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_LineDrawer.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\core\W_Material.cpp" />
@@ -253,8 +252,6 @@
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\Healthbar.cpp" />
     <ClCompile Include="..\..\beowolf\graphics\hud\W_HudButton.cpp" />
     <ClCompile Include="..\..\beowolf\game_objects\characterUnits\CooldownIndicator.cpp" />
-    <ClCompile Include="..\..\beowolf\shadows\W_ShadowMap.cpp" />
-    <ClCompile Include="..\..\beowolf\shadows\TestQuad.cpp" />
     <ClCompile Include="..\..\beowolf\camera\Skybox.cpp" />
     <ClCompile Include="..\..\beowolf\camera\Water.cpp" />
     <ClCompile Include="..\..\beowolf\post\PostProcessingQuad.cpp" />
@@ -313,7 +310,6 @@
     <ClInclude Include="..\..\beowolf\graphics\BMWModel.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Buffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_BufferManager.h" />
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Common.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_IndexBuffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_LineDrawer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Material.h" />
@@ -324,7 +320,6 @@
     <ClInclude Include="..\..\beowolf\graphics\core\W_Sprite.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_Texture.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_TextureManager.h" />
-    <ClInclude Include="..\..\beowolf\graphics\core\W_Types.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexBuffer.h" />
     <ClInclude Include="..\..\beowolf\graphics\core\W_VertexDeclaration.h" />
     <ClInclude Include="..\..\beowolf\graphics\DebugCamera.h" />
@@ -598,8 +593,6 @@
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\Healthbar.h" />
     <ClInclude Include="..\..\beowolf\graphics\hud\W_HudButton.h" />
     <ClInclude Include="..\..\beowolf\game_objects\characterUnits\CooldownIndicator.h" />
-    <ClInclude Include="..\..\beowolf\shadows\W_ShadowMap.h" />
-    <ClInclude Include="..\..\beowolf\shadows\TestQuad.h" />
     <ClInclude Include="..\..\beowolf\camera\Skybox.h" />
     <ClInclude Include="..\..\beowolf\camera\Water.h" />
     <ClInclude Include="..\..\beowolf\post\PostProcessingQuad.h" />

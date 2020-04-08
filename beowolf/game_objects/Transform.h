@@ -8,8 +8,8 @@
 // component that is a part of each GameObject.
 //------------------------------------------------------------------------
 
-#ifndef TRANSFORM
-#define TRANSFORM
+#ifndef TRANSFORM_H
+#define TRANSFORM_H
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>

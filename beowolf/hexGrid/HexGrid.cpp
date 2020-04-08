@@ -1106,65 +1106,67 @@ void HexGrid::StopTargeting()
 
 void HexGrid::Update(int target, float delta)
 {
-	abstractTarget = target;
+	if (target != -1) {
+		abstractTarget = target;
 
-	if (lastFrame != target)
-	{
-		changed = true;
-	}
-
-	if (targeting)
-	{
-		if (changed)
+		if (lastFrame != target)
 		{
-			std::list<glm::vec3> path = pathFinder->Instance()->FindPath(glm::vec3(positions.at(targetingT).x, 0.0f, positions.at(targetingT).y), glm::vec3(positions.at(target).x, 0.0f, positions.at(target).y));
-			std::vector<glm::vec3> pathway;
+			changed = true;
+		}
 
-			for (auto node : path)
+		if (targeting)
+		{
+			if (changed)
 			{
-				pathway.push_back(node);
-			}
+				std::list<glm::vec3> path = pathFinder->Instance()->FindPath(glm::vec3(positions.at(targetingT).x, 0.0f, positions.at(targetingT).y), glm::vec3(positions.at(target).x, 0.0f, positions.at(target).y));
+				std::vector<glm::vec3> pathway;
 
-			std::vector<int> tiles;
-			for (int i = 0; i < pathway.size() && i < targetingMax; i++)
-			{
-				for (int j = 0; j < positions.size(); j++)
+				for (auto node : path)
 				{
-					if (cmpf(positions.at(j).x, pathway.at(i).x) && cmpf(positions.at(j).y, pathway.at(i).z))
+					pathway.push_back(node);
+				}
+
+				std::vector<int> tiles;
+				for (int i = 0; i < pathway.size() && i < targetingMax; i++)
+				{
+					for (int j = 0; j < positions.size(); j++)
 					{
-						tiles.push_back(j);
+						if (cmpf(positions.at(j).x, pathway.at(i).x) && cmpf(positions.at(j).y, pathway.at(i).z))
+						{
+							tiles.push_back(j);
+						}
 					}
 				}
-			}
 
-			while (tiles.size() > selections.size())
-			{
-				HexSelector* selector = new HexSelector(5.0f);
-				selections.push_back(selector);
-			}
+				while (tiles.size() > selections.size())
+				{
+					HexSelector* selector = new HexSelector(5.0f);
+					selections.push_back(selector);
+				}
 
-			while (tiles.size() < selections.size())
-			{
-				delete selections.at(selections.size() - 1);
-				selections.erase(selections.end() - 1);
-			}
+				while (tiles.size() < selections.size())
+				{
+					delete selections.at(selections.size() - 1);
+					selections.erase(selections.end() - 1);
+				}
 
+				for (int i = 0; i < selections.size(); i++)
+				{
+					selections.at(i)->Update(tiles.at(i), positions.at(tiles.at(i)), heights.at(tiles.at(i)));
+				}
+				changed = false;
+			}
+		}
+		else
+		{
 			for (int i = 0; i < selections.size(); i++)
 			{
-				selections.at(i)->Update(tiles.at(i), positions.at(tiles.at(i)), heights.at(tiles.at(i)));
+				delete selections.at(0);
+				selections.erase(selections.begin());
 			}
-			changed = false;
 		}
+		lastFrame = target;
 	}
-	else
-	{
-		for (int i = 0; i < selections.size(); i++)
-		{
-			delete selections.at(0);
-			selections.erase(selections.begin());
-		}
-	}
-	lastFrame = target;
 
 	for (int i = 0; i < m_particleEffects.size(); i++) {
 		m_particleEffects[i]->Update(delta, glm::mat3(m_particleProjMatrix));

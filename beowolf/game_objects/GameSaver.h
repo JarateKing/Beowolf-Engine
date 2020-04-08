@@ -1,3 +1,6 @@
+#ifndef GAMESAVER_H
+#define GAMESAVER_H
+
 #include "W_Hud.h"
 #include "characterUnits/CharacterInfoHub.h"
 #include "characterUnits/CharacterManager.h"
@@ -22,3 +25,5 @@ private:
 	ScoreTracker* m_tracker;
 	HexGrid* m_grid;
 };
+
+#endif

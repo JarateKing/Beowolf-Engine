@@ -7,7 +7,6 @@
 #include "W_VertexDeclaration.h"
 #include "W_BufferManager.h"
 
-
 class Healthbar
 {
 public:
@@ -25,6 +24,5 @@ private:
 	glm::mat4 m_pos;
 	float m_threshold = 0.0f;
 };
-
 
 #endif

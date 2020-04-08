@@ -11,6 +11,20 @@ namespace wolf
 {
 	class Keybind
 	{
+	private:
+		enum InputType {
+			Keyboard = 0,
+			Mouse = 1,
+			Controller = 2
+		};
+
+		enum BindType {
+			Pressed = 0,
+			Held = 1,
+			Released = 2,
+			Unheld = 3
+		};
+
 	public:
 		//-------------------------------------------------------------------------
 		// PUBLIC INTERFACE
@@ -33,6 +47,7 @@ namespace wolf
 		// PRIVATE METHODS
 		//-------------------------------------------------------------------------
 		void createKeymap();
+		bool functionSwitch(InputType input, BindType bind, int key);
 		Keybind() {
 			createKeymap();
 		}
@@ -45,6 +60,8 @@ namespace wolf
 		std::map<std::string, std::vector<std::string>> m_held;
 		std::map<std::string, std::vector<std::string>> m_released;
 		std::map<std::string, std::vector<std::string>> m_unheld;
+
+		std::map<std::string, std::vector<std::string>> m_bind[4];
 	};
 }
 
