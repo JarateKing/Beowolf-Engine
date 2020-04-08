@@ -14,9 +14,20 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::strin
 	grid = p_grid;
 	m_hud = p_hud;
 
-	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", 107, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
-	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", 108, "myGiant", p_grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
-	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", 109, "myLich", p_grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
+	int sTile1 = 107;
+	int sTile2 = 108;
+	int sTile3 = 109;
+
+	while (grid->isMountain(sTile1))
+		sTile1 += 1;
+	while (grid->isMountain(sTile2) || sTile2 == sTile1)
+		sTile2 += 1;
+	while (grid->isMountain(sTile3) || sTile3 == sTile1 || sTile3 == sTile2)
+		sTile3 += 1;
+
+	CharacterUnits player1("units/mychamp.bmw", "animatable_untextured", sTile1, "myChamp", p_grid, 5.0, false, glm::vec3(0.1, 0.8, 0.7));
+	CharacterUnits player2("units/mygiant.bmw", "animatable_untextured", sTile2, "myGiant", p_grid, 0.05, false, glm::vec3(0.2, 0.7, 0.3));
+	CharacterUnits player3("units/mylich.bmw", "animatable_untextured", sTile3, "myLich", p_grid, 0.03, false, glm::vec3(0.75, 0.65, 0.1));
 
 	characterIHub.AddCharacter("Characters/hero1.json", "myChamp");
 	characterIHub.AddCharacter("Characters/hero2.json", "myGiant");

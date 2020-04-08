@@ -301,17 +301,17 @@ void updateGameLogic(Scene* scene)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	scene->Render(RenderTarget::PostProcessing);
 
-	//Render scene to Post Processing Texture w/ GrayScale
-	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
-	glViewport(0, 0, width, height);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	scene->Render(RenderTarget::GrayScale);
-
 	//Render characters to depthTexture
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf2);
 	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	scene->Render(RenderTarget::Characters);
+
+	//Render scene to Post Processing Texture w/ GrayScale
+	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
+	glViewport(0, 0, width, height);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	scene->Render(RenderTarget::GrayScale);
 
 	//Render scene to Post Processing Texture w/ Blur
 	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf2);
