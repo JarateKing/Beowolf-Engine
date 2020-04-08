@@ -66,87 +66,41 @@ void BaseScene::Init()
 
 void BaseScene::Update()
 {
-	m_soundEngine->SetListenerAttr(glm::vec3(-m_camera->GetPos().x, m_camera->GetPos().y, -m_camera->GetPos().z), glm::vec3(0.0f, 0.0f, 0.0f), m_camera->GetAim(), m_camera->GetUp());
-
 	float delta = wolf::Time::Instance().deltaTime();
+
 	m_camera->Update(delta);
+	m_soundEngine->SetListenerAttr(glm::vec3(-m_camera->GetPos().x, m_camera->GetPos().y, -m_camera->GetPos().z), glm::vec3(0.0f, 0.0f, 0.0f), m_camera->GetAim(), m_camera->GetUp());
 	
 	int target = m_camera->CalculateIntersection(m_hexgrid->GetHeights(), m_hexgrid->GetPos(), 5.0f);
-	std::vector<float> heights = m_hexgrid->GetHeights();
-	std::vector<glm::vec2> positions = m_hexgrid->GetPos();
-
 	m_hexgrid->Update((target >= 0) ? target : -1, delta);
 
 	wolf::SceneRenderer::getInstance().Update(delta, m_camera->GetViewMatrix());
 	m_characterManager->Update(target, delta);
 
+	// check for transition from player lost to player turn
 	bool shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerLost;
 	StateManager::getInstance().Update(delta);
 	if (shouldSwap)
 		shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerTurn;
 
-	if (shouldSwap) {
-
-		delete m_camera;
-		m_camera = new Camera(0, 5.5, glm::vec3(0, 50.0f, -40.0));
-		m_cullMatrix = m_camera->GetViewMatrix();
-
-		delete m_hexgrid;
-		m_hexgrid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
-
-		delete m_selector;
-		m_selector = new HexSelector(5.0f);
-
-		delete m_characterManager;
-		m_characterManager = new CharacterManager(m_hexgrid, m_hud);
-		m_hexpos.SetGrid(m_hexgrid);
-
-		StateManager::getInstance().SetCharacterManager(m_characterManager);
-		StateManager::getInstance().SetHud(m_hud);
-		StateManager::getInstance().SetCamera(m_camera);
-
-		m_scoreTracker->SetScore(0);
-		m_characterManager->SetScoreTracker(m_scoreTracker);
-		m_characterManager->SetSoundEngine(m_soundEngine);
-
-		m_gameSaver->SetInfo(m_characterManager, m_scoreTracker, m_hexgrid);
-	}
+	if (shouldSwap)
+		RestartGame();
 
 	bool shouldLoad = ((wolf::Keybind::Instance().getBind("loadgame") || ((wolf::HudButton*)m_hud->GetElement("MM_Load_Button"))->IsClicked()) && m_wasJustAtMainMenu);
-	if (shouldLoad) {
-		delete m_hexgrid;
-		m_hexgrid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), "savefile.json");
+	if (shouldLoad)
+		LoadGame();
 
-		delete m_selector;
-		m_selector = new HexSelector(5.0f);
-
-		delete m_characterManager;
-		m_characterManager = new CharacterManager(m_hexgrid, m_hud, "savefile.json");
-
-		StateManager::getInstance().SetCharacterManager(m_characterManager);
-
-		m_characterManager->SetScoreTracker(m_scoreTracker);
-		m_characterManager->SetSoundEngine(m_soundEngine);
-
-		m_gameSaver->SetInfo(m_characterManager, m_scoreTracker, m_hexgrid);
-	}
-
-	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
-	std::string fpsString = std::to_string(fpsValue);
-	m_hud->SetVar("deltaMS", std::to_string(delta * 1000));
-	m_hud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
+	SetFPSLabels(delta);
 	m_hud->Update(delta);
+
+	m_soundEngine->UpdateSystem();
+	m_waterPlane->Update(delta);
+	m_gameSaver->Update(delta);
 
 	m_hexgrid->SetLightDir(m_lightDir);
 	m_characterManager->SetLightDir(m_lightDir);
 
-	m_soundEngine->UpdateSystem();
-
 	m_skybox->SetPos(m_camera->GetPos());
-
-	m_waterPlane->Update(delta);
-
-	m_gameSaver->Update(delta);
 
 	m_wasJustAtMainMenu = StateManager::getInstance().GetState() == State::GamestateMainMenu;
 }
@@ -323,4 +277,55 @@ void BaseScene::SetupSoundEngine() {
 
 	m_soundEngine->Play3DSound("base_theme", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), true);
 	m_soundEngine->UpdateSystem();
+}
+
+void BaseScene::SetFPSLabels(float delta) {
+	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
+	std::string fpsString = std::to_string(fpsValue);
+	m_hud->SetVar("deltaMS", std::to_string(delta * 1000));
+	m_hud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
+}
+
+void BaseScene::LoadGame() {
+	delete m_hexgrid;
+	m_hexgrid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), "savefile.json");
+
+	delete m_selector;
+	m_selector = new HexSelector(5.0f);
+
+	delete m_characterManager;
+	m_characterManager = new CharacterManager(m_hexgrid, m_hud, "savefile.json");
+
+	StateManager::getInstance().SetCharacterManager(m_characterManager);
+
+	m_characterManager->SetScoreTracker(m_scoreTracker);
+	m_characterManager->SetSoundEngine(m_soundEngine);
+
+	m_gameSaver->SetInfo(m_characterManager, m_scoreTracker, m_hexgrid);
+}
+
+void BaseScene::RestartGame() {
+	delete m_camera;
+	m_camera = new Camera(0, 5.5, glm::vec3(0, 50.0f, -40.0));
+	m_cullMatrix = m_camera->GetViewMatrix();
+
+	delete m_hexgrid;
+	m_hexgrid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+
+	delete m_selector;
+	m_selector = new HexSelector(5.0f);
+
+	delete m_characterManager;
+	m_characterManager = new CharacterManager(m_hexgrid, m_hud);
+	m_hexpos.SetGrid(m_hexgrid);
+
+	StateManager::getInstance().SetCharacterManager(m_characterManager);
+	StateManager::getInstance().SetHud(m_hud);
+	StateManager::getInstance().SetCamera(m_camera);
+
+	m_scoreTracker->SetScore(0);
+	m_characterManager->SetScoreTracker(m_scoreTracker);
+	m_characterManager->SetSoundEngine(m_soundEngine);
+
+	m_gameSaver->SetInfo(m_characterManager, m_scoreTracker, m_hexgrid);
 }
