@@ -6,15 +6,9 @@
 #include <GL/glew.h>
 #endif
 #include <GL/glfw.h>
-#include "W_Common.h"
-#include "Scene.h"
+
 #include "BaseScene.h"
-#include <glm/glm.hpp>
-#include "math/W_Time.h"
-#include "W_Input.h"
-#include "EventManager.h"
-#include "fmod/core/inc/fmod.hpp"
-#include "fmod/core/examples/common.h"
+#include "W_Time.h"
 
 //========================================================================
 // This is needed for newer versions of Visual Studio
