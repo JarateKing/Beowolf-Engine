@@ -8,10 +8,14 @@
 #include "W_HudButton.h"
 #include "SceneRenderer.h"
 #include "StateManager.h"
+#include "W_Math.h"
 
 const float DISTANCEFACTOR = 1.0f;
 const float NEARPLANE = 20.0f;
 const float FARPLANE = 100.0f;
+
+float grayLevel = 0.0f;
+float grayTiming = 0.0f;
 
 BaseScene::BaseScene()
 {
@@ -68,8 +72,6 @@ void BaseScene::Update()
 {
 	float delta = wolf::Time::Instance().deltaTime();
 
-	m_pQuad->SetPercentGray(1.0f);
-
 	m_camera->Update(delta);
 	m_soundEngine->SetListenerAttr(glm::vec3(-m_camera->GetPos().x, m_camera->GetPos().y, -m_camera->GetPos().z), glm::vec3(0.0f, 0.0f, 0.0f), m_camera->GetAim(), m_camera->GetUp());
 	
@@ -86,24 +88,12 @@ void BaseScene::Update()
 	StateManager::getInstance().Update(delta);
 	if (shouldSwap)
 		shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerTurn;
-
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_1))
-	{
-		grayLevel += 0.1;
-		pQuad->SetPercentGray(grayLevel);
-	}
-
-	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_2))
-	{
-		grayLevel -= 0.1;
-		pQuad->SetPercentGray(grayLevel);
-	}
 	
-	if (cManager->IsGameOver() && grayTiming <= 5.0)
+	if (m_characterManager->IsGameOver() && grayTiming <= 5.0)
 	{
 		grayTiming += delta;
 		grayLevel = wolf::Math::lerp(0.0, 1.0, grayTiming / 5.0);
-		pQuad->SetPercentGray(grayLevel);
+		m_pQuad->SetPercentGray(grayLevel);
 	}
 
 	if (shouldSwap)
