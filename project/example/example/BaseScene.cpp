@@ -10,6 +10,8 @@
 #include "StateManager.h"
 
 const float DISTANCEFACTOR = 1.0f;
+const float NEARPLANE = 20.0f;
+const float FARPLANE = 100.0f;
 
 BaseScene::BaseScene()
 {
@@ -66,7 +68,6 @@ void BaseScene::Update()
 {
 	m_soundEngine->SetListenerAttr(glm::vec3(-m_camera->GetPos().x, m_camera->GetPos().y, -m_camera->GetPos().z), glm::vec3(0.0f, 0.0f, 0.0f), m_camera->GetAim(), m_camera->GetUp());
 
-	static bool wasJustAnimated = false;
 	float delta = wolf::Time::Instance().deltaTime();
 	m_camera->Update(delta);
 	
@@ -152,8 +153,7 @@ void BaseScene::Update()
 
 void BaseScene::Render(RenderTarget target)
 {
-	float near_plane = 20.0f, far_plane = 100.0f;
-	glm::mat4 lightProj = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, near_plane, far_plane);
+	glm::mat4 lightProj = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, NEARPLANE, FARPLANE);
 	glm::mat4 lightView = glm::lookAt(glm::vec3(-35.0f, 50.0f, -35.0f),
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f));
