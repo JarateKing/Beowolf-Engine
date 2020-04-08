@@ -67,6 +67,8 @@ private:
 	Water* m_waterPlane;
 	GameSaver* m_gameSaver;
 	bool m_wasJustAtMainMenu = true;
+	float m_grayLevel = 0.0f;
+	float m_grayTiming = 0.0f;
 };
 
 #endif

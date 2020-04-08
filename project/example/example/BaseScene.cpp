@@ -14,9 +14,6 @@ const float DISTANCEFACTOR = 1.0f;
 const float NEARPLANE = 20.0f;
 const float FARPLANE = 100.0f;
 
-float grayLevel = 0.0f;
-float grayTiming = 0.0f;
-
 BaseScene::BaseScene()
 {
 }
@@ -89,15 +86,15 @@ void BaseScene::Update()
 	if (shouldSwap)
 		shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerTurn;
 	
-	if (m_characterManager->IsGameOver() && grayTiming <= 5.0)
+	if (m_characterManager->IsGameOver() && m_grayTiming <= 5.0)
 	{
-		grayTiming += delta;
-		grayLevel = wolf::Math::lerp(0.0, 1.0, grayTiming / 5.0);
-		m_pQuad->SetPercentGray(grayLevel);
+		m_grayTiming += delta;
+		m_grayLevel = wolf::Math::lerp(0.0, 1.0, m_grayTiming / 5.0);
+		m_pQuad->SetPercentGray(m_grayLevel);
 	}
 	else if (!m_characterManager->IsGameOver()) {
-		grayTiming = 0;
-		grayLevel = 0.0;
+		m_grayTiming = 0;
+		m_grayLevel = 0.0;
 		m_pQuad->SetPercentGray(0);
 	}
 
