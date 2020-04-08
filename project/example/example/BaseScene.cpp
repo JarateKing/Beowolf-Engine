@@ -64,6 +64,7 @@ void BaseScene::Init()
 
 void BaseScene::Update()
 {
+	m_pQuad->SetPercentGray(1.0f);
 	m_soundEngine->SetListenerAttr(glm::vec3(-m_camera->GetPos().x, m_camera->GetPos().y, -m_camera->GetPos().z), glm::vec3(0.0f, 0.0f, 0.0f), m_camera->GetAim(), m_camera->GetUp());
 
 	static bool wasJustAnimated = false;
@@ -78,6 +79,8 @@ void BaseScene::Update()
 
 	wolf::SceneRenderer::getInstance().Update(delta, m_camera->GetViewMatrix());
 	m_characterManager->Update(target, delta);
+	m_characterManager->SetSoundEngine(m_soundEngine);
+	m_characterManager->SetCamera(m_camera);
 
 	bool shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerLost;
 	StateManager::getInstance().Update(delta);
@@ -153,7 +156,7 @@ void BaseScene::Update()
 void BaseScene::Render(RenderTarget target)
 {
 	float near_plane = 20.0f, far_plane = 100.0f;
-	glm::mat4 lightProj = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, near_plane, far_plane);
+	glm::mat4 lightProj = glm::ortho(-150.0f, 150.0f, -50.0f, 50.0f, near_plane, far_plane);
 	glm::mat4 lightView = glm::lookAt(glm::vec3(-35.0f, 50.0f, -35.0f),
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f));

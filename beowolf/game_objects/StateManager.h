@@ -42,6 +42,7 @@ private:
 	wolf::Hud* m_hud;
 	Camera* m_cam;
 	ScoreTracker* m_scoreTracker;
+	float timeLost = 0.0f;
 };
 
 #endif

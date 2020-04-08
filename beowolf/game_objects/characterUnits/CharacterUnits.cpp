@@ -277,7 +277,8 @@ void CharacterUnits::SetAnim(std::string p_animName)
 
 void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete, bool p_attacking)
 {
-	m_soundEngine->PlayBasicSound("movement1");
+	if (name.compare("myChamp") == 0 || name.compare("myLich") == 0 || name.compare("myGiant") == 0)
+		m_soundEngine->PlayBasicSound("movement1");
 	m_soundEngine->UpdateSystem();
 	if (p_attacking)
 	{

@@ -1138,6 +1138,31 @@ void HexGrid::Update(int target, float delta)
 					}
 				}
 
+				int pSize = 0;
+				int endViable = 100;
+
+				for (int i = 1; i < tiles.size(); i++)
+				{
+					if (pSize <= targetingMax)
+					{
+						if (isDesert(tiles.at(i)))
+							pSize += 2;
+						else
+							pSize += 1;
+					}
+					if (pSize >= targetingMax)
+					{
+						if (i < endViable)
+							endViable = i;
+					}
+				}
+
+				int tileSize = tiles.size();
+
+				if (tileSize - endViable > 0)
+					for (int i = 0; i < tileSize - endViable; i++)
+						tiles.pop_back();
+
 				while (tiles.size() > selections.size())
 				{
 					HexSelector* selector = new HexSelector(5.0f);
