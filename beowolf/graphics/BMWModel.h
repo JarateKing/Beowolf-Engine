@@ -19,6 +19,7 @@ namespace wolf
 	{
 	public:
 		BMWModel(std::string file, std::string vertexShader, std::string pixelShader, std::string shadowVertexShader, std::string shadowPixelShader);
+		~BMWModel();
 		void update(float delta);
 		void render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, bool instanced, float minheight = -10000, float maxheight = 100000);
 
