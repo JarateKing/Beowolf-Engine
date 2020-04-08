@@ -66,6 +66,7 @@ unsigned int postProcessDepthMap;
 Skybox* skybox;
 Water* water;
 float grayLevel = 0.0f;
+float grayTiming = 0.0f;
 GameSaver* saver;
 bool wasJustAtMainMenu = true;
 
@@ -165,7 +166,7 @@ void BaseScene::Update()
 	static bool wasJustAnimated = false;
 	float delta = wolf::Time::Instance().deltaTime();
 	cam->Update(delta);
-	
+
 	int target = cam->CalculateIntersection(grid->GetHeights(), grid->GetPos(), 5.0f);
 	std::vector<float> heights = grid->GetHeights();
 	std::vector<glm::vec2> positions = grid->GetPos();
@@ -181,6 +182,25 @@ void BaseScene::Update()
 	StateManager::getInstance().Update(delta);
 	if (shouldSwap)
 		shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerTurn;
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_1))
+	{
+		grayLevel += 0.1;
+		pQuad->SetPercentGray(grayLevel);
+	}
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_2))
+	{
+		grayLevel -= 0.1;
+		pQuad->SetPercentGray(grayLevel);
+	}
+
+	if (cManager->IsGameOver() && grayTiming <= 5.0)
+	{
+		grayTiming += delta;
+		grayLevel = wolf::Math::lerp(0.0, 1.0, grayTiming / 5.0);
+		pQuad->SetPercentGray(grayLevel);
+	}
 
 	if (shouldSwap) {
 
