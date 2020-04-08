@@ -40,6 +40,7 @@ class CharacterManager
 		void PrintCharacterTilePos();
 		void BlockTiles(std::vector<int> tiles);
 		void SetLightDir(glm::vec3 dir);
+		bool IsGameOver();
 
 	private:
 		CharacterInfoHub characterIHub;
@@ -76,6 +77,7 @@ class CharacterManager
 		int m_cameraUnit = 0;
 		int m_enemiesSpawnedTotal = 0;
 		bool m_isSpecialActive = false;
+		bool gameOver = false;
 
 		std::vector<int> PathTowardsClosestHero(int enemyIndex, int length);
 		bool IsCharOnTile(int pos);

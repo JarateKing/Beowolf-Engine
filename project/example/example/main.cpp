@@ -19,7 +19,7 @@ unsigned int depthMapFrameBuf;
 unsigned int depthMapTex;
 unsigned int depthMapFrameBuf2;
 unsigned int depthMapTex2;
-const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 1024;
+const unsigned int SHADOW_WIDTH = 4096, SHADOW_HEIGHT = 2048;
 
 unsigned int depthFieldMapBuf;
 unsigned int depthFieldMapTex;
@@ -198,6 +198,8 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, postDepthBuf1);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
 	// gen post processing blur texture
 	glGenFramebuffers(1, &postFrameBuf2);
 	glGenTextures(1, &postTex2);
@@ -293,17 +295,17 @@ void updateGameLogic(Scene* scene)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	scene->Render(RenderTarget::PostProcessing);
 
-	//Render scene to Post Processing Texture w/ GrayScale
-	//glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
-	//glViewport(0, 0, width, height);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//scene->Render(RenderTarget::GrayScale);
-
 	//Render characters to depthTexture
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf2);
 	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	scene->Render(RenderTarget::Characters);
+
+	//Render scene to Post Processing Texture w/ GrayScale
+	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
+	glViewport(0, 0, width, height);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	scene->Render(RenderTarget::GrayScale);
 
 	//Render scene to Post Processing Texture w/ Blur
 	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf2);

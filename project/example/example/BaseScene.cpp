@@ -68,6 +68,8 @@ void BaseScene::Update()
 {
 	float delta = wolf::Time::Instance().deltaTime();
 
+	m_pQuad->SetPercentGray(1.0f);
+
 	m_camera->Update(delta);
 	m_soundEngine->SetListenerAttr(glm::vec3(-m_camera->GetPos().x, m_camera->GetPos().y, -m_camera->GetPos().z), glm::vec3(0.0f, 0.0f, 0.0f), m_camera->GetAim(), m_camera->GetUp());
 	
@@ -76,12 +78,33 @@ void BaseScene::Update()
 
 	wolf::SceneRenderer::getInstance().Update(delta, m_camera->GetViewMatrix());
 	m_characterManager->Update(target, delta);
+	m_characterManager->SetSoundEngine(m_soundEngine);
+	m_characterManager->SetCamera(m_camera);
 
 	// check for transition from player lost to player turn
 	bool shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerLost;
 	StateManager::getInstance().Update(delta);
 	if (shouldSwap)
 		shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerTurn;
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_1))
+	{
+		grayLevel += 0.1;
+		pQuad->SetPercentGray(grayLevel);
+	}
+
+	if (wolf::Input::Instance().isKeyPressed(INPUT_KB_2))
+	{
+		grayLevel -= 0.1;
+		pQuad->SetPercentGray(grayLevel);
+	}
+	
+	if (cManager->IsGameOver() && grayTiming <= 5.0)
+	{
+		grayTiming += delta;
+		grayLevel = wolf::Math::lerp(0.0, 1.0, grayTiming / 5.0);
+		pQuad->SetPercentGray(grayLevel);
+	}
 
 	if (shouldSwap)
 		RestartGame();
@@ -107,7 +130,7 @@ void BaseScene::Update()
 
 void BaseScene::Render(RenderTarget target)
 {
-	glm::mat4 lightProj = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, NEARPLANE, FARPLANE);
+	glm::mat4 lightProj = glm::ortho(-150.0f, 150.0f, -50.0f, 50.0f, NEARPLANE, FARPLANE);
 	glm::mat4 lightView = glm::lookAt(glm::vec3(-35.0f, 50.0f, -35.0f),
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f));
