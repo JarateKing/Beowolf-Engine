@@ -600,5 +600,6 @@
     <ClInclude Include="..\..\beowolf\game_objects\GameSaver.h" />
     <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorBounce.h" />
     <ClInclude Include="..\..\beowolf\W_Keybind.h" />
+    <ClInclude Include="..\..\beowolf\W_Vertex_Type.h" />
   </ItemGroup>
 </Project>
