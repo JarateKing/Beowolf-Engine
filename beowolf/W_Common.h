@@ -19,14 +19,6 @@
 
 namespace wolf
 {
-	enum RenderFilterType {
-		RenderFilterOpaque,
-		RenderFilterTransparent,
-		RenderFilterDepthless,
-		RenderFilterAdditive,
-	};
-
-	typedef struct Vertex Vertex;
 	struct Vertex
 	{
 		GLfloat x, y, z;
@@ -134,18 +126,6 @@ namespace wolf
 			decl->AppendAttribute(AT_BoneIndices, 4, CT_Float);
 			decl->AppendAttribute(AT_BoneWeight, 4, CT_Float);
 		}
-	};
-
-	enum Pos
-	{
-		North,
-		Northeast,
-		East,
-		Southeast,
-		South,
-		Southwest,
-		West,
-		Northwest
 	};
 
 	// Loads in a whole file and returns the contents. User is responsible for then
