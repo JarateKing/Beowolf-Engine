@@ -161,7 +161,7 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	InitializeRenderTarget(&postFrameBuf2, &postTex2, &postDepthBuf2, POST_TEX_WIDTH, POST_TEX_HEIGHT, GL_LINEAR, 2);
 }
 
-void updateGraphics()
+void updateGraphics(Scene* scene)
 {
 	// set window bounds
 	int width, height;
@@ -186,21 +186,10 @@ void updateGraphics()
 	// clear screen
 	glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
 
-void updateGameLogic(Scene* scene)
-{
-	// update game
-	wolf::Time::Instance().update();
-	wolf::Input::Instance().update();
-	scene->Update();
-	
-	int width, height;
-	glfwGetWindowSize(&width, &height);
-	height = height > 0 ? height : 1;
-
+	// perform renders
 	glCullFace(GL_FRONT);
-	
+
 	RenderTarget(scene, depthMapFrameBuf, SHADOW_WIDTH, SHADOW_HEIGHT, GL_DEPTH_BUFFER_BIT, wolf::RenderTarget::ShadowDepthmap);
 	RenderTarget(scene, fogFrameBuf, FOG_WIDTH, FOG_HEIGHT, GL_DEPTH_BUFFER_BIT, wolf::RenderTarget::WaterFog);
 
@@ -215,6 +204,14 @@ void updateGameLogic(Scene* scene)
 	RenderTarget(scene, depthMapFrameBuf, SHADOW_WIDTH, SHADOW_HEIGHT, GL_DEPTH_BUFFER_BIT, wolf::RenderTarget::DepthFieldMap);
 	RenderTarget(scene, 0, width, height, 0, wolf::RenderTarget::DepthOfField);
 	RenderTarget(scene, 0, width, height, 0, wolf::RenderTarget::HUD);
+}
+
+void updateGameLogic(Scene* scene)
+{
+	// update game
+	wolf::Time::Instance().update();
+	wolf::Input::Instance().update();
+	scene->Update();
 }
 
 int main()
@@ -234,8 +231,8 @@ int main()
 
 	while (glfwGetWindowParam(GLFW_OPENED))
 	{
-		updateGraphics();
 		updateGameLogic(scene);
+		updateGraphics(scene);
 
 		// swap buffers
 		glfwSwapBuffers();
