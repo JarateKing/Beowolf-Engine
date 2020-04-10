@@ -32,8 +32,8 @@ public:
 	BaseScene();
 	void Init();
 	void Update();
-	void Render(RenderTarget target);
-	void SetTex(RenderTarget target, unsigned int tex);
+	void Render(wolf::RenderTarget target);
+	void SetTex(wolf::RenderTarget target, unsigned int tex);
 private:
 	void SetupLoader();
 	void SetupSoundEngine();

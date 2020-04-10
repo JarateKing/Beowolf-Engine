@@ -10,7 +10,7 @@
 class Item
 {
 	public:
-		Item(std::string bmwFile, std::string shaderFile, int startTile, std::string jsonFile, std::string name, HexGrid* grid);
+		Item(std::string bmwFile, std::string shaderFile, int startTile, std::string name, HexGrid* grid);
 		~Item();
 		void Render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture);
 		void Update(float deltaT);
@@ -19,7 +19,6 @@ class Item
 		std::string GetName();
 		int GetTile();
 		glm::vec3 GetPos();
-		std::map<std::string, float> GetStats();
 
 	private:
 		std::vector<std::string> soundFiles;
@@ -31,7 +30,6 @@ class Item
 
 		float m_bobTime;
 		glm::vec3 m_pos;
-		std::map<std::string, float> m_statValues;
 		
 		Effect* m_particleGlow;
 		glm::mat3 m_storedProj;
