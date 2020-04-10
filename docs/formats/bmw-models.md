@@ -101,3 +101,61 @@ for each animation:
 		for duration:
 			float 4*4 - transformation matrix
 ```
+
+## Metadata
+
+There is a variety of override options and additional specifications that are supplied in a `json` file. It is identified by having the same filename as the `bmw` file.
+
+### Transform Overrides
+
+Transform overrides can be in the form of:
+```
+	"rotation": 90.0,
+	"rotationAngle": "0.978734 0.0 0.205133",
+	"scale": "0.25 0.25 0.25",
+	"translation": "1.0 -0.5 0.0"
+```
+
+### Texture Overrides
+
+Texture overrides can be in the form of:
+```
+	"textureOverrides" : [
+		{
+			"texture": "Oak_Tree.fbm/tree_diffuse.dds"
+		}
+	]
+```
+
+### Animations
+
+Animations are specified in two parts: a default animation, and a set of clips.
+
+The default animation is specified as:
+```
+	"defaultAnim": "idle",
+```
+
+While clips take the form of:
+```
+	"clips" : [
+		{
+            "name": "idle",
+            "start": 2,
+            "end": 269,
+			"loop": true
+        },
+        {
+            "name": "death_forward",
+            "start": 565,
+            "end": 629,
+			"hold": true
+        },
+        {
+            "name": "spawn",
+            "start": 905,
+            "end": 959,
+			"loop": false
+        }
+	]
+```
