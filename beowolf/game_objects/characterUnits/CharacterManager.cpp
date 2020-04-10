@@ -809,15 +809,15 @@ void CharacterManager::SpawnItem(int pos)
 void CharacterManager::SpawnItem(int pos, int type)
 {
 	if (type == 1) {
-		items.push_back(new Item("potion.bmw", "lit_textured", pos, "Items/potion.json", "Potion", grid));
+		items.push_back(new Item("potion.bmw", "lit_textured", pos, "Potion", grid));
 		items.back()->SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
 	}
 	else if (type == 2) {
-		items.push_back(new Item("sword1.bmw", "lit_textured", pos, "Items/sword.json", "Sword", grid));
+		items.push_back(new Item("sword1.bmw", "lit_textured", pos, "Sword", grid));
 		items.back()->SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
 	}
 	else {
-		items.push_back(new Item("shield.bmw", "lit_textured", pos, "Items/shield.json", "Shield", grid));
+		items.push_back(new Item("shield.bmw", "lit_textured", pos, "Shield", grid));
 		items.back()->SetLighting(glm::vec4(0.784f, 0.796f, 0.619f, 1.0f), glm::vec4(0.988f, 1.0f, 0.788f, 1.0f), glm::vec3(-0.5, -0.5, -0.5));
 	}
 }

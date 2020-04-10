@@ -6,7 +6,7 @@
 
 const std::vector<std::string> STAT_NAMES = { "HP", "MaxAttack", "MinAttack", "Defense"};
 
-Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string jsonFile, std::string p_name, HexGrid* p_grid)
+Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string p_name, HexGrid* p_grid)
 {
 	auto shaders = wolf::ResourceLoader::Instance().getShaders(p_shaderFile);
 	auto shadowShaders = wolf::ResourceLoader::Instance().getShaders("shadow_map");
@@ -17,21 +17,6 @@ Item::Item(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std
 	name = p_name;
 	pos.SetGrid(p_grid);
 	m_bobTime = wolf::RNG::GetRandom(0.0f, 360.0f);
-
-	std::ifstream jsonIn(wolf::ResourceLoader::Instance().getJSONObject(jsonFile));
-	nlohmann::json jsonData;
-	if (jsonIn) {
-		std::stringstream jsonFileStream;
-		jsonFileStream << jsonIn.rdbuf();
-		std::string jsonFileData = jsonFileStream.str();
-		jsonData = nlohmann::json::parse(jsonFileData);
-
-		if (jsonData.contains("Stats")) {
-			for (int i = 0; i < STAT_NAMES.size(); i++)
-				if (jsonData["Stats"].contains(STAT_NAMES[i]))
-					m_statValues[STAT_NAMES[i]] = jsonData["Stats"][STAT_NAMES[i]];
-		}
-	}
 
 	m_particleGlow = new Effect("resources/particles/item_glow.json");
 	m_particleGlow->SetPos(m_pos);
@@ -85,9 +70,4 @@ int Item::GetTile()
 glm::vec3 Item::GetPos()
 {
 	return m_pos;
-}
-
-std::map<std::string, float> Item::GetStats()
-{
-	return m_statValues;
 }
