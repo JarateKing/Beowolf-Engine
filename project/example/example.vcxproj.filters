@@ -601,5 +601,6 @@
     <ClInclude Include="..\..\beowolf\graphics\particles\affectors\AffectorBounce.h" />
     <ClInclude Include="..\..\beowolf\W_Keybind.h" />
     <ClInclude Include="..\..\beowolf\W_Vertex_Type.h" />
+    <ClInclude Include="example\RenderTargets.h" />
   </ItemGroup>
 </Project>
