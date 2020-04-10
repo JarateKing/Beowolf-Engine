@@ -7,6 +7,7 @@
 #endif
 #include <GL/glfw.h>
 
+#include "W_Common.h"
 #include "BaseScene.h"
 #include "W_Time.h"
 
@@ -52,6 +53,15 @@ extern "C" FILE * __cdecl __iob_func(void)
 	return _iob;
 }
 //========================================================================
+
+
+void RenderTarget(Scene* scene, unsigned int frameBuf, unsigned int width, unsigned int height, unsigned int clearBits, wolf::RenderTarget target) {
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuf);
+	glViewport(0, 0, width, height);
+	if (clearBits != 0)
+		glClear(clearBits);
+	scene->Render(target);
+}
 
 void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 {
@@ -263,71 +273,20 @@ void updateGameLogic(Scene* scene)
 
 	glCullFace(GL_FRONT);
 	
-	//Render scene to shadow depth map texture
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf);
-	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	scene->Render(RenderTarget::ShadowDepthmap);
-
-	//Render scene to fog depth map texture
-	glBindFramebuffer(GL_FRAMEBUFFER, fogFrameBuf);
-	glViewport(0, 0, FOG_WIDTH, FOG_HEIGHT);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	scene->Render(RenderTarget::WaterFog);
+	RenderTarget(scene, depthMapFrameBuf, SHADOW_WIDTH, SHADOW_HEIGHT, GL_DEPTH_BUFFER_BIT, wolf::RenderTarget::ShadowDepthmap);
+	RenderTarget(scene, fogFrameBuf, FOG_WIDTH, FOG_HEIGHT, GL_DEPTH_BUFFER_BIT, wolf::RenderTarget::WaterFog);
 
 	glCullFace(GL_BACK);
 
-	//Render scene for reflection
-	glBindFramebuffer(GL_FRAMEBUFFER, reflectionFrameBuf);
-	glViewport(0, 0, REFLECTION_WIDTH, REFLECTION_HEIGHT);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	scene->Render(RenderTarget::WaterReflection);
-
-	//Render scene for refraction
-	glBindFramebuffer(GL_FRAMEBUFFER, refractionFrameBuf);
-	glViewport(0, 0, REFRACTION_WIDTH, REFRACTION_HEIGHT);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	scene->Render(RenderTarget::WaterRefraction);
-
-	//Render scene to Post Processing Texture
-	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
-	glViewport(0, 0, width, height);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	scene->Render(RenderTarget::PostProcessing);
-
-	//Render characters to depthTexture
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf2);
-	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	scene->Render(RenderTarget::Characters);
-
-	//Render scene to Post Processing Texture w/ GrayScale
-	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
-	glViewport(0, 0, width, height);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	scene->Render(RenderTarget::GrayScale);
-
-	//Render scene to Post Processing Texture w/ Blur
-	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf2);
-	glViewport(0, 0, width, height);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	scene->Render(RenderTarget::Blur);
-
-	//Render scene to Depth Field for DepthOfField
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf);
-	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	scene->Render(RenderTarget::DepthFieldMap);
-
-	//Render scene to Post Processing Texture w/ DepthOfField
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, width, height);
-	scene->Render(RenderTarget::DepthOfField);
-
-	//Render HUD
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, width, height);
-	scene->Render(RenderTarget::HUD);
+	RenderTarget(scene, reflectionFrameBuf, REFLECTION_WIDTH, REFLECTION_HEIGHT, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, wolf::RenderTarget::WaterReflection);
+	RenderTarget(scene, refractionFrameBuf, REFRACTION_WIDTH, REFRACTION_HEIGHT, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, wolf::RenderTarget::WaterRefraction);
+	RenderTarget(scene, postFrameBuf1, width, height, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, wolf::RenderTarget::PostProcessing);
+	RenderTarget(scene, depthMapFrameBuf2, SHADOW_WIDTH, SHADOW_HEIGHT, GL_DEPTH_BUFFER_BIT, wolf::RenderTarget::Characters);
+	RenderTarget(scene, postFrameBuf1, width, height, 0, wolf::RenderTarget::GrayScale);
+	RenderTarget(scene, postFrameBuf2, width, height, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, wolf::RenderTarget::Blur);
+	RenderTarget(scene, depthMapFrameBuf, SHADOW_WIDTH, SHADOW_HEIGHT, GL_DEPTH_BUFFER_BIT, wolf::RenderTarget::DepthFieldMap);
+	RenderTarget(scene, 0, width, height, 0, wolf::RenderTarget::DepthOfField);
+	RenderTarget(scene, 0, width, height, 0, wolf::RenderTarget::HUD);
 }
 
 int main()
@@ -336,14 +295,14 @@ int main()
     
 	BaseScene* scene = new BaseScene();
 	scene->Init();
-	scene->SetTex(RenderTarget::ShadowDepthmap, depthMapTex);
-	scene->SetTex(RenderTarget::Cutouts, depthMapTex2);
-	scene->SetTex(RenderTarget::WaterReflection, reflectionTex);
-	scene->SetTex(RenderTarget::PostProcessing, postTex1);
-	scene->SetTex(RenderTarget::Blur, postTex2);
-	scene->SetTex(RenderTarget::DepthFieldMap, depthFieldMapTex);
-	scene->SetTex(RenderTarget::WaterRefraction, refractionTex);
-	scene->SetTex(RenderTarget::WaterFog, fogTex);
+	scene->SetTex(wolf::RenderTarget::ShadowDepthmap, depthMapTex);
+	scene->SetTex(wolf::RenderTarget::Cutouts, depthMapTex2);
+	scene->SetTex(wolf::RenderTarget::WaterReflection, reflectionTex);
+	scene->SetTex(wolf::RenderTarget::PostProcessing, postTex1);
+	scene->SetTex(wolf::RenderTarget::Blur, postTex2);
+	scene->SetTex(wolf::RenderTarget::DepthFieldMap, depthFieldMapTex);
+	scene->SetTex(wolf::RenderTarget::WaterRefraction, refractionTex);
+	scene->SetTex(wolf::RenderTarget::WaterFog, fogTex);
 
 	while (glfwGetWindowParam(GLFW_OPENED))
 	{

@@ -121,6 +121,22 @@ enum Pos
 	Northwest
 };
 
+enum RenderTarget {
+	Screen,
+	HUD,
+	ShadowDepthmap,
+	DepthFieldMap,
+	WaterReflection,
+	PostProcessing,
+	GrayScale,
+	DepthOfField,
+	Blur,
+	WaterRefraction,
+	WaterFog,
+	Characters,
+	Cutouts,
+};
+
 struct Plane
 {
 	// point-normal form description of a plane

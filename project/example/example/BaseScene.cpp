@@ -120,7 +120,7 @@ void BaseScene::Update()
 	m_wasJustAtMainMenu = StateManager::getInstance().GetState() == State::GamestateMainMenu;
 }
 
-void BaseScene::Render(RenderTarget target)
+void BaseScene::Render(wolf::RenderTarget target)
 {
 	glm::mat4 lightProj = glm::ortho(-150.0f, 150.0f, -50.0f, 50.0f, NEARPLANE, FARPLANE);
 	glm::mat4 lightView = glm::lookAt(glm::vec3(-35.0f, 50.0f, -35.0f),
@@ -128,7 +128,7 @@ void BaseScene::Render(RenderTarget target)
 		glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 lightSpaceMatrix = lightProj * lightView;
 
-	if (target == RenderTarget::ShadowDepthmap)
+	if (target == wolf::RenderTarget::ShadowDepthmap)
 	{
 		glDepthMask(true);
 		glEnable(GL_DEPTH_TEST);
@@ -138,7 +138,7 @@ void BaseScene::Render(RenderTarget target)
 		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, m_depthMapTexture, -1.0f, 100.0f);
 		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, m_depthMapTexture);
 	}
-	else if (target == RenderTarget::WaterReflection)
+	else if (target == wolf::RenderTarget::WaterReflection)
 	{
 		glDepthMask(true);
 		glEnable(GL_DEPTH_TEST);
@@ -153,16 +153,16 @@ void BaseScene::Render(RenderTarget target)
 		m_characterManager->Render(m_camera->GetVerticalInverse(5), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture);
 		m_hexgrid->Render(m_camera->GetVerticalInverse(5), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, 4.25f, 100.0f);
 	}
-	else if (target == RenderTarget::WaterRefraction)
+	else if (target == wolf::RenderTarget::WaterRefraction)
 	{
 		m_skybox->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque);
 		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, -1.0f, 6.0f);
 	}
-	else if (target == RenderTarget::WaterFog)
+	else if (target == wolf::RenderTarget::WaterFog)
 	{
 		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, -1.0f, 6.0f);
 	}
-	else if (target == RenderTarget::PostProcessing)
+	else if (target == wolf::RenderTarget::PostProcessing)
 	{
 		// Opaque
 		glDepthMask(true);
@@ -201,28 +201,28 @@ void BaseScene::Render(RenderTarget target)
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 	}
-	else if (target == RenderTarget::Characters)
+	else if (target == wolf::RenderTarget::Characters)
 	{
 		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, true, m_depthMapTexture2);
 	}
-	else if (target == RenderTarget::DepthFieldMap)
+	else if (target == wolf::RenderTarget::DepthFieldMap)
 	{
 		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, true, m_depthMapTexture, -1.0f, 100.0f);
 		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, true, m_depthMapTexture);
 	}
-	else if(target == RenderTarget::GrayScale)
+	else if(target == wolf::RenderTarget::GrayScale)
 	{
 		m_pQuad->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, m_postProcessTexture, m_postProcessBlurTexture, m_fogTexture, m_depthMapTexture2, "GrayScale");
 	}
-	else if (target == RenderTarget::Blur)
+	else if (target == wolf::RenderTarget::Blur)
 	{
 		m_pQuad->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, m_postProcessTexture, m_postProcessBlurTexture, m_fogTexture, m_depthMapTexture2, "Blur");
 	}
-	else if (target == RenderTarget::DepthOfField)
+	else if (target == wolf::RenderTarget::DepthOfField)
 	{
 		m_pQuad->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, m_postProcessTexture, m_postProcessBlurTexture, m_depthMapTexture, m_depthMapTexture2, "DepthOfField");
 	}
-	else if (target == RenderTarget::HUD)
+	else if (target == wolf::RenderTarget::HUD)
 	{
 		//m_pQuad->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, m_postProcessTexture, m_postProcessBlurTexture, m_depthMapTexture, "None");
 		glEnable(GL_DEPTH_TEST);
@@ -237,23 +237,23 @@ void BaseScene::Render(RenderTarget target)
 	}
 }
 
-void BaseScene::SetTex(RenderTarget target, unsigned int tex)
+void BaseScene::SetTex(wolf::RenderTarget target, unsigned int tex)
 {
-	if (target == RenderTarget::ShadowDepthmap)
+	if (target == wolf::RenderTarget::ShadowDepthmap)
 		m_depthMapTexture = tex;
-	else if (target == RenderTarget::WaterReflection)
+	else if (target == wolf::RenderTarget::WaterReflection)
 		m_reflectionTexture = tex;
-	else if (target == RenderTarget::PostProcessing)
+	else if (target == wolf::RenderTarget::PostProcessing)
 		m_postProcessTexture = tex;
-	else if (target == RenderTarget::Blur)
+	else if (target == wolf::RenderTarget::Blur)
 		m_postProcessBlurTexture = tex;
-	else if (target == RenderTarget::DepthFieldMap)
+	else if (target == wolf::RenderTarget::DepthFieldMap)
 		m_postProcessDepthMap = tex;
-	else if (target == RenderTarget::WaterRefraction)
+	else if (target == wolf::RenderTarget::WaterRefraction)
 		m_refractionTexture = tex;
-	else if (target == RenderTarget::WaterFog)
+	else if (target == wolf::RenderTarget::WaterFog)
 		m_fogTexture = tex;
-	else if (target == RenderTarget::Cutouts)
+	else if (target == wolf::RenderTarget::Cutouts)
 		m_depthMapTexture2 = tex;
 }
 
