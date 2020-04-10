@@ -54,6 +54,59 @@ extern "C" FILE * __cdecl __iob_func(void)
 }
 //========================================================================
 
+void InitializeRenderTarget(unsigned int* frameBuf, unsigned int* tex, unsigned int width, unsigned int height, int blendType, int format) {
+	glGenFramebuffers(1, frameBuf);
+	glGenTextures(1, tex);
+
+	glBindTexture(GL_TEXTURE_2D, *tex);
+	if (format == 0)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	else if (format == 1)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
+	else if (format == 2)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, blendType);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, blendType);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, *frameBuf);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, *tex, 0);
+	//glDrawBuffer(GL_NONE);
+	//glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void InitializeRenderTarget(unsigned int* frameBuf, unsigned int* tex, unsigned int* renderBuf, unsigned int width, unsigned int height, int blendType, int format) {
+	glGenFramebuffers(1, frameBuf);
+	glGenTextures(1, tex);
+	glGenRenderbuffers(1, renderBuf);
+
+	glBindTexture(GL_TEXTURE_2D, *tex);
+	
+	if (format == 0)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	else if (format == 1)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
+	else if (format == 2)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, blendType);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, blendType);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glBindRenderbuffer(GL_RENDERBUFFER, *renderBuf);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, *frameBuf);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, *tex, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, *renderBuf);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+}
 
 void RenderTarget(Scene* scene, unsigned int frameBuf, unsigned int width, unsigned int height, unsigned int clearBits, wolf::RenderTarget target) {
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuf);
@@ -99,138 +152,13 @@ void setupGraphics(const char* windowTitle, int windowWidth, int windowHeight)
 	// vsync
 	glfwSwapInterval(1);
 
-	// gen depth map texture for shadows
-	glGenFramebuffers(1, &depthMapFrameBuf);
-	glGenTextures(1, &depthMapTex);
-	
-	glBindTexture(GL_TEXTURE_2D, depthMapTex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMapTex, 0);
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// gen depth map texture for characters
-	glGenFramebuffers(1, &depthMapFrameBuf2);
-	glGenTextures(1, &depthMapTex2);
-
-	glBindTexture(GL_TEXTURE_2D, depthMapTex2);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFrameBuf2);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMapTex2, 0);
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// gen reflection texture
-	glGenFramebuffers(1, &reflectionFrameBuf);
-	glGenTextures(1, &reflectionTex);
-	glGenRenderbuffers(1, &reflectionRenderBuf);
-
-	glBindTexture(GL_TEXTURE_2D, reflectionTex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, REFLECTION_WIDTH, REFLECTION_HEIGHT, 0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindRenderbuffer(GL_RENDERBUFFER, reflectionRenderBuf);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, REFLECTION_WIDTH, REFLECTION_HEIGHT);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, reflectionFrameBuf);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, reflectionTex, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, reflectionRenderBuf);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// gen refraction texture
-	glGenFramebuffers(1, &refractionFrameBuf);
-	glGenTextures(1, &refractionTex);
-	glGenRenderbuffers(1, &refractionRenderBuf);
-
-	glBindTexture(GL_TEXTURE_2D, refractionTex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, REFRACTION_WIDTH, REFRACTION_HEIGHT, 0, GL_RGB, GL_UNSIGNED_SHORT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindRenderbuffer(GL_RENDERBUFFER, refractionRenderBuf);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, REFRACTION_WIDTH, REFRACTION_HEIGHT);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, refractionFrameBuf);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, refractionTex, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, refractionRenderBuf);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// gen depth map texture for fog
-	glGenFramebuffers(1, &fogFrameBuf);
-	glGenTextures(1, &fogTex);
-
-	glBindTexture(GL_TEXTURE_2D, fogTex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, FOG_WIDTH, FOG_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, fogFrameBuf);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, fogTex, 0);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// gen post processing texture
-	glGenFramebuffers(1, &postFrameBuf1);
-	glGenTextures(1, &postTex1);
-	glGenRenderbuffers(1, &postDepthBuf1);
-
-	glBindTexture(GL_TEXTURE_2D, postTex1);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, POST_TEX_WIDTH, POST_TEX_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindRenderbuffer(GL_RENDERBUFFER, postDepthBuf1);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, POST_TEX_WIDTH, POST_TEX_HEIGHT);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf1);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, postTex1, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, postDepthBuf1);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-
-	// gen post processing blur texture
-	glGenFramebuffers(1, &postFrameBuf2);
-	glGenTextures(1, &postTex2);
-	glGenRenderbuffers(1, &postDepthBuf2);
-
-	glBindTexture(GL_TEXTURE_2D, postTex2);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, POST_TEX_WIDTH, POST_TEX_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindRenderbuffer(GL_RENDERBUFFER, postDepthBuf2);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, POST_TEX_WIDTH, POST_TEX_HEIGHT);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, postFrameBuf2);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, postTex2, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, postDepthBuf2);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	InitializeRenderTarget(&depthMapFrameBuf, &depthMapTex, SHADOW_WIDTH, SHADOW_HEIGHT, GL_LINEAR, 0);
+	InitializeRenderTarget(&depthMapFrameBuf2, &depthMapTex2, SHADOW_WIDTH, SHADOW_HEIGHT, GL_NEAREST, 0);
+	InitializeRenderTarget(&reflectionFrameBuf, &reflectionTex, &reflectionRenderBuf, REFLECTION_WIDTH, REFLECTION_HEIGHT, GL_LINEAR, 1);
+	InitializeRenderTarget(&refractionFrameBuf, &refractionTex, &refractionRenderBuf, REFRACTION_WIDTH, REFRACTION_HEIGHT, GL_LINEAR, 1);
+	InitializeRenderTarget(&fogFrameBuf, &fogTex, FOG_WIDTH, FOG_HEIGHT, GL_NEAREST, 0);
+	InitializeRenderTarget(&postFrameBuf1, &postTex1, &postDepthBuf1, POST_TEX_WIDTH, POST_TEX_HEIGHT, GL_LINEAR, 2);
+	InitializeRenderTarget(&postFrameBuf2, &postTex2, &postDepthBuf2, POST_TEX_WIDTH, POST_TEX_HEIGHT, GL_LINEAR, 2);
 }
 
 void updateGraphics()
