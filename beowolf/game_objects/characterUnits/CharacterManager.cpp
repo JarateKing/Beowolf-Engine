@@ -14,9 +14,9 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::strin
 	grid = p_grid;
 	m_hud = p_hud;
 
-	int sTile1 = 107;
-	int sTile2 = 108;
-	int sTile3 = 109;
+	int sTile1 = grid->GetSize() / 2 - 2;
+	int sTile2 = grid->GetSize() / 2 - 1;
+	int sTile3 = grid->GetSize() / 2;
 
 	while (grid->isMountain(sTile1))
 		sTile1 += 1;
