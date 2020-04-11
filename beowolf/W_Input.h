@@ -97,21 +97,21 @@ namespace wolf
 		bool isMouseUnheld(int mbutton) const;
 
 		// controller input
-		bool isControllerButtonPressed(int button);
-		bool isControllerButtonHeld(int button);
-		bool isControllerButtonHeld(int button, double delay);
-		bool isControllerButtonReleased(int button);
-		bool isControllerButtonUnheld(int button);
+		bool isControllerButtonPressed(int button) const;
+		bool isControllerButtonHeld(int button) const;
+		bool isControllerButtonHeld(int button, double delay) const;
+		bool isControllerButtonReleased(int button) const;
+		bool isControllerButtonUnheld(int button) const;
 
 		// controller axis
-		float getControllerAxis(int axis);
-		glm::vec2 getControllerLeftStick();
-		glm::vec2 getControllerRightStick();
-		glm::vec2 getControllerTriggers();
+		float getControllerAxis(int axis) const;
+		glm::vec2 getControllerLeftStick() const;
+		glm::vec2 getControllerRightStick() const;
+		glm::vec2 getControllerTriggers() const;
 
 		// combined input
-		double getTimeAfk();
-		bool isAfk(double delay);
+		double getTimeAfk() const;
+		bool isAfk(double delay) const;
 
 	private:
 		//-------------------------------------------------------------------------

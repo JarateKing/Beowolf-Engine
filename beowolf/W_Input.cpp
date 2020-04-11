@@ -175,57 +175,57 @@ namespace wolf
 		return mbuttons[mbutton] == 0 || mbuttons[mbutton] == RELEASED;
 	}
 
-	double Input::getTimeAfk()
+	double Input::getTimeAfk() const
 	{
 		return timeAfk;
 	}
 
-	bool Input::isAfk(double delay)
+	bool Input::isAfk(double delay) const
 	{
 		return timeAfk > delay;
 	}
 
-	bool Input::isControllerButtonPressed(int button)
+	bool Input::isControllerButtonPressed(int button) const
 	{
 		return controllerbuttons[button] == delta;
 	}
 
-	bool Input::isControllerButtonHeld(int button)
+	bool Input::isControllerButtonHeld(int button) const
 	{
 		return controllerbuttons[button] > 0 && controllerbuttons[button] != RELEASED;
 	}
 
-	bool Input::isControllerButtonHeld(int button, double delay)
+	bool Input::isControllerButtonHeld(int button, double delay) const
 	{
 		return controllerbuttons[button] > delay;
 	}
 
-	bool Input::isControllerButtonReleased(int button)
+	bool Input::isControllerButtonReleased(int button) const
 	{
 		return controllerbuttons[button] == RELEASED;
 	}
 
-	bool Input::isControllerButtonUnheld(int button)
+	bool Input::isControllerButtonUnheld(int button) const
 	{
 		return controllerbuttons[button] == 0;
 	}
 
-	float Input::getControllerAxis(int axis)
+	float Input::getControllerAxis(int axis) const
 	{
 		return controlleraxis[axis];
 	}
 
-	glm::vec2 Input::getControllerLeftStick()
+	glm::vec2 Input::getControllerLeftStick() const
 	{
 		return glm::vec2(controlleraxis[INPUT_CONTROLLER_AXIS_LH], controlleraxis[INPUT_CONTROLLER_AXIS_LV]);
 	}
 
-	glm::vec2 Input::getControllerRightStick()
+	glm::vec2 Input::getControllerRightStick() const
 	{
 		return glm::vec2(controlleraxis[INPUT_CONTROLLER_AXIS_RH], controlleraxis[INPUT_CONTROLLER_AXIS_RV]);
 	}
 
-	glm::vec2 Input::getControllerTriggers()
+	glm::vec2 Input::getControllerTriggers() const
 	{
 		float value = controlleraxis[INPUT_CONTROLLER_AXIS_TRIGGER];
 		float left = (value < 0) ? -value : 0;
