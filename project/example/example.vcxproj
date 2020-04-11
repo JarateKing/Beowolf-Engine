@@ -458,6 +458,7 @@
     <ClInclude Include="..\..\beowolf\W_Common.h" />
     <ClInclude Include="..\..\beowolf\W_Input.h" />
     <ClInclude Include="..\..\beowolf\W_Input_Keys.h" />
+    <ClInclude Include="..\..\beowolf\W_Input_Types.h" />
     <ClInclude Include="..\..\beowolf\W_Keybind.h" />
     <ClInclude Include="..\..\beowolf\W_ResourceLoader.h" />
     <ClInclude Include="..\..\beowolf\W_Types.h" />

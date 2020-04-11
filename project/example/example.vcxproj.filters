@@ -602,5 +602,6 @@
     <ClInclude Include="..\..\beowolf\W_Keybind.h" />
     <ClInclude Include="..\..\beowolf\W_Vertex_Type.h" />
     <ClInclude Include="example\RenderTargets.h" />
+    <ClInclude Include="..\..\beowolf\W_Input_Types.h" />
   </ItemGroup>
 </Project>
