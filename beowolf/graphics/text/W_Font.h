@@ -18,7 +18,7 @@ namespace wolf
 	class Font
 	{
 	public:
-		Font(std::string dir, std::string file);
+		Font(const std::string& dir, const std::string& file);
 		~Font();
 		wolf::Texture* GetTexture(int number);
 		int GetTextureNum(const char& input);

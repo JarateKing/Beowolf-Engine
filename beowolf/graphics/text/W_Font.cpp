@@ -5,7 +5,7 @@
 
 namespace wolf
 {
-	Font::Font(std::string dir, std::string file)
+	Font::Font(const std::string& dir, const std::string& file)
 	{
 		m_dirPrefix = dir;
 		m_dirFntName = file;
