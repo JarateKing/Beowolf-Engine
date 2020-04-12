@@ -30,7 +30,6 @@ namespace wolf
 		}
 
 		// set up m_meshes
-		// TODO: move this into loader, so that this can be cached between models
 		for (int i = 0; i < m_vertices->size(); i++) {
 			Mesh current;
 
@@ -99,6 +98,17 @@ namespace wolf
 		}
 
 		transform = m_transformModel;
+	}
+
+	BMWModel::~BMWModel() {
+		for (int i = 0; i < m_meshes.size(); i++) {
+			wolf::BufferManager::DestroyBuffer(m_meshes[i].m_pVB);
+			wolf::BufferManager::DestroyBuffer(m_meshes[i].m_pIB);
+			wolf::ProgramManager::DestroyProgram(m_meshes[i].m_pProg);
+			wolf::ProgramManager::DestroyProgram(m_meshes[i].m_pShadowProg);
+			wolf::TextureManager::DestroyTexture(m_meshes[i].m_pTex);
+			delete m_meshes[i].m_pDecl;
+		}
 	}
 
 	void BMWModel::update(float delta)

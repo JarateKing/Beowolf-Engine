@@ -99,8 +99,8 @@ void StateManager::Update(float delta) {
 			if (hasAllMoved) {
 				if (enemies->size() == 0)
 				{
-					m_soundEngine->PlayBasicSound("lose_jingle");
 					SetState(State::GamestatePlayerLost);
+					m_soundEngine->PlayBasicSound("lose_jingle");
 				}
 				else
 				{

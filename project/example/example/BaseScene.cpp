@@ -10,34 +10,9 @@
 #include "StateManager.h"
 #include "W_Math.h"
 
-//const float DISTANCEFACTOR = 1.0f;
-//////static glm::mat4 cull;
-//wolf::MousePos mouse;
-////////wolf::Hud* testhud;
-////glm::vec3 lightDir;
-//static CharacterManager* cManager;
-//CharacterInfoHub cHub;
-//ScoreTracker* scoreTracker;
-//TestQuad* tQuad;
-//PostProcessingQuad* pQuad;
-/*unsigned int depthMapTexture;
-unsigned int depthMapTexture2;
-unsigned int reflectionTexture;
-unsigned int postProcessTexture;
-unsigned int postProcessBlurTexture;
-unsigned int refractionTexture;
-unsigned int fogTexture;
-unsigned int postProcessDepthMap;
-Skybox* skybox;
-Water* water;*/
-float grayLevel = 0.0f;
-float grayTiming = 0.0f;
-//GameSaver* saver;
-//bool wasJustAtMainMenu = true;
-
-wolf::BMWModel* test;
-wolf::BMWModel* test2;
-float distance = -1000.0f;
+const float DISTANCEFACTOR = 1.0f;
+const float NEARPLANE = 20.0f;
+const float FARPLANE = 100.0f;
 
 BaseScene::BaseScene()
 {
@@ -92,17 +67,13 @@ void BaseScene::Init()
 
 void BaseScene::Update()
 {
-	m_soundEngine->SetListenerAttr(glm::vec3(-m_camera->GetPos().x, m_camera->GetPos().y, -m_camera->GetPos().z), glm::vec3(0.0f, 0.0f, 0.0f), m_camera->GetAim(), m_camera->GetUp());
-
 	static bool wasJustAnimated = false;
 	float delta = wolf::Time::Instance().deltaTime();
-  
+
 	m_camera->Update(delta);
+	m_soundEngine->SetListenerAttr(glm::vec3(-m_camera->GetPos().x, m_camera->GetPos().y, -m_camera->GetPos().z), glm::vec3(0.0f, 0.0f, 0.0f), m_camera->GetAim(), m_camera->GetUp());
 	
 	int target = m_camera->CalculateIntersection(m_hexgrid->GetHeights(), m_hexgrid->GetPos(), 5.0f);
-	std::vector<float> heights = m_hexgrid->GetHeights();
-	std::vector<glm::vec2> positions = m_hexgrid->GetPos();
-
 	m_hexgrid->Update((target >= 0) ? target : -1, delta);
 
 	wolf::SceneRenderer::getInstance().Update(delta, m_camera->GetViewMatrix());
@@ -110,94 +81,55 @@ void BaseScene::Update()
 	m_characterManager->SetSoundEngine(m_soundEngine);
 	m_characterManager->SetCamera(m_camera);
 
+	// check for transition from player lost to player turn
 	bool shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerLost;
 	StateManager::getInstance().Update(delta);
 	if (shouldSwap)
 		shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerTurn;
 
-	if (m_characterManager->IsGameOver() && grayTiming <= 2.5)
+	if (m_characterManager->IsGameOver() && m_grayTiming <= 2.5)
 	{
-		grayTiming += delta;
-		grayLevel = wolf::Math::lerp(0.0, 1.0, grayTiming / 2.5);
-		m_pQuad->SetPercentGray(grayLevel);
+		m_grayTiming += delta;
+		m_grayLevel = wolf::Math::lerp(0.0, 1.0, m_grayTiming / 2.5);
+		m_pQuad->SetPercentGray(m_grayLevel);	
+	}
+	else if (!m_characterManager->IsGameOver()) {
+		m_grayTiming = 0;
+		m_grayLevel = 0.0;
+		m_pQuad->SetPercentGray(0);
 	}
 
-	if (shouldSwap) {
-
-		delete m_camera;
-		m_camera = new Camera(0, 5.5, glm::vec3(0, 50.0f, -40.0));
-		m_cullMatrix = m_camera->GetViewMatrix();
-
-		delete m_hexgrid;
-		m_hexgrid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
-
-		delete m_selector;
-		m_selector = new HexSelector(5.0f);
-
-		delete m_characterManager;
-		m_characterManager = new CharacterManager(m_hexgrid, m_hud);
-		m_hexpos.SetGrid(m_hexgrid);
-
-		StateManager::getInstance().SetCharacterManager(m_characterManager);
-		StateManager::getInstance().SetHud(m_hud);
-		StateManager::getInstance().SetCamera(m_camera);
-
-		m_scoreTracker->SetScore(0);
-		m_characterManager->SetScoreTracker(m_scoreTracker);
-		m_characterManager->SetSoundEngine(m_soundEngine);
-
-		m_gameSaver->SetInfo(m_characterManager, m_scoreTracker, m_hexgrid);
-	}
+	if (shouldSwap)
+		RestartGame();
 
 	bool shouldLoad = ((wolf::Keybind::Instance().getBind("loadgame") || ((wolf::HudButton*)m_hud->GetElement("MM_Load_Button"))->IsClicked()) && m_wasJustAtMainMenu);
-	if (shouldLoad) {
-		delete m_hexgrid;
-		m_hexgrid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), "savefile.json");
+	if (shouldLoad)
+		LoadGame();
 
-		delete m_selector;
-		m_selector = new HexSelector(5.0f);
-
-		delete m_characterManager;
-		m_characterManager = new CharacterManager(m_hexgrid, m_hud, "savefile.json");
-
-		StateManager::getInstance().SetCharacterManager(m_characterManager);
-
-		m_characterManager->SetScoreTracker(m_scoreTracker);
-		m_characterManager->SetSoundEngine(m_soundEngine);
-
-		m_gameSaver->SetInfo(m_characterManager, m_scoreTracker, m_hexgrid);
-	}
-
-	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
-	std::string fpsString = std::to_string(fpsValue);
-	m_hud->SetVar("deltaMS", std::to_string(delta * 1000));
-	m_hud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
+	SetFPSLabels(delta);
 	m_hud->Update(delta);
+
+	m_soundEngine->UpdateSystem();
+	m_waterPlane->Update(delta);
+	m_gameSaver->Update(delta);
 
 	m_hexgrid->SetLightDir(m_lightDir);
 	m_characterManager->SetLightDir(m_lightDir);
 
-	m_soundEngine->UpdateSystem();
-
 	m_skybox->SetPos(m_camera->GetPos());
-
-	m_waterPlane->Update(delta);
-
-	m_gameSaver->Update(delta);
 
 	m_wasJustAtMainMenu = StateManager::getInstance().GetState() == State::GamestateMainMenu;
 }
 
-void BaseScene::Render(RenderTarget target)
+void BaseScene::Render(wolf::RenderTarget target)
 {
-	float near_plane = 20.0f, far_plane = 100.0f;
-	glm::mat4 lightProj = glm::ortho(-150.0f, 150.0f, -50.0f, 50.0f, near_plane, far_plane);
+	glm::mat4 lightProj = glm::ortho(-150.0f, 150.0f, -50.0f, 50.0f, NEARPLANE, FARPLANE);
 	glm::mat4 lightView = glm::lookAt(glm::vec3(-35.0f, 50.0f, -35.0f),
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 lightSpaceMatrix = lightProj * lightView;
 
-	if (target == RenderTarget::ShadowDepthmap)
+	if (target == wolf::RenderTarget::ShadowDepthmap)
 	{
 		glDepthMask(true);
 		glEnable(GL_DEPTH_TEST);
@@ -207,7 +139,7 @@ void BaseScene::Render(RenderTarget target)
 		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, m_depthMapTexture, -1.0f, 100.0f);
 		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, m_depthMapTexture);
 	}
-	else if (target == RenderTarget::WaterReflection)
+	else if (target == wolf::RenderTarget::WaterReflection)
 	{
 		glDepthMask(true);
 		glEnable(GL_DEPTH_TEST);
@@ -222,16 +154,16 @@ void BaseScene::Render(RenderTarget target)
 		m_characterManager->Render(m_camera->GetVerticalInverse(5), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture);
 		m_hexgrid->Render(m_camera->GetVerticalInverse(5), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, 4.25f, 100.0f);
 	}
-	else if (target == RenderTarget::WaterRefraction)
+	else if (target == wolf::RenderTarget::WaterRefraction)
 	{
 		m_skybox->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque);
 		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, -1.0f, 6.0f);
 	}
-	else if (target == RenderTarget::WaterFog)
+	else if (target == wolf::RenderTarget::WaterFog)
 	{
 		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, -1.0f, 6.0f);
 	}
-	else if (target == RenderTarget::PostProcessing)
+	else if (target == wolf::RenderTarget::PostProcessing)
 	{
 		// Opaque
 		glDepthMask(true);
@@ -270,28 +202,28 @@ void BaseScene::Render(RenderTarget target)
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 	}
-	else if (target == RenderTarget::Characters)
+	else if (target == wolf::RenderTarget::Characters)
 	{
 		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, true, m_depthMapTexture2);
 	}
-	else if (target == RenderTarget::DepthFieldMap)
+	else if (target == wolf::RenderTarget::DepthFieldMap)
 	{
 		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, true, m_depthMapTexture, -1.0f, 100.0f);
 		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, true, m_depthMapTexture);
 	}
-	else if(target == RenderTarget::GrayScale)
+	else if(target == wolf::RenderTarget::GrayScale)
 	{
 		m_pQuad->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, m_postProcessTexture, m_postProcessBlurTexture, m_fogTexture, m_depthMapTexture2, "GrayScale");
 	}
-	else if (target == RenderTarget::Blur)
+	else if (target == wolf::RenderTarget::Blur)
 	{
 		m_pQuad->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, m_postProcessTexture, m_postProcessBlurTexture, m_fogTexture, m_depthMapTexture2, "Blur");
 	}
-	else if (target == RenderTarget::DepthOfField)
+	else if (target == wolf::RenderTarget::DepthOfField)
 	{
 		m_pQuad->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, m_postProcessTexture, m_postProcessBlurTexture, m_depthMapTexture, m_depthMapTexture2, "DepthOfField");
 	}
-	else if (target == RenderTarget::HUD)
+	else if (target == wolf::RenderTarget::HUD)
 	{
 		//m_pQuad->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, m_postProcessTexture, m_postProcessBlurTexture, m_depthMapTexture, "None");
 		glEnable(GL_DEPTH_TEST);
@@ -306,23 +238,23 @@ void BaseScene::Render(RenderTarget target)
 	}
 }
 
-void BaseScene::SetTex(RenderTarget target, unsigned int tex)
+void BaseScene::SetTex(wolf::RenderTarget target, unsigned int tex)
 {
-	if (target == RenderTarget::ShadowDepthmap)
+	if (target == wolf::RenderTarget::ShadowDepthmap)
 		m_depthMapTexture = tex;
-	else if (target == RenderTarget::WaterReflection)
+	else if (target == wolf::RenderTarget::WaterReflection)
 		m_reflectionTexture = tex;
-	else if (target == RenderTarget::PostProcessing)
+	else if (target == wolf::RenderTarget::PostProcessing)
 		m_postProcessTexture = tex;
-	else if (target == RenderTarget::Blur)
+	else if (target == wolf::RenderTarget::Blur)
 		m_postProcessBlurTexture = tex;
-	else if (target == RenderTarget::DepthFieldMap)
+	else if (target == wolf::RenderTarget::DepthFieldMap)
 		m_postProcessDepthMap = tex;
-	else if (target == RenderTarget::WaterRefraction)
+	else if (target == wolf::RenderTarget::WaterRefraction)
 		m_refractionTexture = tex;
-	else if (target == RenderTarget::WaterFog)
+	else if (target == wolf::RenderTarget::WaterFog)
 		m_fogTexture = tex;
-	else if (target == RenderTarget::Cutouts)
+	else if (target == wolf::RenderTarget::Cutouts)
 		m_depthMapTexture2 = tex;
 }
 
@@ -361,4 +293,55 @@ void BaseScene::SetupSoundEngine() {
 
 	m_soundEngine->Play3DSound("base_theme", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), true);
 	m_soundEngine->UpdateSystem();
+}
+
+void BaseScene::SetFPSLabels(float delta) {
+	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
+	std::string fpsString = std::to_string(fpsValue);
+	m_hud->SetVar("deltaMS", std::to_string(delta * 1000));
+	m_hud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
+}
+
+void BaseScene::LoadGame() {
+	delete m_hexgrid;
+	m_hexgrid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), "savefile.json");
+
+	delete m_selector;
+	m_selector = new HexSelector(5.0f);
+
+	delete m_characterManager;
+	m_characterManager = new CharacterManager(m_hexgrid, m_hud, "savefile.json");
+
+	StateManager::getInstance().SetCharacterManager(m_characterManager);
+
+	m_characterManager->SetScoreTracker(m_scoreTracker);
+	m_characterManager->SetSoundEngine(m_soundEngine);
+
+	m_gameSaver->SetInfo(m_characterManager, m_scoreTracker, m_hexgrid);
+}
+
+void BaseScene::RestartGame() {
+	delete m_camera;
+	m_camera = new Camera(0, 5.5, glm::vec3(0, 50.0f, -40.0));
+	m_cullMatrix = m_camera->GetViewMatrix();
+
+	delete m_hexgrid;
+	m_hexgrid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+
+	delete m_selector;
+	m_selector = new HexSelector(5.0f);
+
+	delete m_characterManager;
+	m_characterManager = new CharacterManager(m_hexgrid, m_hud);
+	m_hexpos.SetGrid(m_hexgrid);
+
+	StateManager::getInstance().SetCharacterManager(m_characterManager);
+	StateManager::getInstance().SetHud(m_hud);
+	StateManager::getInstance().SetCamera(m_camera);
+
+	m_scoreTracker->SetScore(0);
+	m_characterManager->SetScoreTracker(m_scoreTracker);
+	m_characterManager->SetSoundEngine(m_soundEngine);
+
+	m_gameSaver->SetInfo(m_characterManager, m_scoreTracker, m_hexgrid);
 }

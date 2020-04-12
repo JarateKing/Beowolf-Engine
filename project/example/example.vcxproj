@@ -461,6 +461,7 @@
     <ClInclude Include="..\..\beowolf\W_Keybind.h" />
     <ClInclude Include="..\..\beowolf\W_ResourceLoader.h" />
     <ClInclude Include="..\..\beowolf\W_Types.h" />
+    <ClInclude Include="..\..\beowolf\W_Vertex_Type.h" />
     <ClInclude Include="..\..\lib\bullet\src\btBulletCollisionCommon.h" />
     <ClInclude Include="..\..\lib\bullet\src\btBulletDynamicsCommon.h" />
     <ClInclude Include="..\..\lib\bullet\src\Bullet-C-Api.h" />
@@ -679,6 +680,7 @@
     <ClInclude Include="..\..\lib\tinyxml\tinystr.h" />
     <ClInclude Include="..\..\lib\tinyxml\tinyxml.h" />
     <ClInclude Include="example\BaseScene.h" />
+    <ClInclude Include="example\RenderTargets.h" />
     <ClInclude Include="example\Scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

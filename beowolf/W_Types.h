@@ -102,6 +102,41 @@ struct Color4
 	Color4(float p_fR, float p_fG, float p_fB, float p_fA) : r(p_fR), g(p_fG), b(p_fB), a(p_fA) {}
 };
 
+enum RenderFilterType {
+	RenderFilterOpaque,
+	RenderFilterTransparent,
+	RenderFilterDepthless,
+	RenderFilterAdditive,
+};
+
+enum Pos
+{
+	North,
+	Northeast,
+	East,
+	Southeast,
+	South,
+	Southwest,
+	West,
+	Northwest
+};
+
+enum RenderTarget {
+	Screen,
+	HUD,
+	ShadowDepthmap,
+	DepthFieldMap,
+	WaterReflection,
+	PostProcessing,
+	GrayScale,
+	DepthOfField,
+	Blur,
+	WaterRefraction,
+	WaterFog,
+	Characters,
+	Cutouts,
+};
+
 struct Plane
 {
 	// point-normal form description of a plane
