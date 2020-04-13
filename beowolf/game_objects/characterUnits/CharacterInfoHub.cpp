@@ -7,6 +7,8 @@
 
 const std::vector<std::string> INFO_NAMES = { "HP", "MaxMovement", "MaxAttack", "MinAttack", "Health", "Damage", "Defense" };
 
+//Class used to load and store information about characters including their stats
+
 CharacterInfoHub::CharacterInfoHub()
 {
 
@@ -17,14 +19,18 @@ CharacterInfoHub::~CharacterInfoHub()
 
 }
 
+//Method to add character to hub
+//Reads through a JSON file and stores characters info
 void CharacterInfoHub::AddCharacter(std::string p_characterJson, std::string p_characterName)
 {
 	InfoBit temp;
 	temp.m_name = p_characterName;
 
+	//Create stream from JSON File
 	std::ifstream jsonIn(wolf::ResourceLoader::Instance().getJSONObject(p_characterJson));
 	nlohmann::json jsonData;
 
+	//If JSON File loads, read through file storing character information
 	if (jsonIn) 
 	{
 		std::stringstream jsonFileStream;
@@ -49,17 +55,22 @@ void CharacterInfoHub::AddCharacter(std::string p_characterJson, std::string p_c
 			}
 		}
 	}
+
+	//Push back created character onto vector
 	m_infoBits.push_back(temp);
 }
 
+//Method to add an enemey type from a JSON File
 void CharacterInfoHub::AddEnemyType(std::string p_enemyJson, std::string p_enemyName)
 {
 	InfoBit temp;
 	temp.m_name = p_enemyName;
-
+	
+	//Create stream from JSON File
 	std::ifstream jsonIn(wolf::ResourceLoader::Instance().getJSONObject(p_enemyJson));
 	nlohmann::json jsonData;
 
+	//If JSON File loads, read through file storing enemy information
 	if (jsonIn)
 	{
 		std::stringstream jsonFileStream;
@@ -84,16 +95,21 @@ void CharacterInfoHub::AddEnemyType(std::string p_enemyJson, std::string p_enemy
 			}
 		}
 	}
+
+	//Push back enemy onto vector
 	m_infoBits.push_back(temp);
 }
 
+//Method to add an item type to game
 void CharacterInfoHub::AddItemType(std::string p_itemJson)
 {
 	InfoBit temp;
 
+	//Create stream from JSON File
 	std::ifstream jsonIn(wolf::ResourceLoader::Instance().getJSONObject(p_itemJson));
 	nlohmann::json jsonData;
 
+	//If JSON File loads, read through file storing item information
 	if (jsonIn)
 	{
 		std::stringstream jsonFileStream;
@@ -117,9 +133,12 @@ void CharacterInfoHub::AddItemType(std::string p_itemJson)
 			}
 		}
 	}
+
+	//Push back item onto vector
 	m_infoBits.push_back(temp);
 }
 
+//Damage an enemy based on character's stored MaxAttack stat and affected by defense stat
 void CharacterInfoHub::DamageEnemy(std::string p_enemyName, std::string p_characterName, float mult)
 {
 	for (int i = 0; i < m_infoBits.size(); i++)
@@ -140,6 +159,7 @@ void CharacterInfoHub::DamageEnemy(std::string p_enemyName, std::string p_charac
 	}
 }
 
+//Damage a Player Controlled Character based on character's stored MaxAttack stat and affected by defense stat
 void CharacterInfoHub::DamageCharacter(std::string p_characterName, std::string p_enemyName, float mult)
 {
 	for (int i = 0; i < m_infoBits.size(); i++)
@@ -160,6 +180,7 @@ void CharacterInfoHub::DamageCharacter(std::string p_characterName, std::string 
 	}
 }
 
+//Add an items stats to a character and store changed stats
 void CharacterInfoHub::GivePlayerItem(std::string p_characterName, std::string p_itemName)
 {
 	for (int i = 0; i < m_infoBits.size(); i++)
@@ -186,6 +207,7 @@ void CharacterInfoHub::GivePlayerItem(std::string p_characterName, std::string p
 	}
 }
 
+//Lookup for a stat by stat ID
 float CharacterInfoHub::GetStat(std::string p_characterName, std::string p_statID)
 {
 	for (int i = 0; i < m_infoBits.size(); i++)
@@ -199,6 +221,7 @@ float CharacterInfoHub::GetStat(std::string p_characterName, std::string p_statI
 	return -1;
 }
 
+//Lookup for full stats of a character by character name
 std::vector<std::pair<std::string, float>> CharacterInfoHub::GetStats(std::string p_characterName)
 {
 	for (int i = 0; i < m_infoBits.size(); i++)
@@ -214,6 +237,7 @@ std::vector<std::pair<std::string, float>> CharacterInfoHub::GetStats(std::strin
 	return std::vector<std::pair<std::string, float>>();
 }
 
+//Pull description of character, lookup by character name
 std::string CharacterInfoHub::GetDescription(std::string p_characterName)
 {
 	for (int i = 0; i < m_infoBits.size(); i++)
@@ -223,6 +247,7 @@ std::string CharacterInfoHub::GetDescription(std::string p_characterName)
 	}
 }
 
+//Update a stat if needed by lookup of character name and stat ID
 void CharacterInfoHub::UpdateStat(std::string p_characterName, std::string p_statID, float p_updatedValue)
 {
 	for (int i = 0; i < m_infoBits.size(); i++)
@@ -235,6 +260,7 @@ void CharacterInfoHub::UpdateStat(std::string p_characterName, std::string p_sta
 	}
 }
 
+//Debug Method to print out all information stored currently
 void CharacterInfoHub::PrintOutInfo()
 {
 	std::cout << "Test Info Character" << std::endl << "====================" << std::endl;

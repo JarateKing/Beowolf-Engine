@@ -12,35 +12,34 @@ namespace week2
 	class ComponentHexPos : public Common::ComponentBase
 	{
 	public:
+		//Public Methods
 		ComponentHexPos();
 		virtual ~ComponentHexPos();
-
 		virtual const std::string FamilyID() { return std::string("GOC_HexPos"); }
 		virtual const std::string ComponentID() { return std::string("GOC_HexPos"); }
 		virtual void Update(float p_fDelta);
 		virtual void SetGrid(HexGrid* p_grid);
-
 		void SetPos(glm::vec3 pos);
 		void Move(std::vector<int> p_path, float p_timeToComplete, bool p_attacking);
 		bool IsMoving();
-		glm::vec3 GetPos();
 		float GetDirection();
 		float GetDirection(int startT, int endT);
+		glm::vec3 GetPos();
 
 	private:
-		int currentHex;
+		//Private Variables
 		HexGrid* m_grid;
-		bool moving = false;
-		std::vector<int> pathway;
-		float timeForPath, timePerTile;
-		float timeTaken = 0.0f;
-		glm::vec3 currentPos;
-		int totalTargets;
-		int endAttackTile;
-		bool attacking = false;
-		bool justEndMove = false;
+		int m_currentHex;
+		int m_totalTargets;
+		int m_endAttackTile;
+		bool m_attacking = false;
+		bool m_justEndMove = false;
+		bool m_moving = false;
 		float m_direction;
-
+		float m_timeForPath, m_timePerTile;
+		float m_timeTaken = 0.0f;
+		glm::vec3 m_currentPos;
+		std::vector<int> m_pathway;
 	};
 }
 
