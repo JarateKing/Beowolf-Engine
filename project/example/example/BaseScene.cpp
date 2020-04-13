@@ -20,6 +20,7 @@ BaseScene::BaseScene()
 
 void BaseScene::Init()
 {
+	//Initialize Systems and variables
 	SetupLoader();
 	SetupSoundEngine();
 
@@ -29,6 +30,13 @@ void BaseScene::Init()
 
 	float scale = 5.0;
 	float scale2 = 0.05;
+
+	//Set information for light projection
+	m_lightProj = glm::ortho(-150.0f, 150.0f, -50.0f, 50.0f, NEARPLANE, FARPLANE);
+	m_lightView = glm::lookAt(glm::vec3(-35.0f, 50.0f, -35.0f),
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f));
+	m_lightSpaceMatrix = m_lightProj * m_lightView;
 
 	m_lightDir = glm::normalize(glm::vec3(35.0f, -50.0f, 35.0f) - glm::vec3(0.0f, 0.0f, 0.0f));
 	m_pQuad = new PostProcessingQuad();
@@ -63,6 +71,10 @@ void BaseScene::Init()
 	m_gameSaver->SetInfo(m_characterManager, m_scoreTracker, m_hexgrid);
 
 	wolf::Keybind::Instance().addBinds("resources/cfg/keybinds.json");
+
+	//Set Light Direction for hexgrid and charactermanager
+	m_hexgrid->SetLightDir(m_lightDir);
+	m_characterManager->SetLightDir(m_lightDir);
 }
 
 void BaseScene::Update()
@@ -70,9 +82,11 @@ void BaseScene::Update()
 	static bool wasJustAnimated = false;
 	float delta = wolf::Time::Instance().deltaTime();
 
+	//Update Camera and SoundEngine
 	m_camera->Update(delta);
 	m_soundEngine->SetListenerAttr(glm::vec3(-m_camera->GetPos().x, m_camera->GetPos().y, -m_camera->GetPos().z), glm::vec3(0.0f, 0.0f, 0.0f), m_camera->GetAim(), m_camera->GetUp());
 	
+	//Calculate the target hextile and update hexgrid with current target
 	int target = m_camera->CalculateIntersection(m_hexgrid->GetHeights(), m_hexgrid->GetPos(), 5.0f);
 	m_hexgrid->Update((target >= 0) ? target : -1, delta);
 
@@ -87,6 +101,7 @@ void BaseScene::Update()
 	if (shouldSwap)
 		shouldSwap = StateManager::getInstance().GetState() == State::GamestatePlayerTurn;
 
+	//Check if game is over to initiate grayscale change
 	if (m_characterManager->IsGameOver() && m_grayTiming <= 2.5)
 	{
 		m_grayTiming += delta;
@@ -99,36 +114,32 @@ void BaseScene::Update()
 		m_pQuad->SetPercentGray(0);
 	}
 
+	//Restart Game if necessary
 	if (shouldSwap)
 		RestartGame();
 
+	//Load Game if necessary
 	bool shouldLoad = ((wolf::Keybind::Instance().getBind("loadgame") || ((wolf::HudButton*)m_hud->GetElement("MM_Load_Button"))->IsClicked()) && m_wasJustAtMainMenu);
 	if (shouldLoad)
 		LoadGame();
 
+	//Set FPS Labels and update systems
 	SetFPSLabels(delta);
 	m_hud->Update(delta);
-
 	m_soundEngine->UpdateSystem();
 	m_waterPlane->Update(delta);
 	m_gameSaver->Update(delta);
 
-	m_hexgrid->SetLightDir(m_lightDir);
-	m_characterManager->SetLightDir(m_lightDir);
-
+	//Set camera position for skybox
 	m_skybox->SetPos(m_camera->GetPos());
 
+	//Check if state is main menu
 	m_wasJustAtMainMenu = StateManager::getInstance().GetState() == State::GamestateMainMenu;
 }
 
 void BaseScene::Render(wolf::RenderTarget target)
 {
-	glm::mat4 lightProj = glm::ortho(-150.0f, 150.0f, -50.0f, 50.0f, NEARPLANE, FARPLANE);
-	glm::mat4 lightView = glm::lookAt(glm::vec3(-35.0f, 50.0f, -35.0f),
-		glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 lightSpaceMatrix = lightProj * lightView;
-
+	//Render to a shadow Depth Map for shadow rendering
 	if (target == wolf::RenderTarget::ShadowDepthmap)
 	{
 		glDepthMask(true);
@@ -136,9 +147,10 @@ void BaseScene::Render(wolf::RenderTarget target)
 		glDisable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
-		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, m_depthMapTexture, -1.0f, 100.0f);
-		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, true, m_depthMapTexture);
+		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterOpaque, true, m_depthMapTexture, -1.0f, 100.0f);
+		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterOpaque, true, m_depthMapTexture);
 	}
+	//Render water reflection
 	else if (target == wolf::RenderTarget::WaterReflection)
 	{
 		glDepthMask(true);
@@ -151,18 +163,22 @@ void BaseScene::Render(wolf::RenderTarget target)
 		m_skybox->SetPos(flippedPos);
 
 		m_skybox->Render(m_camera->GetVerticalInverse(5), wolf::RenderFilterOpaque);
-		m_characterManager->Render(m_camera->GetVerticalInverse(5), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture);
-		m_hexgrid->Render(m_camera->GetVerticalInverse(5), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, 4.25f, 100.0f);
+		m_characterManager->Render(m_camera->GetVerticalInverse(5), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture);
+		m_hexgrid->Render(m_camera->GetVerticalInverse(5), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, 4.25f, 100.0f);
 	}
+	//Render water refraction
 	else if (target == wolf::RenderTarget::WaterRefraction)
 	{
 		m_skybox->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque);
-		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, -1.0f, 6.0f);
+		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, -1.0f, 6.0f);
 	}
+	//Render water fog
 	else if (target == wolf::RenderTarget::WaterFog)
 	{
-		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, -1.0f, 6.0f);
+		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, -1.0f, 6.0f);
 	}
+	//Render full scene to post processing texture
+	//Used as base for post processing effects
 	else if (target == wolf::RenderTarget::PostProcessing)
 	{
 		// Opaque
@@ -172,9 +188,9 @@ void BaseScene::Render(wolf::RenderTarget target)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		//tQuad->Render(m_camera->GetViewMatrix(), glm::mat4(), wolf::RenderFilterOpaque, false, m_depthMapTexture);
-		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, -1.0f, 100.0f);
+		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture, -1.0f, 100.0f);
 		m_selector->Render(m_camera->GetViewMatrix());
-		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture);
+		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterOpaque, false, m_depthMapTexture);
 
 		m_skybox->SetPos(m_camera->GetPos());
 		m_skybox->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque);
@@ -182,50 +198,57 @@ void BaseScene::Render(wolf::RenderTarget target)
 		// Transparent
 		glEnable(GL_BLEND);
 
-		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, false, m_depthMapTexture);
+		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterTransparent, false, m_depthMapTexture);
 
 		m_waterPlane->Render(m_camera->GetViewMatrix(), wolf::RenderFilterTransparent, m_reflectionTexture, m_refractionTexture, m_fogTexture);
 
 		// Depthless
 		glDepthMask(false);
 
-		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterTransparent, false, m_depthMapTexture, -1.0f, 100.0f);
+		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterTransparent, false, m_depthMapTexture, -1.0f, 100.0f);
 
 		// Additive
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
-		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterAdditive, false, m_depthMapTexture, -1.0f, 100.0f);
-		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), lightSpaceMatrix, wolf::RenderFilterAdditive, false, m_depthMapTexture);
+		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterAdditive, false, m_depthMapTexture, -1.0f, 100.0f);
+		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterAdditive, false, m_depthMapTexture);
 
 		// Done
 		glDepthMask(true);
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 	}
+	//Render character depth map only
+	//Used for character outlines through objects
 	else if (target == wolf::RenderTarget::Characters)
 	{
 		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, true, m_depthMapTexture2);
 	}
+	//Render depth map used for Depth of Field
 	else if (target == wolf::RenderTarget::DepthFieldMap)
 	{
 		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, true, m_depthMapTexture, -1.0f, 100.0f);
 		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, true, m_depthMapTexture);
 	}
+	//Grayscale Post Processing Effect
 	else if(target == wolf::RenderTarget::GrayScale)
 	{
 		m_pQuad->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, m_postProcessTexture, m_postProcessBlurTexture, m_fogTexture, m_depthMapTexture2, "GrayScale");
 	}
+	//Blurring Post Processing Effect
 	else if (target == wolf::RenderTarget::Blur)
 	{
 		m_pQuad->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, m_postProcessTexture, m_postProcessBlurTexture, m_fogTexture, m_depthMapTexture2, "Blur");
 	}
+	//Depth of Field Post Processing Effect
+	//Using both the main Post Processing Texture and Blurring
 	else if (target == wolf::RenderTarget::DepthOfField)
 	{
 		m_pQuad->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, m_postProcessTexture, m_postProcessBlurTexture, m_depthMapTexture, m_depthMapTexture2, "DepthOfField");
 	}
+	//Render HUD Separately so it doesnt get effected by Depth of Field
 	else if (target == wolf::RenderTarget::HUD)
 	{
-		//m_pQuad->Render(m_camera->GetViewMatrix(), wolf::RenderFilterOpaque, m_postProcessTexture, m_postProcessBlurTexture, m_depthMapTexture, "None");
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
@@ -237,7 +260,7 @@ void BaseScene::Render(wolf::RenderTarget target)
 		glDisable(GL_BLEND);
 	}
 }
-
+//Sets RenderTarget Textures to be used so they can be called on later
 void BaseScene::SetTex(wolf::RenderTarget target, unsigned int tex)
 {
 	if (target == wolf::RenderTarget::ShadowDepthmap)
@@ -258,6 +281,7 @@ void BaseScene::SetTex(wolf::RenderTarget target, unsigned int tex)
 		m_depthMapTexture2 = tex;
 }
 
+//Sets up loading of models
 void BaseScene::SetupLoader() {
 	LoadingScreen loader;
 	loader.AddModel("potion.bmw");
@@ -275,6 +299,7 @@ void BaseScene::SetupLoader() {
 	loader.Load();
 }
 
+//Adds all sounds to sound engine
 void BaseScene::SetupSoundEngine() {
 	m_soundEngine = new wolf::SoundEngine();
 	m_soundEngine->InitSystem();
@@ -295,6 +320,7 @@ void BaseScene::SetupSoundEngine() {
 	m_soundEngine->UpdateSystem();
 }
 
+//Sets FPS Labels if necessary
 void BaseScene::SetFPSLabels(float delta) {
 	double fpsValue = round(wolf::Time::Instance().getFPS() * 10.0) / 10.0;
 	std::string fpsString = std::to_string(fpsValue);
@@ -302,6 +328,7 @@ void BaseScene::SetFPSLabels(float delta) {
 	m_hud->SetVar("fps", fpsString.substr(0, fpsString.find('.') + 2));
 }
 
+//Method to Load Game from JSON File
 void BaseScene::LoadGame() {
 	delete m_hexgrid;
 	m_hexgrid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), "savefile.json");
@@ -320,6 +347,7 @@ void BaseScene::LoadGame() {
 	m_gameSaver->SetInfo(m_characterManager, m_scoreTracker, m_hexgrid);
 }
 
+//Method to Restart Game Upon a Game Loss
 void BaseScene::RestartGame() {
 	delete m_camera;
 	m_camera = new Camera(0, 5.5, glm::vec3(0, 50.0f, -40.0));

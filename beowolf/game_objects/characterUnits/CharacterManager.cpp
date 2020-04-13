@@ -722,7 +722,7 @@ void CharacterManager::MoveEnemies()
 
 		}
 
-
+		std::cout << pathToHero.size() << std::endl;
 		if (pathToHero.size() > 0)
 		{
 			if (attacking)
@@ -736,10 +736,12 @@ void CharacterManager::MoveEnemies()
 				enemies.at(i).SetTile(pathToHero.at(pathToHero.size() - 1));
 			}
 		}
-		else
+		else if (pathToHero.size() == 0)
 		{
+			pathToHero.clear();
 			pathToHero.push_back(enemies.at(i).GetTile());
 			enemies.at(i).Move(pathToHero, movementTime, false);
+			enemies.at(i).setHasMoved(true);
 		}
 
 		attacking = false;

@@ -8,14 +8,17 @@ const float CONTROLLER_AXIS_THRESHOLD = 0.2;
 
 Camera::Camera(float horizontalAngle, float verticalAngle, glm::vec3 position)
 {
+	//Initialize Variables
 	m_horiz = horizontalAngle * DEG2RAD;
 	m_verti = verticalAngle;
 	m_pos = position;
-	startY = position.y;
-
+	m_startY = position.y;
+	
+	//Apply Initial Vectors
 	ApplyAngleVectors();
 
-	m_proj = wolf::ProjMatrix::GetProjectionMatrix(wolf::ProjMatrix::GetFovCombo(fov));
+	//Initialize Projection and View Matrices
+	m_proj = wolf::ProjMatrix::GetProjectionMatrix(wolf::ProjMatrix::GetFovCombo(m_fov));
 	m_view = glm::lookAt(m_pos, m_pos + m_aim, m_up);
 }
 
@@ -26,17 +29,20 @@ Camera::~Camera()
 
 void Camera::Update(float delta)
 {
+	//Initiate Camera Shake if needed
 	if (m_shaking)
 	{
 		m_timeShaking += delta;
 		if (m_timeShaking <= 0.20)
 		{
+			//Displace camera based on sin functions
 			m_pos.x += sin(m_timeShaking * 50)/20;
 			m_verti += sin(m_timeShaking * 1000)/100;
 			ApplyAngleVectors();
 		}
 		else
 		{
+			//Replace camera back to starting position
 			m_shaking = false;
 			m_timeShaking = 0.0f;
 			m_pos = m_startShakePos;
@@ -50,7 +56,6 @@ void Camera::Update(float delta)
 	else if (wolf::Input::Instance().isMouseReleased(INPUT_RMB))
 		glfwEnable(GLFW_MOUSE_CURSOR);
 
-	
 	if (wolf::Keybind::Instance().getBind("movecamera"))
 	{
 		float sens = -0.11f * DEG2RAD;
@@ -88,7 +93,7 @@ void Camera::Update(float delta)
 		m_pos += m_aim * delta * 30.0f * wolf::Input::Instance().getControllerAxis(INPUT_CONTROLLER_AXIS_TRIGGER);
 
 	// apply bounds
-	if (m_pos.y > startY + 15 || m_pos.y < startY - 25)
+	if (m_pos.y > m_startY + 15 || m_pos.y < m_startY - 25)
 		m_pos = prevPos;
 
 	if (m_moveTimeLimit != 0 && m_moveTime != m_moveTimeLimit) {
@@ -100,10 +105,11 @@ void Camera::Update(float delta)
 	}
 
 	// updating matrix incase something changed
-	m_proj = wolf::ProjMatrix::GetProjectionMatrix(wolf::ProjMatrix::GetFovCombo(fov));
+	m_proj = wolf::ProjMatrix::GetProjectionMatrix(wolf::ProjMatrix::GetFovCombo(m_fov));
 	m_view = glm::lookAt(m_pos, m_pos + m_aim, m_up);
 }
 
+//Method to apply changes to camera vectors
 void Camera::ApplyAngleVectors()
 {
 	m_aim = glm::vec3(glm::cos(m_verti) * glm::sin(m_horiz), glm::sin(m_verti), glm::cos(m_verti) * glm::cos(m_horiz));
@@ -111,11 +117,13 @@ void Camera::ApplyAngleVectors()
 	m_up = glm::cross(m_right, m_aim);
 }
 
+//Method to Get View Matrix
 glm::mat4 Camera::GetViewMatrix()
 {
 	return m_proj * m_view;
 }
 
+//Method to Get an Vertically Inversed Projection Matrix
 glm::mat4 Camera::GetVerticalInverse(float heightPlane)
 {
 	glm::vec3 newPos = m_pos;
@@ -127,6 +135,7 @@ glm::mat4 Camera::GetVerticalInverse(float heightPlane)
 	return m_proj * (glm::lookAt(newPos, newPos + newAim, newUp));
 }
 
+//Method to calculate a ray coming from mouse position on screen
 glm::vec3 Camera::GetRayFromScreen()
 {
 	int width, height;
@@ -147,6 +156,7 @@ glm::vec3 Camera::GetRayFromScreen()
 	return ray_wor;
 }
 
+//Method to calculate which tile a ray is intersecting. 
 int Camera::CalculateIntersection(std::vector<float> heights, std::vector<glm::vec2> positions, float tileWidth)
 {
 	glm::vec3 direction = GetRayFromScreen();
@@ -177,39 +187,47 @@ int Camera::CalculateIntersection(std::vector<float> heights, std::vector<glm::v
 	return target;
 }
 
+//Method to set Verticle Angle of camera
 void Camera::SetVerticleAngle(float verti) {
 	m_verti = verti;
 }
-
+//Method to force Angle Update on camera
 void Camera::ForceAngleUpdate() {
 	ApplyAngleVectors();
 }
 
+//Method Returning Camera Position
 glm::vec3 Camera::GetPos()
 {
 	return m_pos;
 }
 
+//Method Returning Camera Up Vector
 glm::vec3 Camera::GetUp()
 {
 	return m_up;
 }
 
+//Method Returning Camera Aim Vector
 glm::vec3 Camera::GetAim()
 {
 	return m_aim;
 }
 
+//Method Returning Camera Projection Matrix
 glm::mat4 Camera::GetProj()
 {
 	return m_proj;
 }
 
+//Method Returning Camera View Matrix
 glm::mat4 Camera::GetView()
 {
 	return m_view;
 }
 
+//Method Moving Camera from an inital position to an offset position
+//Used to move camera at beginning of game
 void Camera::MoveToView(glm::vec3 position, glm::vec3 offset, float time) {
 	offset = (glm::vec3)(glm::vec4(offset.x, offset.y, offset.z, 0) * glm::rotate(-m_horiz * RAD2DEG, glm::vec3(0, 1, 0)));
 	position += offset;
@@ -226,6 +244,7 @@ void Camera::MoveToView(glm::vec3 position, glm::vec3 offset, float time) {
 	}
 }
 
+//Method to initiate camera shake
 void Camera::InitiateShake()
 {
 	if (!m_shaking)

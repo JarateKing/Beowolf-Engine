@@ -29,28 +29,40 @@
 class BaseScene : public Scene
 {
 public:
+	//Public Methods
 	BaseScene();
 	void Init();
 	void Update();
 	void Render(wolf::RenderTarget target);
 	void SetTex(wolf::RenderTarget target, unsigned int tex);
+
 private:
+	//Private Methods
 	void SetupLoader();
 	void SetupSoundEngine();
 	void SetFPSLabels(float delta);
 	void LoadGame();
 	void RestartGame();
 
+	//Private Objects
 	wolf::SoundEngine* m_soundEngine;
 	Camera* m_camera;
 	glm::mat4 m_cullMatrix;
 	HexGrid* m_hexgrid;
-	wolf::MousePos m_mouse;
 	HexSelector* m_selector;
+	wolf::MousePos m_mouse;
 	week2::ComponentHexPos m_hexpos;
 	wolf::Hud* m_hud;
-	glm::mat4 m_hudProjMat;
+
+	//Private Variables
+	bool m_wasJustAtMainMenu = true;
+	float m_grayLevel = 0.0f;
+	float m_grayTiming = 0.0f;
 	glm::vec3 m_lightDir;
+	glm::mat4 m_hudProjMat;
+	glm::mat4 m_lightProj;
+	glm::mat4 m_lightView;
+	glm::mat4 m_lightSpaceMatrix;
 	CharacterManager* m_characterManager;
 	CharacterInfoHub m_characterHub;
 	ScoreTracker* m_scoreTracker;
@@ -66,9 +78,6 @@ private:
 	Skybox* m_skybox;
 	Water* m_waterPlane;
 	GameSaver* m_gameSaver;
-	bool m_wasJustAtMainMenu = true;
-	float m_grayLevel = 0.0f;
-	float m_grayTiming = 0.0f;
 };
 
 #endif
