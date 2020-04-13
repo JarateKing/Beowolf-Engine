@@ -18,29 +18,27 @@ class CharacterManager
 	public:
 		CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::string savedata = "");
 		~CharacterManager();
+		bool IsGameOver();
 		void Update(int target, float deltaT);
 		void Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture);
+		void MoveEnemies();
 		void SpawnEnemy(int pos, float multiplier);
 		void SpawnEnemy(int pos, std::string name);
 		void SpawnEnemies();
-		void MoveEnemies();
 		void SpawnItem(int pos);
 		void SpawnItem(int pos, int type);
-		std::string GetCharacterSelected();
-
 		void SetScoreTracker(ScoreTracker* tracker);
 		void SetSoundEngine(wolf::SoundEngine* soundEng);
 		void SetCamera(Camera* cam);
 		void SetGridSelector(HexSelector* selector);
-
+		void SetLightDir(glm::vec3 dir);
+		void PrintCharacterTilePos();
+		void BlockTiles(std::vector<int> tiles);
+		std::string GetCharacterSelected();
 		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
 		std::vector<Item*>* getItems();
 		CharacterInfoHub* GetCharacterHub();
-		void PrintCharacterTilePos();
-		void BlockTiles(std::vector<int> tiles);
-		void SetLightDir(glm::vec3 dir);
-		bool IsGameOver();
 
 	private:
 		CharacterInfoHub characterIHub;
