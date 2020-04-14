@@ -17,7 +17,7 @@ namespace wolf {
 		return a->GetZ() < b->GetZ();
 	}
 
-	Hud::Hud(std::string file) {
+	Hud::Hud(const std::string& file) {
 		m_localization = new TextTable();
 
 		std::ifstream jsonIn(file);
@@ -228,7 +228,7 @@ namespace wolf {
 	Hud::~Hud() {
 	}
 
-	void Hud::Update(float p_fDelta) {
+	void Hud::Update(const float& p_fDelta) {
 		if (m_prevElementsSize != m_elements.size()) {
 			std::stable_sort(m_elements.begin(), m_elements.end(), zSortCompare);
 			m_prevElementsSize = m_elements.size();
@@ -238,16 +238,16 @@ namespace wolf {
 			m_elements[i]->Update(p_fDelta);
 	}
 
-	void Hud::Render(glm::mat4 projection) {
+	void Hud::Render(const glm::mat4& projection) {
 		for (int i = m_elements.size() - 1; i >= 0; i--)
 			m_elements[i]->Render(projection);
 	}
 
-	void Hud::SetVar(std::string id, std::string val) {
+	void Hud::SetVar(const std::string& id, const std::string& val) {
 		m_localization->SetVar(id, val);
 	}
 
-	HudElement* Hud::GetElement(std::string name) {
+	HudElement* Hud::GetElement(const std::string& name) {
 		if (m_elementNames.count(name))
 			return m_elementNames[name];
 
@@ -256,7 +256,7 @@ namespace wolf {
 		return nullptr;
 	}
 
-	std::vector<HudElement*> Hud::GetElementsByTag(std::string tag) {
+	std::vector<HudElement*> Hud::GetElementsByTag(const std::string& tag) {
 		return m_elementsByTag[tag];
 	}
 }

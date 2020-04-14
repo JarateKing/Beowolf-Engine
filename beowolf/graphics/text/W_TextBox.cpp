@@ -25,7 +25,7 @@ namespace wolf
 			{ 0.0f, 0.0f, 1.0f,	1, 1, 1, 1, 0.0f, 0.0f },
 	};
 	
-	TextBox::TextBox(Font* pFont, TextTable* localization, bool isSubpixel)
+	TextBox::TextBox(Font* pFont, TextTable* localization, const bool& isSubpixel)
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -60,7 +60,7 @@ namespace wolf
 	
 	}
 
-	void TextBox::SetSize(float size) {
+	void TextBox::SetSize(const float& size) {
 		m_fontSize = size;
 	}
 
@@ -239,7 +239,7 @@ namespace wolf
 		return toret;
 	}
 
-	void TextBox::Update(float p_fDelta) {
+	void TextBox::Update(const float& p_fDelta) {
 		if (m_hasVars) {
 			std::string text = ReplaceTextVars(m_str);
 			if (text != m_prevText)
@@ -247,7 +247,7 @@ namespace wolf
 		}
 	}
 	
-	void TextBox::Render(glm::mat4 proj)
+	void TextBox::Render(const glm::mat4& proj)
 	{
 		if (m_isVisible) {
 			for (int i = 0; i < m_font->GetTotalTextures(); i++)
