@@ -22,7 +22,11 @@ Water::Water()
 
 Water::~Water()
 {
-
+	delete g_pDecl;
+	wolf::ProgramManager::DestroyProgram(g_dProgram);
+	wolf::BufferManager::DestroyBuffer(g_pVB);
+	wolf::TextureManager::DestroyTexture(m_tex);
+	wolf::TextureManager::DestroyTexture(m_normals);
 }
 
 void Water::Update(float delta) {
