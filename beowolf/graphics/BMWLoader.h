@@ -60,7 +60,7 @@ namespace wolf
 			return instance;
 		}
 
-		BMWModeLData* loadFile(std::string file);
+		BMWModeLData* loadFile(const std::string& file);
 
 	private:
 		BMWLoader() {}

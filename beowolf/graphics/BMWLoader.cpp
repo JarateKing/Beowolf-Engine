@@ -12,7 +12,7 @@ namespace wolf
 		return a.second > b.second;
 	}
 
-	BMWModeLData* BMWLoader::loadFile(std::string file) {
+	BMWModeLData* BMWLoader::loadFile(const std::string& file) {
 		// if this file was already loaded, use the cached version
 		if (m_stored.count(file)) {
 			return &m_stored[file];
