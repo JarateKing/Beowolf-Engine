@@ -18,17 +18,17 @@ namespace week2
 		virtual const std::string FamilyID() { return std::string("GOC_HexPos"); }
 		virtual const std::string ComponentID() { return std::string("GOC_HexPos"); }
 		virtual void Update(float p_fDelta);
-		virtual void SetGrid(HexGrid* p_grid);
+		virtual void SetGrid(const HexGrid* p_grid);
 		void SetPos(glm::vec3 pos);
 		void Move(std::vector<int> p_path, float p_timeToComplete, bool p_attacking);
-		bool IsMoving();
-		float GetDirection();
-		float GetDirection(int startT, int endT);
-		glm::vec3 GetPos();
+		bool IsMoving() const;
+		float GetDirection() const;
+		float GetDirection(int startT, int endT) const;
+		glm::vec3 GetPos() const;
 
 	private:
 		//Private Variables
-		HexGrid* m_grid;
+		const HexGrid* m_grid;
 		int m_currentHex;
 		int m_totalTargets;
 		int m_endAttackTile;

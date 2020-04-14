@@ -9,7 +9,7 @@
 
 
 //Initialize HexGrid Variables and Load Data if Needed
-HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile, std::string savedata)
+HexGrid::HexGrid(const int width, const int length, const float tileWidth, const float minHeight, const float maxHeight, const std::string texFile, const std::string savedata)
 {
 	m_width = width;
 	m_height = length;
@@ -202,6 +202,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	}
 }
 
+//Deconstructor
 HexGrid::~HexGrid()
 {
 
@@ -233,7 +234,7 @@ void HexGrid::GenerateHeights(int width, int length, float minHeight, float maxH
 }
 
 // Returns a Random Border Tile Used for Taking out Edge Tiles
-int HexGrid::GetRandomBorder() {
+int HexGrid::GetRandomBorder() const {
 	int side = wolf::RNG::GetRandom(0, 3);
 
 	if (side == 0) {
@@ -950,19 +951,19 @@ void HexGrid::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMat
 }
 
 //Method to Return Heights
-std::vector<float> HexGrid::GetHeights()
+std::vector<float> HexGrid::GetHeights() const
 {
 	return m_heights;
 }
 
 //Method to Return Position Data
-std::vector<glm::vec2> HexGrid::GetPos()
+std::vector<glm::vec2> HexGrid::GetPos() const
 {
 	return m_positions;
 }
 
 //Method to get size of map
-int HexGrid::GetSize()
+int HexGrid::GetSize() const
 {
 	return m_heights.size();
 }
@@ -1218,7 +1219,7 @@ void HexGrid::Update(int target, float delta)
 }
 
 //Check whether floats are comparable within a value
-bool HexGrid::cmpf(float a, float b)
+bool HexGrid::cmpf(float a, float b) const
 {
 	return (fabs(a - b) < EPSILON_VALUE);
 }
@@ -1253,7 +1254,7 @@ std::vector<int> HexGrid::GetPathway(int startTarget, int endTarget)
 }
 
 //Method to check whether a tile is a mountain
-bool HexGrid::isMountain(int pos)
+bool HexGrid::isMountain(int pos) const
 {
 	for (int i = 0; i < m_mountains.size(); i++)
 		if (m_mountains[i] == pos)
@@ -1263,7 +1264,7 @@ bool HexGrid::isMountain(int pos)
 }
 
 //Method to check whether a tile is a desert
-bool HexGrid::isDesert(int pos)
+bool HexGrid::isDesert(int pos) const 
 {
 	for (int i = 0; i < m_desert.size(); i++)
 		if (m_desert[i] == pos)
@@ -1274,7 +1275,7 @@ bool HexGrid::isDesert(int pos)
 
 //Method to block a node based on its position
 //Used to block tiles for pathfinding
-void HexGrid::BlockNodePositions(glm::vec3 p_nodePos)
+void HexGrid::BlockNodePositions(glm::vec3 p_nodePos) const
 {
 	m_pathFinder->Instance()->BlockNode(p_nodePos);
 }

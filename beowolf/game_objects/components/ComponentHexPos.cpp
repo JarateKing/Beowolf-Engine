@@ -64,7 +64,7 @@ void ComponentHexPos::Update(float p_fDelta)
 }
 
 //Method to Set the Grid Used
-void ComponentHexPos::SetGrid(HexGrid* p_grid)
+void ComponentHexPos::SetGrid(const HexGrid* p_grid)
 {
 	m_grid = p_grid;
 }
@@ -92,25 +92,25 @@ void ComponentHexPos::Move(std::vector<int> p_path, float timeToComplete, bool p
 }
 
 //Method to return Position
-glm::vec3 ComponentHexPos::GetPos()
+glm::vec3 ComponentHexPos::GetPos() const
 {
 	return m_currentPos;
 }
 
 //Method to check if moving
-bool ComponentHexPos::IsMoving()
+bool ComponentHexPos::IsMoving() const
 {
 	return m_moving;
 }
 
 //Method to return current direction
-float ComponentHexPos::GetDirection()
+float ComponentHexPos::GetDirection() const
 {
 	return m_direction;
 }
 
 //Method to return a direction based on a start and end tile
-float ComponentHexPos::GetDirection(int startT, int endT)
+float ComponentHexPos::GetDirection(int startT, int endT) const
 {
 	glm::vec3 last = glm::vec3(m_grid->GetPos().at(startT).x, m_grid->GetHeights().at(startT), m_grid->GetPos().at(startT).y);
 	glm::vec3 dif = glm::vec3(m_grid->GetPos().at(endT).x, m_grid->GetHeights().at(endT), m_grid->GetPos().at(endT).y) - last;

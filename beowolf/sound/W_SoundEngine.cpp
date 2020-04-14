@@ -3,10 +3,12 @@
 
 namespace wolf
 {
+	//Constructor
 	SoundEngine::SoundEngine()
 	{
 	}
 
+	//Deconstructor
 	SoundEngine::~SoundEngine()
 	{
 
@@ -235,6 +237,7 @@ namespace wolf
 		return vel;
 	}
 
+	//Pauses a sound
 	void SoundEngine::PauseSound(const char* soundName)
 	{
 		std::vector<const char*>::iterator it = std::find(soundNames.begin(), soundNames.end(), soundName);

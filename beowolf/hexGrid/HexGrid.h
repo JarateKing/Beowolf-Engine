@@ -18,20 +18,20 @@ class HexGrid
 {
 public:
 	//Public Methods
-	HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile, std::string savedata = "");
+	HexGrid(const int width, const int length, const float tileWidth, const float minHeight, const float maxHeight, const std::string texFile, const std::string savedata = "");
 	~HexGrid();
 	void PrintOutLoc();
 	void Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, float minHeight, float maxHeight);
-	std::vector<float> GetHeights();
-	std::vector<glm::vec2> GetPos();
-	int GetSize();
+	std::vector<float> GetHeights() const;
+	std::vector<glm::vec2> GetPos() const;
+	int GetSize() const;
 	void Update(int target, float delta);
 	std::vector<int> GetPathway(int startTarget, int endTarget);
-	bool cmpf(float a, float b);
-	int GetRandomBorder();
-	bool isMountain(int pos);
-	bool isDesert(int pos);
-	void BlockNodePositions(glm::vec3 p_nodePos);
+	bool cmpf(float a, float b) const;
+	int GetRandomBorder() const;
+	bool isMountain(int pos) const;
+	bool isDesert(int pos) const;
+	void BlockNodePositions(glm::vec3 p_nodePos) const;
 	void ClearBlocks();
 	void SetLightDir(glm::vec3 dir);
 	void SetDiffuse(glm::vec4 dif);

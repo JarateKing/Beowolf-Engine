@@ -13,7 +13,7 @@ class CharacterUnits
 {
 	public:
 		//Public Methods
-		CharacterUnits( std::string bmwFile,  std::string shaderFile,  int startTile,  std::string name, HexGrid* grid,  float scale = 1.0f,  bool p_inverted = false,  glm::vec3 model_color = glm::vec3(1.0, 1.0, 1.0));
+		CharacterUnits(const std::string bmwFile, const std::string shaderFile, const int startTile, const std::string name, const HexGrid* grid, const float scale = 1.0f, const bool p_inverted = false, const glm::vec3 model_color = glm::vec3(1.0, 1.0, 1.0));
 		~CharacterUnits();
 		void Render( glm::mat4 view,  glm::mat4 proj,  glm::mat4 lightSpaceMatrix,  wolf::RenderFilterType type,  bool shadowPass,  unsigned int depthMapTexture);
 		void Update(float deltaT);
@@ -33,20 +33,20 @@ class CharacterUnits
 		void StartCooldown();
 		void UpdateCooldown();
 		void HealIndicator();
-		int GetTile() ;
-		int GetCooldown() ;
+		const int GetTile() const;
+		const int GetCooldown() const;
 		bool InitDamage();
-		bool isMoving();
-		bool isAttacking() ;
-		bool isDying() ;
-		bool cmpf(float a, float b);
-		bool getHasMoved() ;
-		float GetDeathTimer() ;
-		float GetDamageReceivedMult() ;
-		std::vector<std::string> GetAttacker() ;
-		wolf::BMWModel* GetModel() ;
-		std::string GetName() ;
-		glm::vec3 GetPos();
+		bool isMoving() const;
+		bool isAttacking() const;
+		bool isDying() const;
+		bool cmpf(float a, float b) const;
+		const bool getHasMoved() const;
+		const float GetDeathTimer() const;
+		const float GetDamageReceivedMult() const;
+		const std::vector<std::string> GetAttacker() const;
+		const wolf::BMWModel* GetModel() const;
+		const std::string GetName() const;
+		const glm::vec3 GetPos() const;
 
 	private:
 		//Private Variables
@@ -65,7 +65,7 @@ class CharacterUnits
 		bool m_isHealthbarVisible = true;
 		bool m_isCooldownVisible = false;
 		int m_currTile, m_endTile, m_prevTile;
-		 int m_cooldownMax = 2;
+		int m_cooldownMax = 2;
 		int m_cooldownCur = 0;
 		int m_cooldownHeightAdjustment = 0.0f;
 		float m_deathTimer = 0.0f;
@@ -88,7 +88,7 @@ class CharacterUnits
 		wolf::SoundEngine* m_soundEngine;
 		CooldownIndicator* m_cooldown;
 		Healthbar* m_healthbar;
-		HexGrid* m_grid;	
+		const HexGrid* m_grid;	
 };
 
 #endif

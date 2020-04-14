@@ -4,7 +4,7 @@
 #define EPSILON_VALUE 0.01
 
 
-CharacterUnits::CharacterUnits( std::string p_bmwFile,  std::string p_shaderFile,  int p_startTile,  std::string p_name, HexGrid* p_grid,  float p_scale,  bool p_inverted,  glm::vec3 model_color)
+CharacterUnits::CharacterUnits(const std::string p_bmwFile, const std::string p_shaderFile, const int p_startTile, const std::string p_name, const HexGrid* p_grid, const float p_scale, const bool p_inverted, const glm::vec3 model_color)
 {
 	//Set Animation Wait Times Per character 
 	m_animTimes.insert(std::pair<std::string, int>("myLich", 1.0));
@@ -257,19 +257,19 @@ void CharacterUnits::Update(float deltaT)
 }
 
 //Method to compare floats
-bool CharacterUnits::cmpf(float a, float b)
+bool CharacterUnits::cmpf(float a, float b) const
 {
 	return (fabs(a - b) < EPSILON_VALUE);
 }
 
 //Method to get name of unit
-std::string CharacterUnits::GetName() 
+const std::string CharacterUnits::GetName() const
 {
 	return m_name;
 }
 
 //Method to get tile unit is on
-int CharacterUnits::GetTile() 
+const int CharacterUnits::GetTile() const
 {
 	return m_currTile;
 }
@@ -329,13 +329,13 @@ void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete, bool 
 }
 
 //Method to get position of unit
-glm::vec3 CharacterUnits::GetPos()
+const glm::vec3 CharacterUnits::GetPos() const
 {
 	return m_pos.GetPos();
 }
 
 //Method to check if character has moved
-bool CharacterUnits::getHasMoved()  {
+const bool CharacterUnits::getHasMoved() const{
 	return m_hasMoved;
 }
 
@@ -347,18 +347,18 @@ void CharacterUnits::setHasMoved(bool moved) {
 }
 
 //Method to check if unit is currently moving
-bool CharacterUnits::isMoving(){
+bool CharacterUnits::isMoving() const {
 	return m_pos.IsMoving();
 }
 
 //Method to check if unit currently attacking
-bool CharacterUnits::isAttacking() 
+bool CharacterUnits::isAttacking() const
 {
 	return m_startedAttack;
 }
 
 //Method to check if unit is currently dying
-bool CharacterUnits::isDying() 
+bool CharacterUnits::isDying() const
 {
 	return m_dying;
 }
@@ -392,7 +392,7 @@ void CharacterUnits::TakeDamage(std::string p_characterFrom, float mult, std::st
 }
 
 //Method to get the damage multiplier
-float CharacterUnits::GetDamageReceivedMult() 
+const float CharacterUnits::GetDamageReceivedMult() const
 {
 	return m_damageReceivingMult;
 }
@@ -411,7 +411,7 @@ void CharacterUnits::SetHealthbarPercent(float percent)
 }
 
 //Method to get death timer
-float CharacterUnits::GetDeathTimer() 
+const float CharacterUnits::GetDeathTimer() const
 {
 	return m_deathTimer;
 }
@@ -429,14 +429,14 @@ bool CharacterUnits::InitDamage()
 }
 
 //Method to get who is attacking the unit
-std::vector<std::string> CharacterUnits::GetAttacker() 
+const std::vector<std::string> CharacterUnits::GetAttacker() const
 {
 	std::vector<std::string> temp = m_characterAttacking;
 	return temp;
 }
 
 //Method to get the model of the unit
-wolf::BMWModel* CharacterUnits::GetModel() 
+const wolf::BMWModel* CharacterUnits::GetModel() const
 {
 	return m_model;
 }
@@ -464,7 +464,7 @@ void CharacterUnits::UpdateCooldown()
 }
 
 //Method to get the cooldown of the units special ability
-int CharacterUnits::GetCooldown() 
+const int CharacterUnits::GetCooldown() const
 {
 	return m_cooldownCur;
 }
