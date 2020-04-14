@@ -30,6 +30,7 @@ namespace wolf
 		return distribution(*gen());
 	}
 
+	// common code for all random distributions
 	std::mt19937* RNG::gen() {
 		static std::random_device randomDevice;
 		static std::mt19937 gen(randomDevice());
