@@ -15,6 +15,10 @@ To run the example project:
 3. Set the solution configuration to "Debug"
 4. Run Local Windows Debugger
 
+![example screenshot](docs/resources/screenshot.png)
+
+<hr>
+
 To create a new project:
 1. Go to `project` folder
 2. Run `create-new-project.bat`
