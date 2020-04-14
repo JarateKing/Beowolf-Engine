@@ -2,7 +2,7 @@
 #include "W_ResourceLoader.h"
 
 namespace wolf {
-	HudGradient::HudGradient(glm::vec4 topleft, glm::vec4 topright, glm::vec4 bottomleft, glm::vec4 bottomright) {
+	HudGradient::HudGradient(const glm::vec4& topleft, const glm::vec4& topright, const glm::vec4& bottomleft, const glm::vec4& bottomright) {
 		const wolf::Vertex square[] = { wolf::Vertex({ 0, 0, 1.0f, (GLubyte)(topleft.r * 255), (GLubyte)(topleft.g * 255), (GLubyte)(topleft.b * 255), (GLubyte)(topleft.a * 255), 0, 0}),
 								        wolf::Vertex({ 0, 1, 1.0f, (GLubyte)(bottomleft.r * 255), (GLubyte)(bottomleft.g * 255), (GLubyte)(bottomleft.b * 255), (GLubyte)(bottomleft.a * 255), 0, 1}),
 								        wolf::Vertex({ 1, 1, 1.0f, (GLubyte)(bottomright.r * 255), (GLubyte)(bottomright.g * 255), (GLubyte)(bottomright.b * 255), (GLubyte)(bottomright.a * 255), 1, 1}),
@@ -23,11 +23,11 @@ namespace wolf {
 
 	}
 
-	void HudGradient::Update(float p_fDelta) {
+	void HudGradient::Update(const float& p_fDelta) {
 
 	}
 
-	void HudGradient::Render(glm::mat4 proj) {
+	void HudGradient::Render(const glm::mat4& proj) {
 		if (m_isVisible) {
 			g_pProgram->Bind();
 

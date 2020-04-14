@@ -14,10 +14,10 @@ namespace wolf
 	class HudImage: public HudElement
 	{
 	public:
-		HudImage(std::string image);
+		HudImage(const std::string& image);
 		~HudImage();
-		void Update(float p_fDelta);
-		void Render(glm::mat4 proj);
+		void Update(const float& p_fDelta);
+		void Render(const glm::mat4& proj);
 
 	private:
 		wolf::VertexBuffer* g_pVB;

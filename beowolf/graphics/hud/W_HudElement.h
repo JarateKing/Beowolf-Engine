@@ -8,8 +8,8 @@ namespace wolf
 	class HudElement
 	{
 	public:
-		virtual void Update(float p_fDelta) = 0;
-		virtual void Render(glm::mat4 proj) = 0;
+		virtual void Update(const float& p_fDelta) = 0;
+		virtual void Render(const glm::mat4& proj) = 0;
 
 		void SetBounds(const int& width, const int& height);
 		void SetW(const float& width, const bool& isRelative = false);
