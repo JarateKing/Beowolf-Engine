@@ -9,7 +9,7 @@ class LoadingScreen {
 public:
 	LoadingScreen();
 	~LoadingScreen();
-	void AddModel(std::string model);
+	void AddModel(const std::string& model);
 	void Load();
 private:
 	std::vector<std::string> m_models;
