@@ -2,6 +2,8 @@
 
 Basic general game engine, based off the wolf engine, written in C++. Designed as a lightweight game engine that acts largely as a framework for 3D game development. This is largely a toy engine and an exercise in developing low level game features, and by extension is not suited for professional game development.
 
+The engine comes with an example game, *Desktop Deities*, that is meant to showcase various features of the engine. This game (as well as the engine itself) was completed as the final project for the videogame specialization at UPEI.
+
 <hr>
 
 * [Features](docs/features.md)
