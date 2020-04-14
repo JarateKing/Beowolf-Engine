@@ -7,10 +7,10 @@ namespace wolf
 	{
 	public:
 		static bool Bool();
-		static bool Bool(float trueChance);
-		static int GetRandom(int min, int max);
-		static float GetRandom(float min, float max);
-		static double GetRandom(double min, double max);
+		static bool Bool(const float& trueChance);
+		static int GetRandom(const int& min, const int& max);
+		static float GetRandom(const float& min, const float& max);
+		static double GetRandom(const double& min, const double& max);
 	};
 }
 
