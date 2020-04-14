@@ -25,11 +25,12 @@ Healthbar::~Healthbar() {
 
 }
 
-void Healthbar::Update(float p_fDelta) {
+void Healthbar::Update(const float& p_fDelta) {
 
 }
 
-void Healthbar::Render(glm::mat4 view, glm::mat4 proj) {
+void Healthbar::Render(const glm::mat4& view, const glm::mat4& proj) {
+	// billboard healthbars
 	glm::mat4 rot = glm::mat4(glm::transpose(glm::mat3(view)));
 
 	g_pProgram->Bind();
@@ -38,7 +39,7 @@ void Healthbar::Render(glm::mat4 view, glm::mat4 proj) {
 	g_pProgram->SetUniform("projection", proj);
 	g_pProgram->SetUniform("view", view);
 	g_pProgram->SetUniform("world", m_pos * rot * glm::scale(scale));
-	g_pProgram->SetUniform("threshold", m_threshold);
+	g_pProgram->SetUniform("threshold", m_threshold); // what percent of the healthbar should be colored vs background
 
 	// Set up source data
 	g_pDecl->Bind();
@@ -47,10 +48,10 @@ void Healthbar::Render(glm::mat4 view, glm::mat4 proj) {
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void Healthbar::SetPos(glm::mat4 translation) {
+void Healthbar::SetPos(const glm::mat4& translation) {
 	m_pos = translation;
 }
 
-void Healthbar::SetThreshold(float threshold) {
+void Healthbar::SetThreshold(const float& threshold) {
 	m_threshold = threshold;
 }
