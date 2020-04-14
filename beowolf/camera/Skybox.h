@@ -26,7 +26,7 @@ private:
 	wolf::Texture* m_tex;
 	glm::vec3 m_pos;
 
-	wolf::Vertex planeVertices[36] = {
+	const wolf::Vertex planeVertices[36] = {
 		{ 500.0f, -500.0f,  500.0f, 0, 1, 0, 1, 0.25f, 0.3333333f, 1.0f, 1.0f, 0.0f},
 		{-500.0f, -500.0f,  500.0f, 0, 1, 0, 1, 0.50f, 0.3333333f, 0.0f, 1.0f, 0.0f},
 		{-500.0f, -500.0f, -500.0f, 0, 1, 0, 1, 0.50f, 0.0000000f, 0.0f, 1.0f, 0.0f},
