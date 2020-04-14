@@ -20,6 +20,7 @@ namespace wolf
 	class TextBox: public HudElement
 	{
 	public:
+		//Public Methods
 		TextBox(Font* pFont, TextTable* localization, bool isSubpixel = false);
 		~TextBox();
 		void SetSize(float size);
@@ -28,25 +29,25 @@ namespace wolf
 		void SetTextColor(const glm::vec4& color);
 		void SetTextAlignment(const float& alignment);
 		void SetSubpixelBG(const glm::vec3& bgcolor);
-
 		void Update(float p_fDelta);
 		void Render(glm::mat4 proj);
 	
 	private:
+		//Private Methods
 		void UpdateString(const std::string& text);
 		std::string ReplaceTextVars(const std::string& text);
 
-		glm::vec4 m_textcolor;
+		//Private Variables
 		Font* m_font;
 		TextTable* m_localization;
-		std::vector<std::vector<Vertex>> m_glyphs;
+		bool m_hasVars = false;
 		float m_alignmentFactor;
 		float m_fontSize = 16.0f;
 		std::string m_str;
 		std::string m_prevText;
-		bool m_hasVars = false;
+		glm::vec4 m_textcolor;
 		glm::vec3 m_bgColor;
-	
+		std::vector<std::vector<Vertex>> m_glyphs;
 		std::vector<wolf::VertexBuffer*> g_pVB;
 		std::vector<wolf::VertexDeclaration*> g_pDecl;
 		std::vector<wolf::Program*> g_pProgram;

@@ -25,6 +25,7 @@ namespace wolf
 			{ 0.0f, 0.0f, 1.0f,	1, 1, 1, 1, 0.0f, 0.0f },
 	};
 	
+	//Constructor
 	TextBox::TextBox(Font* pFont, TextTable* localization, bool isSubpixel)
 	{
 		glEnable(GL_BLEND);
@@ -55,15 +56,18 @@ namespace wolf
 		}
 	}
 	
+	//Deconstructor
 	TextBox::~TextBox()
 	{
 	
 	}
 
+	//Sets the current font size
 	void TextBox::SetSize(float size) {
 		m_fontSize = size;
 	}
 
+	//Sets the string to be displayed
 	void TextBox::SetString(const std::string& id) {
 		SetStringRaw(m_localization->GetString(id));
 	}
@@ -78,6 +82,7 @@ namespace wolf
 			UpdateString(text);
 	}
 
+	//Updates the current string
 	void TextBox::UpdateString(const std::string& text)
 	{
 		m_prevText = text;
@@ -207,21 +212,25 @@ namespace wolf
 		delete[] currentLine;
 	}
 	
+	//Sets color of text
 	void TextBox::SetTextColor(const glm::vec4& color)
 	{
 		m_textcolor = color;
 	}
 	
+	//Sets alignment of text
 	void TextBox::SetTextAlignment(const float& alignment)
 	{
 		m_alignmentFactor = alignment;
 	}
 
+	//Sets the background color
 	void TextBox::SetSubpixelBG(const glm::vec3& bgcolor)
 	{
 		m_bgColor = bgcolor;
 	}
 
+	//Replaces Text Variables
 	std::string TextBox::ReplaceTextVars(const std::string& text) {
 		std::string toret = text;
 		int pos = 0;
@@ -239,6 +248,7 @@ namespace wolf
 		return toret;
 	}
 
+	//Update
 	void TextBox::Update(float p_fDelta) {
 		if (m_hasVars) {
 			std::string text = ReplaceTextVars(m_str);
@@ -247,6 +257,7 @@ namespace wolf
 		}
 	}
 	
+	//Render
 	void TextBox::Render(glm::mat4 proj)
 	{
 		if (m_isVisible) {

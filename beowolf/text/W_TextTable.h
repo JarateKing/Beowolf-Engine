@@ -10,15 +10,17 @@ namespace wolf
 	class TextTable
 	{
 	public:
+		//Public Methods
 		TextTable();
 		~TextTable();
 		bool Load(const std::string& file);
 		bool SetLanguage(const std::string& lang);
-		std::string GetString(const std::string& id);
 		void SetVar(const std::string& id, const std::string& val);
+		std::string GetString(const std::string& id);
 		std::string GetVar(const std::string& id);
 
 	private:
+		//Private Variables
 		std::string m_currentLanguage;
 		std::map<std::string, std::map<std::string, std::string>> m_lookupMap;
 		std::map<std::string, std::string> m_varMap;

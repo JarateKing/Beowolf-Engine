@@ -49,11 +49,13 @@ namespace wolf
 		}
 	}
 
+	//Returns change in time since last call
 	double Time::deltaTime()
 	{
 		return (currentTime - lastTime);
 	}
 
+	//Returns current frames per second
 	double Time::getFPS()
 	{
 		return 1.0 / timeToDisplay;
