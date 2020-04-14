@@ -8,14 +8,15 @@
 #define EPSILON_VALUE 0.01
 
 
+//Initialize HexGrid Variables and Load Data if Needed
 HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile, std::string savedata)
 {
 	m_width = width;
 	m_height = length;
 
-	pathFinder->CreateInstance();
-	minH = minHeight;
-	maxH = maxHeight;
+	m_pathFinder->CreateInstance();
+	m_minH = minHeight;
+	m_maxH = maxHeight;
 	
 	if (savedata == "") {
 		GenerateHeights(width, length, minHeight, maxHeight);
@@ -34,23 +35,24 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 			bool isDesert = tile["desert"];
 			bool isMountain = tile["mountain"];
 
-			heights.push_back(tile["height"]);
+			m_heights.push_back(tile["height"]);
 
 			if (isDesert)
-				desert.push_back(id);
+				m_desert.push_back(id);
 			if (isMountain)
-				mountains.push_back(id);
+				m_mountains.push_back(id);
 		}
 
 		GenerateLoc(width, length, tileWidth, true);
 	}
 	GenerateHexJSON(width, length, tileWidth);
-	pathFinder->Instance()->Load("resources/objects/AIPathfindingDataTest.json");
+	m_pathFinder->Instance()->Load("resources/objects/AIPathfindingDataTest.json");
 
+	//Set Max Trees and Rocks in Map
 	int rockInWaterMax = 30;
 	int rockAlongShoreMax = 15;
 
-	int treeMaxNum = (positions.size() - mountains.size() - desert.size() - roads.size()) / 6 - 1;
+	int treeMaxNum = (m_positions.size() - m_mountains.size() - m_desert.size() - m_roads.size()) / 6 - 1;
 	int treeNum = treeMaxNum;
 	if (treeMaxNum > 4)
 		treeNum = wolf::RNG::GetRandom(2, treeMaxNum);
@@ -60,8 +62,8 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 		bool passed = false;
 		while (!passed)
 		{
-			int next = wolf::RNG::GetRandom(0, positions.size());
-			if (std::find(treePos.begin(), treePos.end(), next) == treePos.end() && std::find(grass.begin(), grass.end(), next) != grass.end())
+			int next = wolf::RNG::GetRandom(0, m_positions.size());
+			if (std::find(treePos.begin(), treePos.end(), next) == treePos.end() && std::find(m_grass.begin(), m_grass.end(), next) != m_grass.end())
 			{
 				treePos.push_back(next);
 				passed = true;
@@ -69,6 +71,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 		}
 	}
 
+	//Initialize Tree and Rock Models
 	int rnd;
 	std::string model;
 	for (int i = 0; i < treeNum; i++)
@@ -92,13 +95,13 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 			break;
 		}
 
-		test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(model), shaders.first, shaders.second, shadowShaders.first, shadowShaders.second);
+		m_test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(model), shaders.first, shaders.second, shadowShaders.first, shadowShaders.second);
 		float setScale = wolf::RNG::GetRandom(0.01f, 0.02f);
-		test->setTransform(glm::translate(glm::vec3(positions.at(treePos.at(i)).x, heights.at(treePos.at(i)), positions.at(treePos.at(i)).y)) * glm::rotate(180.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(setScale, setScale, setScale)));
-		test->setLightAmbient(glm::vec4(0.999f, 0.999f, 0.899f, 1.0f));
-		test->setLightDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
-		test->setLightDir(glm::vec3(90.0f, 90.0f, 90.0f));
-		trees.push_back(test);
+		m_test->setTransform(glm::translate(glm::vec3(m_positions.at(treePos.at(i)).x, m_heights.at(treePos.at(i)), m_positions.at(treePos.at(i)).y)) * glm::rotate(180.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(setScale, setScale, setScale)));
+		m_test->setLightAmbient(glm::vec4(0.999f, 0.999f, 0.899f, 1.0f));
+		m_test->setLightDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
+		m_test->setLightDir(glm::vec3(90.0f, 90.0f, 90.0f));
+		m_trees.push_back(m_test);
 	}
 
 	float scaleX;
@@ -118,7 +121,7 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 			zPos = wolf::RNG::GetRandom(-75.0f, 75.0f);
 		}
 
-		rockTRS.push_back(glm::translate(xPos, 5.0f, zPos) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
+		m_rockTRS.push_back(glm::translate(xPos, 5.0f, zPos) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
 	}
 
 	std::vector<int> tilesWithRocks;
@@ -140,62 +143,62 @@ HexGrid::HexGrid(int width, int length, float tileWidth, float minHeight, float 
 	{
 		scaleX = wolf::RNG::GetRandom(1.0f, 2.5f);
 
-		if (positions.at(tilesWithRocks.at(i)).x <= 0 && positions.at(tilesWithRocks.at(i)).y <= 0)
+		if (m_positions.at(tilesWithRocks.at(i)).x <= 0 && m_positions.at(tilesWithRocks.at(i)).y <= 0)
 		{
-			rockTRS.push_back(glm::translate(glm::vec3(positions.at(tilesWithRocks.at(i)).x - wolf::RNG::GetRandom(2.5f,5.0f), 5.0f, positions.at(tilesWithRocks.at(i)).y - wolf::RNG::GetRandom(2.5f, 5.0f))) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
+			m_rockTRS.push_back(glm::translate(glm::vec3(m_positions.at(tilesWithRocks.at(i)).x - wolf::RNG::GetRandom(2.5f,5.0f), 5.0f, m_positions.at(tilesWithRocks.at(i)).y - wolf::RNG::GetRandom(2.5f, 5.0f))) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
 		}
-		else if (positions.at(tilesWithRocks.at(i)).x <= 0 && positions.at(tilesWithRocks.at(i)).y >= 0)
+		else if (m_positions.at(tilesWithRocks.at(i)).x <= 0 && m_positions.at(tilesWithRocks.at(i)).y >= 0)
 		{
-			rockTRS.push_back(glm::translate(glm::vec3(positions.at(tilesWithRocks.at(i)).x - wolf::RNG::GetRandom(2.5f, 5.0f), 5.0f, positions.at(tilesWithRocks.at(i)).y + wolf::RNG::GetRandom(2.5f, 5.0f))) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
+			m_rockTRS.push_back(glm::translate(glm::vec3(m_positions.at(tilesWithRocks.at(i)).x - wolf::RNG::GetRandom(2.5f, 5.0f), 5.0f, m_positions.at(tilesWithRocks.at(i)).y + wolf::RNG::GetRandom(2.5f, 5.0f))) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
 		}
-		else if (positions.at(tilesWithRocks.at(i)).x >= 0 && positions.at(tilesWithRocks.at(i)).y >= 0)
+		else if (m_positions.at(tilesWithRocks.at(i)).x >= 0 && m_positions.at(tilesWithRocks.at(i)).y >= 0)
 		{
-			rockTRS.push_back(glm::translate(glm::vec3(positions.at(tilesWithRocks.at(i)).x + wolf::RNG::GetRandom(2.5f, 5.0f), 5.0f, positions.at(tilesWithRocks.at(i)).y + wolf::RNG::GetRandom(2.5f, 5.0f))) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
+			m_rockTRS.push_back(glm::translate(glm::vec3(m_positions.at(tilesWithRocks.at(i)).x + wolf::RNG::GetRandom(2.5f, 5.0f), 5.0f, m_positions.at(tilesWithRocks.at(i)).y + wolf::RNG::GetRandom(2.5f, 5.0f))) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
 		}
-		else if (positions.at(tilesWithRocks.at(i)).x >= 0 && positions.at(tilesWithRocks.at(i)).y <= 0)
+		else if (m_positions.at(tilesWithRocks.at(i)).x >= 0 && m_positions.at(tilesWithRocks.at(i)).y <= 0)
 		{
-			rockTRS.push_back(glm::translate(glm::vec3(positions.at(tilesWithRocks.at(i)).x + wolf::RNG::GetRandom(2.5f, 5.0f), 5.0f, positions.at(tilesWithRocks.at(i)).y - wolf::RNG::GetRandom(2.5f, 5.0f))) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
+			m_rockTRS.push_back(glm::translate(glm::vec3(m_positions.at(tilesWithRocks.at(i)).x + wolf::RNG::GetRandom(2.5f, 5.0f), 5.0f, m_positions.at(tilesWithRocks.at(i)).y - wolf::RNG::GetRandom(2.5f, 5.0f))) * glm::rotate(90.0f, glm::vec3(0, 0, 1)) * glm::rotate(90.0f, glm::vec3(0, wolf::RNG::GetRandom(0.0f, 5.0f), 0)) * glm::scale(glm::vec3(scaleX, scaleX, scaleX)));
 		}
 	}
 
 	auto shaders = wolf::ResourceLoader::Instance().getShaders("lit_textured_instanced");
 	auto shadowShaders = wolf::ResourceLoader::Instance().getShaders("shadow_map_instanced");
 
-	test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("rock.bmw"), shaders.first, shaders.second, shadowShaders.first, shadowShaders.second);
+	m_test = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel("rock.bmw"), shaders.first, shaders.second, shadowShaders.first, shadowShaders.second);
 	float setScale = wolf::RNG::GetRandom(1.0f, 2.0f);
-	test->setInstancedVariable(rockTRS);
-	test->setLightAmbient(glm::vec4(0.999f, 0.999f, 0.899f, 1.0f));
-	test->setLightDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
-	test->setLightDir(glm::vec3(90.0f, 90.0f, 90.0f));
-	rocks.push_back(test);
+	m_test->setInstancedVariable(m_rockTRS);
+	m_test->setLightAmbient(glm::vec4(0.999f, 0.999f, 0.899f, 1.0f));
+	m_test->setLightDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
+	m_test->setLightDir(glm::vec3(90.0f, 90.0f, 90.0f));
+	m_rocks.push_back(m_test);
 
 	// set up rendering
-	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("hex"));
-	g_dShadowProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("shadow_map"));
-	g_pVB = wolf::BufferManager::CreateVertexBuffer(p_verts, sizeof(wolf::Vertex) * vertices.size());
+	m_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("hex"));
+	m_dShadowProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("shadow_map"));
+	m_pVB = wolf::BufferManager::CreateVertexBuffer(p_verts, sizeof(wolf::Vertex) * m_vertices.size());
 
-	g_pDecl = new wolf::VertexDeclaration();
-	g_pDecl->Begin();
-	wolf::Vertex::applyAttributes(g_pDecl);
-	g_pDecl->SetVertexBuffer(g_pVB);
-	g_pDecl->End();
+	m_pDecl = new wolf::VertexDeclaration();
+	m_pDecl->Begin();
+	wolf::Vertex::applyAttributes(m_pDecl);
+	m_pDecl->SetVertexBuffer(m_pVB);
+	m_pDecl->End();
 
-	pTex = wolf::TextureManager::CreateTexture(texFile);
-	pTex->SetFilterMode(wolf::Texture::FM_LinearMipmap, wolf::Texture::FM_Linear);
-	pTex->SetWrapMode(wolf::Texture::WM_Repeat);
+	m_pTex = wolf::TextureManager::CreateTexture(texFile);
+	m_pTex->SetFilterMode(wolf::Texture::FM_LinearMipmap, wolf::Texture::FM_Linear);
+	m_pTex->SetWrapMode(wolf::Texture::WM_Repeat);
 	std::vector<glm::vec3> dPos;
-	for (int i = 0; i < desert.size(); i++)
+	for (int i = 0; i < m_desert.size(); i++)
 	{
-		if(desert.at(i) < positions.size())
-			dPos.push_back(glm::vec3(positions.at(desert.at(i)).x, 0.0f, positions.at(desert.at(i)).y));
+		if(m_desert.at(i) < m_positions.size())
+			dPos.push_back(glm::vec3(m_positions.at(m_desert.at(i)).x, 0.0f, m_positions.at(m_desert.at(i)).y));
 	}
-	pathFinder->Instance()->SetDesertPositions(dPos);
+	m_pathFinder->Instance()->SetDesertPositions(dPos);
 
 	// add particle effects
 	for (int i = 0; i < 3; i++) {
-		int pos = grass.at(wolf::RNG::GetRandom(0, grass.size() - 1));
+		int pos = m_grass.at(wolf::RNG::GetRandom(0, m_grass.size() - 1));
 		m_particleEffects.push_back(new Effect("resources/particles/butterfly.json"));
-		m_particleEffects[m_particleEffects.size() - 1]->SetPos(glm::vec3(positions.at(pos).x, heights.at(pos), positions.at(pos).y));
+		m_particleEffects[m_particleEffects.size() - 1]->SetPos(glm::vec3(m_positions.at(pos).x, m_heights.at(pos), m_positions.at(pos).y));
 	}
 }
 
@@ -204,6 +207,7 @@ HexGrid::~HexGrid()
 
 }
 
+//Generate the Heights for each Hex Tile Randomly
 void HexGrid::GenerateHeights(int width, int length, float minHeight, float maxHeight)
 {
 	int numWide;
@@ -224,10 +228,11 @@ void HexGrid::GenerateHeights(int width, int length, float minHeight, float maxH
 
 	for (int i = 0; i < numPos; i++)
 	{
-		heights.push_back(wolf::RNG::GetRandom(minHeight, maxHeight));
+		m_heights.push_back(wolf::RNG::GetRandom(minHeight, maxHeight));
 	}
 }
 
+// Returns a Random Border Tile Used for Taking out Edge Tiles
 int HexGrid::GetRandomBorder() {
 	int side = wolf::RNG::GetRandom(0, 3);
 
@@ -235,7 +240,7 @@ int HexGrid::GetRandomBorder() {
 		return wolf::RNG::GetRandom(0, m_width - 1);
 	}
 	else if (side == 1) {
-		return positions.size() - wolf::RNG::GetRandom(1, m_width);
+		return m_positions.size() - wolf::RNG::GetRandom(1, m_width);
 	}
 	else if (side == 2) {
 		int zpos = wolf::RNG::GetRandom(1, m_height - 2);
@@ -257,6 +262,7 @@ int HexGrid::GetRandomBorder() {
 	}
 }
 
+//Generate Tiles
 void HexGrid::GenerateLoc(int width, int length, float tileWidth, bool partiallyPregenerated)
 {
 	float toEdge = sqrt((pow((tileWidth/2), 2)) - (pow((tileWidth/4), 2)));
@@ -288,7 +294,7 @@ void HexGrid::GenerateLoc(int width, int length, float tileWidth, bool partially
 		{
 			for (int j = 0; j < width; j++)
 			{
-				positions.push_back(glm::vec2((startX + (diffX * j)), (startY + (diffY * i))));
+				m_positions.push_back(glm::vec2((startX + (diffX * j)), (startY + (diffY * i))));
 			}			
 			k = 1;
 		}
@@ -296,7 +302,7 @@ void HexGrid::GenerateLoc(int width, int length, float tileWidth, bool partially
 		{
 			for (int j = 0; j < (width - 1); j++)
 			{
-				positions.push_back(glm::vec2(((startX + toEdge) + (diffX * j)), (startY + (diffY * i))));
+				m_positions.push_back(glm::vec2(((startX + toEdge) + (diffX * j)), (startY + (diffY * i))));
 			}
 			k = 0;
 		}
@@ -305,24 +311,21 @@ void HexGrid::GenerateLoc(int width, int length, float tileWidth, bool partially
 	GenerateVerts(tileWidth, toEdge);
 }
 
+//Debug Method for Printing out Locations
 void HexGrid::PrintOutLoc()
 {
-	/*for (int i = 0; i < positions.size(); i++)
+	for (int i = 0; i < m_heights.size(); i++)
 	{
-		std::cout << "{" << positions.at(i).x << ", " << positions.at(i).y << "}" << std::endl;
-	}*/
-
-	for (int i = 0; i < heights.size(); i++)
-	{
-		std::cout << heights.at(i) << std::endl;
+		std::cout << m_heights.at(i) << std::endl;
 	}
 }
 
+//Method to Generate Vertices for HexGrid based on Positions and Heights and Types
 void HexGrid::GenerateVerts(float tileWidth, float toEdge)
 {
-	for (int i = 0; i < positions.size(); i++)
+	for (int i = 0; i < m_positions.size(); i++)
 	{
-		if (!(std::find(mountains.begin(), mountains.end(), i) != mountains.end() && isBorder(i)))
+		if (!(std::find(m_mountains.begin(), m_mountains.end(), i) != m_mountains.end() && isBorder(i)))
 		{
 			int ranTexX = wolf::RNG::GetRandom(0, 1);
 			int ranTexY = wolf::RNG::GetRandom(0, 1);
@@ -336,7 +339,7 @@ void HexGrid::GenerateVerts(float tileWidth, float toEdge)
 			glm::vec2 p4Tex(0.5f + (0.5f * ranTexX), 0.375f + (0.5f * ranTexY));
 			glm::vec2 p5Tex(0.5f + (0.5f * ranTexX), 0.125f + (0.5f * ranTexY));
 
-			if (std::find(roads.begin(), roads.end(), i) != roads.end())
+			if (std::find(m_roads.begin(), m_roads.end(), i) != m_roads.end())
 			{
 				p0Tex.x = 0.25f;
 				p0Tex.y = 0.5f;
@@ -351,7 +354,7 @@ void HexGrid::GenerateVerts(float tileWidth, float toEdge)
 				p5Tex.x = 0.5f;
 				p5Tex.y = 0.625f;
 			}
-			else if (std::find(mountains.begin(), mountains.end(), i) != mountains.end())
+			else if (std::find(m_mountains.begin(), m_mountains.end(), i) != m_mountains.end())
 			{
 				p0Tex.x = 0.75f;
 				p0Tex.y = 0.0f;
@@ -366,7 +369,7 @@ void HexGrid::GenerateVerts(float tileWidth, float toEdge)
 				p5Tex.x = 1.0f;
 				p5Tex.y = 0.125f;
 			}
-			else if (std::find(desert.begin(), desert.end(), i) != desert.end())
+			else if (std::find(m_desert.begin(), m_desert.end(), i) != m_desert.end())
 			{
 				p0Tex.x = 0.75f;
 				p0Tex.y = 0.5f;
@@ -398,156 +401,157 @@ void HexGrid::GenerateVerts(float tileWidth, float toEdge)
 			}
 
 		//Inner Top Verts
-		verts[0] = { positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 255, 255, 255, 255, p0Tex.x, p0Tex.y, 0.0f, 1.0f, 0.0f };
-		verts[1] = { (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 255, 255, 255, 255, p1Tex.x, p1Tex.y, 0.0f, 1.0f, 0.0f };
-		verts[2] = { (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 255, 255, 255, 255, p2Tex.x, p2Tex.y, 0.0f, 1.0f, 0.0f };
-		verts[3] = { positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 255, 255, 255, 255, p3Tex.x, p3Tex.y, 0.0f, 1.0f, 0.0f };
-		verts[4] = { (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 255, 255, 255, 255, p4Tex.x, p4Tex.y, 0.0f, 1.0f, 0.0f };
-		verts[5] = { (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 255, 255, 255, 255, p5Tex.x, p5Tex.y, 0.0f, 1.0f, 0.0f };
+		m_verts[0] = { m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y + tileWidth / 2), 255, 255, 255, 255, p0Tex.x, p0Tex.y, 0.0f, 1.0f, 0.0f };
+		m_verts[1] = { (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 255, 255, 255, 255, p1Tex.x, p1Tex.y, 0.0f, 1.0f, 0.0f };
+		m_verts[2] = { (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 255, 255, 255, 255, p2Tex.x, p2Tex.y, 0.0f, 1.0f, 0.0f };
+		m_verts[3] = { m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y - tileWidth / 2), 255, 255, 255, 255, p3Tex.x, p3Tex.y, 0.0f, 1.0f, 0.0f };
+		m_verts[4] = { (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 255, 255, 255, 255, p4Tex.x, p4Tex.y, 0.0f, 1.0f, 0.0f };
+		m_verts[5] = { (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 255, 255, 255, 255, p5Tex.x, p5Tex.y, 0.0f, 1.0f, 0.0f };
 
 		//Bottom Verts
-		verts[6] = { positions.at(i).x, -0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f };
-		verts[7] = { (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f };
-		verts[8] = { (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f };
-		verts[9] = { positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f };
-		verts[10] = { (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f };
-		verts[11] = { (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f };
+		m_verts[6] = { m_positions.at(i).x, -0.0f, (m_positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f };
+		m_verts[7] = { (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f };
+		m_verts[8] = { (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f };
+		m_verts[9] = { m_positions.at(i).x, 0.0f, (m_positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f };
+		m_verts[10] = { (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f };
+		m_verts[11] = { (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f };
 
 		//Top Vertices
-		vertices.push_back(verts[3]);
-		vertices.push_back(verts[4]);
-		vertices.push_back(verts[5]);
-		vertices.push_back(verts[3]);
-		vertices.push_back(verts[5]);
-		vertices.push_back(verts[0]);
-		vertices.push_back(verts[3]);
-		vertices.push_back(verts[1]);
-		vertices.push_back(verts[0]);
-		vertices.push_back(verts[3]);
-		vertices.push_back(verts[2]);
-		vertices.push_back(verts[1]);
+		m_vertices.push_back(m_verts[3]);
+		m_vertices.push_back(m_verts[4]);
+		m_vertices.push_back(m_verts[5]);
+		m_vertices.push_back(m_verts[3]);
+		m_vertices.push_back(m_verts[5]);
+		m_vertices.push_back(m_verts[0]);
+		m_vertices.push_back(m_verts[3]);
+		m_vertices.push_back(m_verts[1]);
+		m_vertices.push_back(m_verts[0]);
+		m_vertices.push_back(m_verts[3]);
+		m_vertices.push_back(m_verts[2]);
+		m_vertices.push_back(m_verts[1]);
 
-		if (std::find(mountains.begin(), mountains.end(), i) != mountains.end())
+		if (std::find(m_mountains.begin(), m_mountains.end(), i) != m_mountains.end())
 		{
 			//front left vertices
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 200, 200, 200, 255, 0.6f, 0.45f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 200, 200, 200, 255, 0.6f, 0.45f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.6f, 0.0f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y + tileWidth / 2), 200, 200, 200, 255, 0.6f, 0.45f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y + tileWidth / 2), 200, 200, 200, 255, 0.6f, 0.45f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, 0.0f, (m_positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.6f, 0.0f, xNormal, 0.0f, yNormal });
 
 			//Left Vertices
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f, -1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, -1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f, -1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f, -1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, -1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f, -1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f });
 
 			//Back left Vertices
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, -xNormal, 0.0f, yNormal  });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, -xNormal, 0.0f, yNormal  });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, 0.0f, (m_positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, 0.0f, (m_positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -xNormal, 0.0f, yNormal });
 
 			//Back right Vertices
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f, -xNormal, 0.0f, -yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -xNormal, 0.0f, -yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, -xNormal, 0.0f, -yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f, -xNormal, 0.0f, -yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -xNormal, 0.0f, -yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f, -xNormal, 0.0f, -yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f, -xNormal, 0.0f, -yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -xNormal, 0.0f, -yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, -xNormal, 0.0f, -yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y - tileWidth / 2), 200, 200, 200, 255, 1.0f, 0.45f, -xNormal, 0.0f, -yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, -xNormal, 0.0f, -yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, 0.0f, (m_positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 1.0f, 0.0f, -xNormal, 0.0f, -yNormal });
 
 			//Right Vertices
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, 1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f, 1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, 1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, 1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, 1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 200, 200, 200, 255, 1.0f, 0.45f, 1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 200, 200, 200, 255, 0.6f, 0.45f, 1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.6f, 0.0f, 1.0f, 0.0f, 0.0f });
 			
 			//Front right Vertices
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 200, 255, 1.0f, 0.45f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 200, 255, 0.6f, 0.0f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 200, 255, 0.6f, 0.45f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 200, 255, 1.0f, 0.45f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 200, 255, 0.6f, 0.0f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 200, 255, 1.0f, 0.0f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 0, 0, 200, 255, 1.0f, 0.45f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, 0.0f, (m_positions.at(i).y + tileWidth / 2), 0, 0, 200, 255, 0.6f, 0.0f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y + tileWidth / 2), 0, 0, 200, 255, 0.6f, 0.45f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 0, 0, 200, 255, 1.0f, 0.45f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, 0.0f, (m_positions.at(i).y + tileWidth / 2), 0, 0, 200, 255, 0.6f, 0.0f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 200, 255, 1.0f, 0.0f, xNormal, 0.0f, yNormal });
 		}
 		else
 		{
 			//Front left Vertices
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, 0.0f, (m_positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, xNormal, 0.0f, yNormal });
 			
 
 			//Left Vertices
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f });
 
 			//Back left Vertices
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x - toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, 0.0f, (m_positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, 0.0f, (m_positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x - toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
 
 			//Back right Vertices
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, 0.0f, (m_positions.at(i).y - tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, -yNormal });
 
 			//Right Vertices
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y - tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f });
 
 			//Front right Vertices
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, heights.at(i), (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), heights.at(i), (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ positions.at(i).x, 0.0f, (positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
-			vertices.push_back(wolf::Vertex{ (positions.at(i).x + toEdge), 0.0f, (positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, 0.0f, (m_positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, m_heights.at(i), (m_positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), m_heights.at(i), (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ m_positions.at(i).x, 0.0f, (m_positions.at(i).y + tileWidth / 2), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
+			m_vertices.push_back(wolf::Vertex{ (m_positions.at(i).x + toEdge), 0.0f, (m_positions.at(i).y + tileWidth / 4), 0, 0, 0, 255, 0.0f, 0.0f, -xNormal, 0.0f, yNormal });
 			}
 		}
 	}
 
-	for (int i = 0; i < vertices.size(); i++)
+	for (int i = 0; i < m_vertices.size(); i++)
 	{
-		p_verts[i] = vertices.at(i);
+		p_verts[i] = m_vertices.at(i);
 	}
 }
 
+//Method to Group Textures Together
 void HexGrid::GroupTextures(int width, bool partiallyPregenerated)
 {
 	bool ranInto = false;
-	int midPoint = (int)(positions.size()/2);
-	roads.push_back(midPoint);
+	int midPoint = (int)(m_positions.size()/2);
+	m_roads.push_back(midPoint);
 
 	int path;
 	int lastTaken = -1;
 
 	//Creating road layout
-	while ((roads.size() < (int)(positions.size() * 0.35)))
+	while ((m_roads.size() < (int)(m_positions.size() * 0.35)))
 	{
 		int pos = midPoint;
 		ranInto = false;
@@ -562,160 +566,159 @@ void HexGrid::GroupTextures(int width, bool partiallyPregenerated)
 			}
 			lastTaken = abs(path-3);
 
-			if ((std::find(roads.begin(), roads.end(), (pos + (width - 1))) != roads.end() || (pos + (width - 1)) >= positions.size())  &&
-				(std::find(roads.begin(), roads.end(), (pos - 1)) != roads.end() || (pos - 1) <= 0) &&
-				(std::find(roads.begin(), roads.end(), (pos - width)) != roads.end() || (pos - width) <= 0) &&
-				(std::find(roads.begin(), roads.end(), (pos - (width - 1))) != roads.end() || (pos - (width - 1)) <= 0) &&
-				(std::find(roads.begin(), roads.end(), (pos + 1)) != roads.end() || (pos + 1) >= positions.size()) &&
-				(std::find(roads.begin(), roads.end(), (pos + width)) != roads.end() || (pos + width) >= positions.size()))
+			if ((std::find(m_roads.begin(), m_roads.end(), (pos + (width - 1))) != m_roads.end() || (pos + (width - 1)) >= m_positions.size())  &&
+				(std::find(m_roads.begin(), m_roads.end(), (pos - 1)) != m_roads.end() || (pos - 1) <= 0) &&
+				(std::find(m_roads.begin(), m_roads.end(), (pos - width)) != m_roads.end() || (pos - width) <= 0) &&
+				(std::find(m_roads.begin(), m_roads.end(), (pos - (width - 1))) != m_roads.end() || (pos - (width - 1)) <= 0) &&
+				(std::find(m_roads.begin(), m_roads.end(), (pos + 1)) != m_roads.end() || (pos + 1) >= m_positions.size()) &&
+				(std::find(m_roads.begin(), m_roads.end(), (pos + width)) != m_roads.end() || (pos + width) >= m_positions.size()))
 			{
-				midPoint = wolf::RNG::GetRandom(0, positions.size());
+				midPoint = wolf::RNG::GetRandom(0, m_positions.size());
 			}
 
 			switch (path)
 			{
 				case 0:
-					if ((roads.size() > (positions.size() * 0.35)) || std::find(roads.begin(), roads.end(), (pos + (width - 1))) != roads.end() || (pos + (width - 1)) <= 0 || (pos + (width - 1)) >= positions.size())
+					if ((m_roads.size() > (m_positions.size() * 0.35)) || std::find(m_roads.begin(), m_roads.end(), (pos + (width - 1))) != m_roads.end() || (pos + (width - 1)) <= 0 || (pos + (width - 1)) >= m_positions.size())
 					{
 						ranInto = true;
 					}
 					else
 					{
 						pos += (width - 1);
-						roads.push_back(pos);
+						m_roads.push_back(pos);
 					}
 					break;
 				case 1:
-					if ((roads.size() > (positions.size() * 0.35)) || std::find(roads.begin(), roads.end(), (pos - 1)) != roads.end() || (pos - 1) <= 0 || (pos - 1) >= positions.size())
+					if ((m_roads.size() > (m_positions.size() * 0.35)) || std::find(m_roads.begin(), m_roads.end(), (pos - 1)) != m_roads.end() || (pos - 1) <= 0 || (pos - 1) >= m_positions.size())
 					{
 						ranInto = true;
 					}
 					else
 					{
 						pos -= 1;
-						roads.push_back(pos);
+						m_roads.push_back(pos);
 					}
 					break;
 				case 2:
-					if ((roads.size() > (positions.size() * 0.35)) || std::find(roads.begin(), roads.end(), (pos - width)) != roads.end() || (pos - width) <= 0 || (pos - width) >= positions.size())
+					if ((m_roads.size() > (m_positions.size() * 0.35)) || std::find(m_roads.begin(), m_roads.end(), (pos - width)) != m_roads.end() || (pos - width) <= 0 || (pos - width) >= m_positions.size())
 					{
 						ranInto = true;
 					}
 					else
 					{
 						pos -= width;
-						roads.push_back(pos);
+						m_roads.push_back(pos);
 					}
 					break;
 				case 3:
-					if ((roads.size() > (positions.size() * 0.35)) || std::find(roads.begin(), roads.end(), (pos - (width - 1))) != roads.end() || (pos - (width - 1)) <= 0 || (pos - (width - 1)) >= positions.size())
+					if ((m_roads.size() > (m_positions.size() * 0.35)) || std::find(m_roads.begin(), m_roads.end(), (pos - (width - 1))) != m_roads.end() || (pos - (width - 1)) <= 0 || (pos - (width - 1)) >= m_positions.size())
 					{
 						ranInto = true;
 					}
 					else
 					{
 						pos -= (width - 1);
-						roads.push_back(pos);
+						m_roads.push_back(pos);
 					}
 					break;
 				case 4:
-					if ((roads.size() > (positions.size() * 0.35)) || std::find(roads.begin(), roads.end(), (pos + 1)) != roads.end() || (pos + 1) <= 0 || (pos + 1) >= positions.size())
+					if ((m_roads.size() > (m_positions.size() * 0.35)) || std::find(m_roads.begin(), m_roads.end(), (pos + 1)) != m_roads.end() || (pos + 1) <= 0 || (pos + 1) >= m_positions.size())
 					{
 						ranInto = true;
 					}
 					else
 					{
 						pos += 1;
-						roads.push_back(pos);
+						m_roads.push_back(pos);
 					}
 					break;
 				case 5:
-					if ((roads.size() > (positions.size() * 0.35)) || std::find(roads.begin(), roads.end(), (pos + width)) != roads.end() || (pos + width) <= 0 || (pos + width) >= positions.size())
+					if ((m_roads.size() > (m_positions.size() * 0.35)) || std::find(m_roads.begin(), m_roads.end(), (pos + width)) != m_roads.end() || (pos + width) <= 0 || (pos + width) >= m_positions.size())
 					{
 						ranInto = true;
 					}
 					else
 					{
 						pos += width;
-						roads.push_back(pos);
+						m_roads.push_back(pos);
 					}
 					break;
 				default:
 					ranInto = true;
-					midPoint = wolf::RNG::GetRandom(0, positions.size());
+					midPoint = wolf::RNG::GetRandom(0, m_positions.size());
 			}
 		}
 	}
 
 	//Laying out mountains
 	if (!partiallyPregenerated) {
-		float minMHeight = maxH * 0.75;
-		float maxMHeight = maxH;
+		float minMHeight = m_maxH * 0.75;
+		float maxMHeight = m_maxH;
 		float percentCoverage = 0.10;
 
-		while (mountains.size() < (int)(positions.size() * percentCoverage))
+		while (m_mountains.size() < (int)(m_positions.size() * percentCoverage))
 		{
 			bool found = true;
 			int start;
 
 			while (found)
 			{
-				start = wolf::RNG::GetRandom(0, positions.size() - 1);
-				if (std::find(roads.begin(), roads.end(), start) == roads.end())
+				start = wolf::RNG::GetRandom(0, m_positions.size() - 1);
+				if (std::find(m_roads.begin(), m_roads.end(), start) == m_roads.end())
 					found = false;
 			}
 
-			mountains.push_back(start);
+			m_mountains.push_back(start);
 
-			if ((mountains.size() < (positions.size() * percentCoverage)) && std::find(mountains.begin(), mountains.end(), (start + (width - 1))) == mountains.end() && std::find(roads.begin(), roads.end(), (start + (width - 1))) == roads.end() && (start + (width - 1)) >= 0 && (start + (width - 1)) < positions.size())
+			if ((m_mountains.size() < (m_positions.size() * percentCoverage)) && std::find(m_mountains.begin(), m_mountains.end(), (start + (width - 1))) == m_mountains.end() && std::find(m_roads.begin(), m_roads.end(), (start + (width - 1))) == m_roads.end() && (start + (width - 1)) >= 0 && (start + (width - 1)) < m_positions.size())
 			{
-				mountains.push_back(start + (width - 1));
+				m_mountains.push_back(start + (width - 1));
 			}
 
-			if ((mountains.size() < (positions.size() * percentCoverage)) && std::find(mountains.begin(), mountains.end(), (start - 1)) == mountains.end() && std::find(roads.begin(), roads.end(), (start - 1)) == roads.end() && (start - 1) >= 0 && (start - 1) < positions.size())
+			if ((m_mountains.size() < (m_positions.size() * percentCoverage)) && std::find(m_mountains.begin(), m_mountains.end(), (start - 1)) == m_mountains.end() && std::find(m_roads.begin(), m_roads.end(), (start - 1)) == m_roads.end() && (start - 1) >= 0 && (start - 1) < m_positions.size())
 			{
-				mountains.push_back(start - 1);
+				m_mountains.push_back(start - 1);
 			}
 
-			if ((mountains.size() < (positions.size() * percentCoverage)) && std::find(mountains.begin(), mountains.end(), (start - width)) == mountains.end() && std::find(roads.begin(), roads.end(), (start - width)) == roads.end() && (start - width) >= 0 && (start - width) < positions.size())
+			if ((m_mountains.size() < (m_positions.size() * percentCoverage)) && std::find(m_mountains.begin(), m_mountains.end(), (start - width)) == m_mountains.end() && std::find(m_roads.begin(), m_roads.end(), (start - width)) == m_roads.end() && (start - width) >= 0 && (start - width) < m_positions.size())
 			{
-				mountains.push_back(start - width);
+				m_mountains.push_back(start - width);
 			}
 
-			if ((mountains.size() < (positions.size() * percentCoverage)) && std::find(mountains.begin(), mountains.end(), (start - (width - 1))) == mountains.end() && std::find(roads.begin(), roads.end(), (start - (width - 1))) == roads.end() && (start - (width - 1)) >= 0 && (start - (width - 1)) < positions.size())
+			if ((m_mountains.size() < (m_positions.size() * percentCoverage)) && std::find(m_mountains.begin(), m_mountains.end(), (start - (width - 1))) == m_mountains.end() && std::find(m_roads.begin(), m_roads.end(), (start - (width - 1))) == m_roads.end() && (start - (width - 1)) >= 0 && (start - (width - 1)) < m_positions.size())
 			{
-				mountains.push_back(start - (width - 1));
+				m_mountains.push_back(start - (width - 1));
 			}
 
-			if ((mountains.size() < (positions.size() * percentCoverage)) && std::find(mountains.begin(), mountains.end(), (start + 1)) == mountains.end() && std::find(roads.begin(), roads.end(), (start + 1)) == roads.end() && (start + 1) >= 0 && (start + 1) < positions.size())
+			if ((m_mountains.size() < (m_positions.size() * percentCoverage)) && std::find(m_mountains.begin(), m_mountains.end(), (start + 1)) == m_mountains.end() && std::find(m_roads.begin(), m_roads.end(), (start + 1)) == m_roads.end() && (start + 1) >= 0 && (start + 1) < m_positions.size())
 			{
-				mountains.push_back(start + 1);
+				m_mountains.push_back(start + 1);
 			}
 
-			if ((mountains.size() < (positions.size() * percentCoverage)) && std::find(mountains.begin(), mountains.end(), (start + width)) == mountains.end() && std::find(roads.begin(), roads.end(), (start + width)) == roads.end() && (start + width) >= 0 && (start + width) < positions.size())
+			if ((m_mountains.size() < (m_positions.size() * percentCoverage)) && std::find(m_mountains.begin(), m_mountains.end(), (start + width)) == m_mountains.end() && std::find(m_roads.begin(), m_roads.end(), (start + width)) == m_roads.end() && (start + width) >= 0 && (start + width) < m_positions.size())
 			{
-				mountains.push_back(start + width);
+				m_mountains.push_back(start + width);
 			}
 		}
 
-		// add a couple mountains to the edges
+		// add a couple mountains to the edges to take out later
 		for (int i = 0; i < 20; i++) {
 			int pos = GetRandomBorder();
-			while (std::find(mountains.begin(), mountains.end(), pos) != mountains.end())
+			while (std::find(m_mountains.begin(), m_mountains.end(), pos) != m_mountains.end())
 				pos = GetRandomBorder();
-			mountains.push_back(pos);
+			m_mountains.push_back(pos);
 		}
 
 		//Laying out Deserts
-
-		int desertStart = wolf::RNG::GetRandom(0, positions.size());
-		desert.push_back(desertStart);
+		int desertStart = wolf::RNG::GetRandom(0, m_positions.size());
+		m_desert.push_back(desertStart);
 		std::vector<int> nextLayer;
 		std::vector<int> currentLayer;
 		bool changed = false;
 		bool continuing = true;
 
-		while ((desert.size() < (int)(positions.size() * 0.20)) && continuing)
+		while ((m_desert.size() < (int)(m_positions.size() * 0.20)) && continuing)
 		{
 			if (changed == true)
 			{
@@ -726,120 +729,120 @@ void HexGrid::GroupTextures(int width, bool partiallyPregenerated)
 				continuing = false;
 			}
 
-			for (int i = 0; i < desert.size(); i++)
+			for (int i = 0; i < m_desert.size(); i++)
 			{
-				desertStart = desert.at(i);
-				if ((desert.size() < (positions.size() * 0.20)) && std::find(desert.begin(), desert.end(), (desertStart + (width - 1))) == desert.end() && std::find(roads.begin(), roads.end(), (desertStart + (width - 1))) == roads.end() && (desertStart + (width - 1)) >= 0 && (desertStart + (width - 1)) <= positions.size())
+				desertStart = m_desert.at(i);
+				if ((m_desert.size() < (m_positions.size() * 0.20)) && std::find(m_desert.begin(), m_desert.end(), (desertStart + (width - 1))) == m_desert.end() && std::find(m_roads.begin(), m_roads.end(), (desertStart + (width - 1))) == m_roads.end() && (desertStart + (width - 1)) >= 0 && (desertStart + (width - 1)) <= m_positions.size())
 				{
-					desert.push_back(desertStart + (width - 1));
+					m_desert.push_back(desertStart + (width - 1));
 					changed = true;
 				}
 
-				if ((desert.size() < (positions.size() * 0.20)) && std::find(desert.begin(), desert.end(), (desertStart - 1)) == desert.end() && std::find(roads.begin(), roads.end(), (desertStart - 1)) == roads.end() && (desertStart - 1) >= 0 && (desertStart - 1) <= positions.size())
+				if ((m_desert.size() < (m_positions.size() * 0.20)) && std::find(m_desert.begin(), m_desert.end(), (desertStart - 1)) == m_desert.end() && std::find(m_roads.begin(), m_roads.end(), (desertStart - 1)) == m_roads.end() && (desertStart - 1) >= 0 && (desertStart - 1) <= m_positions.size())
 				{
-					desert.push_back(desertStart - 1);
+					m_desert.push_back(desertStart - 1);
 					changed = true;
 				}
 
-				if ((desert.size() < (positions.size() * 0.20)) && std::find(desert.begin(), desert.end(), (desertStart - width)) == desert.end() && std::find(roads.begin(), roads.end(), (desertStart - width)) == roads.end() && (desertStart - width) >= 0 && (desertStart - width) <= positions.size())
+				if ((m_desert.size() < (m_positions.size() * 0.20)) && std::find(m_desert.begin(), m_desert.end(), (desertStart - width)) == m_desert.end() && std::find(m_roads.begin(), m_roads.end(), (desertStart - width)) == m_roads.end() && (desertStart - width) >= 0 && (desertStart - width) <= m_positions.size())
 				{
-					desert.push_back(desertStart - width);
+					m_desert.push_back(desertStart - width);
 					changed = true;
 				}
 
-				if ((desert.size() < (positions.size() * 0.20)) && std::find(desert.begin(), desert.end(), (desertStart - (width - 1))) == desert.end() && std::find(roads.begin(), roads.end(), (desertStart - (width - 1))) == roads.end() && (desertStart - (width - 1)) >= 0 && (desertStart - (width - 1)) <= positions.size())
+				if ((m_desert.size() < (m_positions.size() * 0.20)) && std::find(m_desert.begin(), m_desert.end(), (desertStart - (width - 1))) == m_desert.end() && std::find(m_roads.begin(), m_roads.end(), (desertStart - (width - 1))) == m_roads.end() && (desertStart - (width - 1)) >= 0 && (desertStart - (width - 1)) <= m_positions.size())
 				{
-					desert.push_back(desertStart - (width - 1));
+					m_desert.push_back(desertStart - (width - 1));
 					changed = true;
 				}
 
-				if ((desert.size() < (positions.size() * 0.20)) && std::find(desert.begin(), desert.end(), (desertStart + 1)) == desert.end() && std::find(roads.begin(), roads.end(), (desertStart + 1)) == roads.end() && (desertStart + 1) >= 0 && (desertStart + 1) <= positions.size())
+				if ((m_desert.size() < (m_positions.size() * 0.20)) && std::find(m_desert.begin(), m_desert.end(), (desertStart + 1)) == m_desert.end() && std::find(m_roads.begin(), m_roads.end(), (desertStart + 1)) == m_roads.end() && (desertStart + 1) >= 0 && (desertStart + 1) <= m_positions.size())
 				{
-					desert.push_back(desertStart + 1);
+					m_desert.push_back(desertStart + 1);
 					changed = true;
 				}
 
-				if ((desert.size() < (positions.size() * 0.20)) && std::find(desert.begin(), desert.end(), (desertStart + width)) == desert.end() && std::find(roads.begin(), roads.end(), (desertStart + width)) == roads.end() && (desertStart + width) >= 0 && (desertStart + width) <= positions.size())
+				if ((m_desert.size() < (m_positions.size() * 0.20)) && std::find(m_desert.begin(), m_desert.end(), (desertStart + width)) == m_desert.end() && std::find(m_roads.begin(), m_roads.end(), (desertStart + width)) == m_roads.end() && (desertStart + width) >= 0 && (desertStart + width) <= m_positions.size())
 				{
-					desert.push_back(desertStart + width);
+					m_desert.push_back(desertStart + width);
 					changed = true;
 				}
 			}
 		}
 
-		for (int i = 0; i < mountains.size(); i++)
+		for (int i = 0; i < m_mountains.size(); i++)
 		{
-			if (std::find(desert.begin(), desert.end(), mountains.at(i)) != desert.end())
+			if (std::find(m_desert.begin(), m_desert.end(), m_mountains.at(i)) != m_desert.end())
 			{
-				mountains.erase(mountains.begin() + i);
+				m_mountains.erase(m_mountains.begin() + i);
 			}
 		}
 
-		//NEED TO FIX ISSUE HERE
-		for (int i = 0; i < mountains.size(); i++)
+		for (int i = 0; i < m_mountains.size(); i++)
 		{
-			heights.at(mountains.at(i)) = (isBorder(mountains.at(i))) ? 0 : wolf::RNG::GetRandom(minMHeight, maxMHeight);
+			m_heights.at(m_mountains.at(i)) = (isBorder(m_mountains.at(i))) ? 0 : wolf::RNG::GetRandom(minMHeight, maxMHeight);
 		}
 	}
 
 	// remove any roads that are also occupied by mountains
-	for (int i = 0; i < roads.size(); i++) {
-		if (isMountain(roads[i])) {
-			roads.erase(roads.begin() + i--);
+	for (int i = 0; i < m_roads.size(); i++) {
+		if (isMountain(m_roads[i])) {
+			m_roads.erase(m_roads.begin() + i--);
 		}
 	}
 
-	for (int i = 0; i < positions.size(); i++)
+	for (int i = 0; i < m_positions.size(); i++)
 	{
-		if (std::find(roads.begin(), roads.end(), i) == roads.end() && std::find(desert.begin(), desert.end(), i) == desert.end() && std::find(mountains.begin(), mountains.end(), i) == mountains.end())
+		if (std::find(m_roads.begin(), m_roads.end(), i) == m_roads.end() && std::find(m_desert.begin(), m_desert.end(), i) == m_desert.end() && std::find(m_mountains.begin(), m_mountains.end(), i) == m_mountains.end())
 		{
-			grass.push_back(i);
+			m_grass.push_back(i);
 		}
 	}
 }
 
+//Smooth out the heights based on the heights surrounding the tile
 void HexGrid::SmoothFullHeights(int width, int numTimes)
 {
 	for (int i = 0; i < numTimes; i++)
 	{
 		float totHeight = 0;
 		int numCounted = 1;
-		for (int i = 0; i < heights.size(); i++)
+		for (int i = 0; i < m_heights.size(); i++)
 		{
-			totHeight += heights.at(i);
+			totHeight += m_heights.at(i);
 
 			if ((i - 1) >= 0)
 			{
-				totHeight += heights.at(i - 1);
+				totHeight += m_heights.at(i - 1);
 				numCounted++;
 			}
-			if ((i + 1) <= heights.size() - 1)
+			if ((i + 1) <= m_heights.size() - 1)
 			{
-				totHeight += heights.at(i + 1);
+				totHeight += m_heights.at(i + 1);
 				numCounted++;
 			}
-			if ((i + width) <= heights.size() - 1)
+			if ((i + width) <= m_heights.size() - 1)
 			{
-				totHeight += heights.at(i + width);
+				totHeight += m_heights.at(i + width);
 				numCounted++;
 			}
-			if ((i + (width - 1)) <= heights.size() - 1)
+			if ((i + (width - 1)) <= m_heights.size() - 1)
 			{
-				totHeight += heights.at(i + (width - 1));
+				totHeight += m_heights.at(i + (width - 1));
 				numCounted++;
 			}
 			if ((i - width) >= 0)
 			{
-				totHeight += heights.at(i - width);
+				totHeight += m_heights.at(i - width);
 				numCounted++;
 			}
 			if ((i - (width - 1)) >= 0)
 			{
-				totHeight += heights.at(i - (width - 1));
+				totHeight += m_heights.at(i - (width - 1));
 				numCounted++;
 			}
 
-			heights.at(i) = totHeight / numCounted;
+			m_heights.at(i) = totHeight / numCounted;
 
 			totHeight = 0;
 			numCounted = 1;
@@ -847,36 +850,37 @@ void HexGrid::SmoothFullHeights(int width, int numTimes)
 	}
 }
 
+//Method to Render HexGrid along with Trees and Rocks to Scene
 void HexGrid::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, float minHeight, float maxHeight)
 {
 	glm::mat4 projview = p_proj * p_view;
 	if (shadowPass)
 	{
 		if (type == wolf::RenderFilterOpaque) {
-			pTex->Bind();
-			g_dShadowProgram->Bind();
+			m_pTex->Bind();
+			m_dShadowProgram->Bind();
 
 			// Bind Uniforms
-			g_dShadowProgram->SetUniform("lightSpaceMatrix", lightSpaceMatrix);
-			g_dShadowProgram->SetUniform("model",glm::mat4());
+			m_dShadowProgram->SetUniform("lightSpaceMatrix", lightSpaceMatrix);
+			m_dShadowProgram->SetUniform("model",glm::mat4());
 
 			// Set up source data
-			g_pDecl->Bind();
+			m_pDecl->Bind();
 
 			// Draw!
-			glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+			glDrawArrays(GL_TRIANGLES, 0, m_vertices.size());
 		}
 	}
 	else
 	{
 		if (type == wolf::RenderFilterOpaque) {
 			glActiveTexture(GL_TEXTURE0);
-			pTex->Bind();
+			m_pTex->Bind();
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, depthMapTexture);
 			glActiveTexture(GL_TEXTURE0);
 
-			g_dProgram->Bind();
+			m_dProgram->Bind();
 
 			glm::mat4 biasMatrix(
 				0.5, 0.0, 0.0, 0.0,
@@ -886,30 +890,30 @@ void HexGrid::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMat
 			);
 
 			// Bind Uniforms
-			g_dProgram->SetUniform("lightSpaceMatrix", lightSpaceMatrix);
-			g_dProgram->SetUniform("projection", projview);
-			g_dProgram->SetUniform("world", glm::translate(glm::vec3(0.0f)));
-			g_dProgram->SetUniform("view", glm::mat4());
-			g_dProgram->SetUniform("tex", 0);
-			g_dProgram->SetUniform("shadowMap", 1);
-			g_dProgram->SetUniform("LightAmbient", ambLight);
-			g_dProgram->SetUniform("LightDiffuse", difLight);
-			g_dProgram->SetUniform("LightDir", lightDir);
-			g_dProgram->SetUniform("minHeight", minHeight);
-			g_dProgram->SetUniform("maxHeight", maxHeight);
+			m_dProgram->SetUniform("lightSpaceMatrix", lightSpaceMatrix);
+			m_dProgram->SetUniform("projection", projview);
+			m_dProgram->SetUniform("world", glm::translate(glm::vec3(0.0f)));
+			m_dProgram->SetUniform("view", glm::mat4());
+			m_dProgram->SetUniform("tex", 0);
+			m_dProgram->SetUniform("shadowMap", 1);
+			m_dProgram->SetUniform("LightAmbient", m_ambLight);
+			m_dProgram->SetUniform("LightDiffuse", m_difLight);
+			m_dProgram->SetUniform("LightDir", m_lightDir);
+			m_dProgram->SetUniform("minHeight", minHeight);
+			m_dProgram->SetUniform("maxHeight", maxHeight);
 			glm::mat3 mWorldIT(glm::translate(glm::vec3(0.0f)));
 			mWorldIT = glm::inverse(mWorldIT);
 			mWorldIT = glm::transpose(mWorldIT);
-			g_dProgram->SetUniform("WorldIT", mWorldIT);
+			m_dProgram->SetUniform("WorldIT", mWorldIT);
 			// Set up source data
-			g_pDecl->Bind();
+			m_pDecl->Bind();
 
 			// Draw!
-			glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+			glDrawArrays(GL_TRIANGLES, 0, m_vertices.size());
 
-			for (int i = 0; i < selections.size(); i++)
+			for (int i = 0; i < m_selections.size(); i++)
 			{
-				selections.at(i)->Render(projview);
+				m_selections.at(i)->Render(projview);
 			}
 		}
 		if (type == wolf::RenderFilterTransparent) {
@@ -934,32 +938,36 @@ void HexGrid::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMat
 				m_particleEffectsNoBillboard[i]->Render(m_particleProjMatrix, type);
 		}
 	}
-	for (int i = 0; i < trees.size(); i++)
+	for (int i = 0; i < m_trees.size(); i++)
 	{
-		if (trees.at(i)->getTransform()[3][1] - 1.0 < maxHeight)
-			trees.at(i)->render(projview, glm::mat4(), lightSpaceMatrix, type, shadowPass, depthMapTexture, false);
+		if (m_trees.at(i)->getTransform()[3][1] - 1.0 < maxHeight)
+			m_trees.at(i)->render(projview, glm::mat4(), lightSpaceMatrix, type, shadowPass, depthMapTexture, false);
 	}
-	for (int i = 0; i < rocks.size(); i++)
+	for (int i = 0; i < m_rocks.size(); i++)
 	{
-		rocks.at(i)->render(projview, glm::mat4(), lightSpaceMatrix, type, shadowPass, depthMapTexture, true, minHeight, maxHeight);
+		m_rocks.at(i)->render(projview, glm::mat4(), lightSpaceMatrix, type, shadowPass, depthMapTexture, true, minHeight, maxHeight);
 	}
 }
 
+//Method to Return Heights
 std::vector<float> HexGrid::GetHeights()
 {
-	return heights;
+	return m_heights;
 }
 
+//Method to Return Position Data
 std::vector<glm::vec2> HexGrid::GetPos()
 {
-	return positions;
+	return m_positions;
 }
 
+//Method to get size of map
 int HexGrid::GetSize()
 {
-	return heights.size();
+	return m_heights.size();
 }
 
+//Method to Generate JSON File to use for PathFinding Algorithm
 void HexGrid::GenerateHexJSON(int width, int length, float tileWidth)
 {
 	std::ofstream outputFile;
@@ -968,68 +976,68 @@ void HexGrid::GenerateHexJSON(int width, int length, float tileWidth)
 
 	std::string currAdd = "";
 
-	for (int i = 0; i < positions.size(); i++)
+	for (int i = 0; i < m_positions.size(); i++)
 	{
-		if (std::find(mountains.begin(), mountains.end(), i) == mountains.end())
+		if (std::find(m_mountains.begin(), m_mountains.end(), i) == m_mountains.end())
 		{
-			workables.push_back(i);
+			m_workables.push_back(i);
 		}
 	}
 
-	for (int i = 0; i < workables.size(); i++)
+	for (int i = 0; i < m_workables.size(); i++)
 	{
-		if (i < workables.size() - 1)
+		if (i < m_workables.size() - 1)
 		{
-			outputFile << "{\"ID\":\"" << i << "\",\"X\":\"" << positions.at(workables.at(i)).x << "\",\"Y\":\"0\",\"Z\":\"" << positions.at(workables.at(i)).y << "\"},\n";
+			outputFile << "{\"ID\":\"" << i << "\",\"X\":\"" << m_positions.at(m_workables.at(i)).x << "\",\"Y\":\"0\",\"Z\":\"" << m_positions.at(m_workables.at(i)).y << "\"},\n";
 		}
-		else if (i == workables.size() - 1)
+		else if (i == m_workables.size() - 1)
 		{
-			outputFile << "{\"ID\":\"" << i << "\",\"X\":\"" << positions.at(workables.at(i)).x << "\",\"Y\":\"0\",\"Z\":\"" << positions.at(workables.at(i)).y << "\"}],\n\"Arcs\":[\n";
+			outputFile << "{\"ID\":\"" << i << "\",\"X\":\"" << m_positions.at(m_workables.at(i)).x << "\",\"Y\":\"0\",\"Z\":\"" << m_positions.at(m_workables.at(i)).y << "\"}],\n\"Arcs\":[\n";
 		}
 	}
 
-	for (int i = 0; i < workables.size(); i++)
+	for (int i = 0; i < m_workables.size(); i++)
 	{
-		if (WithinSameLine(workables.at(i), workables.at(i) + 1, width) && std::find(mountains.begin(), mountains.end(), workables.at(i) + 1) == mountains.end() && WithinBounds(workables.at(i) + 1))
+		if (WithinSameLine(m_workables.at(i), m_workables.at(i) + 1, width) && std::find(m_mountains.begin(), m_mountains.end(), m_workables.at(i) + 1) == m_mountains.end() && WithinBounds(m_workables.at(i) + 1))
 		{
 			//to the right
 			int endNode = -1;
-			for (int j = 0; j < workables.size(); j++)
+			for (int j = 0; j < m_workables.size(); j++)
 			{
-				if (workables.at(j) == workables.at(i) + 1)
+				if (m_workables.at(j) == m_workables.at(i) + 1)
 					endNode = j;
 			}
-			if (endNode != -1 && endNode < workables.size())
+			if (endNode != -1 && endNode < m_workables.size())
 			{
 				currAdd = currAdd + "{\"start\":\"" + std::to_string(i) + "\",\"end\":\"" + std::to_string(endNode) + "\"},\n";
 			}
 		}
 
-		if (WithinLineBelow(workables.at(i), workables.at(i) + width - 1, width) && std::find(mountains.begin(), mountains.end(), workables.at(i) + width - 1) == mountains.end() && WithinBounds(workables.at(i) + width - 1))
+		if (WithinLineBelow(m_workables.at(i), m_workables.at(i) + width - 1, width) && std::find(m_mountains.begin(), m_mountains.end(), m_workables.at(i) + width - 1) == m_mountains.end() && WithinBounds(m_workables.at(i) + width - 1))
 		{
 			//bottom left
 			int endNode = -1;
-			for (int j = 0; j < workables.size(); j++)
+			for (int j = 0; j < m_workables.size(); j++)
 			{
-				if (workables.at(j) == workables.at(i) + width - 1)
+				if (m_workables.at(j) == m_workables.at(i) + width - 1)
 					endNode = j;
 			}
-			if (endNode != -1 && endNode < workables.size())
+			if (endNode != -1 && endNode < m_workables.size())
 			{
 				currAdd = currAdd + "{\"start\":\"" + std::to_string(i) + "\",\"end\":\"" + std::to_string(endNode) + "\"},\n";
 			}
 		}
 
-		if (WithinLineBelow(workables.at(i), workables.at(i) + width, width) && std::find(mountains.begin(), mountains.end(), workables.at(i) + width) == mountains.end() && WithinBounds(workables.at(i) + width))
+		if (WithinLineBelow(m_workables.at(i), m_workables.at(i) + width, width) && std::find(m_mountains.begin(), m_mountains.end(), m_workables.at(i) + width) == m_mountains.end() && WithinBounds(m_workables.at(i) + width))
 		{
 			//bottom right
 			int endNode = -1;
-			for (int j = 0; j < workables.size(); j++)
+			for (int j = 0; j < m_workables.size(); j++)
 			{
-				if (workables.at(j) == workables.at(i) + width)
+				if (m_workables.at(j) == m_workables.at(i) + width)
 					endNode = j;
 			}
-			if (endNode != -1 && endNode < workables.size())
+			if (endNode != -1 && endNode < m_workables.size())
 			{
 				currAdd = currAdd + "{\"start\":\"" + std::to_string(i) + "\",\"end\":\"" + std::to_string(endNode) + "\"},\n";
 			}
@@ -1043,6 +1051,7 @@ void HexGrid::GenerateHexJSON(int width, int length, float tileWidth)
 
 }
 
+//Checks whether two tiles are within the same line on a hexgrid
 bool HexGrid::WithinSameLine(int tile1, int tile2, int width)
 {
 	//Within same pair of rows at least
@@ -1063,6 +1072,7 @@ bool HexGrid::WithinSameLine(int tile1, int tile2, int width)
 	return false;
 }
 
+//Checks whether tiles are on two different lines on a hexgrid
 bool HexGrid::WithinLineBelow(int tile1, int tile2, int width)
 {
 	//capable of being within two rows
@@ -1083,42 +1093,48 @@ bool HexGrid::WithinLineBelow(int tile1, int tile2, int width)
 	return false;
 }
 
+//Checks whether a tile is within the hexgrid
 bool HexGrid::WithinBounds(int tile)
 {
-	if (tile < positions.size())
+	if (tile < m_positions.size())
 		return true;
 
 	return false;
 }
 
+//Method to start targeting
 void HexGrid::StartTargeting(int target, int max)
 {
-	targeting = true;
-	targetingT = target;
-	targetingMax = max;
+	m_targeting = true;
+	m_targetingT = target;
+	m_targetingMax = max;
 }
 
+//Method to stop targeting
 void HexGrid::StopTargeting()
 {
-	targeting = false;
-	targetingT = -1;
+	m_targeting = false;
+	m_targetingT = -1;
 }
 
+//Update
 void HexGrid::Update(int target, float delta)
 {
+	//Shows an indicator of which tile is being hovered over
+	//When left clicked, will show a path from targeted tile to the one being hovered over then
 	if (target != -1) {
-		abstractTarget = target;
+		m_abstractTarget = target;
 
-		if (lastFrame != target)
+		if (m_lastFrame != target)
 		{
-			changed = true;
+			m_changed = true;
 		}
 
-		if (targeting)
+		if (m_targeting)
 		{
-			if (changed)
+			if (m_changed)
 			{
-				std::list<glm::vec3> path = pathFinder->Instance()->FindPath(glm::vec3(positions.at(targetingT).x, 0.0f, positions.at(targetingT).y), glm::vec3(positions.at(target).x, 0.0f, positions.at(target).y));
+				std::list<glm::vec3> path = m_pathFinder->Instance()->FindPath(glm::vec3(m_positions.at(m_targetingT).x, 0.0f, m_positions.at(m_targetingT).y), glm::vec3(m_positions.at(target).x, 0.0f, m_positions.at(target).y));
 				std::vector<glm::vec3> pathway;
 
 				for (auto node : path)
@@ -1127,11 +1143,11 @@ void HexGrid::Update(int target, float delta)
 				}
 
 				std::vector<int> tiles;
-				for (int i = 0; i < pathway.size() && i < targetingMax; i++)
+				for (int i = 0; i < pathway.size() && i < m_targetingMax; i++)
 				{
-					for (int j = 0; j < positions.size(); j++)
+					for (int j = 0; j < m_positions.size(); j++)
 					{
-						if (cmpf(positions.at(j).x, pathway.at(i).x) && cmpf(positions.at(j).y, pathway.at(i).z))
+						if (cmpf(m_positions.at(j).x, pathway.at(i).x) && cmpf(m_positions.at(j).y, pathway.at(i).z))
 						{
 							tiles.push_back(j);
 						}
@@ -1143,14 +1159,14 @@ void HexGrid::Update(int target, float delta)
 
 				for (int i = 1; i < tiles.size(); i++)
 				{
-					if (pSize <= targetingMax)
+					if (pSize <= m_targetingMax)
 					{
 						if (isDesert(tiles.at(i)))
 							pSize += 2;
 						else
 							pSize += 1;
 					}
-					if (pSize >= targetingMax)
+					if (pSize >= m_targetingMax)
 					{
 						if (i < endViable)
 							endViable = i;
@@ -1163,34 +1179,34 @@ void HexGrid::Update(int target, float delta)
 					for (int i = 0; i < tileSize - endViable; i++)
 						tiles.pop_back();
 
-				while (tiles.size() > selections.size())
+				while (tiles.size() > m_selections.size())
 				{
 					HexSelector* selector = new HexSelector(5.0f);
-					selections.push_back(selector);
+					m_selections.push_back(selector);
 				}
 
-				while (tiles.size() < selections.size())
+				while (tiles.size() < m_selections.size())
 				{
-					delete selections.at(selections.size() - 1);
-					selections.erase(selections.end() - 1);
+					delete m_selections.at(m_selections.size() - 1);
+					m_selections.erase(m_selections.end() - 1);
 				}
 
-				for (int i = 0; i < selections.size(); i++)
+				for (int i = 0; i < m_selections.size(); i++)
 				{
-					selections.at(i)->Update(tiles.at(i), positions.at(tiles.at(i)), heights.at(tiles.at(i)));
+					m_selections.at(i)->Update(tiles.at(i), m_positions.at(tiles.at(i)), m_heights.at(tiles.at(i)));
 				}
-				changed = false;
+				m_changed = false;
 			}
 		}
 		else
 		{
-			for (int i = 0; i < selections.size(); i++)
+			for (int i = 0; i < m_selections.size(); i++)
 			{
-				delete selections.at(0);
-				selections.erase(selections.begin());
+				delete m_selections.at(0);
+				m_selections.erase(m_selections.begin());
 			}
 		}
-		lastFrame = target;
+		m_lastFrame = target;
 	}
 
 	for (int i = 0; i < m_particleEffects.size(); i++) {
@@ -1201,17 +1217,19 @@ void HexGrid::Update(int target, float delta)
 	}
 }
 
+//Check whether floats are comparable within a value
 bool HexGrid::cmpf(float a, float b)
 {
 	return (fabs(a - b) < EPSILON_VALUE);
 }
 
+//Method to get a pathway given a starting tile and ending tile
 std::vector<int> HexGrid::GetPathway(int startTarget, int endTarget)
 {
 	if (startTarget == -1 || endTarget == -1)
 		return std::vector<int>();
 
-	std::list<glm::vec3> path = pathFinder->Instance()->FindPath(glm::vec3(positions.at(startTarget).x, 0.0f, positions.at(startTarget).y), glm::vec3(positions.at(endTarget).x, 0.0f, positions.at(endTarget).y));
+	std::list<glm::vec3> path = m_pathFinder->Instance()->FindPath(glm::vec3(m_positions.at(startTarget).x, 0.0f, m_positions.at(startTarget).y), glm::vec3(m_positions.at(endTarget).x, 0.0f, m_positions.at(endTarget).y));
 	std::vector<glm::vec3> pathway;
 
 	for (auto node : path)
@@ -1222,9 +1240,9 @@ std::vector<int> HexGrid::GetPathway(int startTarget, int endTarget)
 	std::vector<int> tiles;
 	for (int i = 0; i < pathway.size(); i++)
 	{
-		for (int j = 0; j < positions.size(); j++)
+		for (int j = 0; j < m_positions.size(); j++)
 		{
-			if (cmpf(positions.at(j).x, pathway.at(i).x) && cmpf(positions.at(j).y, pathway.at(i).z))
+			if (cmpf(m_positions.at(j).x, pathway.at(i).x) && cmpf(m_positions.at(j).y, pathway.at(i).z))
 			{
 				tiles.push_back(j);
 			}
@@ -1234,56 +1252,65 @@ std::vector<int> HexGrid::GetPathway(int startTarget, int endTarget)
 	return tiles;
 }
 
+//Method to check whether a tile is a mountain
 bool HexGrid::isMountain(int pos)
 {
-	for (int i = 0; i < mountains.size(); i++)
-		if (mountains[i] == pos)
+	for (int i = 0; i < m_mountains.size(); i++)
+		if (m_mountains[i] == pos)
 			return true;
 
 	return false;
 }
 
+//Method to check whether a tile is a desert
 bool HexGrid::isDesert(int pos)
 {
-	for (int i = 0; i < desert.size(); i++)
-		if (desert[i] == pos)
+	for (int i = 0; i < m_desert.size(); i++)
+		if (m_desert[i] == pos)
 			return true;
 
 	return false;
 }
 
+//Method to block a node based on its position
+//Used to block tiles for pathfinding
 void HexGrid::BlockNodePositions(glm::vec3 p_nodePos)
 {
-	pathFinder->Instance()->BlockNode(p_nodePos);
+	m_pathFinder->Instance()->BlockNode(p_nodePos);
 }
 
+//Clears blocked tiles from pathfinding
 void HexGrid::ClearBlocks()
 {
-	pathFinder->Instance()->ClearBlockedNodes();
+	m_pathFinder->Instance()->ClearBlockedNodes();
 }
 
+//Sets current Light Direction
 void HexGrid::SetLightDir(glm::vec3 dir)
 {
-	for (int i = 0; i < trees.size(); i++)
+	for (int i = 0; i < m_trees.size(); i++)
 	{
-		trees.at(i)->setLightDir(dir);
+		m_trees.at(i)->setLightDir(dir);
 	}
-	lightDir = dir;
+	m_lightDir = dir;
 }
 
+//Sets Diffuse Light Color
 void HexGrid::SetDiffuse(glm::vec4 dif)
 {
-	difLight = dif;
+	m_difLight = dif;
 }
 
+//Sets Ambient Light Color
 void HexGrid::SetAmbient(glm::vec4 amb)
 {
-	ambLight = amb;
+	m_ambLight = amb;
 }
 
+//Method to check whether a tile is on the border of the map or not
 bool HexGrid::isBorder(int tile)
 {
-	if ((tile >= 0 && tile < m_width) || (tile < positions.size() && tile > positions.size() - m_width))
+	if ((tile >= 0 && tile < m_width) || (tile < m_positions.size() && tile > m_positions.size() - m_width))
 		return true;
 
 	int sum = 0;

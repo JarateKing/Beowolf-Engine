@@ -1,6 +1,7 @@
 #include "PostProcessingQuad.h"
 #include "W_ResourceLoader.h"
 
+//Initialize Shaders and Get Ready for Rendering
 PostProcessingQuad::PostProcessingQuad()
 {
 	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("post_quad"));
@@ -17,13 +18,16 @@ PostProcessingQuad::PostProcessingQuad()
 	g_pDecl->End();
 }
 
+//Deconstructor
 PostProcessingQuad::~PostProcessingQuad()
 {
 
 }
 
+//Render
 void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int postProcessingSharpTex, unsigned int postProcessingBlurTex, unsigned int depthTex, unsigned int depthTex2, std::string effect)
 {
+	//Render with GrayScale Post Processing
 	if (effect.compare("GrayScale") == 0)
 	{
 		if (type == wolf::RenderFilterOpaque) {
@@ -44,6 +48,7 @@ void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type,
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 		}
 	}
+	//Render With Blur Post Processing
 	else if (effect.compare("Blur") == 0)
 	{
 		if (type == wolf::RenderFilterOpaque) {
@@ -63,6 +68,7 @@ void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type,
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 		}
 	}
+	//Render with Depth of Field Post Processing
 	else if (effect.compare("DepthOfField") == 0)
 	{
 		if (type == wolf::RenderFilterOpaque) {
@@ -92,6 +98,7 @@ void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type,
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 		}
 	}
+	//Render with no Post Processing Effect
 	else if (effect.compare("None") == 0)
 	{
 		if (type == wolf::RenderFilterOpaque) {
@@ -113,6 +120,7 @@ void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type,
 	}
 }
 
+//Method to set the percentage of Gray in GrayScale
 void PostProcessingQuad::SetPercentGray(float p_percent)
 {
 	if (p_percent <= 1.0f && p_percent >= 0.0f)

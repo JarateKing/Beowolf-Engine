@@ -17,6 +17,7 @@
 class HexGrid
 {
 public:
+	//Public Methods
 	HexGrid(int width, int length, float tileWidth, float minHeight, float maxHeight, std::string texFile, std::string savedata = "");
 	~HexGrid();
 	void PrintOutLoc();
@@ -39,6 +40,7 @@ public:
 	void StopTargeting();
 
 private:
+	//Private Methods
 	void GenerateLoc(int width, int length, float tileWidth, bool partiallyPregenerated = false);
 	void GenerateHeights(int width, int length, float minHeight, float maxHeight);
 	void GenerateVerts(float tileWidth, float toEdge);
@@ -50,57 +52,52 @@ private:
 	bool WithinBounds(int tile);
 	bool isBorder(int tile);
 
-	float minH, maxH;
+	//Private Variables
+	week9::AIPathfinder* m_pathFinder;
+	wolf::Texture* m_pTex;
+	wolf::Texture* m_pTex2;
+	wolf::BMWModel* m_test;
 
-	week9::AIPathfinder* pathFinder;
-	wolf::Texture* pTex;
-	wolf::Texture* pTex2;
-	wolf::BMWModel* test;
-	std::vector<wolf::BMWModel*> trees;
-	std::vector<wolf::BMWModel*> rocks;
-	std::vector<HexSelector*> selections;
-	std::vector<int> selectionTabs;
+	std::vector<wolf::BMWModel*> m_trees;
+	std::vector<wolf::BMWModel*> m_rocks;
+	std::vector<HexSelector*> m_selections;
+	std::vector<int> m_selectionTabs;
+	std::vector<glm::vec3> m_rockPos;
+	std::vector<glm::mat4> m_rockTRS;
+	std::vector<int> m_roads;
+	std::vector<int> m_mountains;
+	std::vector<int> m_desert;
+	std::vector<int> m_grass;
+	std::vector<int> m_workables;
+	std::vector<glm::vec2> m_positions;
+	std::vector<float> m_heights;
+	std::vector<wolf::Vertex> m_vertices;
 
-	std::vector<glm::vec3> rockPos;
-	std::vector<glm::mat4> rockTRS;
-
-	std::vector<int> roads;
-	std::vector<int> mountains;
-	std::vector<int> desert;
-	std::vector<int> grass;
-
-	std::vector<int> workables;
-
-	std::vector<glm::vec2> positions;
-	std::vector<float> heights;
-
-	wolf::Vertex verts[12];
+	wolf::Vertex m_verts[12];
 	wolf::Vertex p_verts[4000000];
-	std::vector<wolf::Vertex> vertices;
-
-	wolf::VertexBuffer* g_pVB;
-	wolf::VertexDeclaration* g_pDecl;
-	wolf::Program* g_dProgram;
-	wolf::Program* g_dShadowProgram;
+	wolf::VertexBuffer* m_pVB;
+	wolf::VertexDeclaration* m_pDecl;
+	wolf::Program* m_dProgram;
+	wolf::Program* m_dShadowProgram;
 	
-	glm::vec4 ambLight = glm::vec4(1, 1, 1, 1);
-	glm::vec4 difLight = glm::vec4(1, 1, 1, 1);
-	glm::vec3 lightDir = glm::vec3(1, 1, 1);
+	glm::vec4 m_ambLight = glm::vec4(1, 1, 1, 1);
+	glm::vec4 m_difLight = glm::vec4(1, 1, 1, 1);
+	glm::vec3 m_lightDir = glm::vec3(1, 1, 1);
 
 	std::vector<Effect*> m_particleEffects;
 	std::vector<Effect*> m_particleEffectsNoBillboard;
 	glm::mat4 m_particleProjMatrix;
 	glm::mat4 m_particleProjMatrixNoBillboard;
 
-	bool targeting = false;
-	bool changed = true;
-	int targetingT = -1;
-	int abstractTarget = -1;
-	int lastFrame = -1;
-	int targetingMax;
-
+	bool m_targeting = false;
+	bool m_changed = true;
+	int m_targetingT = -1;
+	int m_abstractTarget = -1;
+	int m_lastFrame = -1;
+	int m_targetingMax;
 	int m_width;
 	int m_height;
+	float m_minH, m_maxH;
 };
 
 #endif
