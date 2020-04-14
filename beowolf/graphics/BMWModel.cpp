@@ -9,7 +9,7 @@
 
 namespace wolf
 {
-	BMWModel::BMWModel(std::string file, std::string vertexShader, std::string pixelShader, std::string shadowVertexShader, std::string shadowPixelShader)
+	BMWModel::BMWModel(const std::string& file, const std::string& vertexShader, const std::string& pixelShader, const std::string& shadowVertexShader, const std::string& shadowPixelShader)
 	{
 		BMWModeLData* data = BMWLoader::getInstance().loadFile(file);
 
@@ -228,11 +228,11 @@ namespace wolf
 		return transform;
 	}
 
-	void BMWModel::setTransform(glm::mat4 transform) {
+	void BMWModel::setTransform(const glm::mat4& transform) {
 		this->transform = transform * m_transformModel;
 	}
 
-	void BMWModel::setAnim(std::string name) {
+	void BMWModel::setAnim(const std::string& name) {
 		if (m_hasAnimations && m_animFrames->count(name)) {
 			m_currentAnimation = (*m_animFrames)[name];
 			m_animationFrame = m_currentAnimation->start;
@@ -247,39 +247,39 @@ namespace wolf
 		}
 	}
 
-	void BMWModel::setModelColor(glm::vec3 color) {
+	void BMWModel::setModelColor(const glm::vec3& color) {
 		m_modelColor = color;
 	}
 
-	void BMWModel::setModelAdditive(glm::vec3 color) {
+	void BMWModel::setModelAdditive(const glm::vec3& color) {
 		m_modelAdditive = color;
 	}
 
-	void BMWModel::setModelFilter(glm::vec3 color) {
+	void BMWModel::setModelFilter(const glm::vec3& color) {
 		m_modelFilter = color;
 	}
 
-	void BMWModel::setLightAmbient(glm::vec4 light) {
+	void BMWModel::setLightAmbient(const glm::vec4& light) {
 		m_lightAmbient = light;
 	}
 
-	void BMWModel::setLightDiffuse(glm::vec4 light) {
+	void BMWModel::setLightDiffuse(const glm::vec4& light) {
 		m_lightDiffuse = light;
 	}
 
-	void BMWModel::setLightSpecular(glm::vec4 light) {
+	void BMWModel::setLightSpecular(const glm::vec4& light) {
 		m_lightSpecular = light;
 	}
 
-	void BMWModel::setLightDir(glm::vec3 direction) {
+	void BMWModel::setLightDir(const glm::vec3& direction) {
 		m_lightDir = direction;
 	}
 
-	void BMWModel::setViewDir(glm::vec3 direction) {
+	void BMWModel::setViewDir(const glm::vec3& direction) {
 		m_viewDir = direction;
 	}
 
-	void BMWModel::setInstancedVariable(std::vector<glm::mat4> instancedV)
+	void BMWModel::setInstancedVariable(const std::vector<glm::mat4>& instancedV)
 	{
 		for (int i = 0; i < instancedV.size(); i++)
 		{
