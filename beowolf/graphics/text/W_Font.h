@@ -20,7 +20,7 @@ namespace wolf
 	public:
 		Font(const std::string& dir, const std::string& file);
 		~Font();
-		wolf::Texture* GetTexture(int number);
+		wolf::Texture* GetTexture(const int& number);
 		int GetTextureNum(const char& input);
 		int GetTotalTextures();
 		float GetCharX1(const char& input);

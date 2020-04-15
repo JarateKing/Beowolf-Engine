@@ -23,6 +23,7 @@ extern "C" FILE * __cdecl __iob_func(void)
 }
 //========================================================================
 
+// setup render target
 void InitializeRenderTarget(unsigned int* frameBuf, unsigned int* tex, unsigned int width, unsigned int height, int blendType, int format) {
 	glGenFramebuffers(1, frameBuf);
 	glGenTextures(1, tex);
@@ -42,11 +43,10 @@ void InitializeRenderTarget(unsigned int* frameBuf, unsigned int* tex, unsigned 
 
 	glBindFramebuffer(GL_FRAMEBUFFER, *frameBuf);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, *tex, 0);
-	//glDrawBuffer(GL_NONE);
-	//glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+// setup render target, with render buffer
 void InitializeRenderTarget(unsigned int* frameBuf, unsigned int* tex, unsigned int* renderBuf, unsigned int width, unsigned int height, int blendType, int format) {
 	glGenFramebuffers(1, frameBuf);
 	glGenTextures(1, tex);
@@ -77,6 +77,7 @@ void InitializeRenderTarget(unsigned int* frameBuf, unsigned int* tex, unsigned 
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
 
+// bind and render the scene to render target
 void RenderTarget(Scene* scene, unsigned int frameBuf, unsigned int width, unsigned int height, unsigned int clearBits, wolf::RenderTarget target) {
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuf);
 	glViewport(0, 0, width, height);
@@ -185,7 +186,7 @@ void updateGameLogic(Scene* scene)
 
 int main()
 {
-    setupGraphics("Example", 1280, 720);
+    setupGraphics("Desktop Deities", 1280, 720);
     
 	BaseScene* scene = new BaseScene();
 	scene->Init();

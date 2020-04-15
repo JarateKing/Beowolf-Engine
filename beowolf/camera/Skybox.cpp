@@ -16,14 +16,17 @@ Skybox::Skybox()
 
 Skybox::~Skybox()
 {
-
+	delete g_pDecl;
+	wolf::ProgramManager::DestroyProgram(g_dProgram);
+	wolf::BufferManager::DestroyBuffer(g_pVB);
+	wolf::TextureManager::DestroyTexture(m_tex);
 }
 
-void Skybox::SetPos(glm::vec3 pos) {
+void Skybox::SetPos(const glm::vec3& pos) {
 	m_pos = pos;
 }
 
-void Skybox::Render(glm::mat4 projView, wolf::RenderFilterType type)
+void Skybox::Render(const glm::mat4& projView, const wolf::RenderFilterType& type)
 {
 	if (type == wolf::RenderFilterOpaque) {
 		g_dProgram->Bind();

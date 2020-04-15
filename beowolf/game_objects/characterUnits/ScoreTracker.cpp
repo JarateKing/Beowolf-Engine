@@ -29,12 +29,12 @@ ScoreTracker::~ScoreTracker() {
 	
 }
 
-void ScoreTracker::SetScore(int score) {
+void ScoreTracker::SetScore(const int& score) {
 	m_score = score;
 	ApplyToHud();
 }
 
-void ScoreTracker::AddScore(int score) {
+void ScoreTracker::AddScore(const int& score) {
 	m_score += score;
 	ApplyToHud();
 }

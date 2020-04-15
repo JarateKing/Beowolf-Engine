@@ -34,7 +34,7 @@ namespace wolf
 		m_texCount = std::stoi(line);
 		std::getline(fileReader, line);
 	
-		// skip the texture list
+		// get the texture list
 		for (int i = 0; i < m_texCount; i++)
 		{
 			std::getline(fileReader, line, '\"');
@@ -43,11 +43,13 @@ namespace wolf
 			std::getline(fileReader, line);
 		}
 	
-		int charCount = 0;
+		// get the number of characters
 		std::getline(fileReader, line, '=');
 		std::getline(fileReader, line);
+		int charCount = 0;
 		charCount = std::stoi(line);
 	
+		// get the data for each character
 		for (int i = 0; i < charCount; i++)
 		{
 			std::getline(fileReader, line, '=');
@@ -80,7 +82,7 @@ namespace wolf
 		
 	}
 	
-	wolf::Texture* Font::GetTexture(int number)
+	wolf::Texture* Font::GetTexture(const int& number)
 	{
 		if (number >= m_textures.size())
 			return NULL;

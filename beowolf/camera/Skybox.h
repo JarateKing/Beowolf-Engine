@@ -15,8 +15,8 @@ public:
 
 	Skybox();
 	~Skybox();
-	void Render(glm::mat4 projView, wolf::RenderFilterType type);
-	void SetPos(glm::vec3 pos);
+	void Render(const glm::mat4& projView, const wolf::RenderFilterType& type);
+	void SetPos(const glm::vec3& pos);
 
 private:
 

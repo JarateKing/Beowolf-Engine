@@ -19,7 +19,7 @@ public:
 	void Update(float delta);
 
 	State GetState();
-	void SetState(State state);
+	void SetState(const State& state);
 	void SetCharacterManager(CharacterManager* charMan);
 	void SetSoundEngine(wolf::SoundEngine* soundEng);
 	void SetHud(wolf::Hud* hud);

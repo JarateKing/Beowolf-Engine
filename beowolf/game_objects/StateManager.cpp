@@ -11,6 +11,7 @@ void StateManager::Update(float delta) {
 	static float time = 0;
 	static bool movingcamera = false;
 
+	// move-in camera when first starting the game
 	if (movingcamera) {
 		time += delta;
 
@@ -27,6 +28,7 @@ void StateManager::Update(float delta) {
 				element->SetAlpha(wolf::Math::easeOut(time / 1.5));
 	}
 
+	// check for state change conditions
 	if (m_charManager != nullptr && m_hud != nullptr) {
 		if (m_currentState == State::GamestateMainMenu) {
 			if (wolf::Keybind::Instance().getBind("startgame") || ((wolf::HudButton*)m_hud->GetElement("MM_Start_Button"))->IsClicked() || (((wolf::HudButton*)m_hud->GetElement("MM_Load_Button"))->IsClicked() && m_hud->GetElement("MM_Load_Button")->GetVisible())) {
@@ -121,9 +123,10 @@ State StateManager::GetState() {
 	return m_currentState;
 }
 
-void StateManager::SetState(State state) {
+void StateManager::SetState(const State& state) {
 	m_currentState = state;
 
+	// apply new state effects
 	if (m_charManager != nullptr) {
 		if (m_currentState == State::GamestateMainMenu) {
 			for (auto element : m_hud->GetElementsByTag("mainmenu"))
@@ -211,6 +214,7 @@ void StateManager::SetHud(wolf::Hud* hud) {
 
 	m_hud = hud;
 
+	// set default hud state when hud is first set
 	if (m_currentState == State::GamestateMainMenu) {
 		for (auto element : m_hud->GetElementsByTag("mainmenu"))
 			element->SetVisible(true);
@@ -224,16 +228,18 @@ void StateManager::SetHud(wolf::Hud* hud) {
 		for (auto element : m_hud->GetElementsByTag("scoreboard"))
 			element->SetVisible(false);
 	}
-
-	if (m_currentState == State::GamestatePlayerTurn)
+	else if (m_currentState == State::GamestatePlayerTurn) {
 		m_hud->SetVar("whoseturn", "Player's");
-	else if (m_currentState == State::GamestateEnemyTurn)
+	}
+	else if (m_currentState == State::GamestateEnemyTurn) {
 		m_hud->SetVar("whoseturn", "Enemies'");
+	}
 }
 
 void StateManager::SetCamera(Camera* cam) {
 	m_cam = cam;
 
+	// change camera angle upwards
 	if (m_currentState == State::GamestateMainMenu) {
 		m_cam->SetVerticleAngle(0.5);
 		m_cam->ForceAngleUpdate();

@@ -11,8 +11,9 @@
 #include <fstream>
 #include <iostream>
 
-namespace wolf {
-
+namespace wolf
+{
+	// sort by element's zpos
 	bool zSortCompare(HudElement* a, HudElement* b) {
 		return a->GetZ() < b->GetZ();
 	}
@@ -27,17 +28,20 @@ namespace wolf {
 			std::string jsonFileData = jsonFileStream.str();
 			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
 
+			// load in localization files
 			if (jsonData.contains("localization")) {
 				for (auto localization : jsonData["localization"]) {
 					m_localization->Load(localization["file"]);
 				}
 			}
 
+			// load in default localization setting
 			if (jsonData.contains("defaultLanguage"))
 				m_localization->SetLanguage(jsonData["defaultLanguage"]);
 			else
 				m_localization->SetLanguage("ENGLISH");
 
+			// load in fonts
 			if (jsonData.contains("fonts")) {
 				for (auto font : jsonData["fonts"]) {
 					std::string fontName = font["name"];
@@ -47,6 +51,7 @@ namespace wolf {
 				}
 			}
 
+			// load in elements
 			if (jsonData.contains("elements")) {
 				for (auto element : jsonData["elements"]) {
 					std::string elementName = "";
@@ -229,6 +234,7 @@ namespace wolf {
 	}
 
 	void Hud::Update(const float& p_fDelta) {
+		// sort by z, if potentially unsorted
 		if (m_prevElementsSize != m_elements.size()) {
 			std::stable_sort(m_elements.begin(), m_elements.end(), zSortCompare);
 			m_prevElementsSize = m_elements.size();
@@ -252,7 +258,6 @@ namespace wolf {
 			return m_elementNames[name];
 
 		std::cout << "Hud element \"" << name << "\" not found!\n";
-
 		return nullptr;
 	}
 
