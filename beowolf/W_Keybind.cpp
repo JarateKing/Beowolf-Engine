@@ -3,11 +3,12 @@
 #include <sstream>
 #include <fstream>
 
-std::string bindNames[] = { "pressed", "held", "released", "unheld" };
+const std::string bindNames[] = { "pressed", "held", "released", "unheld" };
 
 namespace wolf
 {
-	void Keybind::addBinds(std::string jsonfile) {
+	// add all binds from json file
+	void Keybind::addBinds(const std::string& jsonfile) {
 		std::ifstream jsonIn(jsonfile);
 		if (jsonIn) {
 			std::stringstream jsonFileStream;
@@ -22,7 +23,8 @@ namespace wolf
 		}
 	}
 
-	bool Keybind::getBind(std::string bind) {
+	// check whether the bind is currently applying
+	bool Keybind::getBind(const std::string& bind) {
 		for (int i = 0; i < 4; i++)
 			for (auto key : m_bind[i][bind])
 				if (functionSwitch((InputType)m_keymap[key].first, (BindType)i, m_keymap[key].second))
@@ -31,7 +33,8 @@ namespace wolf
 		return false;
 	}
 
-	bool Keybind::functionSwitch(InputType input, BindType bind, int key) {
+	// apply the necessary function for each input/bind type combination
+	bool Keybind::functionSwitch(const InputType& input, const BindType& bind, const int& key) {
 		wolf::Input* instance = &(wolf::Input::Instance());
 		
 		if (input == InputType::Keyboard) {

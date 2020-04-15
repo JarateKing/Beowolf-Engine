@@ -89,6 +89,7 @@ namespace wolf
 		static const int MAXCONTROLLERBUTTONS = 10;
 		float controlleraxis[MAXCONTROLLERAXIS] = { 0 };
 		double controllerbuttons[MAXCONTROLLERBUTTONS] = { 0 };
+		unsigned char* m_buttons = new unsigned char[MAXCONTROLLERBUTTONS];
 
 		// time afk
 		double timeAfk;

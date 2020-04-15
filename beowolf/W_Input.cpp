@@ -62,24 +62,29 @@ namespace wolf
 		if (mpos_current != mpos_last)
 			isAfk = false;
 
+		// update controller axis
+		int axisnum = glfwGetJoystickPos(0, controlleraxis, MAXCONTROLLERAXIS);
+
+		// update controller buttons
+		int buttonnum = glfwGetJoystickButtons(0, m_buttons, MAXCONTROLLERBUTTONS);
+		for (int i = 0; i < buttonnum; i++) {
+			if (m_buttons[i]) {
+				controllerbuttons[i] = (controllerbuttons[i] == RELEASED) ? delta : controllerbuttons[i] + delta;
+				isAfk = false;
+			}
+			else if (controllerbuttons[i] == RELEASED) {
+				controllerbuttons[i] = 0.0;
+			}
+			else {
+				controllerbuttons[i] = RELEASED;
+			}
+		}
+		
+		// check if afk
 		if (isAfk)
 			timeAfk += delta;
 		else
 			timeAfk = 0;
-
-		int axisnum = glfwGetJoystickPos(0, controlleraxis, MAXCONTROLLERAXIS);
-
-		unsigned char* buttons = new unsigned char[MAXCONTROLLERBUTTONS];
-		int buttonnum = glfwGetJoystickButtons(0, buttons, MAXCONTROLLERBUTTONS);
-		for (int i = 0; i < buttonnum; i++) {
-			if (buttons[i])
-				controllerbuttons[i] = (controllerbuttons[i] == RELEASED) ? delta : controllerbuttons[i] + delta;
-			else if (controllerbuttons[i] == RELEASED)
-				controllerbuttons[i] = 0.0;
-			else
-				controllerbuttons[i] = RELEASED;
-		}
-			
 	}
 
 	double Input::getKey(int key) const
