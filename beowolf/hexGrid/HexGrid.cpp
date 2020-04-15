@@ -169,7 +169,7 @@ HexGrid::HexGrid(const int width, const int length, const float tileWidth, const
 	m_test->setInstancedVariable(m_rockTRS);
 	m_test->setLightAmbient(glm::vec4(0.999f, 0.999f, 0.899f, 1.0f));
 	m_test->setLightDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
-	m_test->setLightDir(glm::vec3(90.0f, 90.0f, 90.0f));
+	m_test->setLightDir(glm::vec3(-90.0f, -90.0f, 180.0f));
 	m_rocks.push_back(m_test);
 
 	// set up rendering
