@@ -5,8 +5,6 @@
 #include <fstream>
 #include <iostream>
 
-const std::vector<std::string> INFO_NAMES = { "HP", "MaxMovement", "MaxAttack", "MinAttack", "Health", "Damage", "Defense" };
-
 //Class used to load and store information about characters including their stats
 
 CharacterInfoHub::CharacterInfoHub()

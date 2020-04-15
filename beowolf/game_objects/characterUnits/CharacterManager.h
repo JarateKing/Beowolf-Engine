@@ -35,10 +35,10 @@ class CharacterManager
 		void SetLightDir(glm::vec3 dir);
 		void PrintCharacterTilePos();
 		void BlockTiles(std::vector<int> tiles);
-		std::string GetCharacterSelected();
+		const std::string GetCharacterSelected() const;
 		std::vector<CharacterUnits>* getCharacters();
 		std::vector<CharacterUnits>* getEnemies();
-		std::vector<Item*>* getItems();
+		const std::vector<Item*>* getItems() const;
 		CharacterInfoHub* GetCharacterHub();
 
 	private:
@@ -79,11 +79,11 @@ class CharacterManager
 		std::vector<Item*> m_items;
 		wolf::Hud* m_hud;
 		wolf::SoundEngine* m_soundEngine;
-		CharacterInfoHub m_characterIHub;
 		HexGrid* m_grid;
 		Camera* m_cam;
 		HexSelector* m_hexSelector;
 		ScoreTracker* m_scoreTracker;
+		CharacterInfoHub m_characterIHub;
 };
 
 #endif

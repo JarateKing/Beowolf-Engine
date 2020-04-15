@@ -122,7 +122,17 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::strin
 //Deconstructor
 CharacterManager::~CharacterManager()
 {
-
+	delete m_scoreTracker;
+	delete m_hexSelector;
+	delete m_cam;
+	delete m_grid;
+	delete m_soundEngine;
+	delete m_hud;
+	for (auto it : m_items)
+	{
+		delete it;
+	}
+	m_items.clear();
 }
 
 //Update
@@ -892,7 +902,7 @@ std::vector<int> CharacterManager::PathTowardsClosestHero(int enemyIndex, int le
 }
 
 //Method to get current selected character
-std::string CharacterManager::GetCharacterSelected()
+const std::string CharacterManager::GetCharacterSelected() const 
 {
 	return m_targetName;
 }
@@ -910,7 +920,7 @@ std::vector<CharacterUnits>* CharacterManager::getEnemies()
 }
 
 //Method to get all items
-std::vector<Item*>* CharacterManager::getItems()
+const std::vector<Item*>* CharacterManager::getItems() const
 {
 	return &m_items;
 }

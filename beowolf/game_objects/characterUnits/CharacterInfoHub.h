@@ -34,8 +34,11 @@ class CharacterInfoHub
 
 	private:
 		//Private Methods
-		std::vector<InfoBit> m_infoBits;
 		void PrintOutInfo();
+
+		//Private Variables
+		std::vector<InfoBit> m_infoBits;
+		const std::vector<std::string> INFO_NAMES = { "HP", "MaxMovement", "MaxAttack", "MinAttack", "Health", "Damage", "Defense" };
 };
 
 #endif
