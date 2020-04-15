@@ -354,6 +354,9 @@ void BaseScene::LoadGame() {
 		delete m_hexgrid;
 
 	m_hexgrid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), "savefile.json");
+	m_hexgrid->SetAmbient(glm::vec4(0.999f, 0.999f, 0.899f, 1.0f));
+	m_hexgrid->SetDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
+	m_hexgrid->SetLightDir(m_lightDir);
 
 	if (m_selector != NULL)
 		delete m_selector;
@@ -364,6 +367,7 @@ void BaseScene::LoadGame() {
 		delete m_characterManager;
 
 	m_characterManager = new CharacterManager(m_hexgrid, m_hud, "savefile.json");
+	m_characterManager->SetLightDir(m_lightDir);
 
 	StateManager::getInstance().SetCharacterManager(m_characterManager);
 
