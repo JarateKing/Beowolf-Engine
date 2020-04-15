@@ -205,7 +205,32 @@ HexGrid::HexGrid(const int width, const int length, const float tileWidth, const
 //Deconstructor
 HexGrid::~HexGrid()
 {
+	wolf::BufferManager::DestroyBuffer(m_pVB);
+	wolf::ProgramManager::DestroyProgram(m_dProgram);
+	wolf::ProgramManager::DestroyProgram(m_dShadowProgram);
+	m_pathFinder->DestroyInstance();
 
+	if(m_pTex != NULL)
+		wolf::TextureManager().DestroyTexture(m_pTex);
+
+	if(m_pTex2 != NULL)
+		wolf::TextureManager().DestroyTexture(m_pTex2);
+	delete m_test;
+
+	for (auto it : m_selections){
+		delete it;
+	}
+	m_selections.clear();
+
+	for (auto it : m_particleEffects) {
+		delete it;
+	}
+	m_selections.clear();
+
+	for (auto it : m_particleEffectsNoBillboard) {
+		delete it;
+	}
+	m_selections.clear();
 }
 
 //Generate the Heights for each Hex Tile Randomly

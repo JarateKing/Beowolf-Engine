@@ -22,7 +22,8 @@ HexSelector::HexSelector(float tileWidth)
 //Deconstructor
 HexSelector::~HexSelector()
 {
-	delete m_pDecl;
+	if(m_pDecl)
+		delete m_pDecl;
 	wolf::BufferManager::DestroyBuffer(m_pVB);
 	wolf::ProgramManager::DestroyProgram(m_dProgram);
 }

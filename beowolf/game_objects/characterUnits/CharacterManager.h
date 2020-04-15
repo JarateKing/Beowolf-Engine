@@ -77,12 +77,12 @@ class CharacterManager
 		std::vector<CharacterUnits> m_characters;
 		std::vector<CharacterUnits> m_enemies;
 		std::vector<Item*> m_items;
-		wolf::Hud* m_hud;
-		wolf::SoundEngine* m_soundEngine;
-		HexGrid* m_grid;
-		Camera* m_cam;
-		HexSelector* m_hexSelector;
-		ScoreTracker* m_scoreTracker;
+		wolf::Hud* m_hud = NULL;
+		wolf::SoundEngine* m_soundEngine = NULL;
+		HexGrid* m_grid = NULL;
+		Camera* m_cam = NULL;
+		HexSelector* m_hexSelector = NULL;
+		ScoreTracker* m_scoreTracker = NULL;
 		CharacterInfoHub m_characterIHub;
 };
 

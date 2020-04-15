@@ -45,7 +45,6 @@ CharacterUnits::CharacterUnits(const std::string p_bmwFile, const std::string p_
 //Deconstructor
 CharacterUnits::~CharacterUnits()
 {
-	//TODO
 }
 
 //Sets Lighting for the unit

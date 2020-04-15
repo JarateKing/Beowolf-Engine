@@ -84,11 +84,11 @@ class CharacterUnits
 		glm::mat4 m_particleProjMatrix;
 		glm::mat4 m_particleProjMatrixNoBillboard;
 		week2::ComponentHexPos m_pos;
-		wolf::BMWModel* m_model;
-		wolf::SoundEngine* m_soundEngine;
-		CooldownIndicator* m_cooldown;
-		Healthbar* m_healthbar;
-		const HexGrid* m_grid;	
+		wolf::BMWModel* m_model = NULL;
+		wolf::SoundEngine* m_soundEngine = NULL;
+		CooldownIndicator* m_cooldown = NULL;
+		Healthbar* m_healthbar = NULL;
+		const HexGrid* m_grid;
 };
 
 #endif

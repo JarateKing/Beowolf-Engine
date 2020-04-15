@@ -53,10 +53,10 @@ private:
 	bool isBorder(int tile);
 
 	//Private Variables
-	week9::AIPathfinder* m_pathFinder;
-	wolf::Texture* m_pTex;
-	wolf::Texture* m_pTex2;
-	wolf::BMWModel* m_test;
+	week9::AIPathfinder* m_pathFinder = NULL;
+	wolf::Texture* m_pTex = NULL;
+	wolf::Texture* m_pTex2 = NULL;
+	wolf::BMWModel* m_test = NULL;
 
 	std::vector<wolf::BMWModel*> m_trees;
 	std::vector<wolf::BMWModel*> m_rocks;
@@ -75,10 +75,10 @@ private:
 
 	wolf::Vertex m_verts[12];
 	wolf::Vertex p_verts[4000000];
-	wolf::VertexBuffer* m_pVB;
-	wolf::VertexDeclaration* m_pDecl;
-	wolf::Program* m_dProgram;
-	wolf::Program* m_dShadowProgram;
+	wolf::VertexBuffer* m_pVB = NULL;
+	wolf::VertexDeclaration* m_pDecl = NULL;
+	wolf::Program* m_dProgram = NULL;
+	wolf::Program* m_dShadowProgram = NULL;
 	
 	glm::vec4 m_ambLight = glm::vec4(1, 1, 1, 1);
 	glm::vec4 m_difLight = glm::vec4(1, 1, 1, 1);

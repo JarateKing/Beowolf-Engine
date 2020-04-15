@@ -14,10 +14,28 @@ const float DISTANCEFACTOR = 1.0f;
 const float NEARPLANE = 20.0f;
 const float FARPLANE = 100.0f;
 
+//Constructor
 BaseScene::BaseScene()
 {
 }
 
+//Deconstructor
+BaseScene::~BaseScene()
+{
+	delete m_soundEngine;
+	delete m_camera;
+	delete m_hexgrid;
+	delete m_selector;
+	delete m_hud;
+	delete m_characterManager;
+	delete m_scoreTracker;
+	delete m_pQuad;
+	delete m_skybox;
+	delete m_waterPlane;
+	delete m_gameSaver;
+}
+
+//Initialization
 void BaseScene::Init()
 {
 	//Initialize Systems and variables
@@ -77,6 +95,7 @@ void BaseScene::Init()
 	m_characterManager->SetLightDir(m_lightDir);
 }
 
+//Update
 void BaseScene::Update()
 {
 	static bool wasJustAnimated = false;
@@ -137,6 +156,7 @@ void BaseScene::Update()
 	m_wasJustAtMainMenu = StateManager::getInstance().GetState() == State::GamestateMainMenu;
 }
 
+//Render
 void BaseScene::Render(wolf::RenderTarget target)
 {
 	//Render to a shadow Depth Map for shadow rendering
@@ -330,13 +350,19 @@ void BaseScene::SetFPSLabels(float delta) {
 
 //Method to Load Game from JSON File
 void BaseScene::LoadGame() {
-	delete m_hexgrid;
+	if(m_hexgrid != NULL)
+		delete m_hexgrid;
+
 	m_hexgrid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"), "savefile.json");
 
-	delete m_selector;
+	if (m_selector != NULL)
+		delete m_selector;
+
 	m_selector = new HexSelector(5.0f);
 
-	delete m_characterManager;
+	if (m_characterManager != NULL)
+		delete m_characterManager;
+
 	m_characterManager = new CharacterManager(m_hexgrid, m_hud, "savefile.json");
 
 	StateManager::getInstance().SetCharacterManager(m_characterManager);

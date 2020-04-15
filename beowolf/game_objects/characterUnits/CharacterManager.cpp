@@ -122,17 +122,6 @@ CharacterManager::CharacterManager(HexGrid* p_grid, wolf::Hud* p_hud, std::strin
 //Deconstructor
 CharacterManager::~CharacterManager()
 {
-	delete m_scoreTracker;
-	delete m_hexSelector;
-	delete m_cam;
-	delete m_grid;
-	delete m_soundEngine;
-	delete m_hud;
-	for (auto it : m_items)
-	{
-		delete it;
-	}
-	m_items.clear();
 }
 
 //Update
