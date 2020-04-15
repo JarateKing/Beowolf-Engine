@@ -11,8 +11,8 @@ namespace wolf
 	public:
 		HudButton();
 		~HudButton();
-		void Update(float p_fDelta);
-		void Render(glm::mat4 proj);
+		void Update(const float& p_fDelta);
+		void Render(const glm::mat4& proj);
 
 		bool IsClicked();
 

@@ -12,7 +12,7 @@ LoadingScreen::~LoadingScreen() {
 
 }
 
-void LoadingScreen::AddModel(std::string model) {
+void LoadingScreen::AddModel(const std::string& model) {
 	m_models.push_back(model);
 }
 
@@ -42,12 +42,12 @@ void LoadingScreen::Load() {
 		glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		// render hud with updated percent
 		m_hud->SetVar("Loading_File", m_models[i]);
 		m_hud->SetVar("Loading_Percent", std::to_string((int)(percent * 100.0)));
 		m_hud->GetElement("loading_progressbar")->SetW(percent, true);
 		m_hud->Update(1.0);
 		m_hud->Render(m_proj);
-
 		glfwSwapBuffers();
 
 		wolf::BMWLoader::getInstance().loadFile(wolf::ResourceLoader::Instance().getModel(m_models[i]));

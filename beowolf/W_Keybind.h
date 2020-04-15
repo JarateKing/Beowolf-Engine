@@ -12,12 +12,14 @@ namespace wolf
 	class Keybind
 	{
 	private:
+		// possible forms of input devices
 		enum InputType {
 			Keyboard = 0,
 			Mouse = 1,
 			Controller = 2
 		};
 
+		// possible forms of input checks
 		enum BindType {
 			Pressed = 0,
 			Held = 1,
@@ -39,15 +41,15 @@ namespace wolf
 		Keybind(Keybind const&) = delete;
 		void operator=(Keybind const&) = delete;
 
-		void addBinds(std::string jsonfile);
-		bool getBind(std::string bind);
+		void addBinds(const std::string& jsonfile);
+		bool getBind(const std::string& bind);
 
 	private:
 		//-------------------------------------------------------------------------
 		// PRIVATE METHODS
 		//-------------------------------------------------------------------------
 		void createKeymap();
-		bool functionSwitch(InputType input, BindType bind, int key);
+		bool functionSwitch(const InputType& input, const BindType& bind, const int& key);
 		Keybind() {
 			createKeymap();
 		}
@@ -56,11 +58,6 @@ namespace wolf
 		// PRIVATE MEMBERS
 		//-------------------------------------------------------------------------
 		std::map<std::string, std::pair<int, int>> m_keymap;
-		std::map<std::string, std::vector<std::string>> m_pressed;
-		std::map<std::string, std::vector<std::string>> m_held;
-		std::map<std::string, std::vector<std::string>> m_released;
-		std::map<std::string, std::vector<std::string>> m_unheld;
-
 		std::map<std::string, std::vector<std::string>> m_bind[4];
 	};
 }

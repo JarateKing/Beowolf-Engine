@@ -11,8 +11,8 @@ public:
 	ScoreTracker(wolf::Hud* hud);
 	~ScoreTracker();
 
-	void SetScore(int score);
-	void AddScore(int score);
+	void SetScore(const int& score);
+	void AddScore(const int& score);
 	int GetScore();
 	void ApplyHighscore();
 private:

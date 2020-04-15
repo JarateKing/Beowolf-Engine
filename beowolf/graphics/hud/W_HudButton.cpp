@@ -6,10 +6,11 @@
 #include <iostream>
 
 namespace wolf {
+	// methods implemented as stubs, since there is nothing they need to do
 	HudButton::HudButton() {}
 	HudButton::~HudButton() {}
-	void HudButton::Update(float p_fDelta) {}
-	void HudButton::Render(glm::mat4 proj) {}
+	void HudButton::Update(const float& p_fDelta) {}
+	void HudButton::Render(const glm::mat4& proj) {}
 
 	bool HudButton::IsClicked() {
 		if (Input::Instance().isMouseReleased(INPUT_LMB)) {

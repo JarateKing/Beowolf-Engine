@@ -11,6 +11,7 @@
 
 namespace wolf
 {
+	// the tree structure for nodes (including bones)
 	struct BMWNode {
 		glm::mat4 transform;
 		unsigned int meshNum;
@@ -18,6 +19,7 @@ namespace wolf
 		std::vector<BMWNode*> children;
 	};
 
+	// the set of animation transforms
 	struct BMWAnim {
 		unsigned int duration;
 		unsigned int rate;
@@ -25,6 +27,7 @@ namespace wolf
 		BMWAnim() {};
 	};
 
+	// the metadata for each animation clip
 	struct BMWAnimSegment {
 		unsigned int anim;
 		unsigned int start;
@@ -33,6 +36,7 @@ namespace wolf
 		bool isHold = false;
 	};
 
+	// the entire loaded data from a bmw file
 	struct BMWModeLData {
 		std::vector<std::string> texlist;
 		std::vector<std::vector<Vertex>> meshlist;
@@ -56,7 +60,7 @@ namespace wolf
 			return instance;
 		}
 
-		BMWModeLData* loadFile(std::string file);
+		BMWModeLData* loadFile(const std::string& file);
 
 	private:
 		BMWLoader() {}

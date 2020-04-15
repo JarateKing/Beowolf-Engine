@@ -13,10 +13,10 @@ namespace wolf
 	class HudGradient: public HudElement
 	{
 	public:
-		HudGradient(glm::vec4 topleft, glm::vec4 topright, glm::vec4 bottomleft, glm::vec4 bottomright);
+		HudGradient(const glm::vec4& topleft, const glm::vec4& topright, const glm::vec4& bottomleft, const glm::vec4& bottomright);
 		~HudGradient();
-		void Update(float p_fDelta);
-		void Render(glm::mat4 proj);
+		void Update(const float& p_fDelta);
+		void Render(const glm::mat4& proj);
 
 	private:
 		wolf::VertexBuffer* g_pVB;

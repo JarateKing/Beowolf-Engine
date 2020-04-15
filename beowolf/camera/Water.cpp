@@ -22,18 +22,22 @@ Water::Water()
 
 Water::~Water()
 {
-
+	delete g_pDecl;
+	wolf::ProgramManager::DestroyProgram(g_dProgram);
+	wolf::BufferManager::DestroyBuffer(g_pVB);
+	wolf::TextureManager::DestroyTexture(m_tex);
+	wolf::TextureManager::DestroyTexture(m_normals);
 }
 
-void Water::Update(float delta) {
+void Water::Update(const float& delta) {
 	m_time += delta;
 }
 
-void Water::SetPos(glm::vec3 pos) {
+void Water::SetPos(const glm::vec3& pos) {
 	m_pos = glm::vec3(pos.x, 0, pos.z);
 }
 
-void Water::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int reflectionTex, unsigned int refractionTex, unsigned int fogTex)
+void Water::Render(const glm::mat4& projView, const wolf::RenderFilterType& type, const unsigned int& reflectionTex, const unsigned int& refractionTex, const unsigned int& fogTex)
 {
 	if (type == wolf::RenderFilterTransparent) {
 		g_dProgram->Bind();

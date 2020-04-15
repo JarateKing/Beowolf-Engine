@@ -12,14 +12,14 @@ namespace wolf
 	class Hud
 	{
 	public:
-		Hud(std::string file);
+		Hud(const std::string& file);
 		~Hud();
 
-		void Update(float p_fDelta);
-		void Render(glm::mat4 projection);
-		void SetVar(std::string id, std::string val);
-		HudElement* GetElement(std::string name);
-		std::vector<HudElement*> GetElementsByTag(std::string tag);
+		void Update(const float& p_fDelta);
+		void Render(const glm::mat4& projection);
+		void SetVar(const std::string& id, const std::string& val);
+		HudElement* GetElement(const std::string& name);
+		std::vector<HudElement*> GetElementsByTag(const std::string& tag);
 
 	private:
 		std::map<std::string, Font*> m_fontlist;
