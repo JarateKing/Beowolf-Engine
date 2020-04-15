@@ -8,7 +8,6 @@
 //------------------------------------------------------------------------
 
 #include "GameObjectManager.h"
-#include "ComponentRenderable.h"
 #include <fstream>
 #include <iostream>
 
@@ -315,14 +314,6 @@ void GameObjectManager::SyncTransforms()
 	for (; it != end; ++it)
 	{
 		pGO = (GameObject*)it->second;
-	
-		// If this GO has a Renderable component, sync it's transform from the parent GO
-		Common::ComponentBase* pComponent = pGO->GetComponent("GOC_Renderable");
-		if (pComponent)
-		{
-			ComponentRenderable* pRenderable = static_cast<ComponentRenderable*>(pComponent);
-			pRenderable->SyncTransform();
-		}
 	}
 }
 
