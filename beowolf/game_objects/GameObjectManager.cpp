@@ -9,7 +9,6 @@
 
 #include "GameObjectManager.h"
 #include "ComponentRenderable.h"
-#include "ComponentRigidBody.h"
 #include <fstream>
 #include <iostream>
 

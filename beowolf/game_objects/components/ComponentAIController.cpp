@@ -16,11 +16,6 @@
 
 // AI States
 #include "AIStateIdle.h"
-#include "AIStateChasing.h"
-#include "AIStateWander.h"
-#include "AIStateChasingFast.h"
-#include "AIStateGrabbingCoin1.h"
-#include "AIStateGrabbingCoin2.h"
 
 #if defined(_WIN32)
 // For OutputDebugString
@@ -112,8 +107,4 @@ void ComponentAIController::Init(const char* p_strDecisionTreePath)
 	m_pStateMachine = new Common::StateMachine();
 	m_pStateMachine->SetStateMachineOwner(this);
 	m_pStateMachine->RegisterState(eAIState_Idle, new AIStateIdle());
-	m_pStateMachine->RegisterState(eAIState_Wander, new AIStateWander());
-	m_pStateMachine->RegisterState(eAIState_Chasing, new AIStateChasing());
-	m_pStateMachine->RegisterState(eAIState_GrabbingCoin1, new AIStateGrabbingCoin1());
-	m_pStateMachine->RegisterState(eAIState_GrabbingCoin2, new AIStateGrabbingCoin2());
 }
