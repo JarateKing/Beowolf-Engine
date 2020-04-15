@@ -11,23 +11,25 @@
 class HexSelector
 {
 public:
+	//Public Methods
 	HexSelector(float tileWidth);
 	~HexSelector();
 	void Update(int target, glm::vec2 position, float height);
 	void Render(glm::mat4 projView);
 
 private:
+	//Private Methods
 	void GenerateVerts();
 	
-	float tWidth;
-	glm::vec2 currPos;
-	int currTar;
-	float currHeight = 0.0f;
-	wolf::Vertex p_verts[36];
-	
-	wolf::VertexBuffer* g_pVB;
-	wolf::VertexDeclaration* g_pDecl;
-	wolf::Program* g_dProgram;
+	//Private Variables
+	int m_currTar;
+	float m_tWidth;
+	float m_currHeight = 0.0f;
+	glm::vec2 m_currPos;
+	wolf::Vertex m_verts[36];
+	wolf::VertexBuffer* m_pVB;
+	wolf::VertexDeclaration* m_pDecl;
+	wolf::Program* m_dProgram;
 };
 
 #endif

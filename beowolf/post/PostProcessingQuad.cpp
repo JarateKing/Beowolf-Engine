@@ -1,6 +1,7 @@
 #include "PostProcessingQuad.h"
 #include "W_ResourceLoader.h"
 
+//Initialize Shaders and Get Ready for Rendering
 PostProcessingQuad::PostProcessingQuad()
 {
 	g_dProgram = wolf::ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("post_quad"));
@@ -17,13 +18,21 @@ PostProcessingQuad::PostProcessingQuad()
 	g_pDecl->End();
 }
 
+//Deconstructor
 PostProcessingQuad::~PostProcessingQuad()
 {
-
+	delete g_pDecl;
+	wolf::BufferManager::DestroyBuffer(g_pVB);
+	wolf::ProgramManager::DestroyProgram(g_dProgram);
+	wolf::ProgramManager::DestroyProgram(g_grayProgram);
+	wolf::ProgramManager::DestroyProgram(g_dofProgram);
+	wolf::ProgramManager::DestroyProgram(g_blurProgram);
 }
 
+//Render
 void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int postProcessingSharpTex, unsigned int postProcessingBlurTex, unsigned int depthTex, unsigned int depthTex2, std::string effect)
 {
+	//Render with GrayScale Post Processing
 	if (type == wolf::RenderFilterOpaque)
 	{
 		if (effect.compare("GrayScale") == 0)
@@ -37,17 +46,20 @@ void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type,
 				g_grayProgram->SetUniform("postProcessingTex", 0);
 				g_grayProgram->SetUniform("percent", percentGray);
 		}
-		else if (effect.compare("Blur") == 0)
-		{
+	}
+	  //Render With Blur Post Processing
+	  else if (effect.compare("Blur") == 0)
+	  {
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, postProcessingSharpTex);
-
 				g_blurProgram->Bind();
 
 				// Bind Uniforms
 				g_blurProgram->SetUniform("postProcessingTex", 0);
 		}
-		else if (effect.compare("DepthOfField") == 0)
+	}
+  	//Render with Depth of Field Post Processing
+	  else if (effect.compare("DepthOfField") == 0)
 		{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, postProcessingSharpTex);
@@ -67,11 +79,11 @@ void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type,
 				g_dofProgram->SetUniform("boxBlurTex", 2);
 				g_dofProgram->SetUniform("depthMap", 3);
 		}
+    //Render with no Post Processing Effect
 		else if (effect.compare("None") == 0)
 		{
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, postProcessingSharpTex);
-
 				g_dProgram->Bind();
 
 				// Bind Uniforms
@@ -86,6 +98,7 @@ void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type,
 	}
 }
 
+//Method to set the percentage of Gray in GrayScale
 void PostProcessingQuad::SetPercentGray(float p_percent)
 {
 	if (p_percent <= 1.0f && p_percent >= 0.0f)

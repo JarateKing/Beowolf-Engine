@@ -4,33 +4,34 @@
 #define EPSILON_VALUE 0.01
 
 
-CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, int p_startTile, std::string p_name, HexGrid* p_grid, float p_scale, bool p_inverted, glm::vec3 model_color)
+CharacterUnits::CharacterUnits(const std::string p_bmwFile, const std::string p_shaderFile, const int p_startTile, const std::string p_name, const HexGrid* p_grid, const float p_scale, const bool p_inverted, const glm::vec3 model_color)
 {
-	animTimes.insert(std::pair<std::string, int>("myLich", 1.0));
-	animTimes.insert(std::pair<std::string, int>("myChamp", 1.75));
-	animTimes.insert(std::pair<std::string, int>("mySkeleton", 0.5));
-	scale = p_scale;
+	//Set Animation Wait Times Per character 
+	m_animTimes.insert(std::pair<std::string, int>("myLich", 1.0));
+	m_animTimes.insert(std::pair<std::string, int>("myChamp", 1.75));
+	m_animTimes.insert(std::pair<std::string, int>("mySkeleton", 0.5));
+	m_scale = p_scale;
 	auto shaders = wolf::ResourceLoader::Instance().getShaders(p_shaderFile);
 	auto shadowShaders = wolf::ResourceLoader::Instance().getShaders("shadow_map");
-	model = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(p_bmwFile), shaders.first, shaders.second, shadowShaders.first, shadowShaders.second);
-	model->setModelColor(model_color);
+	m_model = new wolf::BMWModel(wolf::ResourceLoader::Instance().getModel(p_bmwFile), shaders.first, shaders.second, shadowShaders.first, shadowShaders.second);
+	m_model->setModelColor(model_color);
 	if (p_inverted)
 	{
-		model->setTransform(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y)) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::scale(glm::vec3(scale, scale, scale)));
-		inverted = p_inverted;
+		m_model->setTransform(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y)) * glm::rotate(180.0f, 0.0f, 0.0f, 1.0f) * glm::scale(glm::vec3(m_scale, m_scale, m_scale)));
+		m_inverted = p_inverted;
 	}
 	else
 	{
-		model->setTransform(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y)) * glm::scale(glm::vec3(scale, scale, scale)));
+		m_model->setTransform(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y)) * glm::scale(glm::vec3(m_scale, m_scale, m_scale)));
 	}
-	currTile = p_startTile;
+	m_currTile = p_startTile;
 
-	name = p_name;
-	if (name == "myGiant")
+	m_name = p_name;
+	if (m_name == "myGiant")
 		m_cooldownHeightAdjustment = 2.5f;
 
-	pos.SetGrid(p_grid);
-	pos.SetPos(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y));
+	m_pos.SetGrid(p_grid);
+	m_pos.SetPos(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile), p_grid->GetPos().at(p_startTile).y));
 
 	m_healthbar = new Healthbar();
 	m_healthbar->SetPos(glm::translate(glm::vec3(p_grid->GetPos().at(p_startTile).x, p_grid->GetHeights().at(p_startTile) + 4.0f, p_grid->GetPos().at(p_startTile).y)));
@@ -41,27 +42,32 @@ CharacterUnits::CharacterUnits(std::string p_bmwFile, std::string p_shaderFile, 
 	m_grid = p_grid;
 }
 
+//Deconstructor
 CharacterUnits::~CharacterUnits()
 {
-	//TODO
 }
 
+//Sets Lighting for the unit
 void CharacterUnits::SetLighting(glm::vec4 ambLight, glm::vec4 difLight, glm::vec3 lightDir)
 {
-	model->setLightAmbient(ambLight);
-	model->setLightDiffuse(difLight);
-	model->setLightDir(lightDir);
+	m_model->setLightAmbient(ambLight);
+	m_model->setLightDiffuse(difLight);
+	m_model->setLightDir(lightDir);
 }
 
+//Sets Lighting Direction for the unit
 void CharacterUnits::SetLightingDir(glm::vec3 dir)
 {
-	model->setLightDir(dir);
+	m_model->setLightDir(dir);
 }
 
-void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightSpaceMatrix, wolf::RenderFilterType type, bool shadowPass, unsigned int depthMapTexture)
+//Render
+void CharacterUnits::Render( glm::mat4 p_view,  glm::mat4 p_proj,  glm::mat4 lightSpaceMatrix,  wolf::RenderFilterType type,  bool shadowPass,  unsigned int depthMapTexture)
 {
-	model->render(p_view, p_proj, lightSpaceMatrix, type, shadowPass, depthMapTexture, false);
+	//Render Model
+	m_model->render(p_view, p_proj, lightSpaceMatrix, type, shadowPass, depthMapTexture, false);
 
+	//Render Healthbar or Cooldown indicator if necessary
 	if (m_isHealthbarVisible && type == wolf::RenderFilterTransparent) {
 		m_healthbar->Render(p_view, p_proj);
 	}
@@ -72,169 +78,175 @@ void CharacterUnits::Render(glm::mat4 p_view, glm::mat4 p_proj, glm::mat4 lightS
 	m_particleProjMatrix = p_proj * p_view;
 	m_particleProjMatrixNoBillboard = glm::mat4(glm::mat3(p_proj * glm::rotate(90.0f, glm::vec3(1, 0, 0))));
 
+	//Render any particles as needed
 	for (int i = 0; i < m_particleEffects.size(); i++)
 		m_particleEffects[i]->Render(m_particleProjMatrix, type);
 	for (int i = 0; i < m_particleEffectsNoBillboard.size(); i++)
 		m_particleEffectsNoBillboard[i]->Render(m_particleProjMatrix, type);
 }
 
+//Update
 void CharacterUnits::Update(float deltaT)
 {
-	glm::vec3 last = pos.GetPos();
-	pos.Update(deltaT);
-	glm::vec3 dif = pos.GetPos() - last;
+	glm::vec3 last = m_pos.GetPos();
+	m_pos.Update(deltaT);
+	glm::vec3 dif = m_pos.GetPos() - last;
 
-	float dir = pos.GetDirection();
+	float dir = m_pos.GetDirection();
 	if (dif.x != 0 || dif.z != 0)
 	{
 		dif = glm::normalize(dif);
 	}
 
-	if (dying && deathTimer <= 100.0f)
+	//If dying play death animation and if dead set death timer to 100.0f to indicate finished
+	if (m_dying && m_deathTimer <= 100.0f)
 	{
-		if (cmpf(deathTimer, 0.0f))
+		if (cmpf(m_deathTimer, 0.0f))
 		{
 			SetAnim("death_forward");
 			SetAnim("death");
 		}
-		deathTimer += deltaT;
-		model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, wolf::Math::lerp(pos.GetPos().y, pos.GetPos().y - 10.0f, deathTimer / 10.0f), pos.GetPos().z)) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
-		if (model->getIsAnimationRunning() == false)
+		m_deathTimer += deltaT;
+		m_model->setTransform(glm::translate(glm::vec3(m_pos.GetPos().x, wolf::Math::lerp(m_pos.GetPos().y, m_pos.GetPos().y - 10.0f, m_deathTimer / 10.0f), m_pos.GetPos().z)) * glm::rotate(dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(m_scale, m_scale, m_scale)));
+		if (m_model->getIsAnimationRunning() == false)
 		{
-			deathTimer = 100.0f;
+			m_deathTimer = 100.0f;
 		}
 	}
+	//If not dying check if moving or attacking and set transforms, animations and sounds properly
 	else
 	{
-		if (pos.IsMoving() && (dif.x != 0 || dif.z != 0))
+		if (m_pos.IsMoving() && (dif.x != 0 || dif.z != 0))
 		{
-			model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
-			m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 4.0f, pos.GetPos().z)));
-			m_cooldown->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 5.5f + m_cooldownHeightAdjustment, pos.GetPos().z)));
+			m_model->setTransform(glm::translate(glm::vec3(m_pos.GetPos().x, m_pos.GetPos().y, m_pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(m_scale, m_scale, m_scale)));
+			m_healthbar->SetPos(glm::translate(glm::vec3(m_pos.GetPos().x, m_pos.GetPos().y + 4.0f, m_pos.GetPos().z)));
+			m_cooldown->SetPos(glm::translate(glm::vec3(m_pos.GetPos().x, m_pos.GetPos().y + 5.5f + m_cooldownHeightAdjustment, m_pos.GetPos().z)));
 		}
 		else {
 			if (m_attacking)
 			{
-				if (timeAttacking == 0.0f)
+				if (m_timeAttacking == 0.0f)
 				{
 					m_startedAttack = true;
-					dir = pos.GetDirection(prevTile, endTile);
-					model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+					dir = m_pos.GetDirection(m_prevTile, m_endTile);
+					m_model->setTransform(glm::translate(glm::vec3(m_pos.GetPos().x, m_pos.GetPos().y, m_pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(m_scale, m_scale, m_scale)));
 					SetAnim("attack");
 					SetAnim("attack_begin");
 					m_soundEngine->PauseSound("movement1");
 					m_soundEngine->UpdateSystem();
 				}
-				timeAttacking += deltaT;
-				if (timeAttacking >= 1.5f)
+				m_timeAttacking += deltaT;
+				if (m_timeAttacking >= 1.5f)
 				{
 					m_attacking = false;
 					m_startedAttack = false;
-					timeAttacking = 0.0f;
-					model->setModelFilter(glm::vec3(0.7, 0.7, 0.7));
+					m_timeAttacking = 0.0f;
+					m_model->setModelFilter(glm::vec3(0.7, 0.7, 0.7));
 				}
 			}
 			else if (m_justMoved)
 			{
-				model->setTransform(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y, pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(scale, scale, scale)));
+				m_model->setTransform(glm::translate(glm::vec3(m_pos.GetPos().x, m_pos.GetPos().y, m_pos.GetPos().z)) * glm::rotate(-dir, 0.0f, 1.0f, 0.0f) * glm::scale(glm::vec3(m_scale, m_scale, m_scale)));
 				SetAnim("idle");
 
 				m_soundEngine->PauseSound("movement1");
 				m_soundEngine->UpdateSystem();
-				model->setModelFilter(glm::vec3(0.7, 0.7, 0.7));
+				m_model->setModelFilter(glm::vec3(0.7, 0.7, 0.7));
 			}
 
 			m_justMoved = false;
 		}
 
-		if (damaged)
+		//If damaged set additive to make character flash red quickly and play sound
+		if (m_damaged)
 		{
 			std::map<std::string, float>::iterator itm;
-			itm = animTimes.find(characterAttacking.at(0));
-			if (itm != animTimes.end())
+			itm = m_animTimes.find(m_characterAttacking.at(0));
+			if (itm != m_animTimes.end())
 			{
-				if (timeDamaged >= (itm->second + 0.5))
+				if (m_timeDamaged >= (itm->second + 0.5))
 				{
-					damaged = false;
-					model->setModelAdditive(glm::vec3(0, 0, 0));
+					m_damaged = false;
+					m_model->setModelAdditive(glm::vec3(0, 0, 0));
 				}
-				else if (timeDamaged >= itm->second)
+				else if (m_timeDamaged >= itm->second)
 				{
-					model->setModelAdditive(wolf::Math::lerp(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), (timeDamaged - itm->second) / 0.5));
-					if (canTakeDamage)
+					m_model->setModelAdditive(wolf::Math::lerp(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), (m_timeDamaged - itm->second) / 0.5));
+					if (m_canTakeDamage)
 					{
-						initiatingDamage = true;
+						m_initiatingDamage = true;
 						m_soundEngine->PlayBasicSound("hit3");
 						m_soundEngine->UpdateSystem();
-						canTakeDamage = false;
+						m_canTakeDamage = false;
 
-						if (damageReceivingParticle != "") {
-							if (damageReceivingBillboarded)
-								m_particleEffects.push_back(new Effect(damageReceivingParticle));
+						if (m_damageReceivingParticle != "") {
+							if (m_damageReceivingBillboarded)
+								m_particleEffects.push_back(new Effect(m_damageReceivingParticle));
 							else
-								m_particleEffectsNoBillboard.push_back(new Effect(damageReceivingParticle));
+								m_particleEffectsNoBillboard.push_back(new Effect(m_damageReceivingParticle));
 						}
 						else {
-							if (damageReceivingBillboarded)
+							if (m_damageReceivingBillboarded)
 								m_particleEffects.push_back(new Effect("resources/particles/unit_hit.json"));
 							else
 								m_particleEffectsNoBillboard.push_back(new Effect("resources/particles/unit_hit.json"));
 						}
 
-						if (damageReceivingBillboarded)
-							m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
+						if (m_damageReceivingBillboarded)
+							m_particleEffects[m_particleEffects.size() - 1]->SetPos(m_pos.GetPos());
 						else
-							m_particleEffectsNoBillboard[m_particleEffectsNoBillboard.size() - 1]->SetPos(pos.GetPos());
+							m_particleEffectsNoBillboard[m_particleEffectsNoBillboard.size() - 1]->SetPos(m_pos.GetPos());
 					}
 				}
-				timeDamaged += deltaT;
+				m_timeDamaged += deltaT;
 			}
 			else
 			{
-				if (timeDamaged >= 1.0)
+				if (m_timeDamaged >= 1.0)
 				{
-					damaged = false;
-					model->setModelAdditive(glm::vec3(0, 0, 0));
-					characterAttacking.clear();
+					m_damaged = false;
+					m_model->setModelAdditive(glm::vec3(0, 0, 0));
+					m_characterAttacking.clear();
 
 				}
-				else if (timeDamaged >= 0.5)
+				else if (m_timeDamaged >= 0.5)
 				{
-					model->setModelAdditive(wolf::Math::lerp(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), (timeDamaged - 0.5) / 0.5));
-					if (canTakeDamage)
+					m_model->setModelAdditive(wolf::Math::lerp(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), (m_timeDamaged - 0.5) / 0.5));
+					if (m_canTakeDamage)
 					{
-						initiatingDamage = true;
+						m_initiatingDamage = true;
 						m_soundEngine->PlayBasicSound("hit3");
 						m_soundEngine->UpdateSystem();
-						canTakeDamage = false;
+						m_canTakeDamage = false;
 
-						if (damageReceivingParticle != "") {
-							if (damageReceivingBillboarded)
-								m_particleEffects.push_back(new Effect(damageReceivingParticle));
+						if (m_damageReceivingParticle != "") {
+							if (m_damageReceivingBillboarded)
+								m_particleEffects.push_back(new Effect(m_damageReceivingParticle));
 							else
-								m_particleEffectsNoBillboard.push_back(new Effect(damageReceivingParticle));
+								m_particleEffectsNoBillboard.push_back(new Effect(m_damageReceivingParticle));
 						}
 						else {
-							if (damageReceivingBillboarded)
+							if (m_damageReceivingBillboarded)
 								m_particleEffects.push_back(new Effect("resources/particles/unit_hit.json"));
 							else
 								m_particleEffectsNoBillboard.push_back(new Effect("resources/particles/unit_hit.json"));
 						}
 
-						if (damageReceivingBillboarded)
-							m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
+						if (m_damageReceivingBillboarded)
+							m_particleEffects[m_particleEffects.size() - 1]->SetPos(m_pos.GetPos());
 						else
-							m_particleEffectsNoBillboard[m_particleEffectsNoBillboard.size() - 1]->SetPos(pos.GetPos() + glm::vec3(0, 1.0, 0));
+							m_particleEffectsNoBillboard[m_particleEffectsNoBillboard.size() - 1]->SetPos(m_pos.GetPos() + glm::vec3(0, 1.0, 0));
 					}
 				}
-				timeDamaged += deltaT;
+				m_timeDamaged += deltaT;
 			}
 		}
 	}
-	model->update(deltaT);
-
+	//Update model and cooldown
+	m_model->update(deltaT);
 	m_cooldown->Update(deltaT);
 	
+	//Update particle effects
 	for (int i = 0; i < m_particleEffects.size(); i++) {
 		m_particleEffects[i]->Update(deltaT, glm::mat3(m_particleProjMatrix));
 	}
@@ -243,50 +255,59 @@ void CharacterUnits::Update(float deltaT)
 	}
 }
 
-bool CharacterUnits::cmpf(float a, float b)
+//Method to compare floats
+bool CharacterUnits::cmpf(float a, float b) const
 {
 	return (fabs(a - b) < EPSILON_VALUE);
 }
 
-std::string CharacterUnits::GetName()
+//Method to get name of unit
+const std::string CharacterUnits::GetName() const
 {
-	return name;
+	return m_name;
 }
 
-int CharacterUnits::GetTile()
+//Method to get tile unit is on
+const int CharacterUnits::GetTile() const
 {
-	return currTile;
+	return m_currTile;
 }
 
+//Method to set tile of the character
 void CharacterUnits::SetTile(int tile, bool updatePositionImmediately)
 {
-	currTile = tile;
+	m_currTile = tile;
 	if (updatePositionImmediately) {
-		model->setTransform(glm::translate(glm::vec3(m_grid->GetPos().at(tile).x, m_grid->GetHeights().at(tile), m_grid->GetPos().at(tile).y)) * glm::scale(glm::vec3(scale, scale, scale)));
-		pos.SetPos(glm::vec3(m_grid->GetPos().at(tile).x, m_grid->GetHeights().at(tile), m_grid->GetPos().at(tile).y));
-		m_healthbar->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 4.0f, pos.GetPos().z)));
-		m_cooldown->SetPos(glm::translate(glm::vec3(pos.GetPos().x, pos.GetPos().y + 5.5f + m_cooldownHeightAdjustment, pos.GetPos().z)));
+		m_model->setTransform(glm::translate(glm::vec3(m_grid->GetPos().at(tile).x, m_grid->GetHeights().at(tile), m_grid->GetPos().at(tile).y)) * glm::scale(glm::vec3(m_scale, m_scale, m_scale)));
+		m_pos.SetPos(glm::vec3(m_grid->GetPos().at(tile).x, m_grid->GetHeights().at(tile), m_grid->GetPos().at(tile).y));
+		m_healthbar->SetPos(glm::translate(glm::vec3(m_pos.GetPos().x, m_pos.GetPos().y + 4.0f, m_pos.GetPos().z)));
+		m_cooldown->SetPos(glm::translate(glm::vec3(m_pos.GetPos().x, m_pos.GetPos().y + 5.5f + m_cooldownHeightAdjustment, m_pos.GetPos().z)));
 		Update(0);
 	}
 }
 
+//method to set the animation of unit
 void CharacterUnits::SetAnim(std::string p_animName)
 {
-	model->setAnim(p_animName);
+	m_model->setAnim(p_animName);
 }
 
+//Method to tell unit to move along a path with how long it should take to complete and if it will be attacking at the end
 void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete, bool p_attacking)
 {
-	if (name.compare("myChamp") == 0 || name.compare("myLich") == 0 || name.compare("myGiant") == 0)
+	//Play movement sound
+	if (m_name.compare("myChamp") == 0 || m_name.compare("myLich") == 0 || m_name.compare("myGiant") == 0)
 		m_soundEngine->PlayBasicSound("movement1");
 	m_soundEngine->UpdateSystem();
+	
+	//Set end tile back one if attacking at end if not just move
 	if (p_attacking)
 	{
 		m_attacking = true;
 		if (p_path.size() > 1)
 		{
-			endTile = p_path.at(p_path.size() - 1);
-			prevTile = p_path.at(p_path.size() - 2);
+			m_endTile = p_path.at(p_path.size() - 1);
+			m_prevTile = p_path.at(p_path.size() - 2);
 		}
 	}
 	if (p_path.size() > 1) {
@@ -302,117 +323,137 @@ void CharacterUnits::Move(std::vector<int> p_path, float p_timeToComplete, bool 
 		m_hasMoved = true;
 		m_justMoved = true;
 	}
-	pos.Move(p_path, p_timeToComplete, p_attacking);
+	//Move character along hexgrid
+	m_pos.Move(p_path, p_timeToComplete, p_attacking);
 }
 
-glm::vec3 CharacterUnits::GetPos()
+//Method to get position of unit
+const glm::vec3 CharacterUnits::GetPos() const
 {
-	return pos.GetPos();
+	return m_pos.GetPos();
 }
 
-bool CharacterUnits::getHasMoved() {
+//Method to check if character has moved
+const bool CharacterUnits::getHasMoved() const{
 	return m_hasMoved;
 }
 
+//Method to set a character movement status
 void CharacterUnits::setHasMoved(bool moved) {
 	m_hasMoved = moved;
 
-	model->setModelFilter(glm::vec3(1.0, 1.0, 1.0));
+	m_model->setModelFilter(glm::vec3(1.0, 1.0, 1.0));
 }
 
-bool CharacterUnits::isMoving() {
-	return pos.IsMoving();
+//Method to check if unit is currently moving
+bool CharacterUnits::isMoving() const {
+	return m_pos.IsMoving();
 }
 
-bool CharacterUnits::isAttacking()
+//Method to check if unit currently attacking
+bool CharacterUnits::isAttacking() const
 {
 	return m_startedAttack;
 }
 
-bool CharacterUnits::isDying()
+//Method to check if unit is currently dying
+bool CharacterUnits::isDying() const
 {
-	return dying;
+	return m_dying;
 }
 
+//Method to set a unit to be selected
 void CharacterUnits::setSelected(bool selected) {
 	m_isSelected = selected;
 
 	if (selected)
-		model->setModelAdditive(glm::vec3(0.5, 0.5, 0.1));
+		m_model->setModelAdditive(glm::vec3(0.5, 0.5, 0.1));
 	else
-		model->setModelAdditive(glm::vec3(0, 0, 0));
+		m_model->setModelAdditive(glm::vec3(0, 0, 0));
 }
 
+//Method to initiate unit death
 void CharacterUnits::InitDeath()
 {
-	dying = true;
+	m_dying = true;
 }
 
+//Method to set an indicator to start taking damage
 void CharacterUnits::TakeDamage(std::string p_characterFrom, float mult, std::string particleEffectOverride, bool isParticleBillboarded)
 {
-	canTakeDamage = true;
-	characterAttacking.push_back(p_characterFrom);
-	timeDamaged = 0.0f;
-	damaged = true;
-	damageReceivingMult = mult;
-	damageReceivingParticle = particleEffectOverride;
-	damageReceivingBillboarded = isParticleBillboarded;
+	m_canTakeDamage = true;
+	m_characterAttacking.push_back(p_characterFrom);
+	m_timeDamaged = 0.0f;
+	m_damaged = true;
+	m_damageReceivingMult = mult;
+	m_damageReceivingParticle = particleEffectOverride;
+	m_damageReceivingBillboarded = isParticleBillboarded;
 }
 
-float CharacterUnits::GetDamageReceivedMult()
+//Method to get the damage multiplier
+const float CharacterUnits::GetDamageReceivedMult() const
 {
-	return damageReceivingMult;
+	return m_damageReceivingMult;
 }
 
+//Method to set if the health bar is visible
 void CharacterUnits::SetHealthbarVisible(bool isVisible)
 {
 	m_isHealthbarVisible = isVisible;
 	m_isCooldownVisible = !isVisible;
 }
 
+//Method to set health bar percentage
 void CharacterUnits::SetHealthbarPercent(float percent)
 {
 	m_healthbar->SetThreshold(1.0 - percent);
 }
 
-float CharacterUnits::GetDeathTimer()
+//Method to get death timer
+const float CharacterUnits::GetDeathTimer() const
 {
-	return deathTimer;
+	return m_deathTimer;
 }
 
+//Method to initiate damage
 bool CharacterUnits::InitDamage()
 {
-	if (initiatingDamage)
+	if (m_initiatingDamage)
 	{
-		initiatingDamage = false;
+		m_initiatingDamage = false;
 		return true;
 	}
 	else
-		return initiatingDamage;
+		return m_initiatingDamage;
 }
 
-std::vector<std::string> CharacterUnits::GetAttacker()
+//Method to get who is attacking the unit
+const std::vector<std::string> CharacterUnits::GetAttacker() const
 {
-	std::vector<std::string> temp = characterAttacking;
+	std::vector<std::string> temp = m_characterAttacking;
 	return temp;
 }
 
-wolf::BMWModel* CharacterUnits::GetModel()
+//Method to get the model of the unit
+const wolf::BMWModel* CharacterUnits::GetModel() const
 {
-	return model;
+	return m_model;
 }
 
+//Method to set the sound engine
 void CharacterUnits::SetSoundEngine(wolf::SoundEngine* soundEng)
 {
 	m_soundEngine = soundEng;
 }
 
+//Method to start the cooldown of the units special ability
 void CharacterUnits::StartCooldown()
 {
 	m_cooldownCur = m_cooldownMax;
 	m_cooldown->SetThreshold(0.0, true);
 }
 
+//Method to update the cooldown of the units special ability
 void CharacterUnits::UpdateCooldown()
 {
 	if (m_cooldownCur > 0)
@@ -421,19 +462,22 @@ void CharacterUnits::UpdateCooldown()
 	m_cooldown->SetThreshold(1 - m_cooldownCur / ((float)m_cooldownMax));
 }
 
-int CharacterUnits::GetCooldown()
+//Method to get the cooldown of the units special ability
+const int CharacterUnits::GetCooldown() const
 {
 	return m_cooldownCur;
 }
 
+//Method to set the cooldown of the units special ability
 void CharacterUnits::SetCooldown(int val)
 {
 	m_cooldownCur = val + 1;
 	UpdateCooldown();
 }
 
+//Method to start the particles of the healing ability on a unit
 void CharacterUnits::HealIndicator()
 {
 	m_particleEffects.push_back(new Effect("resources/particles/lich_heal.json"));
-	m_particleEffects[m_particleEffects.size() - 1]->SetPos(pos.GetPos());
+	m_particleEffects[m_particleEffects.size() - 1]->SetPos(m_pos.GetPos());
 }

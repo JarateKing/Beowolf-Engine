@@ -6,7 +6,7 @@
 
 const float CONTROLLER_AXIS_THRESHOLD = 0.2;
 
-Camera::Camera(float horizontalAngle, float verticalAngle, glm::vec3 position)
+Camera::Camera(const float horizontalAngle, const float verticalAngle, const glm::vec3 position)
 {
 	//Initialize Variables
 	m_horiz = horizontalAngle * DEG2RAD;
@@ -118,13 +118,13 @@ void Camera::ApplyAngleVectors()
 }
 
 //Method to Get View Matrix
-glm::mat4 Camera::GetViewMatrix()
+const glm::mat4 Camera::GetViewMatrix() const
 {
 	return m_proj * m_view;
 }
 
 //Method to Get an Vertically Inversed Projection Matrix
-glm::mat4 Camera::GetVerticalInverse(float heightPlane)
+const glm::mat4 Camera::GetVerticalInverse(float heightPlane) const
 {
 	glm::vec3 newPos = m_pos;
 	newPos.y = -newPos.y + heightPlane * 2;
@@ -188,7 +188,7 @@ int Camera::CalculateIntersection(std::vector<float> heights, std::vector<glm::v
 }
 
 //Method to set Verticle Angle of camera
-void Camera::SetVerticleAngle(float verti) {
+void Camera::SetVerticleAngle(const float verti) {
 	m_verti = verti;
 }
 //Method to force Angle Update on camera
@@ -197,31 +197,31 @@ void Camera::ForceAngleUpdate() {
 }
 
 //Method Returning Camera Position
-glm::vec3 Camera::GetPos()
+const glm::vec3 Camera::GetPos() const
 {
 	return m_pos;
 }
 
 //Method Returning Camera Up Vector
-glm::vec3 Camera::GetUp()
+const glm::vec3 Camera::GetUp() const
 {
 	return m_up;
 }
 
 //Method Returning Camera Aim Vector
-glm::vec3 Camera::GetAim()
+const glm::vec3 Camera::GetAim() const
 {
 	return m_aim;
 }
 
 //Method Returning Camera Projection Matrix
-glm::mat4 Camera::GetProj()
+const glm::mat4 Camera::GetProj() const
 {
 	return m_proj;
 }
 
 //Method Returning Camera View Matrix
-glm::mat4 Camera::GetView()
+const glm::mat4 Camera::GetView() const
 {
 	return m_view;
 }

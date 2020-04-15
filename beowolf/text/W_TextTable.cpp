@@ -6,16 +6,19 @@
 
 namespace wolf
 {
+	//Constructor
 	TextTable::TextTable()
 	{
 		m_varMap[""] = "$";
 	}
 
+	//Destructor
 	TextTable::~TextTable()
 	{
 		// @TODO: implement destructor
 	}
 
+	//Loads in a text table from file
 	bool TextTable::Load(const std::string& file)
 	{
 		std::ifstream fileReader(file);
@@ -54,6 +57,7 @@ namespace wolf
 		}
 	}
 
+	//Sets current language
 	bool TextTable::SetLanguage(const std::string& lang)
 	{
 		for (std::map<std::string, std::map<std::string, std::string>>::iterator iter = m_lookupMap.begin(); iter != m_lookupMap.end(); iter++)
@@ -68,15 +72,18 @@ namespace wolf
 		return false;
 	}
 
+	//Looks up a string based on a string given
 	std::string TextTable::GetString(const std::string& id)
 	{
 		return m_lookupMap[m_currentLanguage][id];
 	}
 
+	//Sets variable in map based on id and value input
 	void TextTable::SetVar(const std::string& id, const std::string& val) {
 		m_varMap[id] = val;
 	}
 
+	//Gets a variable from map based on id
 	std::string TextTable::GetVar(const std::string& id) {
 		if (m_varMap.count(id) == 0)
 			return "$" + id + "$";

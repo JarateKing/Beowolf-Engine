@@ -10,21 +10,21 @@ class Camera
 {
 public:
 	//Public Methods
-	Camera(float horizontalAngle, float verticalAngle, glm::vec3 position);
+	Camera(const float horizontalAngle, const float verticalAngle, const glm::vec3 position);
 	~Camera();
 	void Update(float delta);
-	void SetVerticleAngle(float verti);
+	void SetVerticleAngle(const float verti);
 	void ForceAngleUpdate();
 	void MoveToView(glm::vec3 position, glm::vec3 offset, float time);
 	void InitiateShake();
 	int CalculateIntersection(std::vector<float> heights, std::vector<glm::vec2> positions, float tileWidth);
-	glm::vec3 GetPos();
-	glm::vec3 GetUp();
-	glm::vec3 GetAim();
-	glm::mat4 GetProj();
-	glm::mat4 GetView();
-	glm::mat4 GetViewMatrix();
-	glm::mat4 GetVerticalInverse(float heightPlane);
+	const glm::vec3 GetPos() const;
+	const glm::vec3 GetUp() const;
+	const glm::vec3 GetAim() const;
+	const glm::mat4 GetProj() const;
+	const glm::mat4 GetView() const;
+	const glm::mat4 GetViewMatrix() const;
+	const glm::mat4 GetVerticalInverse(float heightPlane) const;
 
 private:
 	//Private Methods

@@ -31,6 +31,7 @@ class BaseScene : public Scene
 public:
 	//Public Methods
 	BaseScene();
+	~BaseScene();
 	void Init();
 	void Update();
 	void Render(wolf::RenderTarget target);
@@ -49,10 +50,10 @@ private:
 	Camera* m_camera;
 	glm::mat4 m_cullMatrix;
 	HexGrid* m_hexgrid;
-	HexSelector* m_selector;
+	HexSelector* m_selector = NULL;
 	wolf::MousePos m_mouse;
 	week2::ComponentHexPos m_hexpos;
-	wolf::Hud* m_hud;
+	wolf::Hud* m_hud = NULL;
 
 	//Private Variables
 	bool m_wasJustAtMainMenu = true;
@@ -63,7 +64,7 @@ private:
 	glm::mat4 m_lightProj;
 	glm::mat4 m_lightView;
 	glm::mat4 m_lightSpaceMatrix;
-	CharacterManager* m_characterManager;
+	CharacterManager* m_characterManager = NULL;
 	CharacterInfoHub m_characterHub;
 	ScoreTracker* m_scoreTracker;
 	PostProcessingQuad* m_pQuad;

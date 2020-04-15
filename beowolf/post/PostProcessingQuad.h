@@ -12,7 +12,7 @@
 class PostProcessingQuad
 {
 public:
-
+	//Public Methods
 	PostProcessingQuad();
 	~PostProcessingQuad();
 	void Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int postProcessingSharpTex, unsigned int postProcessingBlurTex, unsigned int depthTex, unsigned int depthTex2, std::string effect);
@@ -20,15 +20,14 @@ public:
 
 private:
 
+	//Private Variables
+	float percentGray = 0.0f;
 	wolf::VertexBuffer* g_pVB;
 	wolf::VertexDeclaration* g_pDecl;
 	wolf::Program* g_grayProgram;
 	wolf::Program* g_blurProgram;
 	wolf::Program* g_dofProgram;
 	wolf::Program* g_dProgram;
-
-	float percentGray = 0.0f;
-
 	wolf::Vertex planeVertices[6] = {
 		{-1.0f, 0.0f, -1.0f, 0, 1, 0, 1, 0.0f, 0.0f},
 		{1.0f, 0.0f, -1.0f, 0, 1, 0, 1, 1.0f,  0.0f},
