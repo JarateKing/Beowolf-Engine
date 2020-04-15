@@ -13,7 +13,7 @@
 
 namespace wolf
 {
-	std::string ResourceLoader::getTexture(std::string name) {
+	std::string ResourceLoader::getTexture(const std::string& name) {
 		std::string filename = "resources/textures/" + name;
 		if (checkFileExists(filename))
 			return filename;
@@ -22,7 +22,7 @@ namespace wolf
 		return (name.substr(std::max(0, (int)(name.length()) - 4)) != ".dds") ? FALLBACK_TEXTURE_TGA : FALLBACK_TEXTURE_DDS;
 	}
 
-	std::string ResourceLoader::getModelTexture(std::string name) {
+	std::string ResourceLoader::getModelTexture(const std::string& name) {
 		std::string filename = "resources/models/" + name;
 		if (checkFileExists(filename))
 			return filename;
@@ -31,11 +31,11 @@ namespace wolf
 		return (name.substr(std::max(0, (int)(name.length()) - 4)) != ".dds") ? FALLBACK_TEXTURE_TGA : FALLBACK_TEXTURE_DDS;
 	}
 
-	std::pair<std::string, std::string> ResourceLoader::getShaders(std::string name) {
+	std::pair<std::string, std::string> ResourceLoader::getShaders(const std::string& name) {
 		return { getVertexShader(name + ".vsh"), getPixelShader(name + ".fsh") };
 	}
 
-	std::string ResourceLoader::getVertexShader(std::string name) {
+	std::string ResourceLoader::getVertexShader(const std::string& name) {
 		std::string filename = "resources/shaders/" + name;
 		if (checkFileExists(filename))
 			return filename;
@@ -44,7 +44,7 @@ namespace wolf
 		return FALLBACK_VERTEXSHADER;
 	}
 
-	std::string ResourceLoader::getPixelShader(std::string name) {
+	std::string ResourceLoader::getPixelShader(const std::string& name) {
 		std::string filename = "resources/shaders/" + name;
 		if (checkFileExists(filename))
 			return filename;
@@ -53,7 +53,7 @@ namespace wolf
 		return FALLBACK_PIXELSHADER;
 	}
 
-	std::string ResourceLoader::getModel(std::string name) {
+	std::string ResourceLoader::getModel(const std::string& name) {
 		std::string filename = "resources/models/" + name;
 		if (checkFileExists(filename))
 			return filename;
@@ -62,7 +62,7 @@ namespace wolf
 		return FALLBACK_MODEL;
 	}
 
-	std::string ResourceLoader::getFont(std::string name) {
+	std::string ResourceLoader::getFont(const std::string& name) {
 		std::string filename = "resources/fonts/" + name;
 		if (checkFileExists(filename))
 			return filename;
@@ -71,7 +71,7 @@ namespace wolf
 		return FALLBACK_FONT;
 	}
 
-	std::string ResourceLoader::getJSONObject(std::string name) {
+	std::string ResourceLoader::getJSONObject(const std::string& name) {
 		std::string filename = "resources/objects/" + name;
 		if (checkFileExists(filename))
 			return filename;
@@ -80,7 +80,7 @@ namespace wolf
 		return FALLBACK_JSON;
 	}
 
-	bool ResourceLoader::checkFileExists(std::string filename) {
+	bool ResourceLoader::checkFileExists(const std::string& filename) {
 		std::ifstream file(filename.c_str());
 		return file.good();
 	}

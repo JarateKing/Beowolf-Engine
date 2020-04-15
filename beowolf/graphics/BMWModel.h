@@ -18,23 +18,23 @@ namespace wolf
 	class BMWModel
 	{
 	public:
-		BMWModel(std::string file, std::string vertexShader, std::string pixelShader, std::string shadowVertexShader, std::string shadowPixelShader);
+		BMWModel(const std::string& file, const std::string& vertexShader, const std::string& pixelShader, const std::string& shadowVertexShader, const std::string& shadowPixelShader);
 		~BMWModel();
 		void update(float delta);
 		void render(glm::mat4 view, glm::mat4 proj, glm::mat4 lightSpaceMatrix, RenderFilterType type, bool shadowPass, unsigned int depthMapTexture, bool instanced, float minheight = -10000, float maxheight = 100000);
 
 		glm::mat4 getTransform();
-		void setModelColor(glm::vec3 color);
-		void setModelAdditive(glm::vec3 color);
-		void setModelFilter(glm::vec3 color);
-		void setTransform(glm::mat4 transform);
-		void setAnim(std::string name);
-		void setLightAmbient(glm::vec4 light);
-		void setLightDiffuse(glm::vec4 light);
-		void setLightSpecular(glm::vec4 light);
-		void setLightDir(glm::vec3 direction);
-		void setViewDir(glm::vec3 direction);
-		void setInstancedVariable(std::vector<glm::mat4> instancedV);
+		void setModelColor(const glm::vec3& color);
+		void setModelAdditive(const glm::vec3&  color);
+		void setModelFilter(const glm::vec3&  color);
+		void setTransform(const glm::mat4& transform);
+		void setAnim(const std::string& name);
+		void setLightAmbient(const glm::vec4& light);
+		void setLightDiffuse(const glm::vec4& light);
+		void setLightSpecular(const glm::vec4& light);
+		void setLightDir(const glm::vec3& direction);
+		void setViewDir(const glm::vec3& direction);
+		void setInstancedVariable(const std::vector<glm::mat4>& instancedV);
 		bool getIsAnimationRunning();
 		BMWAnimSegment* getAnim();
 		std::string getAnimName();

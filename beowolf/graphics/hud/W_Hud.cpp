@@ -11,13 +11,14 @@
 #include <fstream>
 #include <iostream>
 
-namespace wolf {
-
+namespace wolf
+{
+	// sort by element's zpos
 	bool zSortCompare(HudElement* a, HudElement* b) {
 		return a->GetZ() < b->GetZ();
 	}
 
-	Hud::Hud(std::string file) {
+	Hud::Hud(const std::string& file) {
 		m_localization = new TextTable();
 
 		std::ifstream jsonIn(file);
@@ -27,17 +28,20 @@ namespace wolf {
 			std::string jsonFileData = jsonFileStream.str();
 			nlohmann::json jsonData = nlohmann::json::parse(jsonFileData);
 
+			// load in localization files
 			if (jsonData.contains("localization")) {
 				for (auto localization : jsonData["localization"]) {
 					m_localization->Load(localization["file"]);
 				}
 			}
 
+			// load in default localization setting
 			if (jsonData.contains("defaultLanguage"))
 				m_localization->SetLanguage(jsonData["defaultLanguage"]);
 			else
 				m_localization->SetLanguage("ENGLISH");
 
+			// load in fonts
 			if (jsonData.contains("fonts")) {
 				for (auto font : jsonData["fonts"]) {
 					std::string fontName = font["name"];
@@ -47,6 +51,7 @@ namespace wolf {
 				}
 			}
 
+			// load in elements
 			if (jsonData.contains("elements")) {
 				for (auto element : jsonData["elements"]) {
 					std::string elementName = "";
@@ -228,7 +233,8 @@ namespace wolf {
 	Hud::~Hud() {
 	}
 
-	void Hud::Update(float p_fDelta) {
+	void Hud::Update(const float& p_fDelta) {
+		// sort by z, if potentially unsorted
 		if (m_prevElementsSize != m_elements.size()) {
 			std::stable_sort(m_elements.begin(), m_elements.end(), zSortCompare);
 			m_prevElementsSize = m_elements.size();
@@ -238,25 +244,24 @@ namespace wolf {
 			m_elements[i]->Update(p_fDelta);
 	}
 
-	void Hud::Render(glm::mat4 projection) {
+	void Hud::Render(const glm::mat4& projection) {
 		for (int i = m_elements.size() - 1; i >= 0; i--)
 			m_elements[i]->Render(projection);
 	}
 
-	void Hud::SetVar(std::string id, std::string val) {
+	void Hud::SetVar(const std::string& id, const std::string& val) {
 		m_localization->SetVar(id, val);
 	}
 
-	HudElement* Hud::GetElement(std::string name) {
+	HudElement* Hud::GetElement(const std::string& name) {
 		if (m_elementNames.count(name))
 			return m_elementNames[name];
 
 		std::cout << "Hud element \"" << name << "\" not found!\n";
-
 		return nullptr;
 	}
 
-	std::vector<HudElement*> Hud::GetElementsByTag(std::string tag) {
+	std::vector<HudElement*> Hud::GetElementsByTag(const std::string& tag) {
 		return m_elementsByTag[tag];
 	}
 }

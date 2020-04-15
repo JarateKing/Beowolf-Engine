@@ -1,6 +1,4 @@
 #include "math/W_RNG.h"
-#include <random>
-#include <ctime>
 
 namespace wolf
 {
@@ -9,32 +7,33 @@ namespace wolf
 		return GetRandom(0, 1) == 1;
 	}
 
-	bool RNG::Bool(float trueChance)
+	bool RNG::Bool(const float& trueChance)
 	{
 		return GetRandom(0.0f, 1.0f) < trueChance;
 	}
 
-	int RNG::GetRandom(int min, int max)
+	int RNG::GetRandom(const int& min, const int& max)
 	{
-		std::random_device randomDevice;
-		std::mt19937 gen(randomDevice());
-		std::uniform_int_distribution<> distribution(min, max);
-		return distribution(gen);
+		std::uniform_int_distribution<int> distribution(min, max);
+		return distribution(*gen());
 	}
 
-	float RNG::GetRandom(float min, float max)
+	float RNG::GetRandom(const float& min, const float& max)
 	{
-		std::random_device randomDevice;
-		std::mt19937 gen(randomDevice());
-		std::uniform_real_distribution<> distribution(min, max);
-		return distribution(gen);
+		std::uniform_real_distribution<float> distribution(min, max);
+		return distribution(*gen());
 	}
 
-	double RNG::GetRandom(double min, double max)
+	double RNG::GetRandom(const double& min, const double& max)
 	{
-		std::random_device randomDevice;
-		std::mt19937 gen(randomDevice());
-		std::uniform_real_distribution<> distribution(min, max);
-		return distribution(gen);
+		std::uniform_real_distribution<double> distribution(min, max);
+		return distribution(*gen());
+	}
+
+	// common code for all random distributions
+	std::mt19937* RNG::gen() {
+		static std::random_device randomDevice;
+		static std::mt19937 gen(randomDevice());
+		return &gen;
 	}
 }

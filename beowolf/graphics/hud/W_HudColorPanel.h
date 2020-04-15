@@ -13,10 +13,10 @@ namespace wolf
 	class HudColorPanel: public HudElement
 	{
 	public:
-		HudColorPanel(glm::vec4 color);
+		HudColorPanel(const glm::vec4& color);
 		~HudColorPanel();
-		void Update(float p_fDelta);
-		void Render(glm::mat4 proj);
+		void Update(const float& p_fDelta);
+		void Render(const glm::mat4& proj);
 
 	private:
 		wolf::VertexBuffer* g_pVB;

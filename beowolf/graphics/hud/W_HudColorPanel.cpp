@@ -9,7 +9,7 @@ const wolf::Vertex square[] = { wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 0}),
 								wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 0})};
 
 namespace wolf {
-	HudColorPanel::HudColorPanel(glm::vec4 color) {
+	HudColorPanel::HudColorPanel(const glm::vec4& color) {
 		m_color = color;
 
 		g_pProgram = ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("hud_color"));
@@ -25,11 +25,11 @@ namespace wolf {
 
 	}
 
-	void HudColorPanel::Update(float p_fDelta) {
+	void HudColorPanel::Update(const float& p_fDelta) {
 
 	}
 
-	void HudColorPanel::Render(glm::mat4 proj) {
+	void HudColorPanel::Render(const glm::mat4& proj) {
 		if (m_isVisible) {
 			g_pProgram->Bind();
 

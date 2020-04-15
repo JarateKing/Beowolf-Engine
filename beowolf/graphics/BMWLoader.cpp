@@ -12,11 +12,13 @@ namespace wolf
 		return a.second > b.second;
 	}
 
-	BMWModeLData* BMWLoader::loadFile(std::string file) {
+	BMWModeLData* BMWLoader::loadFile(const std::string& file) {
+		// if this file was already loaded, use the cached version
 		if (m_stored.count(file)) {
 			return &m_stored[file];
 		}
 
+		// create containers for data
 		std::vector<std::string> texlist;
 		std::vector<std::vector<Vertex>> meshlist;
 		std::vector<std::vector<unsigned int>> indexlist;
@@ -28,12 +30,13 @@ namespace wolf
 		glm::mat4 transformModel;
 		std::vector<std::pair<int, std::string>> boneNames;
 		
+		// attempt to load json file by same name
 		std::ifstream in(file, std::ifstream::binary);
-		
 		std::string jsonFile = file;
 		if (jsonFile.substr(jsonFile.size() - 4) == ".bmw")
 			jsonFile = jsonFile.substr(0, jsonFile.size() - 4) + ".json";
 
+		// load override settings from json
 		int animCountOffset = 0;
 		std::vector<std::string> subfilesLoaded;
 		std::vector<std::string> texOverrides;
@@ -111,7 +114,10 @@ namespace wolf
 			}
 		}
 
+		// handle file header
 		readString(&in);
+
+		// handle texture list
 		unsigned int materials = readInt(&in);
 		for (int i = 0; i < materials; i++) {
 			unsigned int textures = readInt(&in);
@@ -120,11 +126,13 @@ namespace wolf
 			}
 		}
 
+		// handle texture overrides from json
 		for (int i = 0; i < texlist.size() && i < texOverrides.size(); i++)
 			texlist[i] = texOverrides[i];
 		for (int i = texlist.size(); i < texOverrides.size(); i++)
 			texlist.push_back(texOverrides[i]);
 
+		// handle anims
 		unsigned int anims = readInt(&in);
 		for (int i = 0; i < anims; i++) {
 			unsigned int duration = readInt(&in);
@@ -154,6 +162,7 @@ namespace wolf
 			animlist.push_back(current);
 		}
 
+		// handle meshes
 		unsigned int meshes = readInt(&in);
 		for (int i = 0; i < meshes; i++) {
 			unsigned int bonedVertices = readInt(&in);
@@ -192,12 +201,15 @@ namespace wolf
 			}
 		}
 
+		// handle nodes
 		BMWNode* root = readNode(&in, &nodeIDs);
 
+		// handle bones
 		int boneNameNum = readInt(&in);
 		for (int i = 0; i < boneNameNum; i++)
 			boneNames.push_back({ readInt(&in), readString(&in) });
 
+		// handle animations by name
 		animCountOffset = 0;
 		if (jsonIn) {
 			for (auto anim : jsonData["clips"]) {
@@ -237,6 +249,7 @@ namespace wolf
 			}
 		}
 
+		// cache results
 		m_stored[file].texlist = texlist;
 		m_stored[file].meshlist = meshlist;
 		m_stored[file].indexlist = indexlist;
@@ -256,6 +269,7 @@ namespace wolf
 		std::string toret = "";
 		char next;
 
+		// read until null
 		while (true) {
 			(*in).read(&next, sizeof(char));
 			if (next != 0)

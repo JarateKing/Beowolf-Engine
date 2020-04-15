@@ -2,63 +2,11 @@
 #define W_INPUT_H
 
 #include "W_Input_Keys.h"
+#include "W_Input_Types.h"
 #include "W_Common.h"
 
 namespace wolf
 {
-	struct MousePos
-	{
-		// raw position
-		int x, y;
-
-		// constructor
-		MousePos(int x = 0, int y = 0) : x(x), y(y) {}
-
-		// get percent relative to thing
-		glm::vec2 relative(const glm::vec2& size) const
-		{
-			return glm::vec2(size.x / x, size.y / y);
-		}
-		glm::vec2 relative(double width, double height) const
-		{
-			return glm::vec2(width / x, height / y);
-		}
-		glm::vec2 relative(const glm::vec2& size, const glm::vec2& offset) const
-		{
-			return glm::vec2(size.x / x - offset.x, size.y / y - offset.y);
-		}
-		glm::vec2 relative(double width, double height, double horizontalOffset, double verticalOffset) const
-		{
-			return glm::vec2(width / x - horizontalOffset, height / y - verticalOffset);
-		}
-
-		// operators
-		bool operator==(const MousePos& input) const
-		{
-			return (x == input.x) && (y == input.y);
-		}
-		bool operator!=(const MousePos& input) const
-		{
-			return !(*this == input);
-		}
-		MousePos operator+(const MousePos& input) const
-		{
-			return MousePos(x + input.x, y + input.y);
-		}
-		MousePos operator-(const MousePos& input) const
-		{
-			return MousePos(x - input.x, y - input.y);
-		}
-		MousePos operator*(const MousePos& input) const
-		{
-			return MousePos(x * input.x, y * input.y);
-		}
-		MousePos operator/(const MousePos& input) const
-		{
-			return MousePos(x / input.x, y / input.y);
-		}
-	};
-
 	class Input
 	{
 	public:
@@ -97,21 +45,21 @@ namespace wolf
 		bool isMouseUnheld(int mbutton) const;
 
 		// controller input
-		bool isControllerButtonPressed(int button);
-		bool isControllerButtonHeld(int button);
-		bool isControllerButtonHeld(int button, double delay);
-		bool isControllerButtonReleased(int button);
-		bool isControllerButtonUnheld(int button);
+		bool isControllerButtonPressed(int button) const;
+		bool isControllerButtonHeld(int button) const;
+		bool isControllerButtonHeld(int button, double delay) const;
+		bool isControllerButtonReleased(int button) const;
+		bool isControllerButtonUnheld(int button) const;
 
 		// controller axis
-		float getControllerAxis(int axis);
-		glm::vec2 getControllerLeftStick();
-		glm::vec2 getControllerRightStick();
-		glm::vec2 getControllerTriggers();
+		float getControllerAxis(int axis) const;
+		glm::vec2 getControllerLeftStick() const;
+		glm::vec2 getControllerRightStick() const;
+		glm::vec2 getControllerTriggers() const;
 
 		// combined input
-		double getTimeAfk();
-		bool isAfk(double delay);
+		double getTimeAfk() const;
+		bool isAfk(double delay) const;
 
 	private:
 		//-------------------------------------------------------------------------
@@ -141,6 +89,7 @@ namespace wolf
 		static const int MAXCONTROLLERBUTTONS = 10;
 		float controlleraxis[MAXCONTROLLERAXIS] = { 0 };
 		double controllerbuttons[MAXCONTROLLERBUTTONS] = { 0 };
+		unsigned char* m_buttons = new unsigned char[MAXCONTROLLERBUTTONS];
 
 		// time afk
 		double timeAfk;

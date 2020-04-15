@@ -9,7 +9,7 @@ const wolf::Vertex square[] = { wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 1}),
 								wolf::Vertex({ 0, 0, 1.0f, 1, 1, 1, 1, 0, 1})};
 
 namespace wolf {
-	HudImage::HudImage(std::string image) {
+	HudImage::HudImage(const std::string& image) {
 		m_tex = TextureManager::CreateTexture(ResourceLoader::Instance().getTexture(image), false);
 
 		g_pProgram = ProgramManager::CreateProgram(wolf::ResourceLoader::Instance().getShaders("hud_texture"));
@@ -25,11 +25,11 @@ namespace wolf {
 
 	}
 
-	void HudImage::Update(float p_fDelta) {
+	void HudImage::Update(const float& p_fDelta) {
 
 	}
 
-	void HudImage::Render(glm::mat4 proj) {
+	void HudImage::Render(const glm::mat4& proj) {
 		if (m_isVisible) {
 			g_pProgram->Bind();
 			m_tex->Bind();

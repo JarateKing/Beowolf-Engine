@@ -22,14 +22,14 @@ namespace wolf
 		ResourceLoader(ResourceLoader const&) = delete;
 		void operator=(ResourceLoader const&) = delete;
 
-		std::string getTexture(std::string name);
-		std::string getModelTexture(std::string name);
-		std::pair<std::string, std::string> getShaders(std::string name);
-		std::string getVertexShader(std::string name);
-		std::string getPixelShader(std::string name);
-		std::string getModel(std::string name);
-		std::string getFont(std::string name);
-		std::string getJSONObject(std::string name);
+		std::string getTexture(const std::string& name);
+		std::string getModelTexture(const std::string& name);
+		std::pair<std::string, std::string> getShaders(const std::string& name);
+		std::string getVertexShader(const std::string& name);
+		std::string getPixelShader(const std::string& name);
+		std::string getModel(const std::string& name);
+		std::string getFont(const std::string& name);
+		std::string getJSONObject(const std::string& name);
 
 	private:
 		//-------------------------------------------------------------------------
@@ -38,7 +38,7 @@ namespace wolf
 		// private constructor
 		ResourceLoader() {}
 
-		bool checkFileExists(std::string filename);
+		bool checkFileExists(const std::string& filename);
 	};
 }
 

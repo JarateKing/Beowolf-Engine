@@ -12,10 +12,10 @@ class Healthbar
 public:
 	Healthbar();
 	~Healthbar();
-	void Update(float p_fDelta);
-	void Render(glm::mat4 view, glm::mat4 proj);
-	void SetPos(glm::mat4 translation);
-	void SetThreshold(float threshold);
+	void Update(const float& p_fDelta);
+	void Render(const glm::mat4& view, const glm::mat4& proj);
+	void SetPos(const glm::mat4& translation);
+	void SetThreshold(const float& threshold);
 
 private:
 	wolf::VertexBuffer* g_pVB;

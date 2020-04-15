@@ -33,95 +33,68 @@ PostProcessingQuad::~PostProcessingQuad()
 void PostProcessingQuad::Render(glm::mat4 projView, wolf::RenderFilterType type, unsigned int postProcessingSharpTex, unsigned int postProcessingBlurTex, unsigned int depthTex, unsigned int depthTex2, std::string effect)
 {
 	//Render with GrayScale Post Processing
-	if (effect.compare("GrayScale") == 0)
+	if (type == wolf::RenderFilterOpaque)
 	{
-		if (type == wolf::RenderFilterOpaque) {
+		if (effect.compare("GrayScale") == 0)
+		{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, postProcessingSharpTex);
 
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, postProcessingSharpTex);
+				g_grayProgram->Bind();
 
-			g_grayProgram->Bind();
-
-			// Bind Uniforms
-			g_grayProgram->SetUniform("postProcessingTex", 0);
-			g_grayProgram->SetUniform("percent", percentGray);
-
-			// Set up source data
-			g_pDecl->Bind();
-
-			// Draw!
-			glDrawArrays(GL_TRIANGLES, 0, 6);
+				// Bind Uniforms
+				g_grayProgram->SetUniform("postProcessingTex", 0);
+				g_grayProgram->SetUniform("percent", percentGray);
 		}
 	}
-	//Render With Blur Post Processing
-	else if (effect.compare("Blur") == 0)
-	{
-		if (type == wolf::RenderFilterOpaque) {
+	  //Render With Blur Post Processing
+	  else if (effect.compare("Blur") == 0)
+	  {
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, postProcessingSharpTex);
+				g_blurProgram->Bind();
 
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, postProcessingSharpTex);
-
-			g_blurProgram->Bind();
-
-			// Bind Uniforms
-			g_blurProgram->SetUniform("postProcessingTex", 0);
-
-			// Set up source data
-			g_pDecl->Bind();
-
-			// Draw!
-			glDrawArrays(GL_TRIANGLES, 0, 6);
+				// Bind Uniforms
+				g_blurProgram->SetUniform("postProcessingTex", 0);
 		}
 	}
-	//Render with Depth of Field Post Processing
-	else if (effect.compare("DepthOfField") == 0)
-	{
-		if (type == wolf::RenderFilterOpaque) {
+  	//Render with Depth of Field Post Processing
+	  else if (effect.compare("DepthOfField") == 0)
+		{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, postProcessingSharpTex);
+				glActiveTexture(GL_TEXTURE1);
+				glBindTexture(GL_TEXTURE_2D, depthTex);
+				glActiveTexture(GL_TEXTURE2);
+				glBindTexture(GL_TEXTURE_2D, postProcessingBlurTex);
+				glActiveTexture(GL_TEXTURE3);
+				glBindTexture(GL_TEXTURE_2D, depthTex2);
+				glActiveTexture(GL_TEXTURE0);
 
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, postProcessingSharpTex);
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, depthTex);
-			glActiveTexture(GL_TEXTURE2);
-			glBindTexture(GL_TEXTURE_2D, postProcessingBlurTex);
-			glActiveTexture(GL_TEXTURE3);
-			glBindTexture(GL_TEXTURE_2D, depthTex2);
-			glActiveTexture(GL_TEXTURE0);
+				g_dofProgram->Bind();
 
-			g_dofProgram->Bind();
-
-			// Bind Uniforms
-			g_dofProgram->SetUniform("postProcessingTex", 0);
-			g_dofProgram->SetUniform("depthTexture", 1);
-			g_dofProgram->SetUniform("boxBlurTex", 2);
-			g_dofProgram->SetUniform("depthMap", 3);
-
-			// Set up source data
-			g_pDecl->Bind();
-
-			// Draw!
-			glDrawArrays(GL_TRIANGLES, 0, 6);
+				// Bind Uniforms
+				g_dofProgram->SetUniform("postProcessingTex", 0);
+				g_dofProgram->SetUniform("depthTexture", 1);
+				g_dofProgram->SetUniform("boxBlurTex", 2);
+				g_dofProgram->SetUniform("depthMap", 3);
 		}
-	}
-	//Render with no Post Processing Effect
-	else if (effect.compare("None") == 0)
-	{
-		if (type == wolf::RenderFilterOpaque) {
+    //Render with no Post Processing Effect
+		else if (effect.compare("None") == 0)
+		{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, postProcessingSharpTex);
+				g_dProgram->Bind();
 
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, postProcessingSharpTex);
-
-			g_dProgram->Bind();
-
-			// Bind Uniforms
-			g_dProgram->SetUniform("postProcessingTex", 0);
-
-			// Set up source data
-			g_pDecl->Bind();
-
-			// Draw!
-			glDrawArrays(GL_TRIANGLES, 0, 6);
+				// Bind Uniforms
+				g_dProgram->SetUniform("postProcessingTex", 0);
 		}
+
+		// Set up source data
+		g_pDecl->Bind();
+
+		// Draw!
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
 }
 
