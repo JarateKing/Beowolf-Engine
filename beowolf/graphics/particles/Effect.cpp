@@ -6,7 +6,6 @@
 #include "AffectorRandomPos.h"
 #include "AffectorBounce.h"
 
-#include "tinyxml.h"
 #include "JSON/json.hpp"
 #include <sstream>
 #include <fstream>
