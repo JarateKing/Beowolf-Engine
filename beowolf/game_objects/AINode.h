@@ -10,7 +10,6 @@
 #ifndef AINODE_H
 #define AINODE_H
 
-#include "tinyxml.h"
 #include <string>
 
 namespace week9
@@ -26,7 +25,7 @@ namespace week9
 		AINode(AIDecisionTree* p_pTree) : m_pTree(p_pTree) {}
 		virtual ~AINode() {}
 
-		virtual bool Init(TiXmlNode* p_pNodeDefinition) = 0;
+		virtual bool Init() = 0;
 		virtual const std::string &Decide() = 0;
 
 	protected:

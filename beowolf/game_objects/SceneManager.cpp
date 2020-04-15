@@ -103,7 +103,7 @@ SceneManager::~SceneManager()
 // 
 // Adds a model the scene manager.
 //------------------------------------------------------------------------------
-void SceneManager::AddModel(wolf::Model* p_pModel)
+void SceneManager::AddModel(wolf::BMWModel* p_pModel)
 {
 	m_lModelList.push_back(p_pModel);
 }
@@ -115,7 +115,7 @@ void SceneManager::AddModel(wolf::Model* p_pModel)
 // 
 // Removes a model from the scene manager.
 //------------------------------------------------------------------------------
-void SceneManager::RemoveModel(wolf::Model* p_pModel)
+void SceneManager::RemoveModel(wolf::BMWModel* p_pModel)
 {
 	ModelList::iterator it = std::find(m_lModelList.begin(), m_lModelList.end(), p_pModel);
 	if (it != m_lModelList.end())
@@ -220,27 +220,8 @@ void SceneManager::Render()
 	ModelList::iterator it = m_lModelList.begin(), end = m_lModelList.end();
 	for (; it != end; ++it)
 	{
-		wolf::Model* pModel = static_cast<wolf::Model*>(*it);
-
-		for (wolf::Material* pMaterial : pModel->GetMaterials())
-		{
-			// Set the light parameters
-			pMaterial->SetUniform("ViewDir", glm::vec3(0.0f, 0.0f, 1.0f));
-			pMaterial->SetUniform("LightAmbient", m_pLight->m_ambient);
-			pMaterial->SetUniform("LightDiffuse", m_pLight->m_diffuse);
-			pMaterial->SetUniform("LightSpecular", m_pLight->m_specular);
-			pMaterial->SetUniform("LightDir", m_pLight->m_vDirection);
-
-			pMaterial->SetUniform("PointOnePos", m_pPlayerLight->m_pos);
-			pMaterial->SetUniform("PointOneRange", m_pPlayerLight->m_radius);
-			pMaterial->SetUniform("PointOneColor", m_pPlayerLight->m_diffuse);
-
-			pMaterial->SetUniform("PointTwoPos", m_pLampLight->m_pos);
-			pMaterial->SetUniform("PointTwoRange", m_pLampLight->m_radius);
-			pMaterial->SetUniform("PointTwoColor", m_pLampLight->m_diffuse);
-		}
-
-		pModel->Render(mView, mProj);
+		wolf::BMWModel* pModel = static_cast<wolf::BMWModel*>(*it);
+		pModel->render(mView, mProj, glm::mat4(), wolf::RenderFilterOpaque, false, 0, false);
 	}
 
 

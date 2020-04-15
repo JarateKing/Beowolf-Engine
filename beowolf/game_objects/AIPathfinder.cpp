@@ -8,7 +8,6 @@
 //------------------------------------------------------------------------
 
 #include "AIPathfinder.h"
-#include "ComponentRenderableMesh.h"
 #include "W_ResourceLoader.h"
 #include <iostream>
 #include <fstream>
@@ -419,9 +418,6 @@ void AIPathfinder::ToggleDebugRendering(Common::GameObjectManager* p_pGameObject
 		{
 			sprintf(goNameBuffer, "Node%d", i);
 			Common::GameObject* pNode = p_pGameObjectManager->CreateGameObject();
-			week2::ComponentRenderableMesh* pRenderableComponent = new week2::ComponentRenderableMesh();
-			pRenderableComponent->Init("assignmentResources/assignment4/node.pod", "assignmentResources/assignment4/data/", wolf::ResourceLoader::Instance().getVertexShader("textured.vsh"), wolf::ResourceLoader::Instance().getPixelShader("textured.fsh"));
-			pNode->AddComponent(pRenderableComponent);
 			p_pGameObjectManager->SetGameObjectGUID(pNode, goNameBuffer);
 
 			// Set position

@@ -10,8 +10,8 @@
 #ifndef COMMON_SCENEMANAGER_H
 #define COMMON_SCENEMANAGER_H
 
-#include "W_Model.h"
 #include "W_Sprite.h"
+#include "BMWModel.h"
 #include "SceneCamera.h"
 
 namespace Common
@@ -19,7 +19,7 @@ namespace Common
 	class SceneManager
 	{
 		// Typedef for convenience
-		typedef std::vector<wolf::Model*> ModelList;
+		typedef std::vector<wolf::BMWModel*> ModelList;
 		typedef std::vector<wolf::Sprite*> SpriteList;
 	
 		// A directional light
@@ -51,8 +51,8 @@ namespace Common
 		static void DestroyInstance();
 		static SceneManager* Instance();
 
-		void AddModel(wolf::Model* p_pModel);
-		void RemoveModel(wolf::Model* p_pModel);
+		void AddModel(wolf::BMWModel* p_pModel);
+		void RemoveModel(wolf::BMWModel* p_pModel);
 		void Clear();
 
 		void AddSprite(wolf::Sprite* p_pSprite);

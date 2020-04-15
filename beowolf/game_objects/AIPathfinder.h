@@ -13,7 +13,6 @@
 #include "AINode.h"
 #include "GameObjectManager.h"
 #include "W_LineDrawer.h"
-#include "tinyxml.h"
 #include "JSON/json.hpp"
 #include <list>
 #include <vector>
