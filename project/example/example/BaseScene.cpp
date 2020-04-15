@@ -385,12 +385,16 @@ void BaseScene::RestartGame() {
 
 	delete m_hexgrid;
 	m_hexgrid = new HexGrid(15, 15, 5.0f, 1.0f, 20.0f, wolf::ResourceLoader::Instance().getTexture("tiles/Tile_Texs_1.tga"));
+	m_hexgrid->SetAmbient(glm::vec4(0.999f, 0.999f, 0.899f, 1.0f));
+	m_hexgrid->SetDiffuse(glm::vec4(0.988f, 1.0f, 0.788f, 1.0f));
+	m_hexgrid->SetLightDir(m_lightDir);
 
 	delete m_selector;
 	m_selector = new HexSelector(5.0f);
 
 	delete m_characterManager;
 	m_characterManager = new CharacterManager(m_hexgrid, m_hud);
+	m_characterManager->SetLightDir(m_lightDir);
 	m_hexpos.SetGrid(m_hexgrid);
 
 	StateManager::getInstance().SetCharacterManager(m_characterManager);
