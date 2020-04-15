@@ -218,13 +218,12 @@ void BaseScene::Render(wolf::RenderTarget target)
 		// Transparent
 		glEnable(GL_BLEND);
 
-		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterTransparent, false, m_depthMapTexture);
-
 		m_waterPlane->Render(m_camera->GetViewMatrix(), wolf::RenderFilterTransparent, m_reflectionTexture, m_refractionTexture, m_fogTexture);
 
 		// Depthless
 		glDepthMask(false);
 
+		m_characterManager->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterTransparent, false, m_depthMapTexture);
 		m_hexgrid->Render(m_camera->GetViewMatrix(), glm::mat4(), m_lightSpaceMatrix, wolf::RenderFilterTransparent, false, m_depthMapTexture, -1.0f, 100.0f);
 
 		// Additive
