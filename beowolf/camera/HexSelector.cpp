@@ -24,7 +24,7 @@ HexSelector::~HexSelector()
 {
 	delete m_pDecl;
 	wolf::BufferManager::DestroyBuffer(m_pVB);
-	//wolf::ProgramManager::DestroyProgram(g_dProgram);
+	wolf::ProgramManager::DestroyProgram(m_dProgram);
 }
 
 //Update

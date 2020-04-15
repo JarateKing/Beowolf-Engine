@@ -21,7 +21,12 @@ PostProcessingQuad::PostProcessingQuad()
 //Deconstructor
 PostProcessingQuad::~PostProcessingQuad()
 {
-
+	delete g_pDecl;
+	wolf::BufferManager::DestroyBuffer(g_pVB);
+	wolf::ProgramManager::DestroyProgram(g_dProgram);
+	wolf::ProgramManager::DestroyProgram(g_grayProgram);
+	wolf::ProgramManager::DestroyProgram(g_dofProgram);
+	wolf::ProgramManager::DestroyProgram(g_blurProgram);
 }
 
 //Render
