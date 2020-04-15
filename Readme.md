@@ -19,6 +19,15 @@ To run the example project:
 
 ![example screenshot](docs/resources/screenshot.png)
 
+Controls:
+- WASD - move camera
+- Q/E - zoom in/out
+- space - toggle special ability of unit
+- leftclick - select unit, move to tile
+- rightclick - rotate camera
+- f - move camera to units on a cycle
+- z - save game
+
 <hr>
 
 To create a new project:
